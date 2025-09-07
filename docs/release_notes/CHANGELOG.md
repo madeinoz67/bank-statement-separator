@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.1.5](https://github.com/madeinoz67/bank-statement-separator/compare/v0.1.4...v0.1.5) (2025-09-07)
+
+
+### Bug Fixes
+
+* resolve PyPI publishing workflow condition issue ([f00a6cf](https://github.com/madeinoz67/bank-statement-separator/commit/f00a6cf7b7986655f83ae7b7f8dcee3741601fcc))
+* resolve PyPI publishing workflow condition issue ([54d2bc2](https://github.com/madeinoz67/bank-statement-separator/commit/54d2bc2c69964671fc12086fdb64acb46848db3e)), closes [#9](https://github.com/madeinoz67/bank-statement-separator/issues/9)
+
 ## [0.1.4](https://github.com/madeinoz67/bank-statement-separator/compare/v0.1.3...v0.1.4) (2025-09-07)
 
 
