@@ -3,7 +3,7 @@
 ## Issue Summary
 Multiple boundary detection failures were identified affecting both LLM providers and fallback processing modes where separate statements were incorrectly merged into single output files.
 
-**Status: ✅ FULLY RESOLVED in v2.2 (August 2025)**
+**Status: ✅ FULLY RESOLVED in v0.1.0 (September 2025)**
 
 ## 🎯 Major Resolution Update (August 2025)
 

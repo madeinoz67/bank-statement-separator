@@ -83,7 +83,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 function getCurrentVersion() {
     const path = window.location.pathname;
-    // Updated to handle both v3.0.6 format and older v2.1 format
+    // Handle version format v0.1.0
     const versionMatch = path.match(/^\/bank-statement-separator\/v(\d+\.\d+(?:\.\d+)?)\//);
     return versionMatch ? `v${versionMatch[1]}` : 'latest';
 }
@@ -114,7 +114,7 @@ function extractVersionsFromPage() {
     const links = document.querySelectorAll('a[href*="/v"]');
     links.forEach(link => {
         const href = link.getAttribute('href');
-        // Updated to handle both v3.0.6 format and older v2.1 format
+        // Handle version format v0.1.0
         const versionMatch = href.match(/\/v(\d+\.\d+(?:\.\d+)?)\//);
         if (versionMatch && !versions.includes(`v${versionMatch[1]}`)) {
             versions.push(`v${versionMatch[1]}`);

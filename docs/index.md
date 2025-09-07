@@ -188,12 +188,11 @@ Get started in just a few minutes:
 This documentation is versioned to match software releases. Use the version selector in the top navigation to access documentation for specific versions:
 
 - **Latest**: Always points to the most recent release documentation
-- **Versioned**: Access documentation for specific releases (e.g., v2.1, v2.2)
+- **Versioned**: Access documentation for specific releases
 
 !!! info "Version URLs"
     - Latest: `https://madeinoz67.github.io/bank-statement-separator/`
-    - Version 2.2: `https://madeinoz67.github.io/bank-statement-separator/v2.2/`
-    - Version 2.1: `https://madeinoz67.github.io/bank-statement-separator/v2.1/`
+    - Version 0.1.0: `https://madeinoz67.github.io/bank-statement-separator/v0.1.0/`
 
 !!! tip "Finding Your Version"
     Check your installed version with: `uv run bank-statement-separator --version`
@@ -217,7 +216,7 @@ The MIT License is a permissive open-source license that allows you to:
 
 ## What's New
 
-!!! success "Latest Release: [Version 2.2](release_notes/RELEASE_NOTES_v2.2.md)"
+!!! success "Latest Release: [Version 0.1.0](release_notes/RELEASE_NOTES_v0.1.0.md)"
     - **Comprehensive LLM Model Testing**: Tested 15+ models with detailed performance comparisons
     - **Model Selection Guide**: User-friendly decision trees and configuration examples
     - **Performance Rankings**: From ultra-fast Gemma2:9B (6.65s) to detailed accuracy analysis
@@ -227,7 +226,7 @@ The MIT License is a permissive open-source license that allows you to:
     - **Document Validation**: Pre-processing validation with configurable strictness
     - **37 Unit Tests**: All tests passing with comprehensive coverage
     
-    See full [Release Notes](release_notes/RELEASE_NOTES_v2.1.md) for detailed changes and improvements.
+    See full [Release Notes](release_notes/RELEASE_NOTES_v0.1.0.md) for detailed changes and improvements.
 
 ---
 

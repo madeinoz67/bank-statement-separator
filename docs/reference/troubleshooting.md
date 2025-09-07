@@ -58,7 +58,7 @@ grep "fragment" /path/to/logs/statement_processing.log
 uv run python -m src.bank_statement_separator.main file.pdf --dry-run --yes
 ```
 
-**Fragment Detection (v2.1+):**
+**Fragment Detection (v0.1.0+):**
 The system now automatically detects and filters document fragments:
 - Fragments with confidence < 0.3 are automatically skipped
 - Check logs for "Skipping fragment" messages
@@ -153,7 +153,7 @@ MAX_TOTAL_PAGES=1000
 
 ### Fragment Detection Issues
 
-#### Valid Statements Being Filtered (v2.1+)
+#### Valid Statements Being Filtered (v0.1.0+)
 **Symptoms:** Expected statements missing from output, "Skipping fragment" in logs
 
 **Diagnosis:**
@@ -187,7 +187,7 @@ If you're still experiencing issues:
 3. **Try dry-run mode** - Test analysis without creating files
 4. **Test fallback mode** - Run without API key to isolate issues
 5. **Verify file format** - Ensure PDF is text-searchable, not scanned images
-6. **Review fragment logs** - Check for fragment detection messages (v2.1+)
+6. **Review fragment logs** - Check for fragment detection messages (v0.1.0+)
 
 ### Environment Checklist
 

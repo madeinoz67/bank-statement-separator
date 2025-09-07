@@ -183,9 +183,7 @@ nav:
       - Troubleshooting: reference/troubleshooting.md
       - Working Notes: reference/working-notes.md
   - Release Notes:
-      - Changelog: release_notes/CHANGELOG.md
-      - Version 2.2: release_notes/RELEASE_NOTES_v2.2.md
-      - Version 2.1: release_notes/RELEASE_NOTES_v2.1.md
+      - Version 0.1.0: release_notes/RELEASE_NOTES_v0.1.0.md
   - Known Issues:
       - Boundary Detection: known_issues/BOUNDARY_DETECTION_ISSUE.md
 
