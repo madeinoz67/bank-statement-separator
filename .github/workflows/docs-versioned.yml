@@ -1,0 +1,155 @@
+name: Deploy Versioned Documentation
+
+# Prevent concurrent deployments to avoid gh-pages conflicts
+# Use a single queue for all documentation deployments
+concurrency:
+  group: docs-deployment-gh-pages
+  cancel-in-progress: false
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "docs/**"
+      - "mkdocs.yml"
+      - ".github/workflows/docs-versioned.yml"
+  release:
+    types: [published]
+  repository_dispatch:
+    types: [release-triggered]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Version to deploy (e.g., v1.0.0)"
+        required: false
+        default: "latest"
+
+permissions:
+  contents: write
+
+jobs:
+  determine-deployment-type:
+    runs-on: ubuntu-latest
+    outputs:
+      deploy_latest: ${{ steps.check.outputs.deploy_latest }}
+      deploy_version: ${{ steps.check.outputs.deploy_version }}
+      version: ${{ steps.check.outputs.version }}
+    steps:
+      - name: Determine deployment type
+        id: check
+        run: |
+          if [ "${{ github.event_name }}" = "push" ] && [ "${{ github.ref }}" = "refs/heads/main" ]; then
+            echo "deploy_latest=true" >> $GITHUB_OUTPUT
+            echo "deploy_version=false" >> $GITHUB_OUTPUT
+            echo "version=latest" >> $GITHUB_OUTPUT
+          elif [ "${{ github.event_name }}" = "release" ] || [ "${{ github.event_name }}" = "repository_dispatch" ] || ([ "${{ github.event_name }}" = "workflow_dispatch" ] && [ "${{ github.event.inputs.version }}" != "latest" ]); then
+            echo "deploy_latest=false" >> $GITHUB_OUTPUT
+            echo "deploy_version=true" >> $GITHUB_OUTPUT
+            if [ "${{ github.event_name }}" = "release" ]; then
+              VERSION=$(echo ${{ github.event.release.tag_name }} | sed 's/^v//')
+            elif [ "${{ github.event_name }}" = "repository_dispatch" ]; then
+              VERSION=$(echo ${{ github.event.client_payload.tag }} | sed 's/^v//')
+            else
+              VERSION=$(echo ${{ github.event.inputs.version }} | sed 's/^v//')
+            fi
+            echo "version=$VERSION" >> $GITHUB_OUTPUT
+          else
+            echo "deploy_latest=false" >> $GITHUB_OUTPUT
+            echo "deploy_version=false" >> $GITHUB_OUTPUT
+            echo "version=unknown" >> $GITHUB_OUTPUT
+          fi
+
+  deploy-latest:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    needs: determine-deployment-type
+    if: needs.determine-deployment-type.outputs.deploy_latest == 'true'
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v3
+        with:
+          version: "latest"
+
+      - name: Set up Python
+        run: uv python install 3.12
+
+      - name: Install dependencies
+        run: uv sync
+
+      - name: Configure git for mike
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git config --local pull.rebase false
+
+      - name: Reset corrupted gh-pages branch state
+        run: |
+          # Delete any existing gh-pages branch to start fresh
+          git branch -D gh-pages 2>/dev/null || true
+          git push origin --delete gh-pages 2>/dev/null || true
+          echo "Cleaned up existing gh-pages branch state"
+          
+      - name: Deploy latest documentation with mike
+        run: |
+          # Deploy with push since we reset the corrupted state
+          uv run mike deploy --push latest
+          uv run mike set-default --push latest
+
+      - name: Log deployment completion
+        run: echo "✅ Latest documentation deployed successfully"
+
+  deploy-version:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    needs: determine-deployment-type
+    if: needs.determine-deployment-type.outputs.deploy_version == 'true'
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v3
+        with:
+          version: "latest"
+
+      - name: Set up Python
+        run: uv python install 3.12
+
+      - name: Install dependencies
+        run: uv sync
+
+      - name: Configure git for mike
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git config --local pull.rebase false
+
+      - name: Reset corrupted gh-pages branch state
+        run: |
+          # Delete any existing gh-pages branch to start fresh
+          git branch -D gh-pages 2>/dev/null || true
+          git push origin --delete gh-pages 2>/dev/null || true
+          echo "Cleaned up existing gh-pages branch state"
+
+      - name: Deploy versioned documentation with mike
+        run: |
+          VERSION="${{ needs.determine-deployment-type.outputs.version }}"
+          
+          # Deploy with push since we reset the corrupted state
+          uv run mike deploy --push --update-aliases "v$VERSION" "$VERSION"
+
+      - name: Update version list for selector
+        run: |
+          VERSION="${{ needs.determine-deployment-type.outputs.version }}"
+          echo "✅ Versioned deployment complete for v$VERSION"
+          echo "Mike will automatically handle version selector via built-in functionality"
+
+      - name: Log deployment completion
+        run: |
+          echo "✅ Versioned documentation deployed successfully"
+          echo "Version: v${{ needs.determine-deployment-type.outputs.version }}"
+          echo "Destination: v${{ needs.determine-deployment-type.outputs.version }}"
+

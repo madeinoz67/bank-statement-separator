@@ -1,0 +1,28 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+*.log
+
+# Virtual environments
+.venv
+# protected credentials
+.env
+
+# Test environment files are tracked (contain no real credentials)
+!tests/env/.env.*
+# pdf files
+*.pdf
+
+# Processing directories
+test/
+# generated mkdocs
+site/
+
+# Coverage files
+.coverage
+coverage.xml
+.claude/

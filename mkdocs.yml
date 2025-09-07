@@ -1,0 +1,199 @@
+site_name: Bank Statement Separator
+site_description: AI-powered tool for automatically separating multi-statement PDF bank statement files
+site_author: Stephen Eaton
+site_url: https://madeinoz67.github.io/bank-statement-separator
+
+# Repository
+repo_name: bank-statement-separator
+repo_url: https://github.com/madeinoz67/bank-statement-separator
+edit_uri: edit/main/docs/
+
+# Copyright
+copyright: Copyright &copy; 2025 Stephen Eaton. Licensed under MIT License.
+
+# Configuration
+theme:
+  name: material
+  palette:
+    # Palette toggle for automatic mode
+    - media: "(prefers-color-scheme)"
+      toggle:
+        icon: material/brightness-auto
+        name: Switch to light mode
+    # Palette toggle for light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: blue
+      accent: blue
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    # Palette toggle for dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: blue
+      accent: blue
+      toggle:
+        icon: material/brightness-4
+        name: Switch to system preference
+
+  features:
+    - announce.dismiss
+    - content.action.edit
+    - content.action.view
+    - content.code.annotate
+    - content.code.copy
+    - content.tabs.link
+    - content.tooltips
+    - header.autohide
+    - navigation.expand
+    - navigation.footer
+    - navigation.indexes
+    - navigation.instant
+    - navigation.instant.prefetch
+    - navigation.instant.progress
+    - navigation.prune
+    - navigation.sections
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.top
+    - navigation.tracking
+    - search.highlight
+    - search.share
+    - search.suggest
+    - toc.follow
+    - toc.integrate
+
+  icon:
+    repo: fontawesome/brands/github
+    edit: material/pencil
+    view: material/eye
+
+# Plugins
+plugins:
+  - search:
+      separator: '[\s\u200b\-_,:!=\[\]()"`/]+|\.(?!\d)|&[lg]t;|(?!\b)(?=[A-Z][a-z])'
+  - mike:
+      version_selector: true
+      css_dir: css
+      javascript_dir: js
+      canonical_version: null
+  - mermaid2:
+      arguments:
+        theme: |
+          ^(JSON.parse(__md_get("__palette").index == 1)) ?
+          'dark' : 'light'
+
+# Customization
+extra:
+  analytics:
+    provider: google
+    property: !ENV GOOGLE_ANALYTICS_KEY
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/madeinoz67/bank-statement-separator
+    - icon: fontawesome/solid/scale-balanced
+      link: https://github.com/madeinoz67/bank-statement-separator/blob/main/LICENSE
+
+# Extensions
+markdown_extensions:
+  - abbr
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - toc:
+      permalink: true
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.betterem:
+      smart_enable: all
+  - pymdownx.caret
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.keys
+  - pymdownx.magiclink:
+      normalize_issue_symbols: true
+      repo_url_shorthand: true
+      user: your-org
+      repo: bank-statement-separator
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.snippets
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:mermaid2.fence_mermaid_custom
+  - pymdownx.tabbed:
+      alternate_style: true
+      combine_header_slug: true
+      slugify: !!python/object/apply:pymdownx.slugs.slugify
+        kwds:
+          case: lower
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tilde
+
+# Navigation
+nav:
+  - Home: index.md
+  - Getting Started:
+      - Overview: getting-started/index.md
+      - Quick Start: getting-started/quick-start.md
+      - Installation: getting-started/installation.md
+      - Configuration: getting-started/configuration.md
+  - User Guide:
+      - Model Selection Guide: user-guide/model-selection-guide.md
+      - Error Handling: user-guide/error-handling.md
+      - Fragment Detection: user-guide/fragment-detection.md
+      - Paperless Integration: user-guide/paperless-integration.md
+  - Developer Guide:
+      - Contributing: developer-guide/contributing.md
+      - Release Management: developer-guide/release-management.md
+      - Testing: developer-guide/testing.md
+      - Pytest Marks Guide: developer-guide/pytest-marks-guide.md
+      - Pydantic V2 Migration: developer-guide/pydantic-v2-migration.md
+      - CI/CD Setup: developer-guide/ci-cd-setup.md
+      - Documentation Versioning: developer-guide/versioning-maintenance.md
+      - LLM Provider Development: developer-guide/llm-provider-development.md
+  - Architecture:
+      - Workflow Overview: architecture/workflow-overview.md
+      - Mike Deployment Strategy: architecture/mike-deployment-strategy.md
+  - Design:
+      - Product Requirements: design/PRD.md
+      - Boundary Detection System: design/boundary_detection_system.md
+      - Hallucination Detection System: design/hallucination_detection_system.md
+      - Backoff Mechanisms: design/backoff_mechanisms.md
+      - LLM Providers: design/llm-providers.md
+  - Reference:
+      - Environment Variables: reference/environment-variables.md
+      - CLI Commands: reference/cli-commands.md
+      - LLM Model Testing: reference/llm_model_testing.md
+      - Model Comparison Tables: reference/model_comparison_tables.md
+      - Error Handling Technical: reference/error-handling-technical.md
+      - Troubleshooting: reference/troubleshooting.md
+      - Working Notes: reference/working-notes.md
+  - Release Notes:
+      - Changelog: release_notes/CHANGELOG.md
+      - Version 2.2: release_notes/RELEASE_NOTES_v2.2.md
+      - Version 2.1: release_notes/RELEASE_NOTES_v2.1.md
+  - Known Issues:
+      - Boundary Detection: known_issues/BOUNDARY_DETECTION_ISSUE.md
+
+# Additional CSS
+extra_css:
+  - stylesheets/extra.css
+  - stylesheets/version-selector.css
+
+# Additional JavaScript
+extra_javascript:
+  - javascripts/version-selector.js

@@ -1,0 +1,87 @@
+name: release-please
+
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - "docs/**"
+      - "mkdocs.yml"
+      - "*.md"
+      - "scripts/**"
+      - ".github/workflows/docs-versioned.yml"
+      - ".github/workflows/release-please.yml"
+      - ".github/workflows/ci.yml"
+      - ".github/workflows/dependency-review.yml"
+
+# Prevent multiple release-please runs 
+concurrency:
+  group: release-please-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  pull-requests: write
+  id-token: write
+
+jobs:
+  release-please:
+    runs-on: ubuntu-latest
+    outputs:
+      release_created: ${{ steps.release.outputs.release_created }}
+      tag_name: ${{ steps.release.outputs.tag_name }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 10
+
+      - name: Debug event
+        run: |
+          echo "Event: ${{ github.event_name }}"
+          echo "Ref: ${{ github.ref }}"
+          echo "SHA: ${{ github.sha }}"
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            echo "PR merged: ${{ github.event.pull_request.merged }}"
+            echo "PR base ref: ${{ github.event.pull_request.base.ref }}"
+          fi
+
+      - name: Check recent commits for conventional format
+        run: |
+          echo "Recent commits:"
+          git log --oneline -5
+          echo ""
+          echo "Checking for conventional commits..."
+          git log --oneline -10 | grep -E "^[a-f0-9]+ (feat|fix|docs|style|refactor|perf|test|build|ci|chore|revert)" || echo "No conventional commits found in recent history"
+
+      - uses: googleapis/release-please-action@v4
+        id: release
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          config-file: release-please-config.json
+          manifest-file: .release-please-manifest.json
+
+      - name: Debug release-please output
+        run: |
+          echo "Release created: $RELEASE_CREATED"
+          echo "Tag name: $TAG_NAME"
+          echo "PR created: $PR_CREATED"
+          echo "PR number: $PR_NUMBER"
+          echo "Paths released: $PATHS_RELEASED"
+        env:
+          RELEASE_CREATED: ${{ steps.release.outputs.release_created }}
+          TAG_NAME: ${{ steps.release.outputs.tag_name }}
+          PR_CREATED: ${{ steps.release.outputs.pr }}
+          PR_NUMBER: ${{ steps.release.outputs.pr_number }}
+          PATHS_RELEASED: ${{ steps.release.outputs.paths_released }}
+
+      - name: Check manifest file
+        run: |
+          echo "Current manifest content:"
+          cat .release-please-manifest.json || echo "Manifest file not found"
+
+      - name: Log release creation
+        if: steps.release.outputs.release_created == 'true'
+        run: |
+          echo "✅ Release-please created tag: ${{ steps.release.outputs.tag_name }}"
+          echo "The tag push will automatically trigger the release.yml workflow"

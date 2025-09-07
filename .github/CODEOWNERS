@@ -1,0 +1,18 @@
+# Code owners for automatic review requests
+# https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/managing-repository-settings/about-code-owners
+
+# Global owners
+* @madeinoz67
+
+# CI/CD and DevOps
+.github/ @madeinoz67
+
+# Documentation
+docs/ @madeinoz67
+*.md @madeinoz67
+
+# Core application code
+src/ @madeinoz67
+
+# Tests
+tests/ @madeinoz67
