@@ -8,47 +8,162 @@ The CI/CD pipeline is built using GitHub Actions and consists of several workflo
 
 ## Workflows
 
+### Complete CI/CD Pipeline Overview
+
+```mermaid
+flowchart TD
+    %% Developer Actions
+    Dev[👨‍💻 Developer] --> Code[📝 Code Changes]
+    Code --> Branch[🌿 Feature Branch]
+    Branch --> PR[🔄 Pull Request]
+    
+    %% Pull Request Triggers
+    PR --> CI_PR[🚀 CI Workflow<br/>PR Checks]
+    PR --> DepReview[🔍 Dependency Review<br/>Security Scan]
+    
+    CI_PR --> TestMatrix[🧪 Test Matrix<br/>Python 3.11 & 3.12]
+    TestMatrix --> UnitTests[⚡ Unit Tests]
+    TestMatrix --> IntegrationTests[🔗 Integration Tests]
+    TestMatrix --> SecurityScan[🛡️ Security Scan<br/>Safety & Bandit]
+    
+    DepReview --> VulnScan[🚨 Vulnerability Scan]
+    DepReview --> LicenseCheck[📄 License Check]
+    
+    %% PR Approval and Merge
+    UnitTests --> PRReview{📋 PR Review}
+    IntegrationTests --> PRReview
+    SecurityScan --> PRReview
+    VulnScan --> PRReview
+    LicenseCheck --> PRReview
+    
+    PRReview -->|✅ Approved| Merge[🎯 Merge to Main]
+    PRReview -->|❌ Changes Needed| Code
+    
+    %% Main Branch Triggers
+    Merge --> CI_Main[🚀 CI Workflow<br/>Main Branch]
+    Merge --> ReleasePlease[🎁 Release Please<br/>Check Commits]
+    Merge --> DocsTrigger{📚 Docs Changes?}
+    
+    CI_Main --> MainTests[🧪 Full Test Suite]
+    CI_Main --> APITests[🌐 API Tests<br/>with OpenAI]
+    MainTests --> TestSuccess{✅ Tests Pass?}
+    APITests --> TestSuccess
+    
+    TestSuccess -->|❌ Failed| Notification[📧 Failure Notification]
+    TestSuccess -->|✅ Passed| Success[✅ CI Success]
+    
+    %% Release Please Logic
+    ReleasePlease --> ConventionalCheck{📝 Conventional<br/>Commits?}
+    ConventionalCheck -->|❌ No| NoRelease[❌ No Release]
+    ConventionalCheck -->|✅ Yes| ReleasePR[📋 Release PR Created]
+    
+    ReleasePR --> PRMerge{🔄 Release PR<br/>Merged?}
+    PRMerge -->|❌ Not Yet| Wait[⏳ Wait for Merge]
+    PRMerge -->|✅ Merged| CreateTag[🏷️ Create Git Tag]
+    
+    %% Release Workflow
+    CreateTag --> ReleaseWorkflow[🚢 Release Workflow<br/>Tag Triggered]
+    ReleaseWorkflow --> ReleaseBuild[🏗️ Build Package]
+    ReleaseWorkflow --> ReleaseTest[🧪 Release Tests]
+    
+    ReleaseBuild --> BuildSuccess{✅ Build OK?}
+    ReleaseTest --> BuildSuccess
+    
+    BuildSuccess -->|❌ Failed| BuildFail[❌ Release Failed]
+    BuildSuccess -->|✅ Success| PyPIPublish[📦 Publish to PyPI]
+    
+    PyPIPublish --> GitHubRelease[📋 GitHub Release]
+    GitHubRelease --> ReleaseSuccess[✅ Release Complete]
+    
+    %% Documentation Workflow
+    DocsTrigger -->|✅ Yes| DocsWorkflow[📚 Docs Versioned<br/>Workflow]
+    DocsTrigger -->|❌ No| Success
+    
+    DocsWorkflow --> DocsType{📋 Docs Type}
+    DocsType -->|Latest| DeployLatest[🌐 Deploy Latest<br/>to GitHub Pages]
+    DocsType -->|Version| DeployVersioned[🏷️ Deploy Versioned<br/>Documentation]
+    
+    DeployLatest --> DocsSuccess[✅ Docs Deployed]
+    DeployVersioned --> DocsSuccess
+    
+    %% Styling
+    classDef devStyle fill:#e3f2fd,stroke:#1565c0,stroke-width:2px
+    classDef ciStyle fill:#e8f5e8,stroke:#2e7d32,stroke-width:2px
+    classDef releaseStyle fill:#fff3e0,stroke:#ef6c00,stroke-width:2px
+    classDef docsStyle fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px
+    classDef errorStyle fill:#ffebee,stroke:#c62828,stroke-width:2px
+    classDef successStyle fill:#e0f2f1,stroke:#00695c,stroke-width:2px
+    
+    class Dev,Code,Branch devStyle
+    class CI_PR,CI_Main,TestMatrix,UnitTests,IntegrationTests,SecurityScan,MainTests,APITests ciStyle
+    class ReleasePlease,ReleasePR,CreateTag,ReleaseWorkflow,ReleaseBuild,PyPIPublish,GitHubRelease releaseStyle
+    class DocsWorkflow,DeployLatest,DeployVersioned docsStyle
+    class BuildFail,Notification errorStyle
+    class Success,ReleaseSuccess,DocsSuccess,TestSuccess successStyle
+```
+
 ### 1. CI Workflow (`.github/workflows/ci.yml`)
 
 **Triggers:**
-- Push to `main` or `develop` branches
+- Push to `main` branch
 - Pull requests to `main` or `develop` branches
+- Manual workflow dispatch
 
 **Jobs:**
-- **test**: Runs unit and integration tests across Python 3.11 and 3.12
-- **test-with-api**: Runs API-dependent tests (only on main branch or with `[api-test]` commit message)
+- **test**: Runs comprehensive test suite across Python 3.11 and 3.12
+- **test-with-api**: Runs API-dependent tests (requires OpenAI API key)
 - **security**: Performs security scanning with Safety and Bandit
 
-**Features:**
+**Enhanced Features:**
 - Matrix testing across multiple Python versions
 - Code formatting and linting with Ruff
-- Coverage reporting with Codecov
-- Separate handling of API-dependent tests
-- Security vulnerability scanning
+- Intelligent API test detection with environment validation
+- Enhanced error reporting and debugging
+- Comprehensive coverage reporting
 
-### 2. Documentation Deployment (`.github/workflows/docs.yml`)
-
-**Triggers:**
-- Push to `main` branch
-- Manual trigger via GitHub Actions UI
-
-**Features:**
-- Builds MkDocs documentation
-- Deploys to GitHub Pages
-- Automatic deployment on main branch changes
-
-### 3. Release Automation (`.github/workflows/release.yml`)
+### 2. Release Please Workflow (`.github/workflows/release-please.yml`)
 
 **Triggers:**
-- Git tag push (e.g., `v1.0.0`)
+- Push to `main` branch (with conventional commits)
+- Automated based on commit message analysis
 
 **Features:**
-- Runs full test suite
-- Builds Python package
-- Creates GitHub release with artifacts
-- Publishes to PyPI (if configured)
+- Automated version bumping based on conventional commits
+- Changelog generation from commit messages  
+- Release PR creation and management
+- Git tag creation when release PR is merged
+- Integration with release workflow
 
-### 4. Dependency Review (`.github/workflows/dependency-review.yml`)
+### 3. Release Workflow (`.github/workflows/release.yml`)
+
+**Triggers:**
+- Git tag push (created by release-please)
+- Manual workflow dispatch with version input
+
+**Enhanced Features:**
+- Comprehensive debugging and logging
+- Package building with uv
+- Package verification with twine check
+- PyPI publishing with enhanced error handling
+- GitHub release creation with artifacts
+- Simplified job conditions using startsWith() checks
+
+### 4. Documentation Versioned Workflow (`.github/workflows/docs-versioned.yml`)
+
+**Triggers:**
+- Push to `main` branch (for latest docs)
+- Release creation (for versioned docs)
+- Repository dispatch events
+- Manual workflow dispatch
+
+**Enhanced Features:**
+- Intelligent deployment type detection
+- Version preservation (no branch reset)
+- Mike-based versioned documentation
+- Automatic version selector updates
+- Concurrency control to prevent conflicts
+
+### 5. Dependency Review (`.github/workflows/dependency-review.yml`)
 
 **Triggers:**
 - Pull requests to `main` or `develop` branches
@@ -56,7 +171,8 @@ The CI/CD pipeline is built using GitHub Actions and consists of several workflo
 **Features:**
 - Automated dependency vulnerability scanning
 - License compliance checking
-- Generates license reports
+- Security advisory integration
+- Automated security updates
 
 ## Configuration Files
 
@@ -131,9 +247,15 @@ Automatic review assignment for:
 
 The following secrets need to be configured in GitHub repository settings:
 
-- `OPENAI_API_KEY`: For API-dependent tests
-- `PYPI_API_TOKEN`: For PyPI package publishing
+- `OPENAI_API_KEY`: For API-dependent tests (with test environment detection)
+- `PYPI_API_TOKEN`: For PyPI package publishing (enhanced error handling)
 - `GOOGLE_ANALYTICS_KEY`: For documentation analytics (optional)
+
+### Secret Management Best Practices
+
+- **API Keys**: Use environment-specific test detection for OpenAI API key validation
+- **PyPI Tokens**: Verify token permissions before publishing
+- **Documentation**: Analytics keys are optional and won't block builds if missing
 
 ## Branch Protection Rules
 
@@ -219,15 +341,39 @@ Documentation is automatically deployed to GitHub Pages on pushes to `main`:
 - Deploy command: `uv run mkdocs gh-deploy`
 
 ### Releases
-To create a new release:
+
+#### Automated Release Process (Recommended)
+1. **Make changes** using conventional commit messages:
+   ```bash
+   git commit -m "feat: add new statement detection algorithm"
+   git commit -m "fix: resolve API key validation in test environments"
+   git commit -m "docs: update workflow diagrams"
+   ```
+2. **Push to main** branch:
+   ```bash
+   git push origin main
+   ```
+3. **Release Please** will automatically:
+   - Analyze commit messages
+   - Create release PR with version bump
+   - Generate changelog
+4. **Merge release PR** to trigger:
+   - Tag creation
+   - Package build and PyPI publish
+   - GitHub release creation
+   - Documentation versioning
+
+#### Manual Release Process (Legacy)
 1. Update version in `pyproject.toml`
 2. Create a git tag: `git tag v1.0.0`
 3. Push the tag: `git push origin v1.0.0`
-4. GitHub Actions will automatically:
-   - Run tests
-   - Build package
-   - Create GitHub release
-   - Publish to PyPI
+4. GitHub Actions will automatically handle the rest
+
+#### Release Workflow Features
+- **Enhanced Debugging**: Comprehensive logging for troubleshooting
+- **Package Verification**: Validation with twine before publishing
+- **Error Recovery**: Detailed error reporting and recovery suggestions
+- **Conditional Logic**: Smart workflow triggering based on event types
 
 ## Monitoring and Maintenance
 

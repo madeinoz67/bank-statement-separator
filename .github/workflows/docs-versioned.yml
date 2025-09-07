@@ -85,18 +85,58 @@ jobs:
           git config --local user.name "GitHub Action"
           git config --local pull.rebase false
 
-      - name: Reset corrupted gh-pages branch state
-        run: |
-          # Delete any existing gh-pages branch to start fresh
-          git branch -D gh-pages 2>/dev/null || true
-          git push origin --delete gh-pages 2>/dev/null || true
-          echo "Cleaned up existing gh-pages branch state"
-          
       - name: Deploy latest documentation with mike
         run: |
-          # Deploy with push since we reset the corrupted state
-          uv run mike deploy --push latest
-          uv run mike set-default --push latest
+          # Robust deployment strategy with retry logic and conflict resolution
+          
+          # Step 1: Fetch and prepare gh-pages branch
+          echo "📡 Fetching latest gh-pages state..."
+          git fetch origin gh-pages:gh-pages || git checkout --orphan gh-pages || true
+          
+          # Step 2: Deploy locally (no push)
+          echo "📚 Deploying documentation locally..."
+          uv run mike deploy --update-aliases latest
+          uv run mike set-default latest
+          
+          # Step 3: Push with retry logic and conflict resolution
+          echo "🚀 Pushing to gh-pages with retry logic..."
+          max_attempts=3
+          attempt=1
+          
+          while [ $attempt -le $max_attempts ]; do
+            echo "📤 Deployment attempt $attempt of $max_attempts"
+            
+            # Fetch latest changes before push attempt
+            git fetch origin gh-pages:gh-pages || true
+            
+            if git push origin gh-pages; then
+              echo "✅ Successfully deployed on attempt $attempt"
+              break
+            else
+              echo "⚠️ Push failed on attempt $attempt"
+              
+              if [ $attempt -eq $max_attempts ]; then
+                echo "❌ All attempts failed. Manual intervention required."
+                exit 1
+              fi
+              
+              # Exponential backoff
+              sleep_time=$((2 ** attempt))
+              echo "⏳ Waiting ${sleep_time} seconds before retry..."
+              sleep $sleep_time
+              
+              # Resolve conflicts and retry
+              echo "🔄 Resolving conflicts and re-deploying..."
+              git checkout gh-pages || true
+              git pull --rebase origin gh-pages || git reset --hard origin/gh-pages
+              
+              # Re-deploy locally after conflict resolution
+              uv run mike deploy --update-aliases latest
+              uv run mike set-default latest
+            fi
+            
+            attempt=$((attempt + 1))
+          done
 
       - name: Log deployment completion
         run: echo "✅ Latest documentation deployed successfully"
@@ -127,19 +167,59 @@ jobs:
           git config --local user.name "GitHub Action"
           git config --local pull.rebase false
 
-      - name: Reset corrupted gh-pages branch state
-        run: |
-          # Delete any existing gh-pages branch to start fresh
-          git branch -D gh-pages 2>/dev/null || true
-          git push origin --delete gh-pages 2>/dev/null || true
-          echo "Cleaned up existing gh-pages branch state"
-
       - name: Deploy versioned documentation with mike
         run: |
           VERSION="${{ needs.determine-deployment-type.outputs.version }}"
+          echo "📋 Deploying version: $VERSION"
           
-          # Deploy with push since we reset the corrupted state
-          uv run mike deploy --push --update-aliases "v$VERSION" "$VERSION"
+          # Robust deployment strategy with retry logic and conflict resolution
+          
+          # Step 1: Fetch and prepare gh-pages branch
+          echo "📡 Fetching latest gh-pages state..."
+          git fetch origin gh-pages:gh-pages || git checkout --orphan gh-pages || true
+          
+          # Step 2: Deploy locally (no push)
+          echo "📚 Deploying versioned documentation locally..."
+          uv run mike deploy --update-aliases "v$VERSION" "$VERSION"
+          
+          # Step 3: Push with retry logic and conflict resolution
+          echo "🚀 Pushing to gh-pages with retry logic..."
+          max_attempts=3
+          attempt=1
+          
+          while [ $attempt -le $max_attempts ]; do
+            echo "📤 Deployment attempt $attempt of $max_attempts for version $VERSION"
+            
+            # Fetch latest changes before push attempt
+            git fetch origin gh-pages:gh-pages || true
+            
+            if git push origin gh-pages; then
+              echo "✅ Successfully deployed version $VERSION on attempt $attempt"
+              break
+            else
+              echo "⚠️ Push failed on attempt $attempt for version $VERSION"
+              
+              if [ $attempt -eq $max_attempts ]; then
+                echo "❌ All attempts failed for version $VERSION. Manual intervention required."
+                exit 1
+              fi
+              
+              # Exponential backoff
+              sleep_time=$((2 ** attempt))
+              echo "⏳ Waiting ${sleep_time} seconds before retry..."
+              sleep $sleep_time
+              
+              # Resolve conflicts and retry
+              echo "🔄 Resolving conflicts and re-deploying version $VERSION..."
+              git checkout gh-pages || true
+              git pull --rebase origin gh-pages || git reset --hard origin/gh-pages
+              
+              # Re-deploy locally after conflict resolution
+              uv run mike deploy --update-aliases "v$VERSION" "$VERSION"
+            fi
+            
+            attempt=$((attempt + 1))
+          done
 
       - name: Update version list for selector
         run: |
