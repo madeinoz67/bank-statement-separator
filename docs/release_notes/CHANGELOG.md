@@ -1,5 +1,23 @@
 # Changelog
 
+## [0.1.3](https://github.com/madeinoz67/bank-statement-separator/compare/v0.1.2...v0.1.3) (2025-09-07)
+
+
+### Bug Fixes
+
+* allow test API keys in configuration validation ([e399ff0](https://github.com/madeinoz67/bank-statement-separator/commit/e399ff0256abafc725a7a7d551991a8dacc8612b))
+* improve release workflow configuration and API key validation ([461a61c](https://github.com/madeinoz67/bank-statement-separator/commit/461a61c93787cb1665de52ae800427852323d6ec))
+
+
+### Documentation
+
+* add changelog to mkdocs navigation ([0062535](https://github.com/madeinoz67/bank-statement-separator/commit/0062535eabb1e63ecf91898cde9527e55817bcd9))
+
+
+### Styles
+
+* apply ruff formatting to config.py ([2bb76da](https://github.com/madeinoz67/bank-statement-separator/commit/2bb76daca5a457fa85ade054362b2dd22fe1ed92))
+
 ## [0.1.2](https://github.com/madeinoz67/bank-statement-separator/compare/v0.1.1...v0.1.2) (2025-09-07)
 
 
