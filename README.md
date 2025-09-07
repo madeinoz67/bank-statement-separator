@@ -2,6 +2,8 @@
 
 [![Documentation](https://img.shields.io/badge/docs-online-blue)](https://madeinoz67.github.io/bank-statement-separator/)
 [![Tests](https://img.shields.io/badge/tests-37%2F37%20passing-brightgreen)](https://github.com/madeinoz67/bank-statement-separator/actions)
+[![PyPI](https://img.shields.io/pypi/v/bank-statement-separator)](https://pypi.org/project/bank-statement-separator/)
+[![Python](https://img.shields.io/pypi/pyversions/bank-statement-separator)](https://pypi.org/project/bank-statement-separator/)
 
 An AI-powered tool that automatically processes PDF files containing multiple bank statements and separates them into individual files. Built with LangChain and LangGraph for robust stateful AI processing.
 
