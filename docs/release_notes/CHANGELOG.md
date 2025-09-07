@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.1.4](https://github.com/madeinoz67/bank-statement-separator/compare/v0.1.3...v0.1.4) (2025-09-07)
+
+
+### Bug Fixes
+
+* enhance release workflow with debugging and improved PyPI publishing ([f7753dd](https://github.com/madeinoz67/bank-statement-separator/commit/f7753dd7ff7be554a38417635b9f3f00828515fd))
+* enhance release workflow with PyPI publishing debugging ([4f531c9](https://github.com/madeinoz67/bank-statement-separator/commit/4f531c998c1aa9375b7e189de12907122e1ca9c6))
+
 ## [0.1.3](https://github.com/madeinoz67/bank-statement-separator/compare/v0.1.2...v0.1.3) (2025-09-07)
 
 

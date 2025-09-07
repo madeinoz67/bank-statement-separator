@@ -167,6 +167,7 @@ nav:
       - LLM Provider Development: developer-guide/llm-provider-development.md
   - Architecture:
       - Workflow Overview: architecture/workflow-overview.md
+      - GitHub Workflows: architecture/github-workflows.md
       - Mike Deployment Strategy: architecture/mike-deployment-strategy.md
   - Design:
       - Product Requirements: design/PRD.md
@@ -184,6 +185,10 @@ nav:
       - Working Notes: reference/working-notes.md
   - Release Notes:
       - Changelog: release_notes/CHANGELOG.md
+      - Version 0.1.4: release_notes/RELEASE_NOTES_v0.1.4.md
+      - Version 0.1.3: release_notes/RELEASE_NOTES_v0.1.3.md
+      - Version 0.1.2: release_notes/RELEASE_NOTES_v0.1.2.md
+      - Version 0.1.1: release_notes/RELEASE_NOTES_v0.1.1.md
       - Version 0.1.0: release_notes/RELEASE_NOTES_v0.1.0.md
   - Known Issues:
       - Boundary Detection: known_issues/BOUNDARY_DETECTION_ISSUE.md

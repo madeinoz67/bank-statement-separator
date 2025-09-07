@@ -89,26 +89,49 @@ git fetch origin gh-pages:gh-pages || git checkout --orphan gh-pages || true
 
 ## Implementation Details
 
+!!! success "Current Implementation Status"
+    The `docs-versioned.yml` workflow has been **updated** to implement this robust deployment strategy as of January 2025. The workflow now uses local deployment followed by retry logic with conflict resolution.
+
 ### Latest Documentation Deployment
 
 ```bash
-# 1. Fetch and prepare
+# 1. Fetch and prepare gh-pages branch
 git fetch origin gh-pages:gh-pages || git checkout --orphan gh-pages || true
 
-# 2. Deploy without push
-uv run mike deploy --update-aliases latest main
+# 2. Deploy locally (no push)
+uv run mike deploy --update-aliases latest
 uv run mike set-default latest
 
 # 3. Push with retry logic (3 attempts with exponential backoff)
+max_attempts=3
+attempt=1
+
 while [ $attempt -le $max_attempts ]; do
+  # Fetch latest changes before push attempt
+  git fetch origin gh-pages:gh-pages || true
+  
   if git push origin gh-pages; then
+    echo "✅ Successfully deployed on attempt $attempt"
     break
   else
-    sleep $((2 ** attempt))
+    if [ $attempt -eq $max_attempts ]; then
+      echo "❌ All attempts failed. Manual intervention required."
+      exit 1
+    fi
+    
+    # Exponential backoff
+    sleep_time=$((2 ** attempt))
+    sleep $sleep_time
+    
+    # Resolve conflicts and retry
+    git checkout gh-pages || true
     git pull --rebase origin gh-pages || git reset --hard origin/gh-pages
-    uv run mike deploy --update-aliases latest main
+    
+    # Re-deploy locally after conflict resolution
+    uv run mike deploy --update-aliases latest
     uv run mike set-default latest
   fi
+  
   attempt=$((attempt + 1))
 done
 ```
@@ -117,10 +140,31 @@ done
 
 ```bash
 # Similar pattern but for specific versions
+VERSION="1.2.3"  # From workflow input/release
+
+# 1. Fetch and prepare gh-pages branch
+git fetch origin gh-pages:gh-pages || git checkout --orphan gh-pages || true
+
+# 2. Deploy version locally (no push)
 uv run mike deploy --update-aliases "v$VERSION" "$VERSION"
 
-# Same retry logic as above
-# Plus separate versions.json update with its own retry logic
+# 3. Push with same retry logic as above
+max_attempts=3
+attempt=1
+
+while [ $attempt -le $max_attempts ]; do
+  git fetch origin gh-pages:gh-pages || true
+  
+  if git push origin gh-pages; then
+    echo "✅ Successfully deployed version $VERSION on attempt $attempt"
+    break
+  else
+    # Same error handling and retry logic as latest deployment
+    # ... (exponential backoff, conflict resolution, re-deployment)
+  fi
+  
+  attempt=$((attempt + 1))
+done
 ```
 
 ### Version Selector Updates

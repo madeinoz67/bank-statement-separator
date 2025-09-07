@@ -4,7 +4,17 @@ Comprehensive overview of the 8-node LangGraph workflow with error handling and 
 
 ## System Architecture
 
-The Workflow Bank Statement Separator uses a sophisticated 8-node processing pipeline built on LangGraph with comprehensive error handling and recovery systems.
+The Bank Statement Separator uses two complementary workflow systems:
+
+1. **Application Processing Workflow**: A sophisticated 8-node LangGraph pipeline for PDF processing with error handling and recovery
+2. **CI/CD Pipeline Workflow**: GitHub Actions workflows for automated testing, releasing, and documentation deployment
+
+!!! info "Complete Workflow Documentation"
+    This document focuses on the **application processing workflow**. For comprehensive documentation of the **CI/CD workflows** including release automation, testing, and documentation deployment, see [GitHub Workflows Architecture](github-workflows.md).
+
+### Application Processing Workflow
+
+The core PDF processing uses an 8-node LangGraph pipeline with comprehensive error handling and recovery systems.
 
 ## Complete Workflow Diagram
 
@@ -306,4 +316,34 @@ pie title Processing Metrics
 - **Log Rotation**: Prevent log files from consuming excessive disk space
 - **Performance Monitoring**: Track processing metrics over time
 
-This architecture provides a robust, scalable document processing pipeline with comprehensive error handling, monitoring, and recovery capabilities. For detailed information about the rate limiting and backoff mechanisms, see the [Backoff Mechanisms Design Document](../design/backoff_mechanisms.md).
+## Workflow Integration Summary
+
+The Bank Statement Separator implements two complementary workflow architectures:
+
+### Application Processing Workflow (This Document)
+- **8-node LangGraph pipeline** for PDF processing
+- **Comprehensive error handling** with quarantine system
+- **AI-powered analysis** with pattern-matching fallback
+- **Rate limiting and backoff** mechanisms for API calls
+- **Audit logging** and compliance tracking
+
+### CI/CD Pipeline Workflow ([GitHub Workflows](github-workflows.md))
+- **5 interconnected GitHub Actions** workflows
+- **Automated testing** with Python matrix (3.11, 3.12)
+- **Release automation** using conventional commits
+- **Security scanning** and dependency review
+- **Documentation versioning** with mike deployment
+
+### Integration Points
+1. **Configuration**: Environment variables control both processing behavior and CI/CD settings
+2. **Testing**: CI workflows validate the processing pipeline functionality
+3. **Releases**: Automated releases deploy both code and documentation updates
+4. **Monitoring**: Both systems provide comprehensive logging and error reporting
+
+This dual-workflow architecture ensures:
+- **Robust Processing**: Reliable document processing with fallback mechanisms
+- **Quality Assurance**: Automated testing and security scanning
+- **Continuous Delivery**: Automated releases and documentation updates
+- **Comprehensive Monitoring**: Full visibility into both processing and deployment workflows
+
+For detailed information about the rate limiting and backoff mechanisms, see the [Backoff Mechanisms Design Document](../design/backoff_mechanisms.md).
