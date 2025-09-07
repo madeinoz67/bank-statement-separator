@@ -93,7 +93,7 @@ wheels = [
 
 [[package]]
 name = "bank-statement-separator"
-version = "3.0.6"
+version = "0.1.0"
 source = { editable = "." }
 dependencies = [
     { name = "click" },

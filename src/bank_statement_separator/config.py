@@ -2,10 +2,8 @@
 
 import os
 from pathlib import Path
-from typing import List, Optional, Any, Dict
+from typing import List, Optional
 from pydantic import BaseModel, Field, field_validator, ConfigDict
-from pydantic.functional_validators import AfterValidator
-from typing_extensions import Annotated
 from dotenv import load_dotenv
 
 
@@ -173,7 +171,7 @@ class Config(BaseModel):
         env_file=".env",
         env_file_encoding="utf-8",
         validate_default=True,
-        extra="forbid"
+        extra="forbid",
     )
 
     @field_validator("log_level")
