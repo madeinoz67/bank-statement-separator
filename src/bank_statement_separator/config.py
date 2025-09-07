@@ -209,6 +209,16 @@ class Config(BaseModel):
             raise ValueError("Chunk overlap must be less than chunk size")
         return v
 
+    @field_validator("openai_api_key")
+    @classmethod
+    def validate_api_key(cls, v: Optional[str]) -> Optional[str]:
+        """Validate OpenAI API key format."""
+        if v and not v.startswith("sk-"):
+            raise ValueError("OpenAI API key must start with 'sk-'")
+        if v and len(v) < 20:
+            raise ValueError("OpenAI API key appears to be too short")
+        return v
+
 
 def load_config(env_file: Optional[str] = None) -> Config:
     """
