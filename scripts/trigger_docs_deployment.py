@@ -6,6 +6,8 @@ Script to manually trigger versioned documentation deployment for existing relea
 import subprocess
 import json
 import os
+import re
+from urllib.parse import urlparse
 
 
 def trigger_docs_workflow(version_tag):
@@ -27,10 +29,22 @@ def trigger_docs_workflow(version_tag):
             check=True,
         )
         remote_url = result.stdout.strip()
-        # Extract owner/repo from URL
-        if "github.com/" in remote_url:
-            repo_path = remote_url.split("github.com/")[1].split(".git")[0]
+        # Extract owner/repo from URL robustly
+        repo_path = None
+        # HTTPS or SSH "git@github.com:owner/repo.git" or "https://github.com/owner/repo.git"
+        if remote_url.startswith("git@"):
+            # SSH URL, git@github.com:owner/repo.git
+            match = re.match(r"git@([^:]+):([^/]+/[^/]+)(\.git)?", remote_url)
+            if match and match.group(1) == "github.com":
+                repo_path = match.group(2)
         else:
+            # Try parsing as a URL
+            parsed = urlparse(remote_url)
+            if parsed.hostname == "github.com":
+                repo_path = parsed.path.lstrip("/")
+                if repo_path.endswith(".git"):
+                    repo_path = repo_path[:-4]
+        if not repo_path:
             print("❌ Could not determine repository from git remote")
             return False
     except subprocess.CalledProcessError:
