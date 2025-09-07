@@ -216,27 +216,27 @@ class Config(BaseModel):
         """Validate OpenAI API key format."""
         if not v:
             return v
-        
+
         # Skip validation for test environments
         test_indicators = [
             "test-key",
-            "invalid-key", 
+            "invalid-key",
             "mock-key",
             "fake-key",
-            "dummy-key"
+            "dummy-key",
         ]
-        
+
         # Check if we're in a test environment
         is_test_env = (
-            any(test_key in v for test_key in test_indicators) or
-            os.getenv("PYTEST_CURRENT_TEST") is not None or
-            "pytest" in sys.modules or
-            v == ""  # Empty string from test config
+            any(test_key in v for test_key in test_indicators)
+            or os.getenv("PYTEST_CURRENT_TEST") is not None
+            or "pytest" in sys.modules
+            or v == ""  # Empty string from test config
         )
-        
+
         if is_test_env:
             return v
-            
+
         # Production validation
         if not v.startswith("sk-"):
             raise ValueError("OpenAI API key must start with 'sk-'")
