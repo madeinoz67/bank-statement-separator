@@ -285,6 +285,210 @@ uv run python -m src.bank_statement_separator.main \
   process input.pdf --env-file /path/to/custom.env
 ```
 
+## Environment File Management
+
+The `--env-file` parameter enables easy switching between different environment configurations without modifying your main `.env` file.
+
+### Creating Environment-Specific Files
+
+Create dedicated environment files for different scenarios:
+
+```bash
+# Create environment-specific configs
+cp .env.example .env.dev      # Development settings
+cp .env.example .env.test     # Testing settings  
+cp .env.example .env.prod     # Production settings
+```
+
+### Environment File Usage Examples
+
+=== "Development Environment"
+
+    Create `.env.dev` with development-optimized settings:
+    
+    ```bash
+    # .env.dev - Development Configuration
+    LLM_PROVIDER=openai
+    OPENAI_API_KEY=sk-your-dev-key-here
+    OPENAI_MODEL=gpt-4o-mini
+    LOG_LEVEL=DEBUG
+    DEFAULT_OUTPUT_DIR=./dev_output
+    VALIDATION_STRICTNESS=lenient
+    PRESERVE_FAILED_OUTPUTS=true
+    ENABLE_ERROR_REPORTING=true
+    MAX_RETRY_ATTEMPTS=1
+    ```
+    
+    Use the development environment:
+    ```bash
+    uv run python -m src.bank_statement_separator.main \
+      process input.pdf --env-file .env.dev
+    ```
+
+=== "Testing Environment"
+
+    Create `.env.test` for testing with fallback mode:
+    
+    ```bash
+    # .env.test - Testing Configuration
+    LLM_PROVIDER=auto
+    OPENAI_API_KEY=invalid-key-for-testing
+    OPENAI_MODEL=gpt-4o-mini
+    LOG_LEVEL=ERROR
+    DEFAULT_OUTPUT_DIR=./test_output
+    VALIDATION_STRICTNESS=normal
+    MAX_FILE_SIZE_MB=10
+    QUARANTINE_DIRECTORY=./test_quarantine
+    ENABLE_FALLBACK_PROCESSING=true
+    ```
+    
+    Run tests with testing environment:
+    ```bash
+    uv run python -m src.bank_statement_separator.main \
+      process test.pdf --env-file .env.test --dry-run
+    ```
+
+=== "Production Environment"
+
+    Create `.env.prod` for production deployment:
+    
+    ```bash
+    # .env.prod - Production Configuration
+    LLM_PROVIDER=openai
+    OPENAI_API_KEY=sk-your-production-key
+    OPENAI_MODEL=gpt-4o
+    LOG_LEVEL=WARNING
+    DEFAULT_OUTPUT_DIR=/var/app/output
+    VALIDATION_STRICTNESS=strict
+    MAX_FILE_SIZE_MB=200
+    
+    # Security restrictions
+    ALLOWED_INPUT_DIRS=/secure/input,/approved/documents
+    ALLOWED_OUTPUT_DIRS=/secure/output,/processed/statements
+    QUARANTINE_DIRECTORY=/secure/quarantine
+    
+    # Paperless integration
+    PAPERLESS_ENABLED=true
+    PAPERLESS_URL=https://paperless.company.com
+    PAPERLESS_TOKEN=prod-token-here
+    ```
+    
+    Deploy with production settings:
+    ```bash
+    uv run python -m src.bank_statement_separator.main \
+      batch_process /secure/input --env-file .env.prod
+    ```
+
+### Advanced Environment Patterns
+
+#### Team Collaboration
+
+Each team member maintains their own environment file:
+
+```bash
+# Personal environment files
+.env.alice    # Alice's development setup
+.env.bob      # Bob's development setup
+.env.shared   # Shared team defaults
+
+# Usage
+uv run python -m src.bank_statement_separator.main \
+  process input.pdf --env-file .env.alice
+```
+
+#### CI/CD Integration
+
+Use environment files in automated pipelines:
+
+```bash
+# GitHub Actions example
+- name: Run processing with CI config
+  run: |
+    uv run python -m src.bank_statement_separator.main \
+      process test.pdf --env-file .env.ci --dry-run
+```
+
+#### Deployment-Specific Configuration
+
+```bash
+# Different deployment targets
+.env.staging     # Staging environment
+.env.production  # Production environment
+.env.dr          # Disaster recovery site
+
+# Deployment
+uv run python -m src.bank_statement_separator.main \
+  process input.pdf --env-file .env.staging
+```
+
+### Environment File Validation
+
+The system validates environment files before loading:
+
+```bash
+# Test environment file validity
+uv run python -c "
+from src.bank_statement_separator.config import load_config, validate_env_file
+
+# Validate file exists and is readable
+validate_env_file('.env.dev')
+print('✅ Environment file is valid')
+
+# Test configuration loading
+config = load_config('.env.dev')
+print(f'✅ Configuration loaded successfully')
+print(f'Provider: {config.llm_provider}')
+print(f'Model: {config.openai_model}')
+print(f'Output: {config.default_output_dir}')
+"
+```
+
+### Error Handling
+
+Common environment file issues and solutions:
+
+=== "File Not Found"
+
+    ```bash
+    # Error: Environment file not found: /path/to/.env.missing
+    
+    # Solution: Check file path and permissions
+    ls -la .env.*
+    ls -la /path/to/.env.missing
+    ```
+
+=== "Permission Denied"
+
+    ```bash
+    # Error: Cannot read environment file: .env.locked
+    
+    # Solution: Fix file permissions
+    chmod 644 .env.locked
+    ```
+
+=== "Invalid Configuration"
+
+    ```bash
+    # Error: Log level must be one of: ['DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL']
+    
+    # Solution: Fix invalid values in env file
+    sed -i 's/LOG_LEVEL=INVALID/LOG_LEVEL=INFO/' .env.test
+    ```
+
+!!! tip "Environment File Best Practices"
+    - **Never commit** `.env` files containing secrets to version control
+    - **Use descriptive names** like `.env.dev`, `.env.prod` instead of generic names
+    - **Document required variables** in each environment file header
+    - **Test configurations** before deploying to production
+    - **Use relative paths** where possible for portability
+    - **Validate configurations** after changes using the validation script above
+
+!!! warning "Security Considerations"
+    - Production env files should be stored securely and access-controlled
+    - Use different API keys for different environments
+    - Set appropriate file permissions (644 or 600)
+    - Never expose production credentials in development/test environments
+
 ### Environment Variable Precedence
 
 Configuration precedence (highest to lowest):
