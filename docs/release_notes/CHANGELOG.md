@@ -1,5 +1,23 @@
 # Changelog
 
+## [0.2.0](https://github.com/madeinoz67/bank-statement-separator/compare/v0.1.5...v0.2.0) (2025-09-08)
+
+
+### Features
+
+* enhance ENV file parameter with comprehensive validation and documentation ([9cdaefe](https://github.com/madeinoz67/bank-statement-separator/commit/9cdaefe022deb3c796c983fe31f47e4b65847a86))
+* enhance ENV file parameter with comprehensive validation and documentation ([0a0715d](https://github.com/madeinoz67/bank-statement-separator/commit/0a0715d530ff45f80b79f7a0f93c5352fb91e6b5))
+
+
+### Chores
+
+* remove temporary test_release.sh script ([ebc7492](https://github.com/madeinoz67/bank-statement-separator/commit/ebc74923800c7d51bef96c7d52ce58eaeb163f53))
+
+
+### Styles
+
+* apply ruff formatting and linting fixes ([d39dc14](https://github.com/madeinoz67/bank-statement-separator/commit/d39dc1493ad0d1a8a2bb6ad705ca7c4db7bbe4ac))
+
 ## [0.1.5](https://github.com/madeinoz67/bank-statement-separator/compare/v0.1.4...v0.1.5) (2025-09-07)
 
 
