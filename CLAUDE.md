@@ -1,3 +1,3 @@
 @AGENTS.md
 
-# Claude specific Development Guidelines
+# Claude Specific Development Guidelines
