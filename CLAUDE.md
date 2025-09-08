@@ -1,4 +1,4 @@
 # Development Guidelines
 
-@AGENTS.md
+%import AGENTS.md%
 
