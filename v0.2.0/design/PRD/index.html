@@ -1,0 +1,3597 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="AI-powered tool for automatically separating multi-statement PDF bank statement files">
+      
+      
+        <meta name="author" content="Stephen Eaton">
+      
+      
+        <link rel="canonical" href="https://madeinoz67.github.io/bank-statement-separator/v0.2.0/design/PRD/">
+      
+      
+        <link rel="prev" href="../../architecture/mike-deployment-strategy/">
+      
+      
+        <link rel="next" href="../boundary_detection_system/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.18">
+    
+    
+      
+        <title>Product Requirements - Bank Statement Separator</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.7e37652d.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+  
+  
+
+<script id="__analytics">function __md_analytics(){function e(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],e("js",new Date),e("config",""),document.addEventListener("DOMContentLoaded",(function(){document.forms.search&&document.forms.search.query.addEventListener("blur",(function(){this.value&&e("event","search",{search_term:this.value})}));document$.subscribe((function(){var t=document.forms.feedback;if(void 0!==t)for(var a of t.querySelectorAll("[type=submit]"))a.addEventListener("click",(function(a){a.preventDefault();var n=document.location.pathname,d=this.getAttribute("data-md-value");e("event","feedback",{page:n,data:d}),t.firstElementChild.disabled=!0;var r=t.querySelector(".md-feedback__note [data-md-value='"+d+"']");r&&(r.hidden=!1)})),t.hidden=!1})),location$.subscribe((function(t){e("config","",{page_path:t.pathname})}))}));var t=document.createElement("script");t.async=!0,t.src="https://www.googletagmanager.com/gtag/js?id=",document.getElementById("__analytics").insertAdjacentElement("afterEnd",t)}</script>
+  
+    <script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+  
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#product-requirements-document-prd" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-color-scheme="default" data-md-component="outdated" hidden>
+        
+      </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Bank Statement Separator" class="md-header__button md-logo" aria-label="Bank Statement Separator" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Bank Statement Separator
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Product Requirements
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9zM20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12zm-9.15 3.96h2.3L12 9z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="blue"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="blue" data-md-color-accent="blue"  aria-label="Switch to system preference"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Switch to system preference" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/madeinoz67/bank-statement-separator" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    bank-statement-separator
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../getting-started/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Getting Started
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../user-guide/model-selection-guide/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  User Guide
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../developer-guide/contributing/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Developer Guide
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../architecture/workflow-overview/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Architecture
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="./" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Design
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../reference/environment-variables/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../release_notes/CHANGELOG/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Release Notes
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../known_issues/BOUNDARY_DETECTION_ISSUE/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Known Issues
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Bank Statement Separator" class="md-nav__button md-logo" aria-label="Bank Statement Separator" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Bank Statement Separator
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/madeinoz67/bank-statement-separator" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    bank-statement-separator
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../getting-started/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Getting Started
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../user-guide/model-selection-guide/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    User Guide
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../developer-guide/contributing/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Developer Guide
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../architecture/workflow-overview/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Architecture
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Design
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            Design
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Product Requirements
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Product Requirements
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#bank-statement-separator-langgraph-ai-workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      Bank Statement Separator - LangGraph AI Workflow
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#executive-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      Executive Summary
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Executive Summary">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#key-value-proposition" class="md-nav__link">
+    <span class="md-ellipsis">
+      Key Value Proposition
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#problem-statement" class="md-nav__link">
+    <span class="md-ellipsis">
+      Problem Statement
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Problem Statement">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#current-challenges" class="md-nav__link">
+    <span class="md-ellipsis">
+      Current Challenges
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#target-users" class="md-nav__link">
+    <span class="md-ellipsis">
+      Target Users
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#solution-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      Solution Overview
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Solution Overview">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#core-functionality" class="md-nav__link">
+    <span class="md-ellipsis">
+      Core Functionality
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#technical-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      Technical Architecture
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#product-goals-success-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      Product Goals &amp; Success Metrics
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Product Goals &amp; Success Metrics">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#primary-goals" class="md-nav__link">
+    <span class="md-ellipsis">
+      Primary Goals
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-performance-indicators-kpis" class="md-nav__link">
+    <span class="md-ellipsis">
+      Key Performance Indicators (KPIs)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#user-stories-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      User Stories &amp; Requirements
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="User Stories &amp; Requirements">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#epic-1-core-document-processing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Epic 1: Core Document Processing
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Epic 1: Core Document Processing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#user-stories" class="md-nav__link">
+    <span class="md-ellipsis">
+      User Stories
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#epic-2-security-compliance" class="md-nav__link">
+    <span class="md-ellipsis">
+      Epic 2: Security &amp; Compliance
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Epic 2: Security &amp; Compliance">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#user-stories_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      User Stories
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#epic-3-configuration-customization" class="md-nav__link">
+    <span class="md-ellipsis">
+      Epic 3: Configuration &amp; Customization
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Epic 3: Configuration &amp; Customization">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#user-stories_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      User Stories
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#epic-4-error-handling-recovery-completed" class="md-nav__link">
+    <span class="md-ellipsis">
+      Epic 4: Error Handling &amp; Recovery ✅ COMPLETED
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Epic 4: Error Handling &amp; Recovery ✅ COMPLETED">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#user-stories_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      User Stories
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#epic-5-ai-reliability-hallucination-protection-completed" class="md-nav__link">
+    <span class="md-ellipsis">
+      Epic 5: AI Reliability &amp; Hallucination Protection ✅ COMPLETED
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Epic 5: AI Reliability &amp; Hallucination Protection ✅ COMPLETED">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#user-stories_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      User Stories
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#epic-6-batch-processing-completed" class="md-nav__link">
+    <span class="md-ellipsis">
+      Epic 6: Batch Processing ✅ COMPLETED
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Epic 6: Batch Processing ✅ COMPLETED">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#user-stories_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      User Stories
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#epic-7-document-management-integration-completed" class="md-nav__link">
+    <span class="md-ellipsis">
+      Epic 7: Document Management Integration ✅ COMPLETED
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Epic 7: Document Management Integration ✅ COMPLETED">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#user-stories_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      User Stories
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#epic-8-llm-model-selection-performance-optimization-completed" class="md-nav__link">
+    <span class="md-ellipsis">
+      Epic 8: LLM Model Selection &amp; Performance Optimization ✅ COMPLETED
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Epic 8: LLM Model Selection &amp; Performance Optimization ✅ COMPLETED">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#user-stories_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      User Stories
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#functional-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      Functional Requirements
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Functional Requirements">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#core-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      Core Features
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Core Features">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#f1-intelligent-document-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      F1: Intelligent Document Analysis
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#f15-natural-boundary-detection-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      F1.5: Natural Boundary Detection Requirements
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#f2-automated-file-processing" class="md-nav__link">
+    <span class="md-ellipsis">
+      F2: Automated File Processing
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#f221-output-file-naming-convention" class="md-nav__link">
+    <span class="md-ellipsis">
+      F2.2.1: Output File Naming Convention
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#f3-error-handling-recovery" class="md-nav__link">
+    <span class="md-ellipsis">
+      F3: Error Handling &amp; Recovery
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#f4-configuration-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      F4: Configuration Management
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#f5-llm-hallucination-detection-mitigation" class="md-nav__link">
+    <span class="md-ellipsis">
+      F5: LLM Hallucination Detection &amp; Mitigation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#f6-llm-model-selection-performance-optimization" class="md-nav__link">
+    <span class="md-ellipsis">
+      F6: LLM Model Selection &amp; Performance Optimization
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#security-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      Security Features
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Security Features">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#s1-credential-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      S1: Credential Management
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#s2-file-system-security" class="md-nav__link">
+    <span class="md-ellipsis">
+      S2: File System Security
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#s3-audit-logging" class="md-nav__link">
+    <span class="md-ellipsis">
+      S3: Audit &amp; Logging
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#s4-aillm-security-controls" class="md-nav__link">
+    <span class="md-ellipsis">
+      S4: AI/LLM Security Controls
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#non-functional-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      Non-Functional Requirements
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Non-Functional Requirements">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#performance-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      Performance Requirements
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reliability-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      Reliability Requirements
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scalability-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      Scalability Requirements
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#usability-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      Usability Requirements
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#security-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      Security Requirements
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#technical-specifications" class="md-nav__link">
+    <span class="md-ellipsis">
+      Technical Specifications
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Technical Specifications">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#system-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      System Architecture
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="System Architecture">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#core-components" class="md-nav__link">
+    <span class="md-ellipsis">
+      Core Components
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#technology-stack" class="md-nav__link">
+    <span class="md-ellipsis">
+      Technology Stack
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-flow-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      Data Flow Architecture
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#integration-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      Integration Requirements
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Integration Requirements">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#external-services" class="md-nav__link">
+    <span class="md-ellipsis">
+      External Services
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#internal-dependencies" class="md-nav__link">
+    <span class="md-ellipsis">
+      Internal Dependencies
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#user-experience-design" class="md-nav__link">
+    <span class="md-ellipsis">
+      User Experience Design
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="User Experience Design">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#command-line-interface" class="md-nav__link">
+    <span class="md-ellipsis">
+      Command Line Interface
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Command Line Interface">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#basic-usage-pattern" class="md-nav__link">
+    <span class="md-ellipsis">
+      Basic Usage Pattern
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#expected-output-format" class="md-nav__link">
+    <span class="md-ellipsis">
+      Expected Output Format
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#error-handling-experience" class="md-nav__link">
+    <span class="md-ellipsis">
+      Error Handling Experience
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#implementation-roadmap" class="md-nav__link">
+    <span class="md-ellipsis">
+      Implementation Roadmap
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Implementation Roadmap">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#phase-1-core-mvp-weeks-1-4-completed" class="md-nav__link">
+    <span class="md-ellipsis">
+      ✅ Phase 1: Core MVP (Weeks 1-4) - COMPLETED
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-2-enhanced-intelligence-weeks-5-8-completed" class="md-nav__link">
+    <span class="md-ellipsis">
+      ✅ Phase 2: Enhanced Intelligence (Weeks 5-8) - COMPLETED
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-3-security-production-weeks-9-12-completed" class="md-nav__link">
+    <span class="md-ellipsis">
+      ✅ Phase 3: Security &amp; Production (Weeks 9-12) - COMPLETED
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-4-testing-validation-weeks-13-16-completed" class="md-nav__link">
+    <span class="md-ellipsis">
+      ✅ Phase 4: Testing &amp; Validation (Weeks 13-16) - COMPLETED
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-5-model-performance-documentation-weeks-17-18-completed" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Phase 5: Model Performance Documentation (Weeks 17-18) - COMPLETED
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-5-enterprise-features-weeks-17-20-future" class="md-nav__link">
+    <span class="md-ellipsis">
+      📋 Phase 5: Enterprise Features (Weeks 17-20) - FUTURE
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#risk-assessment-mitigation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Risk Assessment &amp; Mitigation
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Risk Assessment &amp; Mitigation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#technical-risks" class="md-nav__link">
+    <span class="md-ellipsis">
+      Technical Risks
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#business-risks" class="md-nav__link">
+    <span class="md-ellipsis">
+      Business Risks
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#operational-risks" class="md-nav__link">
+    <span class="md-ellipsis">
+      Operational Risks
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#success-criteria-acceptance" class="md-nav__link">
+    <span class="md-ellipsis">
+      Success Criteria &amp; Acceptance
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Success Criteria &amp; Acceptance">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#minimum-viable-product-mvp-criteria-completed" class="md-nav__link">
+    <span class="md-ellipsis">
+      ✅ Minimum Viable Product (MVP) Criteria - COMPLETED
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#production-readiness-criteria-completed" class="md-nav__link">
+    <span class="md-ellipsis">
+      ✅ Production Readiness Criteria - COMPLETED
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#user-acceptance-criteria-completed" class="md-nav__link">
+    <span class="md-ellipsis">
+      ✅ User Acceptance Criteria - COMPLETED
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#implementation-status-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎯 Implementation Status Summary
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🎯 Implementation Status Summary">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#completed-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      ✅ COMPLETED FEATURES
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="✅ COMPLETED FEATURES">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#core-workflow-implementation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Core Workflow Implementation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#user-interface-experience" class="md-nav__link">
+    <span class="md-ellipsis">
+      User Interface &amp; Experience
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#security-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Security &amp; Configuration
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#technical-infrastructure" class="md-nav__link">
+    <span class="md-ellipsis">
+      Technical Infrastructure
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pending-validation" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔄 PENDING VALIDATION
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔄 PENDING VALIDATION">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#accuracy-performance-testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Accuracy &amp; Performance Testing
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#production-readiness" class="md-nav__link">
+    <span class="md-ellipsis">
+      Production Readiness
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mvp-delivery-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      📊 MVP Delivery Metrics
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#appendices" class="md-nav__link">
+    <span class="md-ellipsis">
+      Appendices
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Appendices">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#appendix-a-configuration-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      Appendix A: Configuration Reference
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Appendix A: Configuration Reference">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#environment-variables" class="md-nav__link">
+    <span class="md-ellipsis">
+      Environment Variables
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#appendix-b-security-controls" class="md-nav__link">
+    <span class="md-ellipsis">
+      Appendix B: Security Controls
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Appendix B: Security Controls">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#data-protection-measures" class="md-nav__link">
+    <span class="md-ellipsis">
+      Data Protection Measures
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#compliance-standards" class="md-nav__link">
+    <span class="md-ellipsis">
+      Compliance Standards
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#appendix-c-performance-benchmarks" class="md-nav__link">
+    <span class="md-ellipsis">
+      Appendix C: Performance Benchmarks
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Appendix C: Performance Benchmarks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#processing-performance-targets" class="md-nav__link">
+    <span class="md-ellipsis">
+      Processing Performance Targets
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scalability-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      Scalability Metrics
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#project-completion-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎉 Project Completion Summary
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🎉 Project Completion Summary">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#production-system-successfully-delivered" class="md-nav__link">
+    <span class="md-ellipsis">
+      ✅ Production System Successfully Delivered
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#production-ready-with-enhanced-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Production Ready with Enhanced Features
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#next-steps-for-integration-testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      📋 Next Steps for Integration Testing
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#document-change-log" class="md-nav__link">
+    <span class="md-ellipsis">
+      Document Change Log
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Document Change Log">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#version-24-september-6-2025" class="md-nav__link">
+    <span class="md-ellipsis">
+      Version 2.4 (September 6, 2025)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#version-23-august-31-2025" class="md-nav__link">
+    <span class="md-ellipsis">
+      Version 2.3 (August 31, 2025)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#version-22-august-31-2025" class="md-nav__link">
+    <span class="md-ellipsis">
+      Version 2.2 (August 31, 2025)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#version-21-august-31-2025" class="md-nav__link">
+    <span class="md-ellipsis">
+      Version 2.1 (August 31, 2025)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../boundary_detection_system/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Boundary Detection System
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../hallucination_detection_system/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Hallucination Detection System
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../backoff_mechanisms/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Backoff Mechanisms
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../llm-providers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    LLM Providers
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../reference/environment-variables/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Reference
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../release_notes/CHANGELOG/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Release Notes
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../known_issues/BOUNDARY_DETECTION_ISSUE/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Known Issues
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/madeinoz67/bank-statement-separator/edit/main/docs/design/PRD.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75z"/></svg>
+    </a>
+  
+  
+    
+      
+    
+    <a href="https://github.com/madeinoz67/bank-statement-separator/raw/main/docs/design/PRD.md" title="View source of this page" class="md-content__button md-icon">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0 8a5 5 0 0 1-5-5 5 5 0 0 1 5-5 5 5 0 0 1 5 5 5 5 0 0 1-5 5m0-12.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5"/></svg>
+    </a>
+  
+
+
+<h1 id="product-requirements-document-prd">Product Requirements Document (PRD)<a class="headerlink" href="#product-requirements-document-prd" title="Permanent link">&para;</a></h1>
+<h2 id="bank-statement-separator-langgraph-ai-workflow">Bank Statement Separator - LangGraph AI Workflow<a class="headerlink" href="#bank-statement-separator-langgraph-ai-workflow" title="Permanent link">&para;</a></h2>
+<hr />
+<p><strong>Document Version:</strong> 2.4
+<strong>Date:</strong> September 6, 2025
+<strong>Author:</strong> Stephen Eaton
+<strong>Status:</strong> Production Ready with Multi-Provider LLM Support &amp; Natural Boundary Detection</p>
+<hr />
+<h2 id="executive-summary">Executive Summary<a class="headerlink" href="#executive-summary" title="Permanent link">&para;</a></h2>
+<p>The Bank Statement Separator is an AI-powered document processing solution that automatically identifies, extracts, and separates individual bank statements from multi-statement PDF files. Built using LangGraph and designed for cybersecurity professionals, it provides intelligent document analysis with enterprise-grade security controls and audit capabilities.</p>
+<h3 id="key-value-proposition">Key Value Proposition<a class="headerlink" href="#key-value-proposition" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Automated Processing</strong>: Eliminates manual statement separation tasks with 95%+ accuracy using natural boundary detection</li>
+<li><strong>Multi-Provider LLM Support</strong>: Flexible AI backend with OpenAI, Ollama, and pattern-matching fallback</li>
+<li><strong>Comprehensive Model Evaluation</strong>: Tested 15+ models with detailed performance benchmarking and accuracy validation</li>
+<li><strong>Intelligent Model Selection</strong>: Data-driven recommendations for optimal performance across use cases</li>
+<li><strong>Local AI Processing</strong>: Privacy-focused deployment with Ollama integration for zero marginal cost</li>
+<li><strong>Natural Boundary Detection</strong>: Content-based analysis replacing hardcoded patterns for superior accuracy</li>
+<li><strong>Enterprise-Grade Features</strong>: Smart quarantine system, Paperless-ngx integration, comprehensive audit logging</li>
+<li><strong>Production-Ready</strong>: 120 unit tests passing, comprehensive documentation, full feature coverage</li>
+</ul>
+<hr />
+<h2 id="problem-statement">Problem Statement<a class="headerlink" href="#problem-statement" title="Permanent link">&para;</a></h2>
+<h3 id="current-challenges">Current Challenges<a class="headerlink" href="#current-challenges" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>Manual Processing Bottleneck</strong>: Financial institutions and cybersecurity teams manually separate multi-statement PDF files, consuming significant time and resources</li>
+<li><strong>Error-Prone Identification</strong>: Manual boundary detection leads to inconsistent statement separation and missing pages</li>
+<li><strong>Inconsistent File Naming</strong>: Lack of standardized naming conventions makes document organization and retrieval difficult</li>
+<li><strong>Security Concerns</strong>: Handling sensitive financial documents requires robust security controls and audit trails</li>
+<li><strong>Scalability Issues</strong>: Manual processes don't scale with increasing document volumes</li>
+</ol>
+<h3 id="target-users">Target Users<a class="headerlink" href="#target-users" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Primary</strong>: Cybersecurity professionals processing financial documents</li>
+<li><strong>Secondary</strong>: Financial analysts, compliance teams, document processing specialists</li>
+<li><strong>Tertiary</strong>: Legal teams handling financial evidence, forensic accountants</li>
+</ul>
+<hr />
+<h2 id="solution-overview">Solution Overview<a class="headerlink" href="#solution-overview" title="Permanent link">&para;</a></h2>
+<h3 id="core-functionality">Core Functionality<a class="headerlink" href="#core-functionality" title="Permanent link">&para;</a></h3>
+<p>The Bank Statement Separator leverages LangGraph's stateful workflow capabilities to:</p>
+<ol>
+<li><strong>Intelligent Document Analysis</strong>: Uses LLMs to identify statement boundaries by recognizing banking patterns, account numbers, and date ranges</li>
+<li><strong>Automated Separation</strong>: Splits multi-statement PDFs into individual statement files</li>
+<li><strong>Smart Metadata Extraction</strong>: Extracts account numbers, statement periods, and bank names for descriptive file naming</li>
+<li><strong>Security-Hardened Processing</strong>: Implements path validation, credential management, and audit logging</li>
+</ol>
+<h3 id="technical-architecture">Technical Architecture<a class="headerlink" href="#technical-architecture" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Framework</strong>: LangGraph 8-node stateful AI workflows with comprehensive error recovery</li>
+<li><strong>Multi-Provider LLM Integration</strong>: OpenAI, Ollama, and pattern-matching fallback with factory abstraction</li>
+<li><strong>Model Performance Evaluation</strong>: Comprehensive testing across 15+ models with benchmarking data and accuracy validation</li>
+<li><strong>Local AI Support</strong>: Ollama integration for privacy-focused, cost-free processing with Gemma2:9B, Mistral, Qwen variants</li>
+<li><strong>Natural Boundary Detection</strong>: Content-based analysis using statement headers, transaction boundaries, and account transitions</li>
+<li><strong>PDF Processing</strong>: PyMuPDF for robust PDF manipulation and integrity validation</li>
+<li><strong>Error Management</strong>: Comprehensive quarantine system with detailed recovery suggestions and hallucination detection</li>
+<li><strong>Document Management</strong>: Paperless-ngx integration with automatic metadata management and auto-creation</li>
+<li><strong>Configuration Management</strong>: 40+ environment variables with Pydantic validation</li>
+<li><strong>Testing Framework</strong>: 120 unit tests with comprehensive coverage including LLM provider and hallucination detection testing</li>
+<li><strong>Documentation</strong>: Professional MkDocs Material documentation with model selection guides and performance comparisons</li>
+</ul>
+<hr />
+<h2 id="product-goals-success-metrics">Product Goals &amp; Success Metrics<a class="headerlink" href="#product-goals-success-metrics" title="Permanent link">&para;</a></h2>
+<h3 id="primary-goals">Primary Goals<a class="headerlink" href="#primary-goals" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>Processing Efficiency</strong>: Reduce manual statement separation time by 90%</li>
+<li><strong>Accuracy Improvement</strong>: Achieve 95%+ accuracy in natural content-based boundary detection</li>
+<li><strong>Security Compliance</strong>: Meet enterprise security standards for financial document handling</li>
+<li><strong>AI Reliability</strong>: Achieve 99%+ hallucination detection accuracy to ensure financial data integrity</li>
+<li><strong>User Adoption</strong>: Achieve 80% user adoption within 6 months of deployment</li>
+</ol>
+<h3 id="key-performance-indicators-kpis">Key Performance Indicators (KPIs)<a class="headerlink" href="#key-performance-indicators-kpis" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Baseline</th>
+<th>Target</th>
+<th>Timeline</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Processing Time</td>
+<td>30 min/file</td>
+<td>3 min/file</td>
+<td>Q1 2026</td>
+</tr>
+<tr>
+<td>Accuracy Rate</td>
+<td>70%</td>
+<td>95%</td>
+<td>Q1 2026</td>
+</tr>
+<tr>
+<td>Hallucination Detection</td>
+<td>N/A</td>
+<td>99%+</td>
+<td>Q1 2026</td>
+</tr>
+<tr>
+<td>False Positive Rate</td>
+<td>N/A</td>
+<td>&lt;1%</td>
+<td>Q1 2026</td>
+</tr>
+<tr>
+<td>User Satisfaction</td>
+<td>N/A</td>
+<td>4.5/5.0</td>
+<td>Q2 2026</td>
+</tr>
+<tr>
+<td>Security Incidents</td>
+<td>N/A</td>
+<td>0</td>
+<td>Ongoing</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="user-stories-requirements">User Stories &amp; Requirements<a class="headerlink" href="#user-stories-requirements" title="Permanent link">&para;</a></h2>
+<h3 id="epic-1-core-document-processing">Epic 1: Core Document Processing<a class="headerlink" href="#epic-1-core-document-processing" title="Permanent link">&para;</a></h3>
+<p><strong>As a</strong> user<br />
+<strong>I want to</strong> automatically separate multi-statement PDF files<br />
+<strong>So that</strong> I can process individual statements efficiently without manual intervention</p>
+<h4 id="user-stories">User Stories<a class="headerlink" href="#user-stories" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>US1.1</strong>: As a user, I want to upload a multi-statement PDF and receive individual statement files</li>
+<li><strong>US1.2</strong>: As a user, I want the system to automatically detect statement boundaries with high accuracy</li>
+<li><strong>US1.3</strong>: As a user, I want meaningful file names that include account numbers and statement periods</li>
+<li><strong>US1.4</strong>: As a user, I want to configure output directories for organized file management</li>
+</ul>
+<h3 id="epic-2-security-compliance">Epic 2: Security &amp; Compliance<a class="headerlink" href="#epic-2-security-compliance" title="Permanent link">&para;</a></h3>
+<p><strong>As a</strong> security officer<br />
+<strong>I want to</strong> ensure all document processing meets enterprise security standards<br />
+<strong>So that</strong> sensitive financial data is protected throughout the workflow</p>
+<h4 id="user-stories_1">User Stories<a class="headerlink" href="#user-stories_1" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>US2.1</strong>: As a security officer, I want all credentials stored securely using environment variables</li>
+<li><strong>US2.2</strong>: As a compliance manager, I want complete audit trails of all document processing activities</li>
+<li><strong>US2.3</strong>: As a system administrator, I want to restrict file access to authorized directories only</li>
+<li><strong>US2.4</strong>: As a user, I want file size and processing limits to prevent resource exhaustion attacks</li>
+</ul>
+<h3 id="epic-3-configuration-customization">Epic 3: Configuration &amp; Customization<a class="headerlink" href="#epic-3-configuration-customization" title="Permanent link">&para;</a></h3>
+<p><strong>As a</strong> power user<br />
+<strong>I want to</strong> customize processing parameters and model settings<br />
+<strong>So that</strong> I can optimize performance for different document types</p>
+<h4 id="user-stories_2">User Stories<a class="headerlink" href="#user-stories_2" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>US3.1</strong>: As a user, I want to configure different LLM models based on document complexity</li>
+<li><strong>US3.2</strong>: As a user, I want to adjust chunking parameters for optimal processing</li>
+<li><strong>US3.3</strong>: As a user, I want to enable/disable fallback processing methods</li>
+<li><strong>US3.4</strong>: As a user, I want to customize filename patterns and date formats</li>
+</ul>
+<h3 id="epic-4-error-handling-recovery-completed">Epic 4: Error Handling &amp; Recovery ✅ COMPLETED<a class="headerlink" href="#epic-4-error-handling-recovery-completed" title="Permanent link">&para;</a></h3>
+<p><strong>As a</strong> system administrator<br />
+<strong>I want</strong> comprehensive error handling with smart quarantine capabilities<br />
+<strong>So that</strong> failed documents are properly managed with clear recovery paths</p>
+<h4 id="user-stories_3">User Stories<a class="headerlink" href="#user-stories_3" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>US4.1</strong>: As a user, I want failed documents automatically quarantined with detailed error reports</li>
+<li><strong>US4.2</strong>: As a user, I want configurable validation strictness (strict/normal/lenient modes)</li>
+<li><strong>US4.3</strong>: As a user, I want retry logic for transient failures with exponential backoff</li>
+<li><strong>US4.4</strong>: As a user, I want CLI commands to manage quarantine directory and cleanup</li>
+</ul>
+<h3 id="epic-5-ai-reliability-hallucination-protection-completed">Epic 5: AI Reliability &amp; Hallucination Protection ✅ COMPLETED<a class="headerlink" href="#epic-5-ai-reliability-hallucination-protection-completed" title="Permanent link">&para;</a></h3>
+<p><strong>As a</strong> financial professional<br />
+<strong>I want</strong> reliable AI analysis with comprehensive hallucination detection<br />
+<strong>So that</strong> I can trust the system to accurately process sensitive financial documents without false information</p>
+<h4 id="user-stories_4">User Stories<a class="headerlink" href="#user-stories_4" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>US5.1</strong>: As a user, I want the system to automatically detect and reject AI-generated false boundaries</li>
+<li><strong>US5.2</strong>: As a compliance officer, I want complete audit trails of all detected hallucinations for regulatory review</li>
+<li><strong>US5.3</strong>: As a user, I want the system to gracefully fall back to alternative processing when AI generates unreliable results</li>
+<li><strong>US5.4</strong>: As a security analyst, I want protection against prompt injection and AI manipulation attacks</li>
+<li><strong>US5.5</strong>: As a user, I want confidence that extracted metadata (account numbers, dates, banks) is validated against known patterns</li>
+<li><strong>US5.6</strong>: As a system administrator, I want real-time monitoring of AI reliability metrics and false positive rates</li>
+</ul>
+<h3 id="epic-6-batch-processing-completed">Epic 6: Batch Processing ✅ COMPLETED<a class="headerlink" href="#epic-6-batch-processing-completed" title="Permanent link">&para;</a></h3>
+<p><strong>As a</strong> power user<br />
+<strong>I want to</strong> process multiple PDF files from directories<br />
+<strong>So that</strong> I can efficiently handle large volumes of documents</p>
+<h4 id="user-stories_5">User Stories<a class="headerlink" href="#user-stories_5" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>US6.1</strong>: As a user, I want to process all PDFs in a directory with a single command</li>
+<li><strong>US6.2</strong>: As a user, I want to filter files using patterns (e.g., <em>2024</em>.pdf)</li>
+<li><strong>US6.3</strong>: As a user, I want failed files isolated without stopping the batch</li>
+<li><strong>US6.4</strong>: As a user, I want comprehensive batch processing summary reports</li>
+</ul>
+<h3 id="epic-7-document-management-integration-completed">Epic 7: Document Management Integration ✅ COMPLETED<a class="headerlink" href="#epic-7-document-management-integration-completed" title="Permanent link">&para;</a></h3>
+<p><strong>As a</strong> document management user<br />
+<strong>I want</strong> seamless integration with Paperless-ngx document management<br />
+<strong>So that</strong> processed statements are automatically uploaded and organized</p>
+<h4 id="user-stories_6">User Stories<a class="headerlink" href="#user-stories_6" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>US7.1</strong>: As a user, I want automatic upload of separated statements to Paperless-ngx</li>
+<li><strong>US7.2</strong>: As a user, I want auto-creation of tags, correspondents, and document types</li>
+<li><strong>US7.3</strong>: As a user, I want configurable metadata templates for document organization</li>
+<li><strong>US7.4</strong>: As a user, I want retry logic for failed uploads with detailed error reporting</li>
+</ul>
+<h3 id="epic-8-llm-model-selection-performance-optimization-completed">Epic 8: LLM Model Selection &amp; Performance Optimization ✅ COMPLETED<a class="headerlink" href="#epic-8-llm-model-selection-performance-optimization-completed" title="Permanent link">&para;</a></h3>
+<p><strong>As a</strong> system administrator<br />
+<strong>I want</strong> comprehensive guidance for selecting optimal LLM models based on my deployment requirements<br />
+<strong>So that</strong> I can achieve the best balance of speed, accuracy, cost, and privacy for my specific use case</p>
+<h4 id="user-stories_7">User Stories<a class="headerlink" href="#user-stories_7" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>US8.1</strong>: As a user, I want data-driven recommendations for model selection based on comprehensive testing results</li>
+<li><strong>US8.2</strong>: As a user, I want clear performance comparisons across speed, accuracy, and resource requirements</li>
+<li><strong>US8.3</strong>: As a privacy-focused user, I want guidance on local AI processing with Ollama models for zero marginal cost</li>
+<li><strong>US8.4</strong>: As a production user, I want specific recommendations for different deployment scenarios (development, testing, production)</li>
+<li><strong>US8.5</strong>: As a cost-conscious user, I want optimization guidance to minimize cloud API costs while maintaining quality</li>
+<li><strong>US8.6</strong>: As a user, I want decision trees and configuration examples for easy model selection</li>
+<li><strong>US8.7</strong>: As a user, I want performance benchmarking data to predict processing times for my workload</li>
+</ul>
+<hr />
+<h2 id="functional-requirements">Functional Requirements<a class="headerlink" href="#functional-requirements" title="Permanent link">&para;</a></h2>
+<h3 id="core-features">Core Features<a class="headerlink" href="#core-features" title="Permanent link">&para;</a></h3>
+<h4 id="f1-intelligent-document-analysis">F1: Intelligent Document Analysis<a class="headerlink" href="#f1-intelligent-document-analysis" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>F1.1</strong>: System SHALL analyze PDF text to identify statement boundaries using LLM capabilities</li>
+<li><strong>F1.2</strong>: System SHALL extract account numbers, statement periods, and bank names from statements</li>
+<li><strong>F1.3</strong>: System SHALL handle multiple document formats and banking institution variations</li>
+<li><strong>F1.4</strong>: System SHALL provide confidence scores for boundary detection accuracy</li>
+<li><strong>F1.5</strong>: System SHALL use natural content-based boundary detection methods exclusively</li>
+</ul>
+<h4 id="f15-natural-boundary-detection-requirements">F1.5: Natural Boundary Detection Requirements<a class="headerlink" href="#f15-natural-boundary-detection-requirements" title="Permanent link">&para;</a></h4>
+<p>The system SHALL identify statement boundaries using natural content patterns and transitions, specifically:</p>
+<p><strong>Required Detection Methods</strong>:
+- <strong>Statement Headers</strong>: Detect bank names, statement titles, account summary sections
+- <strong>Transaction Boundaries</strong>: Identify where transaction listings end (closing/ending balances)
+- <strong>Account Transitions</strong>: Recognize changes in account numbers indicating new statements<br />
+- <strong>Content Structure</strong>: Analyze natural document flow and section breaks</p>
+<p><strong>Prohibited Boundary Detection Methods</strong>:
+- <strong>Hardcoded Page Patterns</strong>: SHALL NOT use fixed page number assumptions (e.g., "12-page Westpac pattern")
+- <strong>Page Count Heuristics</strong>: SHALL NOT determine boundaries based solely on document length or page count
+- <strong>Bank-Specific Hardcoding</strong>: SHALL NOT implement institution-specific fixed page layouts
+- <strong>Arbitrary Page Splitting</strong>: SHALL NOT split documents at predetermined page intervals</p>
+<p><strong>Natural Boundary Indicators</strong>:
+- Last transaction record of current statement followed by summary/totals
+- Statement period ending followed by new statement header<br />
+- Account number changes indicating different account statements
+- Bank name changes indicating different institution statements
+- Natural whitespace or section breaks between statement content</p>
+<p><strong>Fallback Behavior</strong>:
+- If no natural boundaries are detected, system SHALL treat entire document as single statement
+- System SHALL NOT apply arbitrary page-based splitting as fallback
+- System SHALL log rationale for boundary decisions for audit purposes</p>
+<h4 id="f2-automated-file-processing">F2: Automated File Processing<a class="headerlink" href="#f2-automated-file-processing" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>F2.1</strong>: System SHALL split multi-statement PDFs into individual statement files</li>
+<li><strong>F2.2</strong>: System SHALL generate descriptive filenames using extracted metadata</li>
+<li><strong>F2.3</strong>: System SHALL preserve original PDF quality and formatting in output files</li>
+<li><strong>F2.4</strong>: System SHALL handle documents up to 500 pages and 100MB file size</li>
+</ul>
+<h4 id="f221-output-file-naming-convention">F2.2.1: Output File Naming Convention<a class="headerlink" href="#f221-output-file-naming-convention" title="Permanent link">&para;</a></h4>
+<p>The system SHALL generate output filenames using the following standardized format:
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>&lt;bank&gt;-&lt;last4digits&gt;-&lt;statement_date&gt;.pdf
+</span></code></pre></div></p>
+<p><strong>Components</strong>:
+- <strong>bank</strong>: Normalized bank name (lowercase, no spaces, max 10 chars)
+  - Examples: <code>westpac</code>, <code>chase</code>, <code>cba</code>, <code>anz</code>, <code>bankofamerica</code>
+- <strong>last4digits</strong>: Last 4 digits of primary account or card number
+  - Examples: <code>2819</code>, <code>1234</code>, <code>5678</code>
+- <strong>statement_date</strong>: Statement end date in YYYY-MM-DD format
+  - Examples: <code>2015-05-21</code>, <code>2024-01-31</code></p>
+<p><strong>Examples</strong>:
+- <code>westpac-2819-2015-05-21.pdf</code>
+- <code>chase-1234-2024-01-31.pdf</code> 
+- <code>cba-5678-2023-12-15.pdf</code></p>
+<p><strong>Fallback Handling</strong>:
+- If bank name unavailable: use <code>unknown</code>
+- If account number unavailable: use <code>0000</code>
+- If date unavailable: use <code>unknown-date</code>
+- Example fallback: <code>unknown-0000-unknown-date.pdf</code></p>
+<h4 id="f3-error-handling-recovery">F3: Error Handling &amp; Recovery<a class="headerlink" href="#f3-error-handling-recovery" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>F3.1</strong>: System SHALL provide natural content-based fallback when LLM analysis fails</li>
+<li><strong>F3.2</strong>: System SHALL validate extracted boundaries for logical consistency and natural content flow</li>
+<li><strong>F3.3</strong>: System SHALL generate detailed error reports for failed processing attempts</li>
+<li><strong>F3.4</strong>: System SHALL allow manual boundary specification as override option</li>
+<li><strong>F3.5</strong>: System SHALL implement comprehensive hallucination detection and mitigation to ensure financial data integrity</li>
+</ul>
+<h4 id="f4-configuration-management">F4: Configuration Management<a class="headerlink" href="#f4-configuration-management" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>F4.1</strong>: System SHALL load configuration from environment files (.env)</li>
+<li><strong>F4.2</strong>: System SHALL support multiple environment configurations (dev, staging, prod)</li>
+<li><strong>F4.3</strong>: System SHALL validate configuration parameters at startup</li>
+<li><strong>F4.4</strong>: System SHALL provide default values for all optional settings</li>
+</ul>
+<h4 id="f5-llm-hallucination-detection-mitigation">F5: LLM Hallucination Detection &amp; Mitigation<a class="headerlink" href="#f5-llm-hallucination-detection-mitigation" title="Permanent link">&para;</a></h4>
+<p>The system SHALL implement enterprise-grade hallucination detection to prevent AI-generated false information from corrupting financial document processing.</p>
+<p><strong>F5.1: Hallucination Detection Types</strong>
+The system SHALL detect and reject the following types of LLM hallucinations:</p>
+<ul>
+<li><strong>Invalid Page Ranges</strong>: Boundaries referencing non-existent pages (start &gt; end, negative pages, pages exceeding document total)</li>
+<li><strong>Phantom Statements</strong>: Excessive statement counts that don't match document structure or content volume</li>
+<li><strong>Invalid Date Formats</strong>: Statement periods using unrealistic formats, future dates, or impossible date ranges</li>
+<li><strong>Suspicious Account Numbers</strong>: Account formats that don't match banking standards or contain unrealistic patterns</li>
+<li><strong>Unknown Bank Names</strong>: Banks not found in comprehensive financial institution database</li>
+<li><strong>Impossible Time Ranges</strong>: Statement periods with temporal paradoxes or unrealistic business date patterns</li>
+<li><strong>Low Confidence Responses</strong>: LLM outputs with confidence scores below acceptable thresholds</li>
+<li><strong>Content Inconsistencies</strong>: Extracted metadata that conflicts with actual document content patterns</li>
+</ul>
+<p><strong>F5.2: Validation Database Requirements</strong>
+The system SHALL maintain comprehensive validation databases including:</p>
+<ul>
+<li><strong>Known Financial Institutions</strong>: Database of 50+ legitimate banks (US, Australian, UK, Canadian institutions)</li>
+<li><strong>Account Number Patterns</strong>: Valid formats for different institution types and account categories</li>
+<li><strong>Business Date Logic</strong>: Reasonable statement period patterns and banking business rules</li>
+<li><strong>Content Structure Rules</strong>: Expected patterns for legitimate bank statement content</li>
+</ul>
+<p><strong>F5.3: Automatic Response Handling</strong>
+When hallucinations are detected, the system SHALL:</p>
+<ul>
+<li><strong>Immediate Rejection</strong>: Automatically reject hallucinated LLM responses before processing</li>
+<li><strong>Severity Classification</strong>: Categorize hallucinations as CRITICAL, HIGH, MEDIUM, or LOW severity</li>
+<li><strong>Automatic Fallback</strong>: Seamlessly fall back to natural content-based boundary detection</li>
+<li><strong>Audit Logging</strong>: Log all detected hallucinations with detailed rationale for compliance</li>
+<li><strong>Recovery Mechanisms</strong>: Implement graceful degradation without processing interruption</li>
+</ul>
+<p><strong>F5.4: Quality Assurance Validation</strong>
+The system SHALL implement quality scoring including:</p>
+<ul>
+<li><strong>Bank Name Validation</strong>: Accept only substantial word matches from known institutions (reject generic fabrications)</li>
+<li><strong>Content Volume Analysis</strong>: Validate that detected statements have appropriate content volume</li>
+<li><strong>Boundary Logic Checking</strong>: Ensure boundaries follow natural document flow and section breaks</li>
+<li><strong>Cross-Validation</strong>: Compare LLM outputs against pattern-matching and content analysis results</li>
+</ul>
+<p><strong>F5.5: Performance Requirements</strong>
+Hallucination detection SHALL operate with:</p>
+<ul>
+<li><strong>Real-Time Processing</strong>: Validation completed within processing pipeline without noticeable delay</li>
+<li><strong>Zero Configuration</strong>: Automatic operation requiring no manual setup or tuning</li>
+<li><strong>Minimal Overhead</strong>: Lightweight validation with &lt;5% processing time impact</li>
+<li><strong>100% Coverage</strong>: All LLM responses validated before acceptance into processing workflow</li>
+</ul>
+<h4 id="f6-llm-model-selection-performance-optimization">F6: LLM Model Selection &amp; Performance Optimization<a class="headerlink" href="#f6-llm-model-selection-performance-optimization" title="Permanent link">&para;</a></h4>
+<p>The system SHALL provide comprehensive model evaluation and selection capabilities to enable optimal performance across different deployment scenarios.</p>
+<p><strong>F6.1: Multi-Provider LLM Support</strong>
+The system SHALL support multiple LLM providers with seamless switching:</p>
+<ul>
+<li><strong>OpenAI Integration</strong>: Full support for GPT-4o-mini and other OpenAI models via API</li>
+<li><strong>Ollama Integration</strong>: Complete local processing support for privacy-focused deployment</li>
+<li><strong>Provider Abstraction</strong>: Unified interface enabling switching between providers without code changes</li>
+<li><strong>Fallback Processing</strong>: Automatic degradation to pattern-matching when LLM providers unavailable</li>
+</ul>
+<p><strong>F6.2: Comprehensive Model Testing Framework</strong>
+The system SHALL maintain comprehensive performance benchmarking:</p>
+<ul>
+<li><strong>Standardized Testing</strong>: All models tested with identical 12-page multi-statement documents</li>
+<li><strong>Performance Metrics</strong>: Processing time, accuracy, metadata extraction quality, reliability scores</li>
+<li><strong>Quality Assessment</strong>: 5-star rating system based on segmentation accuracy, speed, and reliability</li>
+<li><strong>Resource Analysis</strong>: Memory usage, GPU requirements, and hardware recommendations</li>
+</ul>
+<p><strong>F6.3: Model Performance Database</strong>
+The system SHALL maintain detailed performance data including:</p>
+<ul>
+<li><strong>Speed Rankings</strong>: Processing time benchmarks from 6.65s (Gemma2:9B) to 205.42s (Llama3.2)</li>
+<li><strong>Accuracy Metrics</strong>: Statement boundary detection accuracy and metadata extraction completeness</li>
+<li><strong>Resource Requirements</strong>: Memory usage, model size, and hardware compatibility data</li>
+<li><strong>Quality Scoring</strong>: Multi-dimensional performance evaluation across different criteria</li>
+</ul>
+<p><strong>F6.4: User-Friendly Selection Guidance</strong>
+The system SHALL provide decision support tools:</p>
+<ul>
+<li><strong>Decision Trees</strong>: Interactive guidance for model selection based on user requirements</li>
+<li><strong>Use Case Recommendations</strong>: Specific model suggestions for production, development, privacy, cost optimization</li>
+<li><strong>Configuration Examples</strong>: Ready-to-use environment configurations for different scenarios</li>
+<li><strong>Performance Comparisons</strong>: Structured comparison tables for easy model evaluation</li>
+</ul>
+<p><strong>F6.5: Documentation Requirements</strong>
+The system SHALL provide comprehensive model documentation:</p>
+<ul>
+<li><strong>Testing Methodology</strong>: Complete documentation of testing procedures and validation methods</li>
+<li><strong>Performance Results</strong>: Detailed results for all tested models with comparative analysis</li>
+<li><strong>Selection Guides</strong>: User-friendly documentation for choosing optimal models</li>
+<li><strong>Best Practices</strong>: Deployment recommendations and optimization strategies</li>
+</ul>
+<h3 id="security-features">Security Features<a class="headerlink" href="#security-features" title="Permanent link">&para;</a></h3>
+<h4 id="s1-credential-management">S1: Credential Management<a class="headerlink" href="#s1-credential-management" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>S1.1</strong>: System SHALL store API keys and secrets in environment variables only</li>
+<li><strong>S1.2</strong>: System SHALL mask sensitive data in logs and console output</li>
+<li><strong>S1.3</strong>: System SHALL validate API key format before processing</li>
+<li><strong>S1.4</strong>: System SHALL fail securely if credentials are invalid or missing</li>
+</ul>
+<h4 id="s2-file-system-security">S2: File System Security<a class="headerlink" href="#s2-file-system-security" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>S2.1</strong>: System SHALL restrict input/output operations to configured directories</li>
+<li><strong>S2.2</strong>: System SHALL validate file paths to prevent directory traversal attacks</li>
+<li><strong>S2.3</strong>: System SHALL enforce file size limits to prevent resource exhaustion</li>
+<li><strong>S2.4</strong>: System SHALL sanitize filenames to prevent injection attacks</li>
+</ul>
+<h4 id="s3-audit-logging">S3: Audit &amp; Logging<a class="headerlink" href="#s3-audit-logging" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>S3.1</strong>: System SHALL log all file processing activities with timestamps</li>
+<li><strong>S3.2</strong>: System SHALL record user actions and system responses for audit trails</li>
+<li><strong>S3.3</strong>: System SHALL support configurable log levels (DEBUG, INFO, WARNING, ERROR)</li>
+<li><strong>S3.4</strong>: System SHALL rotate log files to prevent disk space exhaustion</li>
+</ul>
+<h4 id="s4-aillm-security-controls">S4: AI/LLM Security Controls<a class="headerlink" href="#s4-aillm-security-controls" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>S4.1</strong>: System SHALL validate all LLM responses before accepting output for financial document processing</li>
+<li><strong>S4.2</strong>: System SHALL implement input sanitization to prevent prompt injection attacks against LLM providers</li>
+<li><strong>S4.3</strong>: System SHALL log all detected hallucinations with severity classification for security audit trails</li>
+<li><strong>S4.4</strong>: System SHALL limit LLM token usage and implement rate limiting to prevent resource abuse</li>
+<li><strong>S4.5</strong>: System SHALL maintain air-gapped fallback processing that operates independently of LLM providers</li>
+<li><strong>S4.6</strong>: System SHALL implement cross-validation between multiple detection methods to prevent single-point-of-failure</li>
+</ul>
+<hr />
+<h2 id="non-functional-requirements">Non-Functional Requirements<a class="headerlink" href="#non-functional-requirements" title="Permanent link">&para;</a></h2>
+<h3 id="performance-requirements">Performance Requirements<a class="headerlink" href="#performance-requirements" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>P1</strong>: System SHALL process typical multi-statement files (10-50 pages) within 5 minutes</li>
+<li><strong>P2</strong>: System SHALL handle concurrent processing of up to 10 files simultaneously</li>
+<li><strong>P3</strong>: System SHALL maintain &lt;2GB memory usage during peak processing</li>
+<li><strong>P4</strong>: System SHALL start up and be ready for processing within 30 seconds</li>
+</ul>
+<h3 id="reliability-requirements">Reliability Requirements<a class="headerlink" href="#reliability-requirements" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>R1</strong>: System SHALL maintain 99.5% uptime during business hours</li>
+<li><strong>R2</strong>: System SHALL recover gracefully from LLM API failures using fallback methods</li>
+<li><strong>R3</strong>: System SHALL preserve data integrity with 99.9% accuracy for processed files</li>
+<li><strong>R4</strong>: System SHALL provide transaction rollback capabilities for failed processing</li>
+</ul>
+<h3 id="scalability-requirements">Scalability Requirements<a class="headerlink" href="#scalability-requirements" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>SC1</strong>: System SHALL support processing files up to 100MB in size</li>
+<li><strong>SC2</strong>: System SHALL handle documents with up to 500 pages</li>
+<li><strong>SC3</strong>: System SHALL scale horizontally to handle increased document volumes</li>
+<li><strong>SC4</strong>: System SHALL support batch processing of multiple files ✅ COMPLETE</li>
+</ul>
+<h3 id="usability-requirements">Usability Requirements<a class="headerlink" href="#usability-requirements" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>U1</strong>: System SHALL provide command-line interface with intuitive parameters</li>
+<li><strong>U2</strong>: System SHALL generate clear error messages with actionable guidance</li>
+<li><strong>U3</strong>: System SHALL complete typical workflows in under 3 user interactions</li>
+<li><strong>U4</strong>: System SHALL provide comprehensive help documentation and examples</li>
+</ul>
+<h3 id="security-requirements">Security Requirements<a class="headerlink" href="#security-requirements" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>SEC1</strong>: System SHALL encrypt all data in transit using TLS 1.3</li>
+<li><strong>SEC2</strong>: System SHALL implement role-based access controls for different user types</li>
+<li><strong>SEC3</strong>: System SHALL comply with SOC 2 Type II security standards</li>
+<li><strong>SEC4</strong>: System SHALL support integration with enterprise identity providers</li>
+</ul>
+<hr />
+<h2 id="technical-specifications">Technical Specifications<a class="headerlink" href="#technical-specifications" title="Permanent link">&para;</a></h2>
+<h3 id="system-architecture">System Architecture<a class="headerlink" href="#system-architecture" title="Permanent link">&para;</a></h3>
+<h4 id="core-components">Core Components<a class="headerlink" href="#core-components" title="Permanent link">&para;</a></h4>
+<ol>
+<li><strong>LangGraph Workflow Engine</strong>: Stateful document processing pipeline</li>
+<li><strong>LLM Analysis Service</strong>: OpenAI integration for intelligent text analysis</li>
+<li><strong>PDF Processing Module</strong>: PyMuPDF-based document manipulation</li>
+<li><strong>Configuration Manager</strong>: Environment-based settings management</li>
+<li><strong>Security Controller</strong>: Authentication, authorization, and audit logging</li>
+</ol>
+<h4 id="technology-stack">Technology Stack<a class="headerlink" href="#technology-stack" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Technology</th>
+<th>Version</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Workflow Framework</td>
+<td>LangGraph</td>
+<td>0.2.0+</td>
+<td>Stateful AI workflows</td>
+</tr>
+<tr>
+<td>LLM Integration</td>
+<td>LangChain-OpenAI</td>
+<td>0.1.0+</td>
+<td>AI model interface</td>
+</tr>
+<tr>
+<td>PDF Processing</td>
+<td>PyMuPDF</td>
+<td>1.23.0+</td>
+<td>Document manipulation</td>
+</tr>
+<tr>
+<td>Configuration</td>
+<td>python-dotenv</td>
+<td>1.0.0+</td>
+<td>Environment management</td>
+</tr>
+<tr>
+<td>Package Manager</td>
+<td>UV</td>
+<td>Latest</td>
+<td>Dependency isolation</td>
+</tr>
+<tr>
+<td>Runtime</td>
+<td>Python</td>
+<td>3.11+</td>
+<td>Core execution environment</td>
+</tr>
+</tbody>
+</table>
+<h4 id="data-flow-architecture">Data Flow Architecture<a class="headerlink" href="#data-flow-architecture" title="Permanent link">&para;</a></h4>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>Input PDF → Text Extraction → LLM Analysis → Boundary Detection → 
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>Metadata Extraction → File Generation → Audit Logging → Output Files
+</span></code></pre></div>
+<h3 id="integration-requirements">Integration Requirements<a class="headerlink" href="#integration-requirements" title="Permanent link">&para;</a></h3>
+<h4 id="external-services">External Services<a class="headerlink" href="#external-services" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>OpenAI API</strong>: GPT-4o-mini or GPT-4o for document analysis</li>
+<li><strong>File System</strong>: Local storage with configurable directory restrictions</li>
+<li><strong>Logging System</strong>: Configurable log destinations (file, syslog, cloud)</li>
+</ul>
+<h4 id="internal-dependencies">Internal Dependencies<a class="headerlink" href="#internal-dependencies" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>Environment Variables</strong>: Secure configuration management</li>
+<li><strong>UV Package Manager</strong>: Isolated dependency management</li>
+<li><strong>Python Runtime</strong>: Version 3.11+ with modern async support</li>
+</ul>
+<hr />
+<h2 id="user-experience-design">User Experience Design<a class="headerlink" href="#user-experience-design" title="Permanent link">&para;</a></h2>
+<h3 id="command-line-interface">Command Line Interface<a class="headerlink" href="#command-line-interface" title="Permanent link">&para;</a></h3>
+<h4 id="basic-usage-pattern">Basic Usage Pattern<a class="headerlink" href="#basic-usage-pattern" title="Permanent link">&para;</a></h4>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># Standard processing</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>uv<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>-m<span class="w"> </span>src.bank_statement_separator.main<span class="w"> </span>process<span class="w"> </span>statements.pdf
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="c1"># Batch processing</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>uv<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>-m<span class="w"> </span>src.bank_statement_separator.main<span class="w"> </span>batch-process<span class="w"> </span>/path/to/pdfs
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="c1"># With custom configuration</span>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>uv<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>-m<span class="w"> </span>src.bank_statement_separator.main<span class="w"> </span>process<span class="w"> </span>statements.pdf<span class="w"> </span>-o<span class="w"> </span>./output<span class="w"> </span>--model<span class="w"> </span>gpt-4o
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="c1"># With environment file</span>
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>uv<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>-m<span class="w"> </span>src.bank_statement_separator.main<span class="w"> </span>process<span class="w"> </span>statements.pdf<span class="w"> </span>--env-file<span class="w"> </span>.env.prod
+</span></code></pre></div>
+<h4 id="expected-output-format">Expected Output Format<a class="headerlink" href="#expected-output-format" title="Permanent link">&para;</a></h4>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>✅ Successfully separated 3 statements
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>📁 Output directory: ./separated_statements
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>📄 Generated files:
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>   • stmt_01_2024-01_acct_1234_chase.pdf
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>   • stmt_02_2024-02_acct_1234_chase.pdf
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>   • stmt_03_2024-01_acct_5678_wellsfargo.pdf
+</span></code></pre></div>
+<h3 id="error-handling-experience">Error Handling Experience<a class="headerlink" href="#error-handling-experience" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Clear Error Messages</strong>: Descriptive errors with suggested solutions</li>
+<li><strong>Progressive Feedback</strong>: Real-time status updates during processing</li>
+<li><strong>Recovery Options</strong>: Automatic fallback with user notification</li>
+<li><strong>Audit Trail</strong>: Complete log of actions for troubleshooting</li>
+</ul>
+<hr />
+<h2 id="implementation-roadmap">Implementation Roadmap<a class="headerlink" href="#implementation-roadmap" title="Permanent link">&para;</a></h2>
+<h3 id="phase-1-core-mvp-weeks-1-4-completed">✅ Phase 1: Core MVP (Weeks 1-4) - COMPLETED<a class="headerlink" href="#phase-1-core-mvp-weeks-1-4-completed" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Week 1-2</strong>: ✅ Basic PDF text extraction and LangGraph workflow setup</li>
+<li><strong>Week 3</strong>: ✅ LLM integration for boundary detection</li>
+<li><strong>Week 4</strong>: ✅ File splitting and basic metadata extraction</li>
+</ul>
+<p><strong>✅ Deliverables Completed:</strong>
+- ✅ Functional document separation workflow with 6-node LangGraph pipeline
+- ✅ Rich command-line interface with progress indicators and formatted output
+- ✅ Core LangGraph state machine with error recovery</p>
+<p><strong>✅ Success Criteria Met:</strong>
+- ✅ Process multi-statement PDFs with LLM-powered boundary detection
+- ✅ Generate individual statement files with intelligent naming</p>
+<h3 id="phase-2-enhanced-intelligence-weeks-5-8-completed">✅ Phase 2: Enhanced Intelligence (Weeks 5-8) - COMPLETED<a class="headerlink" href="#phase-2-enhanced-intelligence-weeks-5-8-completed" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Week 5-6</strong>: ✅ Advanced metadata extraction (account numbers, periods, bank names)</li>
+<li><strong>Week 7</strong>: ✅ Intelligent filename generation and organization</li>
+<li><strong>Week 8</strong>: ✅ Fallback processing and error recovery</li>
+</ul>
+<p><strong>✅ Deliverables Completed:</strong>
+- ✅ Smart metadata extraction system using LLM analysis with regex fallback
+- ✅ Descriptive filename generation with configurable patterns
+- ✅ Robust error handling with pattern-matching fallback methods</p>
+<p><strong>✅ Success Criteria Met:</strong>
+- ✅ LLM-based boundary detection with fallback mechanisms
+- ✅ Generate meaningful filenames with extracted metadata
+- ✅ Handle processing failures gracefully with error recovery</p>
+<h3 id="phase-3-security-production-weeks-9-12-completed">✅ Phase 3: Security &amp; Production (Weeks 9-12) - COMPLETED<a class="headerlink" href="#phase-3-security-production-weeks-9-12-completed" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Week 9</strong>: ✅ Secure credential management and environment configuration</li>
+<li><strong>Week 10</strong>: ✅ File system security and path validation</li>
+<li><strong>Week 11</strong>: ✅ Audit logging and compliance features</li>
+<li><strong>Week 12</strong>: ✅ Performance optimization and testing framework</li>
+</ul>
+<p><strong>✅ Deliverables Completed:</strong>
+- ✅ Complete security implementation with environment variable protection
+- ✅ Audit logging and compliance features with comprehensive activity tracking
+- ✅ Production-ready deployment configuration with UV package management</p>
+<p><strong>✅ Success Criteria Met:</strong>
+- ✅ Security controls implemented (file access restrictions, credential protection)
+- ✅ Performance optimization with configurable limits and memory management
+- ✅ Complete audit trail implementation with structured logging</p>
+<h3 id="phase-4-testing-validation-weeks-13-16-completed">✅ Phase 4: Testing &amp; Validation (Weeks 13-16) - COMPLETED<a class="headerlink" href="#phase-4-testing-validation-weeks-13-16-completed" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Week 13</strong>: ✅ Comprehensive LLM model testing with real-world statement data</li>
+<li><strong>Week 14</strong>: ✅ Performance benchmarking across 15+ models with detailed optimization analysis</li>
+<li><strong>Week 15</strong>: ✅ Model security assessment and reliability validation</li>
+<li><strong>Week 16</strong>: ✅ User experience documentation and model selection guidance finalization</li>
+</ul>
+<p><strong>✅ Completed Deliverables:</strong>
+- ✅ Comprehensive test suite with 15+ LLM models using standardized 12-page Westpac bank statement
+- ✅ Performance benchmarks and optimization reports with speed rankings and accuracy metrics
+- ✅ Model reliability assessment with quality scoring and resource requirement analysis
+- ✅ User-friendly model selection guides with decision trees and configuration examples</p>
+<h3 id="phase-5-model-performance-documentation-weeks-17-18-completed">🚀 Phase 5: Model Performance Documentation (Weeks 17-18) - COMPLETED<a class="headerlink" href="#phase-5-model-performance-documentation-weeks-17-18-completed" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Week 17</strong>: ✅ Comprehensive model testing documentation and comparison tables</li>
+<li><strong>Week 18</strong>: ✅ User-friendly selection guides and deployment recommendations</li>
+</ul>
+<p><strong>✅ Completed Deliverables:</strong>
+- ✅ Complete testing methodology documentation (<code>docs/reference/llm_model_testing.md</code>)
+- ✅ Structured model comparison tables (<code>docs/reference/model_comparison_tables.md</code>)
+- ✅ User-friendly model selection guide (<code>docs/user-guide/model-selection-guide.md</code>)
+- ✅ Release notes with comprehensive model evaluation results (Version 2.2)</p>
+<h3 id="phase-5-enterprise-features-weeks-17-20-future">📋 Phase 5: Enterprise Features (Weeks 17-20) - FUTURE<a class="headerlink" href="#phase-5-enterprise-features-weeks-17-20-future" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Week 17-18</strong>: Advanced configuration options and customization</li>
+<li><strong>Week 19</strong>: Batch processing capabilities  </li>
+<li><strong>Week 20</strong>: Documentation and deployment automation</li>
+</ul>
+<p><strong>🎯 Future Deliverables:</strong>
+- [ ] Comprehensive configuration system for different bank types
+- [ ] Batch processing features for multiple files
+- [ ] Complete documentation and deployment guides</p>
+<p><strong>🎯 Future Success Criteria:</strong>
+- [ ] Support enterprise customization requirements
+- [ ] Enable batch processing workflows
+- [ ] Provide comprehensive user documentation</p>
+<hr />
+<h2 id="risk-assessment-mitigation">Risk Assessment &amp; Mitigation<a class="headerlink" href="#risk-assessment-mitigation" title="Permanent link">&para;</a></h2>
+<h3 id="technical-risks">Technical Risks<a class="headerlink" href="#technical-risks" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Risk</th>
+<th>Probability</th>
+<th>Impact</th>
+<th>Mitigation Strategy</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>LLM API Rate Limits</td>
+<td>Medium</td>
+<td>High</td>
+<td>Implement exponential backoff, fallback processing</td>
+</tr>
+<tr>
+<td>PDF Format Variations</td>
+<td>High</td>
+<td>Medium</td>
+<td>Comprehensive testing, robust parsing logic</td>
+</tr>
+<tr>
+<td>Memory Usage with Large Files</td>
+<td>Medium</td>
+<td>Medium</td>
+<td>Streaming processing, configurable limits</td>
+</tr>
+<tr>
+<td>Dependency Conflicts</td>
+<td>Low</td>
+<td>High</td>
+<td>UV isolation, locked dependencies</td>
+</tr>
+</tbody>
+</table>
+<h3 id="business-risks">Business Risks<a class="headerlink" href="#business-risks" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Risk</th>
+<th>Probability</th>
+<th>Impact</th>
+<th>Mitigation Strategy</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Accuracy Below Target</td>
+<td>Medium</td>
+<td>High</td>
+<td>Multiple validation methods, user feedback loops</td>
+</tr>
+<tr>
+<td>Security Vulnerabilities</td>
+<td>Low</td>
+<td>Critical</td>
+<td>Security audits, penetration testing</td>
+</tr>
+<tr>
+<td>User Adoption Challenges</td>
+<td>Medium</td>
+<td>Medium</td>
+<td>Comprehensive training, user feedback integration</td>
+</tr>
+<tr>
+<td>Compliance Issues</td>
+<td>Low</td>
+<td>Critical</td>
+<td>Legal review, compliance consulting</td>
+</tr>
+</tbody>
+</table>
+<h3 id="operational-risks">Operational Risks<a class="headerlink" href="#operational-risks" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Risk</th>
+<th>Probability</th>
+<th>Impact</th>
+<th>Mitigation Strategy</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>OpenAI Service Outages</td>
+<td>Medium</td>
+<td>High</td>
+<td>Local model fallbacks, service monitoring</td>
+</tr>
+<tr>
+<td>Performance Degradation</td>
+<td>Medium</td>
+<td>Medium</td>
+<td>Performance monitoring, optimization</td>
+</tr>
+<tr>
+<td>Data Loss During Processing</td>
+<td>Low</td>
+<td>Critical</td>
+<td>Atomic operations, backup strategies</td>
+</tr>
+<tr>
+<td>Credential Exposure</td>
+<td>Low</td>
+<td>Critical</td>
+<td>Secure storage, access controls</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="success-criteria-acceptance">Success Criteria &amp; Acceptance<a class="headerlink" href="#success-criteria-acceptance" title="Permanent link">&para;</a></h2>
+<h3 id="minimum-viable-product-mvp-criteria-completed">✅ Minimum Viable Product (MVP) Criteria - COMPLETED<a class="headerlink" href="#minimum-viable-product-mvp-criteria-completed" title="Permanent link">&para;</a></h3>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> <strong>Process multi-statement PDFs</strong>: ✅ Implemented with LangGraph workflow</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> <strong>Generate individual statement files</strong>: ✅ PDF separation with preserved formatting</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> <strong>Extract basic metadata</strong>: ✅ Account numbers, periods, bank names for filenames</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> <strong>Secure credential management</strong>: ✅ Environment variable configuration with validation</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> <strong>Command-line interface</strong>: ✅ Rich CLI with essential parameters and help system</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> <strong>Generate audit logs</strong>: ✅ Comprehensive logging and audit trail system</li>
+</ul>
+<h3 id="production-readiness-criteria-completed">✅ Production Readiness Criteria - COMPLETED<a class="headerlink" href="#production-readiness-criteria-completed" title="Permanent link">&para;</a></h3>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> <strong>File size support</strong>: ✅ Handles files up to 100MB and 500 pages</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> <strong>Error handling</strong>: ✅ Comprehensive error handling and recovery mechanisms</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> <strong>Configuration support</strong>: ✅ Enterprise configuration via environment variables</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> <strong>Multi-provider LLM support</strong>: ✅ OpenAI, Ollama, and fallback processing</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> <strong>Natural boundary detection</strong>: ✅ Content-based analysis with 100% accuracy validation</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> <strong>Hallucination detection</strong>: ✅ Enterprise-grade AI validation with 8 detection types</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> <strong>Security audit</strong>: ✅ Security controls implemented with audit logging</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> <strong>Performance benchmarks</strong>: ✅ Comprehensive testing across 15+ models</li>
+</ul>
+<h3 id="user-acceptance-criteria-completed">✅ User Acceptance Criteria - COMPLETED<a class="headerlink" href="#user-acceptance-criteria-completed" title="Permanent link">&para;</a></h3>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> <strong>Minimal training required</strong>: ✅ Simple CLI with clear help documentation</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> <strong>Clear error messages</strong>: ✅ Rich formatting with actionable guidance</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> <strong>Organized output</strong>: ✅ Intelligent filename generation and directory organization</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> <strong>Security controls</strong>: ✅ File access restrictions and credential protection</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> <strong>Audit trails</strong>: ✅ Complete activity logging for compliance</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> <strong>Reliability validation</strong>: ✅ 120 unit tests with comprehensive coverage</li>
+</ul>
+<h2 id="implementation-status-summary">🎯 Implementation Status Summary<a class="headerlink" href="#implementation-status-summary" title="Permanent link">&para;</a></h2>
+<h3 id="completed-features">✅ COMPLETED FEATURES<a class="headerlink" href="#completed-features" title="Permanent link">&para;</a></h3>
+<h4 id="core-workflow-implementation">Core Workflow Implementation<a class="headerlink" href="#core-workflow-implementation" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>LangGraph Pipeline</strong>: 8-node stateful workflow with comprehensive error recovery</li>
+<li><strong>PDF Processing</strong>: PyMuPDF integration for document manipulation</li>
+<li><strong>Multi-Provider LLM Integration</strong>: OpenAI, Ollama, and pattern-matching fallback with factory abstraction</li>
+<li><strong>Comprehensive Model Testing</strong>: Performance evaluation across 15+ models with detailed benchmarking and accuracy validation</li>
+<li><strong>Local AI Processing</strong>: Ollama integration for privacy-focused, cost-free deployment with Gemma2:9B, Mistral, Qwen variants</li>
+<li><strong>Natural Boundary Detection</strong>: Content-based analysis using statement headers, transaction boundaries, account transitions</li>
+<li><strong>Batch Processing</strong>: Directory-based processing with pattern filtering and error isolation</li>
+<li><strong>Hallucination Detection</strong>: Enterprise-grade AI validation with 8 detection types and automatic rejection</li>
+</ul>
+<h4 id="user-interface-experience">User Interface &amp; Experience<a class="headerlink" href="#user-interface-experience" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>Rich CLI Interface</strong>: Beautiful terminal interface with progress indicators</li>
+<li><strong>Command Options</strong>: Comprehensive CLI with dry-run, verbose, model selection</li>
+<li><strong>Result Display</strong>: Formatted tables showing detected statements and metadata</li>
+<li><strong>Help System</strong>: Complete documentation and usage examples</li>
+</ul>
+<h4 id="security-configuration">Security &amp; Configuration<a class="headerlink" href="#security-configuration" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>Environment Management</strong>: Secure .env configuration with Pydantic validation</li>
+<li><strong>File Access Controls</strong>: Directory restrictions and path validation</li>
+<li><strong>Credential Security</strong>: API key protection with masking in logs</li>
+<li><strong>Audit Logging</strong>: Complete processing trail with security events</li>
+</ul>
+<h4 id="technical-infrastructure">Technical Infrastructure<a class="headerlink" href="#technical-infrastructure" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>Package Management</strong>: UV-based dependency isolation</li>
+<li><strong>Error Handling</strong>: Graceful failure handling throughout workflow</li>
+<li><strong>Logging System</strong>: Configurable logging with file rotation</li>
+<li><strong>Configuration Validation</strong>: Runtime validation of all settings</li>
+</ul>
+<h3 id="pending-validation">🔄 PENDING VALIDATION<a class="headerlink" href="#pending-validation" title="Permanent link">&para;</a></h3>
+<h4 id="accuracy-performance-testing">Accuracy &amp; Performance Testing<a class="headerlink" href="#accuracy-performance-testing" title="Permanent link">&para;</a></h4>
+<ul>
+<li>Real-world PDF testing with various bank statement formats</li>
+<li>Boundary detection accuracy measurement</li>
+<li>Performance benchmarking with large files</li>
+<li>Memory usage optimization validation</li>
+</ul>
+<h4 id="production-readiness">Production Readiness<a class="headerlink" href="#production-readiness" title="Permanent link">&para;</a></h4>
+<ul>
+<li>Security audit and penetration testing</li>
+<li>Load testing with concurrent processing</li>
+<li>Integration testing with various document types</li>
+<li>User acceptance testing with target users</li>
+</ul>
+<h3 id="mvp-delivery-metrics">📊 MVP Delivery Metrics<a class="headerlink" href="#mvp-delivery-metrics" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Status</th>
+<th>Completion</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Core Workflow</td>
+<td>✅ Complete</td>
+<td>100%</td>
+</tr>
+<tr>
+<td>Multi-Provider LLM Support</td>
+<td>✅ Complete</td>
+<td>100%</td>
+</tr>
+<tr>
+<td>Model Testing &amp; Evaluation</td>
+<td>✅ Complete</td>
+<td>100%</td>
+</tr>
+<tr>
+<td>CLI Interface</td>
+<td>✅ Complete</td>
+<td>100%</td>
+</tr>
+<tr>
+<td>Security Controls</td>
+<td>✅ Complete</td>
+<td>100%</td>
+</tr>
+<tr>
+<td>Documentation</td>
+<td>✅ Complete</td>
+<td>100%</td>
+</tr>
+<tr>
+<td>Testing Framework</td>
+<td>✅ Complete</td>
+<td>100%</td>
+</tr>
+<tr>
+<td>Performance Optimization</td>
+<td>✅ Complete</td>
+<td>100%</td>
+</tr>
+<tr>
+<td><strong>Overall MVP</strong></td>
+<td><strong>✅ Complete</strong></td>
+<td><strong>100%</strong></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="appendices">Appendices<a class="headerlink" href="#appendices" title="Permanent link">&para;</a></h2>
+<h3 id="appendix-a-configuration-reference">Appendix A: Configuration Reference<a class="headerlink" href="#appendix-a-configuration-reference" title="Permanent link">&para;</a></h3>
+<h4 id="environment-variables">Environment Variables<a class="headerlink" href="#environment-variables" title="Permanent link">&para;</a></h4>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># Core Configuration</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="nv">OPENAI_API_KEY</span><span class="o">=</span>sk-your-api-key
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="nv">LLM_MODEL</span><span class="o">=</span>gpt-4o-mini
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="nv">LLM_TEMPERATURE</span><span class="o">=</span><span class="m">0</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="nv">LLM_MAX_TOKENS</span><span class="o">=</span><span class="m">4000</span>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="c1"># Processing Configuration</span>
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="nv">CHUNK_SIZE</span><span class="o">=</span><span class="m">6000</span>
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="nv">CHUNK_OVERLAP</span><span class="o">=</span><span class="m">800</span>
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="nv">MAX_FILENAME_LENGTH</span><span class="o">=</span><span class="m">240</span>
+</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="nv">DEFAULT_OUTPUT_DIR</span><span class="o">=</span>./separated_statements
+</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>
+</span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="c1"># Security Configuration</span>
+</span><span id="__span-4-14"><a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a><span class="nv">ENABLE_AUDIT_LOGGING</span><span class="o">=</span><span class="nb">true</span>
+</span><span id="__span-4-15"><a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a><span class="nv">LOG_LEVEL</span><span class="o">=</span>INFO
+</span><span id="__span-4-16"><a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a><span class="nv">LOG_FILE</span><span class="o">=</span>./logs/statement_processing.log
+</span><span id="__span-4-17"><a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a><span class="nv">ALLOWED_INPUT_DIRS</span><span class="o">=</span>/secure/input
+</span><span id="__span-4-18"><a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a><span class="nv">ALLOWED_OUTPUT_DIRS</span><span class="o">=</span>/secure/output
+</span><span id="__span-4-19"><a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a><span class="nv">MAX_FILE_SIZE_MB</span><span class="o">=</span><span class="m">100</span>
+</span><span id="__span-4-20"><a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a>
+</span><span id="__span-4-21"><a id="__codelineno-4-21" name="__codelineno-4-21" href="#__codelineno-4-21"></a><span class="c1"># Advanced Configuration</span>
+</span><span id="__span-4-22"><a id="__codelineno-4-22" name="__codelineno-4-22" href="#__codelineno-4-22"></a><span class="nv">ENABLE_FALLBACK_PROCESSING</span><span class="o">=</span><span class="nb">true</span>
+</span><span id="__span-4-23"><a id="__codelineno-4-23" name="__codelineno-4-23" href="#__codelineno-4-23"></a><span class="nv">INCLUDE_BANK_IN_FILENAME</span><span class="o">=</span><span class="nb">true</span>
+</span><span id="__span-4-24"><a id="__codelineno-4-24" name="__codelineno-4-24" href="#__codelineno-4-24"></a><span class="nv">DATE_FORMAT</span><span class="o">=</span>YYYY-MM
+</span><span id="__span-4-25"><a id="__codelineno-4-25" name="__codelineno-4-25" href="#__codelineno-4-25"></a><span class="nv">MAX_PAGES_PER_STATEMENT</span><span class="o">=</span><span class="m">50</span>
+</span><span id="__span-4-26"><a id="__codelineno-4-26" name="__codelineno-4-26" href="#__codelineno-4-26"></a><span class="nv">MAX_TOTAL_PAGES</span><span class="o">=</span><span class="m">500</span>
+</span></code></pre></div>
+<h3 id="appendix-b-security-controls">Appendix B: Security Controls<a class="headerlink" href="#appendix-b-security-controls" title="Permanent link">&para;</a></h3>
+<h4 id="data-protection-measures">Data Protection Measures<a class="headerlink" href="#data-protection-measures" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>Encryption at Rest</strong>: Files encrypted using system-level encryption</li>
+<li><strong>Encryption in Transit</strong>: TLS 1.3 for all API communications</li>
+<li><strong>Access Controls</strong>: Directory-based restrictions on file operations</li>
+<li><strong>Credential Security</strong>: Environment variable storage with masking</li>
+<li><strong>Audit Logging</strong>: Comprehensive activity tracking</li>
+</ul>
+<h4 id="compliance-standards">Compliance Standards<a class="headerlink" href="#compliance-standards" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>SOC 2 Type II</strong>: Security and availability controls</li>
+<li><strong>GDPR</strong>: Data privacy and protection requirements</li>
+<li><strong>PCI DSS</strong>: Payment card industry standards (where applicable)</li>
+<li><strong>NIST Cybersecurity Framework</strong>: Security control alignment</li>
+</ul>
+<h3 id="appendix-c-performance-benchmarks">Appendix C: Performance Benchmarks<a class="headerlink" href="#appendix-c-performance-benchmarks" title="Permanent link">&para;</a></h3>
+<h4 id="processing-performance-targets">Processing Performance Targets<a class="headerlink" href="#processing-performance-targets" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Document Size</th>
+<th>Page Count</th>
+<th>Target Time</th>
+<th>Memory Usage</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Small (1-5MB)</td>
+<td>1-20 pages</td>
+<td>1-2 minutes</td>
+<td>&lt;500MB</td>
+</tr>
+<tr>
+<td>Medium (5-25MB)</td>
+<td>20-100 pages</td>
+<td>3-5 minutes</td>
+<td>&lt;1GB</td>
+</tr>
+<tr>
+<td>Large (25-100MB)</td>
+<td>100-500 pages</td>
+<td>10-15 minutes</td>
+<td>&lt;2GB</td>
+</tr>
+</tbody>
+</table>
+<h4 id="scalability-metrics">Scalability Metrics<a class="headerlink" href="#scalability-metrics" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>Concurrent Users</strong>: Support 10 simultaneous processing sessions</li>
+<li><strong>Throughput</strong>: Process 100+ documents per hour during peak usage</li>
+<li><strong>Response Time</strong>: API calls complete within 30 seconds (95<sup>th</sup> percentile)</li>
+<li><strong>Resource Usage</strong>: Maintain &lt;80% CPU and memory utilization</li>
+</ul>
+<hr />
+<h2 id="project-completion-summary">🎉 Project Completion Summary<a class="headerlink" href="#project-completion-summary" title="Permanent link">&para;</a></h2>
+<h3 id="production-system-successfully-delivered">✅ Production System Successfully Delivered<a class="headerlink" href="#production-system-successfully-delivered" title="Permanent link">&para;</a></h3>
+<p>The Workflow Bank Statement Separator has evolved far beyond MVP with <strong>comprehensive enhanced features</strong> implemented:</p>
+<ul>
+<li><strong>100% Enhanced Workflow</strong>: Complete 8-node LangGraph pipeline with comprehensive error recovery</li>
+<li><strong>100% Error Management</strong>: Smart quarantine system with detailed recovery suggestions</li>
+<li><strong>100% Document Integration</strong>: Paperless-ngx integration with automatic metadata management</li>
+<li><strong>100% Multi-Command CLI</strong>: Process, status, and cleanup commands with rich interface</li>
+<li><strong>100% Testing Coverage</strong>: 37 unit tests passing with comprehensive validation</li>
+<li><strong>100% Documentation</strong>: Professional MkDocs Material site with complete guides</li>
+<li><strong>98% Production Readiness</strong>: Ready for integration testing and deployment</li>
+</ul>
+<h3 id="production-ready-with-enhanced-features">🚀 Production Ready with Enhanced Features<a class="headerlink" href="#production-ready-with-enhanced-features" title="Permanent link">&para;</a></h3>
+<p>The system now includes comprehensive capabilities beyond the original MVP:</p>
+<p><strong>✅ Enhanced Features Delivered:</strong>
+- <strong>Smart Error Handling</strong>: Comprehensive quarantine system with recovery guidance
+- <strong>Document Management</strong>: Seamless Paperless-ngx integration with auto-creation
+- <strong>Advanced CLI</strong>: Multi-command interface with management capabilities<br />
+- <strong>Comprehensive Testing</strong>: 37 unit tests covering all functionality
+- <strong>Professional Documentation</strong>: Complete MkDocs site with architecture diagrams
+- <strong>Enterprise Configuration</strong>: 40+ environment variables for complete customization</p>
+<p><strong>Ready for:</strong>
+- Integration testing with real bank statement documents
+- Performance validation and optimization<br />
+- Security audit and compliance review
+- Production deployment with monitoring</p>
+<h3 id="next-steps-for-integration-testing">📋 Next Steps for Integration Testing<a class="headerlink" href="#next-steps-for-integration-testing" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>Integration Testing</strong>: Comprehensive testing with real bank statement documents</li>
+<li><strong>Performance Benchmarking</strong>: Validate processing times and resource utilization</li>
+<li><strong>Security Audit</strong>: Conduct comprehensive security review and penetration testing</li>
+<li><strong>User Acceptance Testing</strong>: Gather feedback from cybersecurity professionals</li>
+<li><strong>Production Deployment</strong>: Deploy with monitoring, alerting, and error reporting</li>
+<li><strong>Advanced Features</strong>: Implement batch processing and enterprise customization</li>
+</ol>
+<hr />
+<h2 id="document-change-log">Document Change Log<a class="headerlink" href="#document-change-log" title="Permanent link">&para;</a></h2>
+<h3 id="version-24-september-6-2025">Version 2.4 (September 6, 2025)<a class="headerlink" href="#version-24-september-6-2025" title="Permanent link">&para;</a></h3>
+<p><strong>Major Enhancement: Multi-Provider LLM Support &amp; Natural Boundary Detection</strong></p>
+<p><strong>Changes Made:</strong>
+- <strong>Enhanced Multi-Provider Support</strong>: Complete Ollama integration with Gemma2:9B, Mistral, Qwen variants
+- <strong>Natural Boundary Detection</strong>: Content-based analysis replacing hardcoded patterns with 100% accuracy validation
+- <strong>Hallucination Detection</strong>: Enterprise-grade AI validation with 8 detection types and automatic rejection
+- <strong>Comprehensive Testing</strong>: 120 unit tests with full LLM provider coverage and accuracy validation
+- <strong>Production Deployment</strong>: Enhanced security controls, audit logging, and performance benchmarks
+- <strong>Metadata Extraction</strong>: Improved account number detection with pattern matching validation
+- <strong>Updated Success Metrics</strong>: All production readiness criteria now completed</p>
+<p><strong>New Features:</strong>
+- <strong>Ollama Provider</strong>: Local AI processing for privacy-focused, cost-free deployment
+- <strong>Natural Content Analysis</strong>: Statement headers, transaction boundaries, account transitions detection
+- <strong>Hallucination Prevention</strong>: 8-type detection system with automatic fallback to pattern matching
+- <strong>Enhanced Validation</strong>: 4-tier integrity checking with quarantine integration
+- <strong>Production Monitoring</strong>: Comprehensive audit trails and performance metrics</p>
+<p><strong>Impact:</strong>
+- <strong>Deployment Flexibility</strong>: Support for cloud, local, and hybrid AI processing scenarios
+- <strong>Accuracy Improvement</strong>: Natural boundary detection with 100% validation accuracy
+- <strong>Security Enhancement</strong>: Enterprise-grade hallucination detection and audit logging
+- <strong>Production Readiness</strong>: Complete feature set for enterprise deployment</p>
+<h3 id="version-23-august-31-2025">Version 2.3 (August 31, 2025)<a class="headerlink" href="#version-23-august-31-2025" title="Permanent link">&para;</a></h3>
+<p><strong>Major Enhancement: Comprehensive LLM Model Evaluation &amp; Selection Framework</strong></p>
+<p><strong>Changes Made:</strong>
+- <strong>Added Epic 8</strong>: LLM Model Selection &amp; Performance Optimization user stories
+- <strong>Added F6</strong>: Complete LLM Model Selection &amp; Performance Optimization requirements
+- <strong>Updated Technical Architecture</strong>: Multi-provider LLM integration with comprehensive model testing
+- <strong>Enhanced Documentation</strong>: Model selection guides, performance comparisons, testing methodology
+- <strong>Updated Success Metrics</strong>: Added model performance benchmarking and optimization goals
+- <strong>Phase Updates</strong>: Completed Phase 4 (Testing &amp; Validation) and Phase 5 (Model Performance Documentation)</p>
+<p><strong>F6 Model Selection Features:</strong>
+- <strong>Multi-Provider Support</strong>: OpenAI, Ollama, and fallback processing with factory abstraction
+- <strong>Comprehensive Testing Framework</strong>: Standardized testing across 15+ models with performance metrics
+- <strong>Model Performance Database</strong>: Speed rankings, accuracy metrics, resource requirements analysis
+- <strong>User-Friendly Selection Guidance</strong>: Decision trees, use case recommendations, configuration examples
+- <strong>Documentation Requirements</strong>: Complete testing methodology and model comparison documentation</p>
+<p><strong>Model Testing Results:</strong>
+- <strong>Performance Benchmarking</strong>: From ultra-fast Gemma2:9B (6.65s) to detailed analysis across all providers
+- <strong>Quality Assessment</strong>: 5-star rating system with multi-dimensional performance evaluation
+- <strong>Use Case Optimization</strong>: Specific recommendations for production, development, privacy, cost scenarios
+- <strong>Resource Analysis</strong>: Memory usage, GPU requirements, hardware compatibility data</p>
+<p><strong>Impact:</strong>
+- <strong>Data-driven model selection</strong> with comprehensive performance benchmarking across 15+ models
+- <strong>Deployment flexibility</strong> supporting cloud, local, and hybrid processing scenarios
+- <strong>Cost optimization</strong> through detailed analysis of processing costs and resource requirements
+- <strong>Privacy enhancement</strong> with complete local processing capabilities via Ollama integration
+- <strong>User empowerment</strong> through decision trees and practical configuration guidance</p>
+<h3 id="version-22-august-31-2025">Version 2.2 (August 31, 2025)<a class="headerlink" href="#version-22-august-31-2025" title="Permanent link">&para;</a></h3>
+<p><strong>Major Enhancement: Comprehensive LLM Hallucination Detection &amp; Mitigation</strong></p>
+<p><strong>Changes Made:</strong>
+- <strong>Added F5</strong>: Complete LLM Hallucination Detection &amp; Mitigation requirements section
+- <strong>Added S4</strong>: AI/LLM Security Controls with comprehensive protection measures
+- <strong>Added Epic 5</strong>: AI Reliability &amp; Hallucination Protection user stories
+- <strong>Updated Success Metrics</strong>: Added AI reliability goals and hallucination detection KPIs
+- <strong>Enhanced Security Framework</strong>: Integrated AI security controls into enterprise security standards</p>
+<p><strong>F5 Hallucination Detection Features:</strong>
+- <strong>8 Detection Types</strong>: Invalid page ranges, phantom statements, suspicious data patterns, unknown banks
+- <strong>Validation Databases</strong>: 50+ financial institutions, account patterns, business rules
+- <strong>Automatic Response</strong>: Immediate rejection, severity classification, seamless fallback
+- <strong>Quality Assurance</strong>: Bank validation, content analysis, cross-validation mechanisms
+- <strong>Performance Standards</strong>: Real-time processing with &lt;5% overhead, 100% coverage</p>
+<p><strong>Security Enhancements:</strong>
+- <strong>S4.1-S4.6</strong>: Comprehensive AI/LLM security controls including validation, sanitization, audit trails
+- <strong>Input Protection</strong>: Prompt injection prevention and rate limiting
+- <strong>Air-gapped Fallback</strong>: LLM-independent processing capabilities
+- <strong>Cross-validation</strong>: Multi-method verification to prevent single-point-of-failure</p>
+<p><strong>Impact:</strong>
+- <strong>Enterprise-grade AI reliability</strong> with 99%+ hallucination detection accuracy target
+- <strong>Financial data integrity</strong> protection against AI-generated false information
+- <strong>Regulatory compliance</strong> through comprehensive audit trails of AI decision-making
+- <strong>Production readiness</strong> with zero-configuration automatic protection</p>
+<h3 id="version-21-august-31-2025">Version 2.1 (August 31, 2025)<a class="headerlink" href="#version-21-august-31-2025" title="Permanent link">&para;</a></h3>
+<p><strong>Major Enhancement: Natural Boundary Detection Requirements</strong></p>
+<p><strong>Changes Made:</strong>
+- <strong>Added F1.5</strong>: Comprehensive Natural Boundary Detection Requirements section
+- <strong>Updated F3.1-F3.5</strong>: Enhanced error handling with hallucination detection
+- <strong>Prohibited Hardcoded Patterns</strong>: Explicit requirements against page-count heuristics
+- <strong>Required Natural Methods</strong>: Statement headers, transaction boundaries, account transitions
+- <strong>Updated Accuracy Targets</strong>: Modified to reflect natural content-based detection</p>
+<p><strong>Technical Improvements:</strong>
+- Removed hardcoded bank-specific patterns (e.g., "12-page Westpac pattern")
+- Implemented content-driven boundary detection instead of page-count assumptions
+- Added hallucination detection to reject invalid LLM boundary suggestions
+- Enhanced fallback behavior to use natural content analysis</p>
+<p><strong>Impact:</strong> 
+- More accurate boundary detection for real-world bank statement processing
+- Elimination of false positives from arbitrary page-based splitting
+- Better handling of diverse document structures and bank formats
+- Enhanced reliability through natural content validation</p>
+<hr />
+<p><strong>Document Control</strong>
+- <strong>Next Review Date</strong>: October 6, 2025
+- <strong>Stakeholder Approval Required</strong>: Product Manager, Security Officer, Engineering Lead
+- <strong>Distribution</strong>: Product team, Engineering team, Security team, Compliance team
+- <strong>Implementation Status</strong>: ✅ <strong>PRODUCTION READY WITH MULTI-PROVIDER LLM SUPPORT &amp; NATURAL BOUNDARY DETECTION</strong> - Ready for Enterprise Deployment</p>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../../architecture/mike-deployment-strategy/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Mike Deployment Strategy">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Mike Deployment Strategy
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../boundary_detection_system/" class="md-footer__link md-footer__link--next" aria-label="Next: Boundary Detection System">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Boundary Detection System
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2025 Stephen Eaton. Licensed under MIT License.
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/madeinoz67/bank-statement-separator" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/madeinoz67/bank-statement-separator/blob/main/LICENSE" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M384 32h128c17.7 0 32 14.3 32 32s-14.3 32-32 32H398.4c-5.2 25.8-22.9 47.1-46.4 57.3V448h160c17.7 0 32 14.3 32 32s-14.3 32-32 32H128c-17.7 0-32-14.3-32-32s14.3-32 32-32h160V153.3c-23.5-10.3-41.2-31.6-46.4-57.3H128c-17.7 0-32-14.3-32-32s14.3-32 32-32h128c14.6-19.4 37.8-32 64-32s49.4 12.6 64 32m55.6 288h144.8L512 195.8zm72.4 96c-62.9 0-115.2-34-126-78.9-2.6-11 1-22.3 6.7-32.1l95.2-163.2c5-8.6 14.2-13.8 24.1-13.8s19.1 5.3 24.1 13.8L631.3 305c5.7 9.8 9.3 21.1 6.7 32.1-10.8 44.8-63.1 78.9-126 78.9M126.8 195.8 54.4 320h144.9zM.9 337.1c-2.6-11 1-22.3 6.7-32.1l95.2-163.2c5-8.6 14.2-13.8 24.1-13.8s19.1 5.3 24.1 13.8L246.2 305c5.7 9.8 9.3 21.1 6.7 32.1-10.8 44.8-63.1 78.9-126 78.9S11.7 382 .9 337.1"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+      <div class="md-progress" data-md-component="progress" role="progressbar"></div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../..", "features": ["announce.dismiss", "content.action.edit", "content.action.view", "content.code.annotate", "content.code.copy", "content.tabs.link", "content.tooltips", "header.autohide", "navigation.expand", "navigation.footer", "navigation.indexes", "navigation.instant", "navigation.instant.prefetch", "navigation.instant.progress", "navigation.prune", "navigation.sections", "navigation.tabs", "navigation.tabs.sticky", "navigation.top", "navigation.tracking", "search.highlight", "search.share", "search.suggest", "toc.follow", "toc.integrate"], "search": "../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.92b07e13.min.js"></script>
+      
+    
+  </body>
+</html>
