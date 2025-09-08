@@ -156,12 +156,20 @@ flowchart TD
 - Repository dispatch events
 - Manual workflow dispatch
 
-**Enhanced Features:**
-- Intelligent deployment type detection
-- Version preservation (no branch reset)
-- Mike-based versioned documentation
-- Automatic version selector updates
-- Concurrency control to prevent conflicts
+**Recently Enhanced Features:**
+- **Enhanced Trigger Logic**: Comprehensive event type handling for all deployment scenarios
+- **Version Validation**: Semantic version format validation (X.Y.Z) before deployment
+- **Safety Checks**: Explicit no-deployment warnings prevent workflow no-ops
+- **Conflict Resolution**: Retry logic with exponential backoff for concurrent deployments
+- **Mike Integration**: Uses Mike's built-in version selector (removed conflicting custom JS)
+- **Comprehensive Logging**: Debug output for troubleshooting deployment issues
+- **Robust Error Handling**: Automatic conflict resolution and retry mechanisms
+
+**Key Improvements Made:**
+- **Fixed Version Selector Bug**: Removed conflicting custom JavaScript that prevented version dropdown from working
+- **Enhanced Workflow Logic**: Comprehensive trigger handling for push, release, dispatch, and manual events  
+- **Version Validation**: Prevents deployment of invalid version formats
+- **Concurrency Control**: Exclusive concurrency group prevents gh-pages conflicts
 
 ### 5. Dependency Review (`.github/workflows/dependency-review.yml`)
 
@@ -226,9 +234,16 @@ https://madeinoz67.github.io/bank-statement-separator/
 ### Version Selector
 
 The documentation includes a version selector in the header that allows users to:
-- Switch between documentation versions
+- Switch between documentation versions  
 - See all available versions
 - Access version-specific content
+
+**Recent Fix (Issue #18)**:
+The version selector was previously showing only "latest" due to conflicting custom JavaScript implementation. This has been resolved by:
+- Removing conflicting custom JavaScript (`docs/javascripts/version-selector.js`)
+- Removing conflicting custom CSS (`docs/stylesheets/version-selector.css`) 
+- Activating Mike's built-in version selector with `extra.version.provider: mike`
+- The version selector now properly displays all available versions (latest, v0.1.4, v0.2.0, etc.)
 
 ### Pull Request Template (`.github/PULL_REQUEST_TEMPLATE.md`)
 Standardized PR template with:
