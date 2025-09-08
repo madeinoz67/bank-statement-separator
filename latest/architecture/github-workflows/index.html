@@ -378,6 +378,24 @@
       4. Documentation Versioned Workflow (docs-versioned.yml)
     </span>
 </a>
+<nav aria-label="4. Documentation Versioned Workflow (docs-versioned.yml)" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#enhanced-trigger-logic-safety-checks">
+<span class="md-ellipsis">
+      Enhanced Trigger Logic &amp; Safety Checks
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#key-workflow-features">
+<span class="md-ellipsis">
+      Key Workflow Features
+    </span>
+</a>
+</li>
+</ul>
+</nav>
 </li>
 <li class="md-nav__item">
 <a class="md-nav__link" href="#5-dependency-review-workflow-dependency-reviewyml">
@@ -864,57 +882,83 @@
     class PartialSuccess,WorkflowPartial,DocsDispatchFailed warningStyle
 </code></pre>
 <h3 id="4-documentation-versioned-workflow-docs-versionedyml">4. Documentation Versioned Workflow (<code>docs-versioned.yml</code>)<a class="headerlink" href="#4-documentation-versioned-workflow-docs-versionedyml" title="Permanent link">¶</a></h3>
+<h4 id="enhanced-trigger-logic-safety-checks">Enhanced Trigger Logic &amp; Safety Checks<a class="headerlink" href="#enhanced-trigger-logic-safety-checks" title="Permanent link">¶</a></h4>
+<p>The docs-versioned workflow has been significantly improved with robust trigger logic and comprehensive safety checks:</p>
+<p><strong>Key Improvements:</strong>
+- <strong>Enhanced Trigger Logic</strong>: Proper handling of all event types (push, release, repository_dispatch, workflow_dispatch)
+- <strong>Version Validation</strong>: Validates semantic version format before deployment
+- <strong>Conflict Resolution</strong>: Retry logic with exponential backoff for concurrent deployments
+- <strong>Safety Checks</strong>: Prevents no-op deployments with explicit verification
+- <strong>Comprehensive Logging</strong>: Debug output for troubleshooting deployment issues</p>
 <pre class="mermaid"><code>flowchart TD
-    %% Triggers
+    %% Triggers with Enhanced Logic
     PushMain[📥 Push to Main<br/>docs/** changes] --&gt; DocsStart[📚 Docs Versioned<br/>Workflow Start]
     ReleaseCreated[📥 Release Created<br/>published event] --&gt; DocsStart
     RepoDispatch[📥 Repository Dispatch<br/>release-triggered] --&gt; DocsStart
     ManualDispatch[📥 Manual Dispatch<br/>version input] --&gt; DocsStart
 
-    %% Concurrency Control
+    %% Enhanced Deployment Type Determination
     DocsStart --&gt; ConcurrencyCheck[🔄 Concurrency Control<br/>docs-deployment-gh-pages]
-    ConcurrencyCheck --&gt; DetermineType[🎯 Determine Deployment Type<br/>Latest vs Versioned]
+    ConcurrencyCheck --&gt; DetermineType[🎯 Enhanced Deployment Logic<br/>Comprehensive Event Analysis]
 
-    %% Deployment Type Logic
-    DetermineType --&gt; DeploymentCheck{📋 Deployment Type?}
-    DeploymentCheck --&gt;|📄 Latest| LatestDeploy[📄 Deploy Latest Job<br/>Main Branch Changes]
-    DeploymentCheck --&gt;|🏷️ Versioned| VersionedDeploy[🏷️ Deploy Version Job<br/>Release Trigger]
+    %% Improved Decision Logic
+    DetermineType --&gt; TriggerAnalysis{🔍 Trigger Analysis}
+    TriggerAnalysis --&gt;|Push to Main| DeployLatest[📄 Deploy Latest<br/>Documentation Changes]
+    TriggerAnalysis --&gt;|Release Event| ExtractReleaseVersion[📋 Extract Release Version<br/>From release.tag_name]
+    TriggerAnalysis --&gt;|Repository Dispatch| ExtractDispatchVersion[📋 Extract Dispatch Version<br/>From client_payload.tag]
+    TriggerAnalysis --&gt;|Manual Latest| DeployLatest
+    TriggerAnalysis --&gt;|Manual Version| ExtractManualVersion[📋 Extract Manual Version<br/>From inputs.version]
+
+    %% Version Processing
+    ExtractReleaseVersion --&gt; ValidateVersion[✅ Validate Version Format<br/>Semantic Versioning Check]
+    ExtractDispatchVersion --&gt; ValidateVersion
+    ExtractManualVersion --&gt; ValidateVersion
+
+    ValidateVersion --&gt; VersionCheck{📋 Version Valid?}
+    VersionCheck --&gt;|❌ Invalid| ValidationFailed[❌ Version Validation Failed<br/>Invalid Format]
+    VersionCheck --&gt;|✅ Valid| DeployVersioned[🏷️ Deploy Versioned Docs<br/>New Version Release]
+
+    %% Safety Check Job
+    DetermineType --&gt; SafetyCheck[🛡️ Safety Check Job<br/>Prevent No-Op Deployments]
+    SafetyCheck --&gt; ShouldDeploy{🤔 Should Deploy?}
+    ShouldDeploy --&gt;|❌ No| WarnNoDeployment[⚠️ Warn No Deployment<br/>Event Type Not Handled]
+    ShouldDeploy --&gt;|✅ Yes| ProceedDeployment[✅ Proceed with Deployment<br/>Event Matches Trigger Logic]
 
     %% Latest Documentation Deployment
-    LatestDeploy --&gt; LatestSetup[⚙️ Setup Latest Environment<br/>UV + Python 3.12]
+    DeployLatest --&gt; LatestSetup[⚙️ Setup Latest Environment<br/>UV + Python 3.12]
     LatestSetup --&gt; LatestSync[🔄 Sync Dependencies<br/>uv sync]
     LatestSync --&gt; LatestGitConfig[⚙️ Configure Git<br/>GitHub Action credentials]
 
-    LatestGitConfig --&gt; FetchGHPages1[📡 Fetch gh-pages Branch<br/>Latest state]
-    FetchGHPages1 --&gt; MikeLatestLocal[📚 Mike Deploy Local<br/>No push, local only]
-    MikeLatestLocal --&gt; SetDefaultLocal[🎯 Set Default Local<br/>mike set-default latest]
+    LatestGitConfig --&gt; FetchGHPages1[📡 Fetch gh-pages Branch<br/>Conflict Prevention]
+    FetchGHPages1 --&gt; MikeLatestLocal[📚 Mike Deploy Latest Local<br/>update-aliases + set-default]
 
-    SetDefaultLocal --&gt; RetryLoop1[🔄 Retry Loop with<br/>Exponential Backoff]
-    RetryLoop1 --&gt; PushAttempt1[📤 Push Attempt<br/>git push origin gh-pages]
-    PushAttempt1 --&gt; PushResult1{📤 Push Success?}
+    %% Enhanced Retry Logic for Latest
+    MikeLatestLocal --&gt; LatestRetryLoop[🔄 Enhanced Retry Loop<br/>Max 3 Attempts, Exponential Backoff]
+    LatestRetryLoop --&gt; LatestPushAttempt[📤 Latest Push Attempt<br/>git push origin gh-pages]
+    LatestPushAttempt --&gt; LatestPushResult{📤 Push Success?}
 
-    PushResult1 --&gt;|✅ Success| LatestComplete[✅ Latest Docs Deployed<br/>GitHub Pages Updated]
-    PushResult1 --&gt;|❌ Failed| ConflictResolve1[🔄 Resolve Conflicts<br/>Rebase or Reset]
-    ConflictResolve1 --&gt; MikeLatestLocal
+    LatestPushResult --&gt;|✅ Success| LatestComplete[✅ Latest Docs Deployed<br/>Default Version Updated]
+    LatestPushResult --&gt;|❌ Failed| LatestConflictResolve[🔄 Resolve Latest Conflicts<br/>Rebase + Re-deploy]
+    LatestConflictResolve --&gt; MikeLatestLocal
 
     %% Versioned Documentation Deployment
-    VersionedDeploy --&gt; VersionedSetup[⚙️ Setup Versioned Environment<br/>UV + Python 3.12]
+    DeployVersioned --&gt; VersionedSetup[⚙️ Setup Versioned Environment<br/>UV + Python 3.12]
     VersionedSetup --&gt; VersionedSync[🔄 Sync Dependencies<br/>uv sync]
     VersionedSync --&gt; VersionedGitConfig[⚙️ Configure Git<br/>GitHub Action credentials]
 
-    VersionedGitConfig --&gt; ExtractVersion[📋 Extract Version<br/>From tag/input]
-    ExtractVersion --&gt; FetchGHPages2[📡 Fetch gh-pages Branch<br/>Latest state]
-    FetchGHPages2 --&gt; MikeVersionedLocal[📚 Mike Deploy Local<br/>No push, local only]
+    VersionedGitConfig --&gt; FetchGHPages2[📡 Fetch gh-pages Branch<br/>Conflict Prevention]
+    FetchGHPages2 --&gt; MikeVersionedLocal[📚 Mike Deploy Version Local<br/>update-aliases for vX.Y.Z]
 
-    MikeVersionedLocal --&gt; RetryLoop2[🔄 Retry Loop with<br/>Exponential Backoff]
-    RetryLoop2 --&gt; PushAttempt2[📤 Push Attempt<br/>git push origin gh-pages]
-    PushAttempt2 --&gt; PushResult2{📤 Push Success?}
+    %% Enhanced Retry Logic for Versioned
+    MikeVersionedLocal --&gt; VersionedRetryLoop[🔄 Enhanced Retry Loop<br/>Max 3 Attempts, Exponential Backoff]
+    VersionedRetryLoop --&gt; VersionedPushAttempt[📤 Versioned Push Attempt<br/>git push origin gh-pages]
+    VersionedPushAttempt --&gt; VersionedPushResult{📤 Push Success?}
 
-    PushResult2 --&gt;|✅ Success| VersionedComplete[✅ Versioned Docs Deployed<br/>New Version Available]
-    PushResult2 --&gt;|❌ Failed| ConflictResolve2[🔄 Resolve Conflicts<br/>Rebase or Reset]
-    ConflictResolve2 --&gt; MikeVersionedLocal
+    VersionedPushResult --&gt;|✅ Success| VersionedComplete[✅ Versioned Docs Deployed<br/>New Version Available]
+    VersionedPushResult --&gt;|❌ Failed| VersionedConflictResolve[🔄 Resolve Version Conflicts<br/>Rebase + Re-deploy]
+    VersionedConflictResolve --&gt; MikeVersionedLocal
 
-    %% Error Handling
+    %% Comprehensive Error Handling
     LatestSetup --&gt; LatestError{❌ Setup Error?}
     VersionedSetup --&gt; VersionedError{❌ Setup Error?}
 
@@ -924,43 +968,64 @@
     VersionedError --&gt;|✅ Success| VersionedSync
     VersionedError --&gt;|❌ Failed| VersionedFailed[❌ Versioned Deploy Failed<br/>Environment Setup Error]
 
-    MikeLatest --&gt; LatestMikeResult{📚 Mike Success?}
-    MikeVersioned --&gt; VersionedMikeResult{📚 Mike Success?}
+    %% Final Success States
+    LatestComplete --&gt; LogLatestSuccess[📝 Log Latest Success<br/>GitHub Pages Updated]
+    VersionedComplete --&gt; LogVersionedSuccess[📝 Log Versioned Success<br/>Version URL Available]
 
-    LatestMikeResult --&gt;|❌ Failed| LatestMikeFailed[❌ Latest Mike Failed<br/>Deployment Error]
-    LatestMikeResult --&gt;|✅ Success| SetDefault
+    LogLatestSuccess --&gt; DocsSuccess[✅ Documentation Workflow Complete<br/>All Systems Updated]
+    LogVersionedSuccess --&gt; DocsSuccess
 
-    VersionedMikeResult --&gt;|❌ Failed| VersionedMikeFailed[❌ Versioned Mike Failed<br/>Deployment Error]
-    VersionedMikeResult --&gt;|✅ Success| UpdateAliases
-
-    %% Final States
-    LatestComplete --&gt; DocsSuccess[✅ Documentation Workflow<br/>Successfully Complete]
-    VersionedComplete --&gt; DocsSuccess
-
-    LatestFailed --&gt; DocsFailed[❌ Documentation Workflow Failed]
+    %% Final Error States
+    ValidationFailed --&gt; DocsFailed[❌ Documentation Workflow Failed]
+    WarnNoDeployment --&gt; DocsSkipped[⏭️ Documentation Workflow Skipped]
+    LatestFailed --&gt; DocsFailed
     VersionedFailed --&gt; DocsFailed
-    LatestMikeFailed --&gt; DocsFailed
-    VersionedMikeFailed --&gt; DocsFailed
 
-    %% Integration with Other Workflows
-    DocsSuccess --&gt; UpdateGitHubPages[🌐 GitHub Pages Updated<br/>New Documentation Live]
-    UpdateGitHubPages --&gt; NotifyComplete[📧 Notify Completion<br/>Documentation Available]
+    %% Integration Points
+    DocsSuccess --&gt; UpdateGitHubPages[🌐 GitHub Pages Updated<br/>Documentation Live]
+    UpdateGitHubPages --&gt; VersionSelectorUpdate[🔄 Version Selector Updated<br/>Mike Built-in Functionality]
 
     %% Styling
     classDef triggerStyle fill:#e1f5fe,stroke:#01579b,stroke-width:2px
     classDef processStyle fill:#e8f5e8,stroke:#2e7d32,stroke-width:2px
     classDef deployStyle fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px
     classDef mikeStyle fill:#fff8e1,stroke:#f57f17,stroke-width:2px
+    classDef validationStyle fill:#e8eaf6,stroke:#3f51b5,stroke-width:2px
+    classDef retryStyle fill:#fff3e0,stroke:#ff9800,stroke-width:2px
     classDef successStyle fill:#e0f2f1,stroke:#00695c,stroke-width:2px
     classDef errorStyle fill:#ffebee,stroke:#c62828,stroke-width:2px
+    classDef warningStyle fill:#fffde7,stroke:#f9a825,stroke-width:2px
+    classDef skipStyle fill:#f5f5f5,stroke:#757575,stroke-width:2px
 
     class PushMain,ReleaseCreated,RepoDispatch,ManualDispatch triggerStyle
-    class DocsStart,ConcurrencyCheck,DetermineType processStyle
-    class LatestDeploy,VersionedDeploy,LatestSetup,VersionedSetup deployStyle
-    class MikeLatest,MikeVersioned,SetDefault,UpdateAliases mikeStyle
-    class DocsSuccess,LatestComplete,VersionedComplete,UpdateGitHubPages successStyle
-    class LatestFailed,VersionedFailed,DocsFailed errorStyle
+    class DocsStart,ConcurrencyCheck,DetermineType,TriggerAnalysis,SafetyCheck processStyle
+    class DeployLatest,DeployVersioned,LatestSetup,VersionedSetup deployStyle
+    class MikeLatestLocal,MikeVersionedLocal mikeStyle
+    class ValidateVersion,VersionCheck,ExtractReleaseVersion,ExtractDispatchVersion,ExtractManualVersion validationStyle
+    class LatestRetryLoop,VersionedRetryLoop,LatestConflictResolve,VersionedConflictResolve retryStyle
+    class DocsSuccess,LatestComplete,VersionedComplete,UpdateGitHubPages,VersionSelectorUpdate successStyle
+    class ValidationFailed,LatestFailed,VersionedFailed,DocsFailed errorStyle
+    class WarnNoDeployment warningStyle
+    class DocsSkipped skipStyle
 </code></pre>
+<h4 id="key-workflow-features">Key Workflow Features<a class="headerlink" href="#key-workflow-features" title="Permanent link">¶</a></h4>
+<p><strong>Enhanced Trigger Logic:</strong>
+- <strong>Push to Main</strong>: Automatically deploys <code>latest</code> documentation for docs changes
+- <strong>Release Events</strong>: Extracts version from <code>release.tag_name</code> and deploys versioned docs
+- <strong>Repository Dispatch</strong>: Handles <code>release-triggered</code> events from release workflow
+- <strong>Manual Dispatch</strong>: Supports both "latest" and specific version deployments</p>
+<p><strong>Version Validation:</strong>
+- Validates semantic versioning format (X.Y.Z or X.Y.Z-suffix)
+- Prevents deployment of invalid version formats
+- Comprehensive error reporting for validation failures</p>
+<p><strong>Conflict Resolution:</strong>
+- Robust retry logic with exponential backoff (3 attempts)
+- Automatic conflict resolution via rebase/reset
+- Prevents concurrent deployment conflicts with exclusive concurrency group</p>
+<p><strong>Safety &amp; Monitoring:</strong>
+- Explicit no-deployment warnings for unhandled events
+- Comprehensive debug logging throughout the process
+- Clear success/failure reporting with actionable URLs</p>
 <h3 id="5-dependency-review-workflow-dependency-reviewyml">5. Dependency Review Workflow (<code>dependency-review.yml</code>)<a class="headerlink" href="#5-dependency-review-workflow-dependency-reviewyml" title="Permanent link">¶</a></h3>
 <pre class="mermaid"><code>flowchart TD
     %% Trigger

@@ -915,12 +915,19 @@
 - Release creation (for versioned docs)
 - Repository dispatch events
 - Manual workflow dispatch</p>
-<p><strong>Enhanced Features:</strong>
-- Intelligent deployment type detection
-- Version preservation (no branch reset)
-- Mike-based versioned documentation
-- Automatic version selector updates
-- Concurrency control to prevent conflicts</p>
+<p><strong>Recently Enhanced Features:</strong>
+- <strong>Enhanced Trigger Logic</strong>: Comprehensive event type handling for all deployment scenarios
+- <strong>Version Validation</strong>: Semantic version format validation (X.Y.Z) before deployment
+- <strong>Safety Checks</strong>: Explicit no-deployment warnings prevent workflow no-ops
+- <strong>Conflict Resolution</strong>: Retry logic with exponential backoff for concurrent deployments
+- <strong>Mike Integration</strong>: Uses Mike's built-in version selector (removed conflicting custom JS)
+- <strong>Comprehensive Logging</strong>: Debug output for troubleshooting deployment issues
+- <strong>Robust Error Handling</strong>: Automatic conflict resolution and retry mechanisms</p>
+<p><strong>Key Improvements Made:</strong>
+- <strong>Fixed Version Selector Bug</strong>: Removed conflicting custom JavaScript that prevented version dropdown from working
+- <strong>Enhanced Workflow Logic</strong>: Comprehensive trigger handling for push, release, dispatch, and manual events<br/>
+- <strong>Version Validation</strong>: Prevents deployment of invalid version formats
+- <strong>Concurrency Control</strong>: Exclusive concurrency group prevents gh-pages conflicts</p>
 <h3 id="5-dependency-review-githubworkflowsdependency-reviewyml">5. Dependency Review (<code>.github/workflows/dependency-review.yml</code>)<a class="headerlink" href="#5-dependency-review-githubworkflowsdependency-reviewyml" title="Permanent link">¶</a></h3>
 <p><strong>Triggers:</strong>
 - Pull requests to <code>main</code> or <code>develop</code> branches</p>
@@ -973,9 +980,15 @@
 </ul>
 <h3 id="version-selector">Version Selector<a class="headerlink" href="#version-selector" title="Permanent link">¶</a></h3>
 <p>The documentation includes a version selector in the header that allows users to:
-- Switch between documentation versions
+- Switch between documentation versions<br/>
 - See all available versions
 - Access version-specific content</p>
+<p><strong>Recent Fix (Issue <a class="magiclink magiclink-github magiclink-issue" href="https://github.com/your-org/bank-statement-separator/issues/18" title="GitHub Issue: your-org/bank-statement-separator #18">#18</a>)</strong>:
+The version selector was previously showing only "latest" due to conflicting custom JavaScript implementation. This has been resolved by:
+- Removing conflicting custom JavaScript (<code>docs/javascripts/version-selector.js</code>)
+- Removing conflicting custom CSS (<code>docs/stylesheets/version-selector.css</code>) 
+- Activating Mike's built-in version selector with <code>extra.version.provider: mike</code>
+- The version selector now properly displays all available versions (latest, v0.1.4, v0.2.0, etc.)</p>
 <h3 id="pull-request-template-githubpull_request_templatemd">Pull Request Template (<code>.github/PULL_REQUEST_TEMPLATE.md</code>)<a class="headerlink" href="#pull-request-template-githubpull_request_templatemd" title="Permanent link">¶</a></h3>
 <p>Standardized PR template with:
 - Change type classification
