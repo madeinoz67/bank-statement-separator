@@ -13,8 +13,6 @@ on:
       - "docs/**/*.md"
       - "docs/**/*.yml" 
       - "docs/**/*.yaml"
-      - "docs/**/*.js"
-      - "docs/**/*.css"
       - "mkdocs.yml"
       - ".github/workflows/docs-versioned.yml"
   release:
