@@ -86,6 +86,8 @@ plugins:
 
 # Customization
 extra:
+  version:
+    provider: mike
   analytics:
     provider: google
     property: !ENV GOOGLE_ANALYTICS_KEY
@@ -196,8 +198,6 @@ nav:
 # Additional CSS
 extra_css:
   - stylesheets/extra.css
-  - stylesheets/version-selector.css
 
-# Additional JavaScript
-extra_javascript:
-  - javascripts/version-selector.js
+# Additional JavaScript  
+# extra_javascript: []
