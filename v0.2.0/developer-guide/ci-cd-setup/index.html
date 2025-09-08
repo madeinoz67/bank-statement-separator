@@ -19,7 +19,6 @@
 <link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback" rel="stylesheet"/>
 <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
 <link href="../../stylesheets/extra.css" rel="stylesheet"/>
-<link href="../../stylesheets/version-selector.css" rel="stylesheet"/>
 <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
 <script id="__analytics">function __md_analytics(){function e(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],e("js",new Date),e("config",""),document.addEventListener("DOMContentLoaded",(function(){document.forms.search&&document.forms.search.query.addEventListener("blur",(function(){this.value&&e("event","search",{search_term:this.value})}));document$.subscribe((function(){var t=document.forms.feedback;if(void 0!==t)for(var a of t.querySelectorAll("[type=submit]"))a.addEventListener("click",(function(a){a.preventDefault();var n=document.location.pathname,d=this.getAttribute("data-md-value");e("event","feedback",{page:n,data:d}),t.firstElementChild.disabled=!0;var r=t.querySelector(".md-feedback__note [data-md-value='"+d+"']");r&&(r.hidden=!1)})),t.hidden=!1})),location$.subscribe((function(t){e("config","",{page_path:t.pathname})}))}));var t=document.createElement("script");t.async=!0,t.src="https://www.googletagmanager.com/gtag/js?id=",document.getElementById("__analytics").insertAdjacentElement("afterEnd",t)}</script>
 <script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
@@ -34,6 +33,8 @@
         </a>
 </div>
 <div data-md-component="announce">
+</div>
+<div data-md-color-scheme="default" data-md-component="outdated" hidden="">
 </div>
 <header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
 <nav aria-label="Header" class="md-header__inner md-grid">
@@ -914,12 +915,19 @@
 - Release creation (for versioned docs)
 - Repository dispatch events
 - Manual workflow dispatch</p>
-<p><strong>Enhanced Features:</strong>
-- Intelligent deployment type detection
-- Version preservation (no branch reset)
-- Mike-based versioned documentation
-- Automatic version selector updates
-- Concurrency control to prevent conflicts</p>
+<p><strong>Recently Enhanced Features:</strong>
+- <strong>Enhanced Trigger Logic</strong>: Comprehensive event type handling for all deployment scenarios
+- <strong>Version Validation</strong>: Semantic version format validation (X.Y.Z) before deployment
+- <strong>Safety Checks</strong>: Explicit no-deployment warnings prevent workflow no-ops
+- <strong>Conflict Resolution</strong>: Retry logic with exponential backoff for concurrent deployments
+- <strong>Mike Integration</strong>: Uses Mike's built-in version selector (removed conflicting custom JS)
+- <strong>Comprehensive Logging</strong>: Debug output for troubleshooting deployment issues
+- <strong>Robust Error Handling</strong>: Automatic conflict resolution and retry mechanisms</p>
+<p><strong>Key Improvements Made:</strong>
+- <strong>Fixed Version Selector Bug</strong>: Removed conflicting custom JavaScript that prevented version dropdown from working
+- <strong>Enhanced Workflow Logic</strong>: Comprehensive trigger handling for push, release, dispatch, and manual events<br/>
+- <strong>Version Validation</strong>: Prevents deployment of invalid version formats
+- <strong>Concurrency Control</strong>: Exclusive concurrency group prevents gh-pages conflicts</p>
 <h3 id="5-dependency-review-githubworkflowsdependency-reviewyml">5. Dependency Review (<code>.github/workflows/dependency-review.yml</code>)<a class="headerlink" href="#5-dependency-review-githubworkflowsdependency-reviewyml" title="Permanent link">¶</a></h3>
 <p><strong>Triggers:</strong>
 - Pull requests to <code>main</code> or <code>develop</code> branches</p>
@@ -972,9 +980,15 @@
 </ul>
 <h3 id="version-selector">Version Selector<a class="headerlink" href="#version-selector" title="Permanent link">¶</a></h3>
 <p>The documentation includes a version selector in the header that allows users to:
-- Switch between documentation versions
+- Switch between documentation versions<br/>
 - See all available versions
 - Access version-specific content</p>
+<p><strong>Recent Fix (Issue <a class="magiclink magiclink-github magiclink-issue" href="https://github.com/your-org/bank-statement-separator/issues/18" title="GitHub Issue: your-org/bank-statement-separator #18">#18</a>)</strong>:
+The version selector was previously showing only "latest" due to conflicting custom JavaScript implementation. This has been resolved by:
+- Removing conflicting custom JavaScript (<code>docs/javascripts/version-selector.js</code>)
+- Removing conflicting custom CSS (<code>docs/stylesheets/version-selector.css</code>) 
+- Activating Mike's built-in version selector with <code>extra.version.provider: mike</code>
+- The version selector now properly displays all available versions (latest, v0.1.4, v0.2.0, etc.)</p>
 <h3 id="pull-request-template-githubpull_request_templatemd">Pull Request Template (<code>.github/PULL_REQUEST_TEMPLATE.md</code>)<a class="headerlink" href="#pull-request-template-githubpull_request_templatemd" title="Permanent link">¶</a></h3>
 <p>Standardized PR template with:
 - Change type classification
@@ -1252,9 +1266,8 @@
 <div class="md-dialog__inner md-typeset"></div>
 </div>
 <div class="md-progress" data-md-component="progress" role="progressbar"></div>
-<script id="__config" type="application/json">{"base": "../..", "features": ["announce.dismiss", "content.action.edit", "content.action.view", "content.code.annotate", "content.code.copy", "content.tabs.link", "content.tooltips", "header.autohide", "navigation.expand", "navigation.footer", "navigation.indexes", "navigation.instant", "navigation.instant.prefetch", "navigation.instant.progress", "navigation.prune", "navigation.sections", "navigation.tabs", "navigation.tabs.sticky", "navigation.top", "navigation.tracking", "search.highlight", "search.share", "search.suggest", "toc.follow", "toc.integrate"], "search": "../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+<script id="__config" type="application/json">{"base": "../..", "features": ["announce.dismiss", "content.action.edit", "content.action.view", "content.code.annotate", "content.code.copy", "content.tabs.link", "content.tooltips", "header.autohide", "navigation.expand", "navigation.footer", "navigation.indexes", "navigation.instant", "navigation.instant.prefetch", "navigation.instant.progress", "navigation.prune", "navigation.sections", "navigation.tabs", "navigation.tabs.sticky", "navigation.top", "navigation.tracking", "search.highlight", "search.share", "search.suggest", "toc.follow", "toc.integrate"], "search": "../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
 <script src="../../assets/javascripts/bundle.92b07e13.min.js"></script>
-<script src="../../javascripts/version-selector.js"></script>
 <script type="module">import mermaid from "https://unpkg.com/mermaid@10.4.0/dist/mermaid.esm.min.mjs";
 window.mermaidConfig = {default: {
     theme: (JSON.parse(__md_get("__palette").index == 1)) ?
