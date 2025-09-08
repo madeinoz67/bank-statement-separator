@@ -75,8 +75,6 @@ plugins:
       separator: '[\s\u200b\-_,:!=\[\]()"`/]+|\.(?!\d)|&[lg]t;|(?!\b)(?=[A-Z][a-z])'
   - mike:
       version_selector: true
-      css_dir: css
-      javascript_dir: js
       canonical_version: null
   - mermaid2:
       arguments:
