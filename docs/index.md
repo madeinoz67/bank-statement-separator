@@ -2,6 +2,8 @@
 
 An AI-powered tool for automatically separating multi-statement PDF files using LangChain and LangGraph.
 
+<!-- Force deployment refresh: 2025-09-08 -->
+
 ![Project Status](https://img.shields.io/badge/status-production%20ready-brightgreen)
 ![Tests](https://img.shields.io/badge/tests-37%2F37%20passing-brightgreen)
 ![Python](https://img.shields.io/badge/python-3.11%2B-blue)
