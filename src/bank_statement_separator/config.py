@@ -110,6 +110,23 @@ class Config(BaseModel):
     paperless_storage_path: Optional[str] = Field(
         default=None, description="Storage path name for uploaded documents"
     )
+    
+    # Paperless-ngx Input Configuration (for document retrieval)
+    paperless_input_tags: Optional[List[str]] = Field(
+        default=None, description="Tags to identify documents for processing from paperless-ngx"
+    )
+    paperless_input_correspondent: Optional[str] = Field(
+        default=None, description="Filter input documents by correspondent name"
+    )
+    paperless_input_document_type: Optional[str] = Field(
+        default=None, description="Filter input documents by document type"
+    )
+    paperless_max_documents: int = Field(
+        default=50, gt=0, le=1000, description="Maximum number of documents to retrieve per query"
+    )
+    paperless_query_timeout: int = Field(
+        default=30, gt=0, le=300, description="Timeout for paperless API queries in seconds"
+    )
 
     # Error Handling Configuration
     quarantine_directory: Optional[str] = Field(
@@ -339,6 +356,11 @@ def load_config(env_file: Optional[str] = None) -> Config:
         "PAPERLESS_CORRESPONDENT": "paperless_correspondent",
         "PAPERLESS_DOCUMENT_TYPE": "paperless_document_type",
         "PAPERLESS_STORAGE_PATH": "paperless_storage_path",
+        "PAPERLESS_INPUT_TAGS": "paperless_input_tags",
+        "PAPERLESS_INPUT_CORRESPONDENT": "paperless_input_correspondent",
+        "PAPERLESS_INPUT_DOCUMENT_TYPE": "paperless_input_document_type",
+        "PAPERLESS_MAX_DOCUMENTS": "paperless_max_documents",
+        "PAPERLESS_QUERY_TIMEOUT": "paperless_query_timeout",
         # Error Handling
         "QUARANTINE_DIRECTORY": "quarantine_directory",
         "MAX_RETRY_ATTEMPTS": "max_retry_attempts",
@@ -362,8 +384,9 @@ def load_config(env_file: Optional[str] = None) -> Config:
             # Handle special cases for type conversion
             if config_key in [
                 "allowed_input_dirs",
-                "allowed_output_dirs",
+                "allowed_output_dirs", 
                 "paperless_tags",
+                "paperless_input_tags",
                 "allowed_file_extensions",
             ]:
                 # Split comma-separated values into list
@@ -389,6 +412,8 @@ def load_config(env_file: Optional[str] = None) -> Config:
                 "max_file_size_mb",
                 "max_pages_per_statement",
                 "max_total_pages",
+                "paperless_max_documents",
+                "paperless_query_timeout",
             ]:
                 # Convert to int
                 config_data[config_key] = int(value)

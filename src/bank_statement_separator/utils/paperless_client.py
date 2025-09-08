@@ -3,6 +3,7 @@
 import logging
 from pathlib import Path
 from typing import Optional, Dict, Any, List
+from datetime import date
 import httpx
 from ..config import Config
 
@@ -488,3 +489,299 @@ class PaperlessClient:
         except (httpx.RequestError, httpx.HTTPStatusError) as e:
             logger.warning(f"Failed to resolve storage path '{storage_path_name}': {e}")
             return None
+
+    def query_documents_by_tags(
+        self,
+        tags: List[str],
+        page_size: Optional[int] = None,
+    ) -> Dict[str, Any]:
+        """Query documents by tags, returning only PDF documents.
+
+        Args:
+            tags: List of tag names to filter by
+            page_size: Maximum number of documents to return
+
+        Returns:
+            Dict containing query results with PDF documents only
+
+        Raises:
+            PaperlessUploadError: If query fails
+        """
+        return self.query_documents(
+            tags=tags,
+            page_size=page_size
+        )
+
+    def query_documents_by_correspondent(
+        self,
+        correspondent: str,
+        page_size: Optional[int] = None,
+    ) -> Dict[str, Any]:
+        """Query documents by correspondent, returning only PDF documents.
+
+        Args:
+            correspondent: Correspondent name to filter by
+            page_size: Maximum number of documents to return
+
+        Returns:
+            Dict containing query results with PDF documents only
+
+        Raises:
+            PaperlessUploadError: If query fails
+        """
+        return self.query_documents(
+            correspondent=correspondent,
+            page_size=page_size
+        )
+
+    def query_documents_by_document_type(
+        self,
+        document_type: str,
+        page_size: Optional[int] = None,
+    ) -> Dict[str, Any]:
+        """Query documents by document type, returning only PDF documents.
+
+        Args:
+            document_type: Document type name to filter by
+            page_size: Maximum number of documents to return
+
+        Returns:
+            Dict containing query results with PDF documents only
+
+        Raises:
+            PaperlessUploadError: If query fails
+        """
+        return self.query_documents(
+            document_type=document_type,
+            page_size=page_size
+        )
+
+    def query_documents(
+        self,
+        tags: Optional[List[str]] = None,
+        correspondent: Optional[str] = None,
+        document_type: Optional[str] = None,
+        created_after: Optional[date] = None,
+        created_before: Optional[date] = None,
+        page_size: Optional[int] = None,
+    ) -> Dict[str, Any]:
+        """Query documents with various filters, returning only PDF documents.
+
+        Args:
+            tags: List of tag names to filter by
+            correspondent: Correspondent name to filter by
+            document_type: Document type name to filter by
+            created_after: Filter documents created after this date
+            created_before: Filter documents created before this date
+            page_size: Maximum number of documents to return
+
+        Returns:
+            Dict containing query results with PDF documents only
+
+        Raises:
+            PaperlessUploadError: If query fails
+        """
+        if not self.is_enabled():
+            raise PaperlessUploadError(
+                "Paperless integration not enabled or configured"
+            )
+
+        # Build query parameters
+        params = {
+            "mime_type": "application/pdf",  # Only PDF documents
+            "page_size": page_size or self.config.paperless_max_documents,
+        }
+
+        # Resolve and add filters
+        if tags:
+            resolved_tags = self._resolve_tags(tags)
+            if resolved_tags:
+                params["tags__id__in"] = ",".join(str(tag_id) for tag_id in resolved_tags)
+
+        if correspondent:
+            resolved_correspondent = self._resolve_correspondent(correspondent)
+            if resolved_correspondent:
+                params["correspondent"] = resolved_correspondent
+
+        if document_type:
+            resolved_document_type = self._resolve_document_type(document_type)
+            if resolved_document_type:
+                params["document_type"] = resolved_document_type
+
+        if created_after:
+            params["created__date__gte"] = created_after.isoformat()
+
+        if created_before:
+            params["created__date__lte"] = created_before.isoformat()
+
+        try:
+            with httpx.Client(timeout=float(self.config.paperless_query_timeout)) as client:
+                response = client.get(
+                    f"{self.base_url}/api/documents/",
+                    headers=self.headers,
+                    params=params,
+                )
+                response.raise_for_status()
+
+                data = response.json()
+                results = data.get("results", [])
+
+                # Filter results to ensure only PDF documents (double-check)
+                pdf_documents = [doc for doc in results if self._is_pdf_document(doc)]
+
+                logger.info(
+                    f"Found {len(pdf_documents)} PDF documents out of {len(results)} total documents"
+                )
+
+                return {
+                    "success": True,
+                    "count": len(pdf_documents),
+                    "documents": pdf_documents,
+                    "total_available": data.get("count", 0),
+                }
+
+        except httpx.RequestError as e:
+            error_msg = f"Failed to query documents from paperless-ngx: {str(e)}"
+            logger.error(error_msg)
+            raise PaperlessUploadError(error_msg) from e
+        except httpx.HTTPStatusError as e:
+            error_msg = f"Document query failed with status {e.response.status_code}: {e.response.text}"
+            logger.error(error_msg)
+            raise PaperlessUploadError(error_msg) from e
+
+    def download_document(
+        self,
+        document_id: int,
+        output_path: Optional[Path] = None,
+        output_directory: Optional[Path] = None,
+    ) -> Dict[str, Any]:
+        """Download a document from paperless-ngx.
+
+        Args:
+            document_id: ID of the document to download
+            output_path: Specific output file path
+            output_directory: Directory to save the file (uses auto-naming)
+
+        Returns:
+            Dict containing download result information
+
+        Raises:
+            PaperlessUploadError: If download fails
+        """
+        if not self.is_enabled():
+            raise PaperlessUploadError(
+                "Paperless integration not enabled or configured"
+            )
+
+        if not output_path and not output_directory:
+            raise PaperlessUploadError(
+                "Either output_path or output_directory must be specified"
+            )
+
+        try:
+            with httpx.Client(timeout=float(self.config.paperless_query_timeout)) as client:
+                response = client.get(
+                    f"{self.base_url}/api/documents/{document_id}/download/",
+                    headers=self.headers,
+                )
+                response.raise_for_status()
+
+                # Validate content type is PDF
+                content_type = response.headers.get("content-type", "").lower()
+                if not content_type.startswith("application/pdf"):
+                    raise PaperlessUploadError(
+                        f"Document {document_id} is not a PDF file (content-type: {content_type})"
+                    )
+
+                # Determine output path
+                if output_path:
+                    file_path = Path(output_path)
+                else:
+                    file_path = Path(output_directory) / f"document_{document_id}.pdf"
+
+                # Ensure parent directory exists
+                file_path.parent.mkdir(parents=True, exist_ok=True)
+
+                # Write content to file
+                file_path.write_bytes(response.content)
+                file_size = len(response.content)
+
+                logger.info(
+                    f"Successfully downloaded document {document_id} to {file_path} ({file_size} bytes)"
+                )
+
+                return {
+                    "success": True,
+                    "document_id": document_id,
+                    "output_path": str(file_path),
+                    "file_size": file_size,
+                    "content_type": content_type,
+                }
+
+        except httpx.RequestError as e:
+            error_msg = f"Failed to download document {document_id} from paperless-ngx: {str(e)}"
+            logger.error(error_msg)
+            raise PaperlessUploadError(error_msg) from e
+        except httpx.HTTPStatusError as e:
+            error_msg = f"Document download failed with status {e.response.status_code}: {e.response.text}"
+            logger.error(error_msg)
+            raise PaperlessUploadError(error_msg) from e
+
+    def download_multiple_documents(
+        self,
+        document_ids: List[int],
+        output_directory: Path,
+    ) -> Dict[str, Any]:
+        """Download multiple documents from paperless-ngx.
+
+        Args:
+            document_ids: List of document IDs to download
+            output_directory: Directory to save all files
+
+        Returns:
+            Dict containing download results for all documents
+        """
+        if not document_ids:
+            return {"success": True, "downloads": [], "errors": []}
+
+        results = {"success": True, "downloads": [], "errors": []}
+
+        for doc_id in document_ids:
+            try:
+                download_result = self.download_document(
+                    document_id=doc_id,
+                    output_directory=output_directory
+                )
+                results["downloads"].append(download_result)
+                logger.info(f"Successfully downloaded document {doc_id}")
+
+            except PaperlessUploadError as e:
+                error_info = {"document_id": doc_id, "error": str(e)}
+                results["errors"].append(error_info)
+                results["success"] = False
+                logger.error(f"Failed to download document {doc_id}: {e}")
+
+        return results
+
+    def _is_pdf_document(self, document: Dict[str, Any]) -> bool:
+        """Check if a document is a PDF based on its metadata.
+
+        Args:
+            document: Document metadata from paperless-ngx API
+
+        Returns:
+            bool: True if document is a PDF
+        """
+        # Check content_type field (primary)
+        content_type = document.get("content_type", "").lower()
+        if content_type.startswith("application/pdf"):
+            return True
+
+        # Check mime_type field (alternative)
+        mime_type = document.get("mime_type", "").lower()
+        if mime_type.startswith("application/pdf"):
+            return True
+
+        # File extension alone is not sufficient - we need content type information
+        # This ensures we don't process documents that might not actually be PDFs
+        return False

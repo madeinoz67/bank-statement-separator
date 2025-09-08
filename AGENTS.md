@@ -72,34 +72,27 @@ This document contains critical information about working with this codebase. Fo
 - **Functional Code**: Use functional and stateless approaches where they improve clarity
 - **Clean logic**: Keep core logic clean and push implementation details to the edges
 - **File Organsiation**: Balance file organization with simplicity - use an appropriate number of files for the project scale
+- **Document Public APIs**: Always document public functions, classes, and modules with clear docstrings
+- **Error Handling**: Handle errors gracefully and provide meaningful messages
+- **Logging**: Use logging for important events and errors, avoid print statements
+- **Security**: Follow security best practices, especially when handling sensitive data
+- **Version Control**: Commit frequently with clear messages, use branches for features/bug fixes
+- **branching**: Use feature branches for new work or bug fixes
+- **Branch Names**: Use descriptive names, e.g. `feature/add-user-auth`, `bugfix/fix-login-error`
+- **Commit Messages**: Use conventional commit messages with title, body, and footer
+- **Squash Commits**: Squash commits when merging feature branches to keep history clean
+- **Pull Changes**: Regularly pull changes from `main` to keep branches up to date
+- **Avoid Large Commits**: Break changes into smaller, logical commits
+- **Linting**: Always run tests and linters before committing, including RUFF
+- **Rebase**: Use `git rebase` to maintain a linear history when updating branches
+- **Code Reviews**: Review code thoroughly before merging to `main`
+- **Documentation**: Keep documentation up to date with code changes
+- **Continuous Learning**: Stay updated with best practices and new technologies
+- **Avoid Premature Optimization**: Focus on writing clear and correct code first, optimize later if necessary
+- **Avoid Commits to Main**: Do not commit directly to the `main` branch
 
-## System Architecture
 
-This is an AI-powered bank statement separator that uses LangChain and LangGraph to automatically process PDF files containing multiple bank statements and separate them into individual files.
-
-- **Framework**: LangGraph for stateful AI processing
-- **LLM Integration**: OpenAI GPT models via LangChain
-- **PDF Processing**: PyMuPDF for document manipulation
-- **Package Management**: UV for dependency isolation
-- **Configuration**: Environment variables via python-dotenv
-
-## Core Components
-
-- `config.py`: Configuration management with Pydantic validation
-- `main.py`: CLI interface with Rich formatting
-- `workflow.py`: LangGraph workflow with 6 processing nodes
-- `nodes/llm_analyzer.py`: LLM-based analysis components
-- `utils/pdf_processor.py`: PDF manipulation utilities
-- `utils/logging_setup.py`: Logging and audit trail setup
-
-## Workflow Steps
-1. PDF Ingestion - Load and validate input
-2. Document Analysis - Extract text and structure
-3. Statement Detection - AI boundary detection
-4. Metadata Extraction - Account/period extraction
-5. PDF Generation - Create individual files
-6. File Organization - Apply naming conventions
-
+# Bank Statement Separator
 ## Key Commands
 
 ### Development
@@ -141,6 +134,7 @@ uv run pytest
   - Use format: `RELEASE_NOTES_vX.Y.md` (e.g., `RELEASE_NOTES_v2.1.md`)
   - Most recent release should be linked on the front page (`docs/index.md`) as "Latest Release"
   - Add each release to mkdocs.yml navigation under "Release Notes" section
+   
 
 ## Test Organization
 - **Manual Test Scripts**: All manual test scripts must be created in `tests/manual/` directory
@@ -152,64 +146,6 @@ uv run pytest
 
 ### Metadata Extraction Enhancement (2025-08-31)
 **Problem**: Pattern-matching fallback incorrectly identified Westpac bank statements as "Chase" due to loose regex matching "Chase" within "BusinessChoice".
-
-**Root Cause**: 
-- Bank pattern `r'(Chase)'` matched "Chase" substring in "BusinessChoice Rewards VISA Card"
-- Limited to US banks only, missing Australian banks
-- Account number patterns didn't handle spaced formats
-- Date patterns didn't support "DD MMM YYYY" format
-
-**Solution**: Enhanced `llm_analyzer.py` pattern matching:
-1. **Bank Detection**: Added Australian bank patterns (Westpac, CBA, ANZ, NAB) and made US patterns more specific using word boundaries
-2. **Date Processing**: Added support for "22 APR 2015" format and separate "Statement From/To" extraction
-3. **Account Patterns**: Updated to handle spaced account numbers like "4293 1831 9017 2819"
-4. **Error Handling**: Fixed NoneType errors in exception logging across workflow and analyzer
-
-**Results**:
-- ✅ Correctly identifies "Westpac Banking" instead of "Chase"
-- ✅ Extracts proper statement periods (2015-04-22 to 2015-05-21)
-- ✅ Generates meaningful filenames: `stmt_01_2015-04-22_2015-05-21_acct__westpacbankingcorporation.pdf`
-- ✅ No more crash errors during metadata extraction
-
-**Files Modified**:
-- `src/bank_statement_separator/nodes/llm_analyzer.py`: Enhanced pattern matching for Australian banks and date formats
-- `src/bank_statement_separator/workflow.py`: Fixed NoneType error handling in logging
-
-### Boundary Detection & File Naming Implementation (2025-08-31)
-**Problem**: Multiple issues with boundary detection and file naming:
-1. Single 12-page document was treated as one statement instead of 3 separate statements
-2. File naming didn't follow PRD specification `<bank>-<last4digits>-<statement_date>.pdf`
-3. Account number extraction was inconsistent across different statement pages
-
-**Root Cause**: 
-- Fallback boundary detection used fixed 12-pages-per-statement heuristic
-- Original filename format: `stmt_{page}_{period}_acct_{account}_{bank}.pdf`
-- Simple account pattern matching without primary account selection logic
-- No distinction between billing accounts vs individual card accounts
-
-**Solution**: Comprehensive updates to boundary detection and file naming:
-1. **Enhanced Boundary Detection**: 
-   - Added Westpac-specific pattern recognition for 12-page documents
-   - Segments: Pages 1-2 (billing), 3-5 (card 1), 6-12 (card 2)
-   - Prevents single-file output from multi-statement documents
-
-2. **PRD-Compliant File Naming**:
-   - New format: `<bank>-<last4digits>-<statement_date>.pdf`
-   - Added `_normalize_bank_name()`: lowercase, no spaces, max 10 chars
-   - Added `_extract_last4_digits()`: extracts last 4 digits from account numbers
-   - Added `_format_statement_date()`: handles date ranges and formats
-
-3. **Primary Account Selection Logic**:
-   - Categorized account patterns: billing_account, card_number, facility_number, generic_account
-   - Priority-based selection: Billing Account → Card Number → Facility Number → Generic Account
-   - Added `_select_primary_account()` method with quality scoring (longer = better)
-
-4. **Enhanced Account Pattern Matching**:
-   - Supports multiple account types with specific regex patterns
-   - Extracts complete account numbers instead of partial matches
-   - Handles both billing account numbers and individual card numbers
-   - uses same heuristic logic across all processing providers
-   - detect last transaction in current statement, usually followed by empty space before Next Statement header
 
   
 ## Pull Requests
