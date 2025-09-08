@@ -2,158 +2,158 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://madeinoz67.github.io/bank-statement-separator/latest/</loc>
-         <lastmod>2025-09-07</lastmod>
+         <lastmod>2025-09-08</lastmod>
     </url>
     <url>
          <loc>https://madeinoz67.github.io/bank-statement-separator/latest/architecture/github-workflows/</loc>
-         <lastmod>2025-09-07</lastmod>
+         <lastmod>2025-09-08</lastmod>
     </url>
     <url>
          <loc>https://madeinoz67.github.io/bank-statement-separator/latest/architecture/mike-deployment-strategy/</loc>
-         <lastmod>2025-09-07</lastmod>
+         <lastmod>2025-09-08</lastmod>
     </url>
     <url>
          <loc>https://madeinoz67.github.io/bank-statement-separator/latest/architecture/workflow-overview/</loc>
-         <lastmod>2025-09-07</lastmod>
+         <lastmod>2025-09-08</lastmod>
     </url>
     <url>
          <loc>https://madeinoz67.github.io/bank-statement-separator/latest/design/PRD/</loc>
-         <lastmod>2025-09-07</lastmod>
+         <lastmod>2025-09-08</lastmod>
     </url>
     <url>
          <loc>https://madeinoz67.github.io/bank-statement-separator/latest/design/backoff_mechanisms/</loc>
-         <lastmod>2025-09-07</lastmod>
+         <lastmod>2025-09-08</lastmod>
     </url>
     <url>
          <loc>https://madeinoz67.github.io/bank-statement-separator/latest/design/boundary_detection_system/</loc>
-         <lastmod>2025-09-07</lastmod>
+         <lastmod>2025-09-08</lastmod>
     </url>
     <url>
          <loc>https://madeinoz67.github.io/bank-statement-separator/latest/design/hallucination_detection_system/</loc>
-         <lastmod>2025-09-07</lastmod>
+         <lastmod>2025-09-08</lastmod>
     </url>
     <url>
          <loc>https://madeinoz67.github.io/bank-statement-separator/latest/design/llm-providers/</loc>
-         <lastmod>2025-09-07</lastmod>
+         <lastmod>2025-09-08</lastmod>
     </url>
     <url>
          <loc>https://madeinoz67.github.io/bank-statement-separator/latest/developer-guide/ci-cd-setup/</loc>
-         <lastmod>2025-09-07</lastmod>
+         <lastmod>2025-09-08</lastmod>
     </url>
     <url>
          <loc>https://madeinoz67.github.io/bank-statement-separator/latest/developer-guide/contributing/</loc>
-         <lastmod>2025-09-07</lastmod>
+         <lastmod>2025-09-08</lastmod>
     </url>
     <url>
          <loc>https://madeinoz67.github.io/bank-statement-separator/latest/developer-guide/llm-provider-development/</loc>
-         <lastmod>2025-09-07</lastmod>
+         <lastmod>2025-09-08</lastmod>
     </url>
     <url>
          <loc>https://madeinoz67.github.io/bank-statement-separator/latest/developer-guide/pydantic-v2-migration/</loc>
-         <lastmod>2025-09-07</lastmod>
+         <lastmod>2025-09-08</lastmod>
     </url>
     <url>
          <loc>https://madeinoz67.github.io/bank-statement-separator/latest/developer-guide/pytest-marks-guide/</loc>
-         <lastmod>2025-09-07</lastmod>
+         <lastmod>2025-09-08</lastmod>
     </url>
     <url>
          <loc>https://madeinoz67.github.io/bank-statement-separator/latest/developer-guide/release-management/</loc>
-         <lastmod>2025-09-07</lastmod>
+         <lastmod>2025-09-08</lastmod>
     </url>
     <url>
          <loc>https://madeinoz67.github.io/bank-statement-separator/latest/developer-guide/testing/</loc>
-         <lastmod>2025-09-07</lastmod>
+         <lastmod>2025-09-08</lastmod>
     </url>
     <url>
          <loc>https://madeinoz67.github.io/bank-statement-separator/latest/developer-guide/versioning-maintenance/</loc>
-         <lastmod>2025-09-07</lastmod>
+         <lastmod>2025-09-08</lastmod>
     </url>
     <url>
          <loc>https://madeinoz67.github.io/bank-statement-separator/latest/getting-started/</loc>
-         <lastmod>2025-09-07</lastmod>
+         <lastmod>2025-09-08</lastmod>
     </url>
     <url>
          <loc>https://madeinoz67.github.io/bank-statement-separator/latest/getting-started/configuration/</loc>
-         <lastmod>2025-09-07</lastmod>
+         <lastmod>2025-09-08</lastmod>
     </url>
     <url>
          <loc>https://madeinoz67.github.io/bank-statement-separator/latest/getting-started/installation/</loc>
-         <lastmod>2025-09-07</lastmod>
+         <lastmod>2025-09-08</lastmod>
     </url>
     <url>
          <loc>https://madeinoz67.github.io/bank-statement-separator/latest/getting-started/quick-start/</loc>
-         <lastmod>2025-09-07</lastmod>
+         <lastmod>2025-09-08</lastmod>
     </url>
     <url>
          <loc>https://madeinoz67.github.io/bank-statement-separator/latest/known_issues/BOUNDARY_DETECTION_ISSUE/</loc>
-         <lastmod>2025-09-07</lastmod>
+         <lastmod>2025-09-08</lastmod>
     </url>
     <url>
          <loc>https://madeinoz67.github.io/bank-statement-separator/latest/reference/cli-commands/</loc>
-         <lastmod>2025-09-07</lastmod>
+         <lastmod>2025-09-08</lastmod>
     </url>
     <url>
          <loc>https://madeinoz67.github.io/bank-statement-separator/latest/reference/environment-variables/</loc>
-         <lastmod>2025-09-07</lastmod>
+         <lastmod>2025-09-08</lastmod>
     </url>
     <url>
          <loc>https://madeinoz67.github.io/bank-statement-separator/latest/reference/error-handling-technical/</loc>
-         <lastmod>2025-09-07</lastmod>
+         <lastmod>2025-09-08</lastmod>
     </url>
     <url>
          <loc>https://madeinoz67.github.io/bank-statement-separator/latest/reference/llm_model_testing/</loc>
-         <lastmod>2025-09-07</lastmod>
+         <lastmod>2025-09-08</lastmod>
     </url>
     <url>
          <loc>https://madeinoz67.github.io/bank-statement-separator/latest/reference/model_comparison_tables/</loc>
-         <lastmod>2025-09-07</lastmod>
+         <lastmod>2025-09-08</lastmod>
     </url>
     <url>
          <loc>https://madeinoz67.github.io/bank-statement-separator/latest/reference/troubleshooting/</loc>
-         <lastmod>2025-09-07</lastmod>
+         <lastmod>2025-09-08</lastmod>
     </url>
     <url>
          <loc>https://madeinoz67.github.io/bank-statement-separator/latest/reference/working-notes/</loc>
-         <lastmod>2025-09-07</lastmod>
+         <lastmod>2025-09-08</lastmod>
     </url>
     <url>
          <loc>https://madeinoz67.github.io/bank-statement-separator/latest/release_notes/CHANGELOG/</loc>
-         <lastmod>2025-09-07</lastmod>
+         <lastmod>2025-09-08</lastmod>
     </url>
     <url>
          <loc>https://madeinoz67.github.io/bank-statement-separator/latest/release_notes/RELEASE_NOTES_v0.1.0/</loc>
-         <lastmod>2025-09-07</lastmod>
+         <lastmod>2025-09-08</lastmod>
     </url>
     <url>
          <loc>https://madeinoz67.github.io/bank-statement-separator/latest/release_notes/RELEASE_NOTES_v0.1.1/</loc>
-         <lastmod>2025-09-07</lastmod>
+         <lastmod>2025-09-08</lastmod>
     </url>
     <url>
          <loc>https://madeinoz67.github.io/bank-statement-separator/latest/release_notes/RELEASE_NOTES_v0.1.2/</loc>
-         <lastmod>2025-09-07</lastmod>
+         <lastmod>2025-09-08</lastmod>
     </url>
     <url>
          <loc>https://madeinoz67.github.io/bank-statement-separator/latest/release_notes/RELEASE_NOTES_v0.1.3/</loc>
-         <lastmod>2025-09-07</lastmod>
+         <lastmod>2025-09-08</lastmod>
     </url>
     <url>
          <loc>https://madeinoz67.github.io/bank-statement-separator/latest/release_notes/RELEASE_NOTES_v0.1.4/</loc>
-         <lastmod>2025-09-07</lastmod>
+         <lastmod>2025-09-08</lastmod>
     </url>
     <url>
          <loc>https://madeinoz67.github.io/bank-statement-separator/latest/user-guide/error-handling/</loc>
-         <lastmod>2025-09-07</lastmod>
+         <lastmod>2025-09-08</lastmod>
     </url>
     <url>
          <loc>https://madeinoz67.github.io/bank-statement-separator/latest/user-guide/fragment-detection/</loc>
-         <lastmod>2025-09-07</lastmod>
+         <lastmod>2025-09-08</lastmod>
     </url>
     <url>
          <loc>https://madeinoz67.github.io/bank-statement-separator/latest/user-guide/model-selection-guide/</loc>
-         <lastmod>2025-09-07</lastmod>
+         <lastmod>2025-09-08</lastmod>
     </url>
     <url>
          <loc>https://madeinoz67.github.io/bank-statement-separator/latest/user-guide/paperless-integration/</loc>
-         <lastmod>2025-09-07</lastmod>
+         <lastmod>2025-09-08</lastmod>
     </url>
 </urlset>
