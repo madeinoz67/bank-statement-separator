@@ -11,6 +11,10 @@ wheels/
 .venv
 # protected credentials
 .env
+.env.*  # All environment files (dev, prod, test, etc.)
+
+# Allow .env.example to be tracked (contains no real credentials)
+!.env.example
 
 # Test environment files are tracked (contain no real credentials)
 !tests/env/.env.*
