@@ -246,29 +246,29 @@ class Config(BaseModel):
 def validate_env_file(env_file_path: str) -> bool:
     """
     Validate that an environment file exists and is readable.
-    
+
     Args:
         env_file_path: Path to the environment file to validate
-        
+
     Returns:
         bool: True if file is valid and readable
-        
+
     Raises:
         FileNotFoundError: If file doesn't exist
         ValueError: If path is not a file
         PermissionError: If file cannot be read
     """
     env_path = Path(env_file_path)
-    
+
     if not env_path.exists():
         raise FileNotFoundError(f"Environment file not found: {env_file_path}")
-    
+
     if not env_path.is_file():
         raise ValueError(f"Environment path is not a file: {env_file_path}")
-    
+
     if not os.access(env_path, os.R_OK):
         raise PermissionError(f"Cannot read environment file: {env_file_path}")
-    
+
     return True
 
 

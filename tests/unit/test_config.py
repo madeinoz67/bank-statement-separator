@@ -1,8 +1,6 @@
 """Unit tests for configuration management."""
 
 import os
-import tempfile
-from pathlib import Path
 from unittest.mock import patch
 
 import pytest
@@ -17,13 +15,13 @@ class TestValidateEnvFile:
         """Test validation succeeds for existing readable file."""
         env_file = tmp_path / "test.env"
         env_file.write_text("TEST_VAR=value")
-        
+
         assert validate_env_file(str(env_file)) is True
 
     def test_validate_nonexistent_file(self, tmp_path):
         """Test validation fails for nonexistent file."""
         env_file = tmp_path / "nonexistent.env"
-        
+
         with pytest.raises(FileNotFoundError, match="Environment file not found"):
             validate_env_file(str(env_file))
 
@@ -37,7 +35,7 @@ class TestValidateEnvFile:
         env_file = tmp_path / "unreadable.env"
         env_file.write_text("TEST_VAR=value")
         env_file.chmod(0o000)
-        
+
         try:
             with pytest.raises(PermissionError, match="Cannot read environment file"):
                 validate_env_file(str(env_file))
@@ -53,18 +51,26 @@ class TestLoadConfig:
         """Test loading config without custom env file."""
         # Clear specific environment variables that might interfere
         env_vars_to_clear = [
-            "OPENAI_API_KEY", "LLM_PROVIDER", "OPENAI_MODEL",
-            "DEFAULT_OUTPUT_DIR", "LOG_LEVEL"
+            "OPENAI_API_KEY",
+            "LLM_PROVIDER",
+            "OPENAI_MODEL",
+            "DEFAULT_OUTPUT_DIR",
+            "LOG_LEVEL",
         ]
-        
+
         # Create a clean environment by removing these variables completely
-        cleared_env = {k: v for k, v in os.environ.items() if k not in env_vars_to_clear}
-        
+        cleared_env = {
+            k: v for k, v in os.environ.items() if k not in env_vars_to_clear
+        }
+
         with patch.dict(os.environ, cleared_env, clear=True):
             config = load_config()
-            
+
             # Should use defaults or values from default .env file
-            assert config.llm_provider in ["openai", "auto"]  # Could be default or from .env
+            assert config.llm_provider in [
+                "openai",
+                "auto",
+            ]  # Could be default or from .env
             assert config.openai_model == "gpt-4o-mini"
             assert config.default_output_dir == "./separated_statements"
             assert config.log_level == "INFO"
@@ -82,9 +88,9 @@ OPENAI_API_KEY=test-key-123
 MAX_FILE_SIZE_MB=200
 ENABLE_AUDIT_LOGGING=false
 """)
-        
+
         config = load_config(str(custom_env))
-        
+
         # Should use custom values
         assert config.llm_provider == "ollama"
         assert config.openai_model == "gpt-4o"
@@ -101,9 +107,9 @@ ENABLE_AUDIT_LOGGING=false
             # Create custom env file with different value
             custom_env = tmp_path / "override.env"
             custom_env.write_text("LOG_LEVEL=DEBUG\nOPENAI_API_KEY=test-override")
-            
+
             config = load_config(str(custom_env))
-            
+
             # Should use custom env file value, not environment variable
             assert config.log_level == "DEBUG"
             assert config.openai_api_key == "test-override"
@@ -117,9 +123,9 @@ PAPERLESS_TAGS=bank,statement,financial
 ALLOWED_FILE_EXTENSIONS=.pdf,.doc
 OPENAI_API_KEY=test-list-key
 """)
-        
+
         config = load_config(str(custom_env))
-        
+
         assert config.allowed_input_dirs == ["/path1", "/path2", "/path3"]
         assert config.paperless_tags == ["bank", "statement", "financial"]
         assert config.allowed_file_extensions == [".pdf", ".doc"]
@@ -134,9 +140,9 @@ INCLUDE_BANK_IN_FILENAME=yes
 ENABLE_FALLBACK_PROCESSING=on
 OPENAI_API_KEY=test-bool-key
 """)
-        
+
         config = load_config(str(custom_env))
-        
+
         assert config.enable_audit_logging is True
         assert config.paperless_enabled is True
         assert config.include_bank_in_filename is True
@@ -151,9 +157,9 @@ CHUNK_SIZE=8000
 MAX_FILE_SIZE_MB=150
 OPENAI_API_KEY=test-numeric-key
 """)
-        
+
         config = load_config(str(custom_env))
-        
+
         assert config.llm_temperature == 0.5
         assert config.chunk_size == 8000
         assert config.max_file_size_mb == 150
@@ -161,7 +167,7 @@ OPENAI_API_KEY=test-numeric-key
     def test_load_config_nonexistent_file(self, tmp_path):
         """Test loading config with nonexistent env file raises error."""
         nonexistent_file = tmp_path / "nonexistent.env"
-        
+
         with pytest.raises(FileNotFoundError, match="Environment file not found"):
             load_config(str(nonexistent_file))
 
@@ -170,7 +176,7 @@ OPENAI_API_KEY=test-numeric-key
         unreadable_file = tmp_path / "unreadable.env"
         unreadable_file.write_text("TEST=value")
         unreadable_file.chmod(0o000)
-        
+
         try:
             # The load_config function now re-raises PermissionError directly
             with pytest.raises(PermissionError, match="Cannot read environment file"):
@@ -205,7 +211,9 @@ class TestConfigValidation:
 
     def test_chunk_overlap_validation(self):
         """Test chunk overlap cannot exceed chunk size."""
-        with pytest.raises(ValueError, match="Chunk overlap must be less than chunk size"):
+        with pytest.raises(
+            ValueError, match="Chunk overlap must be less than chunk size"
+        ):
             Config(chunk_size=1000, chunk_overlap=1500, openai_api_key="test-key")
 
     def test_openai_api_key_validation_production(self):
@@ -218,7 +226,7 @@ class TestConfigValidation:
         """Test OpenAI API key validation allows test keys in test environment."""
         # Test keys should be allowed
         test_keys = ["test-key", "invalid-key", "mock-key", "fake-key", "dummy-key", ""]
-        
+
         for test_key in test_keys:
             # Should not raise validation error for test keys
             config = Config(openai_api_key=test_key)
@@ -240,9 +248,9 @@ LOG_LEVEL=DEBUG
 DEFAULT_OUTPUT_DIR=./dev_output
 ENABLE_AUDIT_LOGGING=true
 """)
-        
+
         config = load_config(str(dev_env))
-        
+
         assert config.llm_provider == "openai"
         assert config.log_level == "DEBUG"
         assert config.default_output_dir == "./dev_output"
@@ -263,9 +271,9 @@ ENABLE_AUDIT_LOGGING=true
 ALLOWED_INPUT_DIRS=/secure/input
 ALLOWED_OUTPUT_DIRS=/secure/output
 """)
-        
+
         config = load_config(str(prod_env))
-        
+
         assert config.llm_provider == "openai"
         assert config.openai_model == "gpt-4o"
         assert config.log_level == "WARNING"
@@ -287,9 +295,9 @@ DEFAULT_OUTPUT_DIR=./test_output
 MAX_FILE_SIZE_MB=10
 ENABLE_FALLBACK_PROCESSING=false
 """)
-        
+
         config = load_config(str(test_env))
-        
+
         assert config.llm_provider == "auto"
         assert config.log_level == "ERROR"
         assert config.default_output_dir == "./test_output"
