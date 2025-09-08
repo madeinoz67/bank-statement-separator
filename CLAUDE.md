@@ -1,4 +1,3 @@
-# Development Guidelines
+@AGENTS.md
 
-%import AGENTS.md%
-
+# Claude specific Development Guidelines
