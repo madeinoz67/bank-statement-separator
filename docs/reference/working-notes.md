@@ -658,14 +658,12 @@ input/
 ### Phase 2 - Enhanced Features ✅ COMPLETED
 
 1. **Error Handling & Quarantine System** ✅
-
    - [x] Pre-processing document validation
    - [x] Smart quarantine system with detailed error reports
    - [x] Configurable validation strictness levels
    - [x] CLI quarantine management commands
 
 2. **Paperless-ngx Integration** ✅
-
    - [x] Automatic document upload after processing
    - [x] Auto-creation of tags, correspondents, document types
    - [x] Configurable metadata via environment variables
@@ -679,7 +677,6 @@ input/
 ### Phase 3 - Production Deployment
 
 1. **Production Validation**
-
    - [x] ~~Comprehensive error handling~~ ✅ (Quarantine system implemented)
    - [x] ~~Document management integration~~ ✅ (Paperless-ngx integration)
    - [ ] Test with various bank statement formats (ANZ, CBA, NAB - need real statements)
@@ -972,38 +969,31 @@ The system includes comprehensive hallucination detection to ensure financial da
 #### 8 Types of Hallucination Detection (Complete Implementation)
 
 1. **Invalid Page Ranges**: Detects impossible page boundaries (start > end, negative pages, pages > document total)
-
    - Validates boundary consistency and document page limits
    - Example: Rejects boundary claiming pages 15-20 in a 12-page document
 
 2. **Phantom Statements**: Identifies excessive statement count that doesn't match document structure
-
    - Prevents AI from inventing non-existent statements
    - Example: Rejects 5 statements detected in a single-page document
 
 3. **Invalid Date Formats**: Validates statement periods against realistic banking date patterns
-
    - Supports multiple date formats: YYYY-MM-DD, DD/MM/YYYY, natural language
    - Example: Rejects "32nd of Febtober 2025" but accepts "2024-03-15 to 2024-04-14"
 
 4. **Suspicious Account Numbers**: Checks for unrealistic account formats, lengths, and patterns
-
    - Validates account number patterns, lengths (4-20 digits), and realistic formats
    - Example: Rejects "000000000000000000" but accepts "4293 1831 9017 2819"
 
 5. **Unknown Bank Names**: Validates banks against comprehensive database of known financial institutions
-
    - Database includes 50+ major banks (US, Australian, UK, Canadian)
    - Smart partial matching with substantial word requirements
    - Example: Rejects "First National Bank of Fabricated City" but accepts "Westpac Banking Corporation"
 
 6. **Impossible Date Ranges**: Detects time paradoxes, future dates, and unrealistic statement periods
-
    - Validates start < end dates, reasonable date ranges, no future statements
    - Example: Rejects statement period "2025-12-01 to 2024-01-01" (backwards time)
 
 7. **Confidence Thresholds**: Flags low-confidence responses that require human validation
-
    - Configurable confidence thresholds (default: 0.7 minimum for acceptance)
    - Example: Rejects boundary detection with confidence < 0.5
 
@@ -1256,7 +1246,6 @@ hint: Updates were rejected because the remote contains work that you do not hav
 **Solutions Applied**:
 
 1. **Workflow Conflict Resolution**: Disabled `docs.yml` to prevent conflicts
-
    - Changed trigger from `push: [main]` to `workflow_dispatch` only
    - Added `if: false` condition to prevent automatic execution
    - Using `docs-versioned.yml` as the primary documentation deployment workflow
@@ -1292,17 +1281,14 @@ hint: Updates were rejected because the remote contains work that you do not hav
 ### 🎯 **Immediate Next Steps for Deployment**
 
 1. **Add Repository Secrets**:
-
    - `OPENAI_API_KEY`: For CI testing with LLM providers
    - `PYPI_API_TOKEN`: For automated PyPI publishing on releases
 
 2. **Configure Branch Protection** (Optional):
-
    - Require PR reviews for `main` branch
    - Require status checks to pass before merging
 
 3. **Test GitHub Pages**:
-
    - Verify documentation deploys correctly
    - Check all links and navigation work properly
 
@@ -1443,13 +1429,11 @@ Following the implementation of enhanced boundary detection, comprehensive valid
 #### Test Infrastructure Created
 
 1. **Controlled Test PDFs**: Created precise test documents with known content
-
    - `known_3_statements.pdf`: 3-page document with Westpac (2 accounts) + Commonwealth Bank
    - `known_1_statement.pdf`: 1-page document with ANZ Bank account
    - **Specifications**: Defined exact account numbers, bank names, statement periods
 
 2. **Test Specifications Database**: JSON-defined expected outcomes
-
    - **Account Numbers**: `429318319171234`, `429318319175678`, `062310458919012`
    - **Banks**: Westpac Banking Corporation, Commonwealth Bank, ANZ Bank
    - **Expected Filenames**: Precise PRD-compliant naming patterns
@@ -1529,13 +1513,11 @@ Date Pattern Matching: 3 matches found
 #### Fixed Issues from Previous Sessions
 
 1. **Page Range Overlap Issue**: ✅ RESOLVED
-
    - **Problem**: Over-segmentation caused 5+ output files from 3-page input
    - **Solution**: Enhanced `_create_boundaries_from_accounts()` with non-overlapping logic
    - **Result**: Clean 1-1, 2-2, 3-3 page ranges
 
 2. **Account Pattern Deduplication**: ✅ RESOLVED
-
    - **Problem**: Multiple regex patterns created duplicate account matches
    - **Solution**: Added `seen_positions` set to prevent duplicate processing
    - **Result**: Clean unique account detection without duplicates

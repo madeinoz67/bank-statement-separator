@@ -10,7 +10,6 @@ This release focuses on enhancing the release workflow infrastructure with compr
 ## 🐛 Bug Fixes
 
 - **Release Workflow Enhancement**: Comprehensive improvements to GitHub Actions release workflow
-
   - Added detailed debugging output for workflow context analysis
   - Simplified job conditions from complex boolean logic to clear `startsWith()` checks
   - Enhanced error handling with explicit checks for missing PYPI_API_TOKEN secret
@@ -27,7 +26,6 @@ This release focuses on enhancing the release workflow infrastructure with compr
 ## 🔧 Infrastructure Improvements
 
 - **Automated Release Process**: Complete release workflow automation ready for production use
-
   - Fixed workflow trigger conditions that prevented PyPI publishing in previous versions
   - Enhanced GitHub Actions workflow with proper dependency management
   - Improved release creation with better file attachment handling

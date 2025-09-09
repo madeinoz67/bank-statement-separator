@@ -126,13 +126,11 @@ The automated release process uses [release-please](https://github.com/googleapi
    ```
 
 2. **Release-please analyzes commits** and determines version bump:
-
    - `feat:` commits → Minor version (1.0.0 → 1.1.0)
    - `fix:` commits → Patch version (1.0.0 → 1.0.1)
    - `BREAKING CHANGE:` → Major version (1.0.0 → 2.0.0)
 
 3. **Release PR created** with:
-
    - Updated `pyproject.toml` version
    - Generated changelog
    - Release notes

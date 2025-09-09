@@ -9,18 +9,18 @@ To run these tests:
 3. Run with: pytest tests/integration/test_paperless_api.py -m api_integration
 """
 
-import pytest
 import os
 import tempfile
-from pathlib import Path
 from datetime import datetime, timedelta
+from pathlib import Path
+
+import pytest
 
 from src.bank_statement_separator.config import Config, load_config
 from src.bank_statement_separator.utils.paperless_client import (
     PaperlessClient,
     PaperlessUploadError,
 )
-
 
 # Skip all tests in this file unless explicitly running API integration tests
 pytestmark = pytest.mark.skipif(
@@ -254,7 +254,7 @@ endobj
 2 0 obj
 <<
 /Type /Pages
-/Kids [{' '.join(page_refs)}]
+/Kids [{" ".join(page_refs)}]
 /Count {pages}
 >>
 endobj

@@ -7,49 +7,41 @@ This directory contains comprehensive integration tests for the paperless-ngx AP
 ### Test Categories
 
 1. **API Connection Tests** (`TestPaperlessAPIConnection`)
-
    - Connection validation and authentication
    - Configuration validation
    - Error handling for connection issues
 
 2. **Document Query Tests** (`TestPaperlessAPIDocumentQuery`)
-
    - Document querying by tags, correspondent, document type
    - Date range filtering and pagination
    - PDF-only document filtering
    - Empty result handling
 
 3. **Document Download Tests** (`TestPaperlessAPIDocumentDownload`)
-
    - Single document downloads with PDF validation
    - Auto-generated filename handling
    - Batch document downloads
    - Error handling for nonexistent documents
 
 4. **Tag Management Tests** (`TestPaperlessAPITagManagement`)
-
    - Tag resolution and creation
    - Multiple tag handling
    - Tag ID validation
 
 5. **Correspondent Management Tests** (`TestPaperlessAPICorrespondentManagement`)
-
    - Correspondent resolution and creation
    - Bank name handling
 
 6. **Document Type Management Tests** (`TestPaperlessAPIDocumentTypeManagement`)
-
    - Document type resolution and creation
    - Type validation
 
 7. **Error Handling Tests** (`TestPaperlessAPIErrorHandling`)
-
    - API timeout handling
    - Invalid parameter handling
    - PDF validation with real documents
 
 8. **Test Document Setup** (`TestPaperlessTestDocumentSetup`)
-
    - Creates realistic multi-page bank statement test documents
    - Uploads test documents with unique identifiers to prevent duplicates
    - Validates test document creation and availability

@@ -5,7 +5,6 @@ This document contains critical information about working with this codebase. Fo
 ## Core Development Rules
 
 1. Package Management
-
    - ONLY use uv, NEVER pip
    - Installation: `uv add package`
    - Running tools: `uv run tool`
@@ -13,7 +12,6 @@ This document contains critical information about working with this codebase. Fo
    - FORBIDDEN: `uv pip install`, `@latest` syntax
 
 2. Code Quality
-
    - Type hints required for all code
    - Public APIs must have docstrings
    - Functions must be focused and small
@@ -21,7 +19,6 @@ This document contains critical information about working with this codebase. Fo
    - Line length: 88 chars maximum
 
 3. Testing Requirements
-
    - Framework: `uv run pytest`
    - Async testing: use anyio, not asyncio
    - Coverage: test edge cases and errors
@@ -167,7 +164,6 @@ uv run pytest
 ## Code Formatting
 
 1. Ruff
-
    - Format: `uv run ruff format .`
    - Check: `uv run ruff check .`
    - Fix: `uv run ruff check . --fix`
@@ -181,7 +177,6 @@ uv run pytest
      - Imports: split into multiple lines
 
 2. Type Checking
-
    - Tool: `uv run pyright`
    - Requirements:
      - Explicit None checks for Optional
@@ -200,7 +195,6 @@ uv run pytest
 ## Error Resolution
 
 1. CI Failures
-
    - Fix order:
      1. Formatting
      2. Type errors
@@ -212,7 +206,6 @@ uv run pytest
      - Verify function signatures
 
 2. Common Issues
-
    - Line length:
      - Break strings with parentheses
      - Multi-line function calls

@@ -3,10 +3,10 @@
 Script to manually trigger versioned documentation deployment for existing releases.
 """
 
-import subprocess
 import json
 import os
 import re
+import subprocess
 from urllib.parse import urlparse
 
 

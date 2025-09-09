@@ -24,7 +24,7 @@ from src.bank_statement_separator.workflow import BankStatementWorkflow
 
 
 @dataclass
-class TestStatementSpec:
+class StatementSpec:
     """Specification for a standardized test statement."""
 
     bank_name: str
@@ -40,28 +40,28 @@ class TestStatementSpec:
 
 
 @dataclass
-class TestDocumentSpec:
+class DocumentSpec:
     """Specification for a test document containing multiple statements."""
 
     title: str
     filename: str
     description: str
-    statements: List[TestStatementSpec]
+    statements: List[StatementSpec]
     total_pages: int
     expected_output_files: List[str]
 
 
-def generate_standardized_test_data() -> List[TestDocumentSpec]:
+def generate_standardized_test_data() -> List[DocumentSpec]:
     """Generate standardized test document specifications with known metadata."""
     test_timestamp = int(datetime.now().timestamp())
 
     test_docs = [
-        TestDocumentSpec(
+        DocumentSpec(
             title=f"Test Multi-Statement Bundle - Standard 3 Statements [{test_timestamp}001]",
             filename=f"test_multi_3_statements_{test_timestamp}001.pdf",
             description="Controlled 3-statement bundle with predictable boundaries",
             statements=[
-                TestStatementSpec(
+                StatementSpec(
                     bank_name="Test Bank Alpha",
                     account_number="1234567890123456",
                     account_suffix="3456",
@@ -73,7 +73,7 @@ def generate_standardized_test_data() -> List[TestDocumentSpec]:
                     closing_balance="$2,845.67",
                     transaction_count=8,
                 ),
-                TestStatementSpec(
+                StatementSpec(
                     bank_name="Test Bank Alpha",
                     account_number="1234567890127890",
                     account_suffix="7890",
@@ -85,7 +85,7 @@ def generate_standardized_test_data() -> List[TestDocumentSpec]:
                     closing_balance="$3,567.89",
                     transaction_count=6,
                 ),
-                TestStatementSpec(
+                StatementSpec(
                     bank_name="Test Credit Union Beta",
                     account_number="9876543210654321",
                     account_suffix="4321",
@@ -105,12 +105,12 @@ def generate_standardized_test_data() -> List[TestDocumentSpec]:
                 "test-credit-union-beta-4321-2024-03-31.pdf",
             ],
         ),
-        TestDocumentSpec(
+        DocumentSpec(
             title=f"Test Dual-Statement Document - 2 Statements [{test_timestamp}002]",
             filename=f"test_dual_statements_{test_timestamp}002.pdf",
             description="Controlled 2-statement document for validation testing",
             statements=[
-                TestStatementSpec(
+                StatementSpec(
                     bank_name="Test Community Bank",
                     account_number="5555666677778888",
                     account_suffix="8888",
@@ -122,7 +122,7 @@ def generate_standardized_test_data() -> List[TestDocumentSpec]:
                     closing_balance="$6,789.01",
                     transaction_count=10,
                 ),
-                TestStatementSpec(
+                StatementSpec(
                     bank_name="Test Savings & Loan",
                     account_number="1111222233334444",
                     account_suffix="4444",
@@ -146,7 +146,7 @@ def generate_standardized_test_data() -> List[TestDocumentSpec]:
     return test_docs
 
 
-def create_standardized_pdf(doc_spec: TestDocumentSpec, output_path: Path) -> None:
+def create_standardized_pdf(doc_spec: DocumentSpec, output_path: Path) -> None:
     """Create a standardized PDF with known statement boundaries."""
     from reportlab.lib.pagesizes import letter
     from reportlab.lib.styles import getSampleStyleSheet
@@ -187,7 +187,7 @@ def create_standardized_pdf(doc_spec: TestDocumentSpec, output_path: Path) -> No
 
         # Add sample transactions based on transaction count
         for j in range(stmt.transaction_count):
-            transaction_date = f"2024-{i+1:02d}-{(j+1)*3:02d}"
+            transaction_date = f"2024-{i + 1:02d}-{(j + 1) * 3:02d}"
             if j % 3 == 0:
                 story.append(
                     Paragraph(
@@ -241,7 +241,7 @@ def create_standardized_pdf(doc_spec: TestDocumentSpec, output_path: Path) -> No
 
 
 def validate_processing_results(
-    workflow_result: Dict[str, Any], output_dir: Path, test_spec: TestDocumentSpec
+    workflow_result: Dict[str, Any], output_dir: Path, test_spec: DocumentSpec
 ) -> Dict[str, Any]:
     """Validate processing results against expected test data."""
     validation = {

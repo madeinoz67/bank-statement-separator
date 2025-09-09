@@ -1,9 +1,10 @@
 """Performance tests for bank statement processing."""
 
-import pytest
 import time
 from datetime import datetime, timedelta
 from pathlib import Path
+
+import pytest
 
 
 @pytest.mark.integration
@@ -42,12 +43,10 @@ class TestPerformanceScenarios:
         processing_time = end_time - start_time
 
         # Performance assertions
-        assert not result.get(
-            "error_message"
-        ), f"Processing failed: {result.get('error_message')}"
-        assert (
-            processing_time < 60
-        ), (
+        assert not result.get("error_message"), (
+            f"Processing failed: {result.get('error_message')}"
+        )
+        assert processing_time < 60, (
             f"Processing took too long: {processing_time:.2f}s"
         )  # Should complete in under 1 minute
 
@@ -99,21 +98,21 @@ class TestPerformanceScenarios:
 
         # Performance checks (accounting for fragment filtering)
         assert not result.get("error_message")
-        assert (
-            processing_time < 120
-        ), f"Multiple statements took too long: {processing_time:.2f}s"
-        assert (
-            result["total_statements_found"] >= 1
-        ), "Should find at least one statement"
-        assert (
-            result["total_statements_found"] <= 5
-        ), "Should not exceed expected statements"
+        assert processing_time < 120, (
+            f"Multiple statements took too long: {processing_time:.2f}s"
+        )
+        assert result["total_statements_found"] >= 1, (
+            "Should find at least one statement"
+        )
+        assert result["total_statements_found"] <= 5, (
+            "Should not exceed expected statements"
+        )
 
         # Calculate per-statement processing time
         per_statement_time = processing_time / max(1, result["total_statements_found"])
-        assert (
-            per_statement_time < 60
-        ), f"Per-statement time too high: {per_statement_time:.2f}s"
+        assert per_statement_time < 60, (
+            f"Per-statement time too high: {per_statement_time:.2f}s"
+        )
 
         print(f"Multiple statements processing: {processing_time:.2f}s")
         print(f"Per statement: {per_statement_time:.2f}s")
@@ -121,8 +120,9 @@ class TestPerformanceScenarios:
     def test_memory_usage_large_files(self, statement_generator, workflow_instance):
         """Test memory usage with large files (requires psutil for full testing)."""
         try:
-            import psutil
             import os
+
+            import psutil
 
             process = psutil.Process(os.getpid())
             initial_memory = process.memory_info().rss / 1024 / 1024  # MB
@@ -153,9 +153,9 @@ class TestPerformanceScenarios:
             memory_increase = final_memory - initial_memory
 
             # Memory assertions
-            assert (
-                memory_increase < 500
-            ), f"Memory usage too high: {memory_increase:.2f}MB increase"
+            assert memory_increase < 500, (
+                f"Memory usage too high: {memory_increase:.2f}MB increase"
+            )
             assert not result.get("error_message")
 
             print(f"Memory usage increase: {memory_increase:.2f}MB")
@@ -205,9 +205,9 @@ class TestPerformanceScenarios:
             assert result["total_statements_found"] >= 1
 
         # Total time should be reasonable
-        assert (
-            total_time < 180
-        ), f"Sequential processing took too long: {total_time:.2f}s"
+        assert total_time < 180, (
+            f"Sequential processing took too long: {total_time:.2f}s"
+        )
 
         print(f"Sequential processing of {len(test_files)} files: {total_time:.2f}s")
         print(f"Average per file: {total_time / len(test_files):.2f}s")

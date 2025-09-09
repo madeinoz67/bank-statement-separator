@@ -3,7 +3,7 @@
 
 from reportlab.lib.pagesizes import letter
 from reportlab.lib.styles import getSampleStyleSheet
-from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer
+from reportlab.platypus import Paragraph, SimpleDocTemplate, Spacer
 
 
 def create_multi_statement_pdf():

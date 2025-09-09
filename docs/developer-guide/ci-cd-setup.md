@@ -444,13 +444,11 @@ Documentation is automatically deployed to GitHub Pages on pushes to `main`:
 ### Common Issues
 
 1. **Test Failures**
-
    - Check Python version compatibility
    - Verify dependencies are installed
    - Review test output for specific errors
 
 2. **CI Pipeline Failures**
-
    - Check GitHub Actions logs
    - Verify secrets are configured
    - Ensure branch protection rules aren't blocking merges

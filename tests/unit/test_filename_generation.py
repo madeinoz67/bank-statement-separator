@@ -1,15 +1,16 @@
 """Tests for filename generation functionality."""
 
-import pytest
-import sys
 import os
+import sys
+
+import pytest
 
 # Add src to path for imports
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "src"))
 
 try:
-    from bank_statement_separator.workflow import BankStatementWorkflow
     from bank_statement_separator.config import Config
+    from bank_statement_separator.workflow import BankStatementWorkflow
 except ImportError:
     # Fallback for testing individual methods
     pytest.skip("Dependencies not available", allow_module_level=True)
@@ -92,9 +93,9 @@ class TestFilenameGeneration:
 
         for input_name, expected in test_cases:
             result = self.workflow._normalize_bank_name(input_name)
-            assert (
-                result == expected
-            ), f"Failed for {input_name}: got {result}, expected {expected}"
+            assert result == expected, (
+                f"Failed for {input_name}: got {result}, expected {expected}"
+            )
 
     def test_extract_last4_digits(self):
         """Test last 4 digits extraction."""
@@ -110,9 +111,9 @@ class TestFilenameGeneration:
 
         for input_account, expected in test_cases:
             result = self.workflow._extract_last4_digits(input_account)
-            assert (
-                result == expected
-            ), f"Failed for {input_account}: got {result}, expected {expected}"
+            assert result == expected, (
+                f"Failed for {input_account}: got {result}, expected {expected}"
+            )
 
     def test_format_statement_date(self):
         """Test statement date formatting."""
@@ -127,9 +128,9 @@ class TestFilenameGeneration:
 
         for input_period, expected in test_cases:
             result = self.workflow._format_statement_date(input_period)
-            assert (
-                result == expected
-            ), f"Failed for {input_period}: got {result}, expected {expected}"
+            assert result == expected, (
+                f"Failed for {input_period}: got {result}, expected {expected}"
+            )
 
     def test_filename_length_limit(self):
         """Test filename length limiting."""

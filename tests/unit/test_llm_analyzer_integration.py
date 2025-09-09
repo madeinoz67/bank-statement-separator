@@ -1,21 +1,22 @@
 """Integration tests for LLM analyzer with provider abstraction."""
 
-import pytest
 from unittest.mock import Mock, patch
 
-from src.bank_statement_separator.nodes.llm_analyzer import (
-    LLMAnalyzer,
-    BoundaryDetectionResult,
-    StatementMetadata,
-)
+import pytest
+
 from src.bank_statement_separator.llm import (
     LLMProviderFactory,
-    OpenAIProvider,
     OllamaProvider,
+    OpenAIProvider,
 )
 from src.bank_statement_separator.llm.base import (
     BoundaryResult,
     MetadataResult,
+)
+from src.bank_statement_separator.nodes.llm_analyzer import (
+    BoundaryDetectionResult,
+    LLMAnalyzer,
+    StatementMetadata,
 )
 
 

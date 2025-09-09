@@ -11,14 +11,12 @@ The Boundary Detection System is the core intelligence component of the bank sta
 ### ✅ Issues Resolved
 
 1. **🔧 Adjacent Boundary Merging Bug** (`llm_analyzer.py:223`)
-
    - **Problem**: Adjacent boundaries treated as overlapping, causing 3 separate statements to merge into 1
    - **Root Cause**: Logic `boundary.start_page <= last_boundary.end_page + 1` incorrectly flagged adjacent pages as overlapping
    - **Fix**: Changed to `boundary.start_page <= last_boundary.end_page` to only merge truly overlapping boundaries
    - **Impact**: **LLM accuracy improved from 33% (1/3) to 100% (3/3) statement detection**
 
 2. **📝 LLM Text Preparation Enhancement** (`llm_analyzer.py:143-173`)
-
    - **Problem**: Combined text without clear page boundaries, LLM couldn't identify page transitions
    - **Root Cause**: Simple `" ".join(text_chunks)` provided no structural information to LLM
    - **Fix**: Added `=== PAGE N ===` markers and smarter truncation strategy
@@ -610,12 +608,10 @@ def _validate_and_consolidate_boundaries(self, boundaries: List[StatementBoundar
 ### Key Improvements Made
 
 1. **✅ Adjacent Boundary Preservation**:
-
    - **Before**: `if boundary.start_page <= last_boundary.end_page + 1` (treated adjacent as overlapping)
    - **After**: `if boundary.start_page <= last_boundary.end_page` (only true overlaps)
 
 2. **✅ Account-Based Merging**:
-
    - Only merge boundaries with identical account numbers
    - Preserve separate statements with different accounts
    - Conservative approach prevents incorrect consolidation
@@ -823,13 +819,11 @@ def _prepare_text_for_analysis(self, text_chunks: List[str]) -> str:
 #### Key Improvements Made
 
 1. **✅ Clear Page Markers**:
-
    - `=== PAGE N ===` and `=== END PAGE N ===` markers
    - LLM can clearly identify page boundaries and transitions
    - Eliminates ambiguity about where each page starts/ends
 
 2. **✅ Smarter Truncation Strategy**:
-
    - Preserves beginning pages (statement headers) and end pages (statement completions)
    - Clear truncation markers prevent confusion
    - Higher context limit (15000 chars) for better analysis

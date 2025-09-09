@@ -1,22 +1,23 @@
 """OpenAI LLM provider implementation."""
 
-import os
-from typing import List, Dict, Any, Optional
 import logging
-from pydantic import BaseModel
-from langchain_openai import ChatOpenAI
+import os
+from typing import Any, Dict, List, Optional
+
 from langchain_core.messages import HumanMessage, SystemMessage
 from langchain_core.output_parsers import PydanticOutputParser
-from openai import RateLimitError, APIError
+from langchain_openai import ChatOpenAI
+from openai import APIError, RateLimitError
+from pydantic import BaseModel
 
-from .base import LLMProvider, LLMProviderError, BoundaryResult, MetadataResult
 from ..utils.hallucination_detector import HallucinationDetector
 from ..utils.rate_limiter import (
-    RateLimiter,
     BackoffStrategy,
     RateLimitConfig,
+    RateLimiter,
     load_rate_limit_config_from_env,
 )
+from .base import BoundaryResult, LLMProvider, LLMProviderError, MetadataResult
 
 logger = logging.getLogger(__name__)
 

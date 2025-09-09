@@ -1,10 +1,11 @@
 """Unit tests for Ollama LLM provider."""
 
 import json
-import pytest
 from unittest.mock import Mock, patch
 
-from src.bank_statement_separator.llm import OllamaProvider, LLMProviderError
+import pytest
+
+from src.bank_statement_separator.llm import LLMProviderError, OllamaProvider
 from src.bank_statement_separator.llm.base import (
     BoundaryResult,
     MetadataResult,

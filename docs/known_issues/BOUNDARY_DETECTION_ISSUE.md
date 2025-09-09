@@ -31,13 +31,11 @@ The boundary detection issue has been successfully resolved through comprehensiv
 ### ✅ Implemented Solutions
 
 1. **Enhanced Fallback Detection** (`llm_analyzer.py`)
-
    - Added text-based analysis for stronger header detection
    - Implemented fragment detection using multiple criteria
    - Enhanced confidence scoring based on critical elements
 
 2. **Fragment Filtering** (`workflow.py`)
-
    - Automatic filtering of low-confidence fragments (< 0.3)
    - Tracking of skipped fragments and pages
    - Transparent logging of filtering decisions
@@ -85,12 +83,10 @@ The fallback boundary detection (pattern-based) failed to identify the boundary 
 ### Current Fallback Logic Issues
 
 1. **Weak Header Detection**: The pattern matching doesn't strongly differentiate between:
-
    - Statement fragments with minimal formatting
    - Actual statement headers with full bank/account details
 
 2. **Missing Boundary Indicators**: The fallback mode doesn't detect:
-
    - Sudden format changes between pages
    - Incomplete transaction tables
    - Missing statement period indicators on fragments
@@ -105,12 +101,10 @@ The fallback boundary detection (pattern-based) failed to identify the boundary 
 ### Short-term Fixes
 
 1. **Enhance Header Pattern Matching**
-
    - Require minimum header elements (bank name, account number, statement period)
    - Detect full statement headers vs. transaction fragments
 
 2. **Add Fragment Detection**
-
    - Identify incomplete pages (single transactions without context)
    - Flag pages with insufficient metadata
 
@@ -121,13 +115,11 @@ The fallback boundary detection (pattern-based) failed to identify the boundary 
 ### Long-term Solutions
 
 1. **Multi-Pass Analysis**
-
    - First pass: Identify definite statement headers
    - Second pass: Group pages between headers
    - Third pass: Handle orphaned fragments
 
 2. **Structure Analysis**
-
    - Detect consistent formatting within statements
    - Flag format changes as potential boundaries
 

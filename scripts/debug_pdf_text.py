@@ -5,8 +5,9 @@ import sys
 
 sys.path.insert(0, "./src")
 
-from bank_statement_separator.utils.pdf_processor import PDFProcessor
 import re
+
+from bank_statement_separator.utils.pdf_processor import PDFProcessor
 
 
 def debug_pdf_text(pdf_path):

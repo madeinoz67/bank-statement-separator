@@ -1,8 +1,10 @@
 """Test suite for paperless-ngx input functionality (document query and download)."""
 
-import pytest
 from unittest.mock import Mock, patch
+
 import httpx
+import pytest
+
 from src.bank_statement_separator.config import Config
 from src.bank_statement_separator.utils.paperless_client import (
     PaperlessClient,
@@ -781,9 +783,9 @@ class TestPaperlessDocumentValidation:
                     paperless_client.download_document(
                         document_id=101, output_path=output_file
                     )
-                assert (
-                    not output_file.exists()
-                ), f"File should not be created: {description}"
+                assert not output_file.exists(), (
+                    f"File should not be created: {description}"
+                )
 
     @patch("httpx.Client")
     def test_filter_pdf_documents_from_query_results(

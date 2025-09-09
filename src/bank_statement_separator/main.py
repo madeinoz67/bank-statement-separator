@@ -1,18 +1,19 @@
 """Main CLI interface for bank statement separator."""
 
-import click
 import logging
 import time
 from pathlib import Path
-from typing import Optional, List, Dict, Any
+from typing import Any, Dict, List, Optional
+
+import click
 from rich.console import Console
+from rich.panel import Panel
 from rich.progress import Progress, SpinnerColumn, TextColumn
 from rich.table import Table
-from rich.panel import Panel
 
-from .config import load_config, ensure_directories, validate_file_access
-from .workflow import BankStatementWorkflow
+from .config import ensure_directories, load_config, validate_file_access
 from .utils.logging_setup import setup_logging
+from .workflow import BankStatementWorkflow
 
 console = Console()
 

@@ -1,10 +1,12 @@
 """Paperless-ngx API client for document upload integration."""
 
 import logging
-from pathlib import Path
-from typing import Optional, Dict, Any, List
 from datetime import date
+from pathlib import Path
+from typing import Any, Dict, List, Optional
+
 import httpx
+
 from ..config import Config
 
 logger = logging.getLogger(__name__)

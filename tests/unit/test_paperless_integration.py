@@ -1,9 +1,11 @@
 """Comprehensive tests for paperless-ngx integration with mocked API calls."""
 
-import pytest
-from unittest.mock import Mock, patch
 from pathlib import Path
+from unittest.mock import Mock, patch
+
 import httpx
+import pytest
+
 from src.bank_statement_separator.config import Config
 from src.bank_statement_separator.utils.paperless_client import (
     PaperlessClient,
@@ -1011,9 +1013,9 @@ class TestPaperlessFilenameConsistency:
         expected_title = "single-statement-acct-1234-2023-12-31"
         actual_title = upload_call["title"]
 
-        assert (
-            actual_title == expected_title
-        ), f"Single file title mismatch: expected '{expected_title}', got '{actual_title}'"
+        assert actual_title == expected_title, (
+            f"Single file title mismatch: expected '{expected_title}', got '{actual_title}'"
+        )
 
         # Also verify in upload results
         assert (

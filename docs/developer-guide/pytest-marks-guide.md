@@ -174,19 +174,16 @@ uv run pytest -m "unit and not mock_heavy"
 The CI pipeline uses marks to optimize test execution:
 
 1. **Unit Tests**: `pytest -m unit`
-
    - Runs on all commits
    - Fast feedback loop
    - No external dependencies
 
 2. **Integration Tests (No API)**: `pytest -m "integration and not requires_api and not requires_ollama and not requires_paperless"`
-
    - Runs on all commits
    - Tests component integration
    - Uses mocks for external services
 
 3. **API Tests**: `pytest -m requires_api`
-
    - Only runs on main branch
    - Requires OPENAI_API_KEY secret
    - Can be triggered with [api-test] in commit message

@@ -460,7 +460,6 @@ uv run pytest --durations=10
    ```
 
 3. **Manual Tests Running Automatically**
-
    - Manual tests should be in `tests/manual/`
    - Check `pyproject.toml` includes `addopts = "--ignore=tests/manual"`
 
@@ -510,37 +509,31 @@ uv run pytest --durations=10
 ## Best Practices
 
 1. **Test Naming**
-
    - Use descriptive names: `test_boundary_detection_with_multiple_statements`
    - Group related tests in classes
    - Prefix test files with `test_`
 
 2. **Test Independence**
-
    - Each test should be independent
    - Use fixtures for setup/teardown
    - Don't rely on test execution order
 
 3. **Assertions**
-
    - Use specific assertions with clear messages
    - Test both success and failure cases
    - Verify edge cases and boundaries
 
 4. **Performance**
-
    - Keep unit tests fast (< 1 second)
    - Mock external services in unit tests
    - Use integration tests for end-to-end validation
 
 5. **Documentation**
-
    - Add docstrings to test functions
    - Document complex test scenarios
    - Include examples in comments
 
 6. **Test Environment Management**
-
    - Use appropriate test environments from `tests/env/` for different scenarios
    - Test with multiple LLM providers when possible
    - Include fallback testing without API keys

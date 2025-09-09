@@ -1,10 +1,11 @@
 """Rate limiting utilities for API calls."""
 
-import time
-import threading
 import logging
-from typing import Dict, Any
+import threading
+import time
 from dataclasses import dataclass
+from typing import Any, Dict
+
 from openai import RateLimitError
 
 logger = logging.getLogger(__name__)

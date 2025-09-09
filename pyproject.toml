@@ -126,9 +126,23 @@ markers = [
     "llm: Tests involving LLM providers and operations",
     "validation: Tests for validation and error handling",
     "manual: Manual execution tests (excluded from automated runs)",
+    "e2e: End-to-end tests with complete workflow validation",
 ]
 addopts = "--ignore=tests/manual --strict-markers"
 testpaths = ["tests"]
 python_files = ["test_*.py"]
 python_classes = ["Test*"]
 python_functions = ["test_*"]
+
+[tool.ruff]
+line-length = 88
+target-version = "py311"
+
+[tool.ruff.lint]
+# Enable essential rules for code quality
+select = ["E", "F", "W", "I"]
+ignore = ["E501"]  # Ignore line length warnings
+
+[tool.ruff.lint.per-file-ignores]
+# Manual test scripts can be more relaxed
+"tests/manual/*.py" = ["E", "F", "W", "I"]

@@ -45,7 +45,7 @@ def main():
             print("\n📋 Recent documents:")
             for i, doc in enumerate(result["documents"][:5]):
                 print(
-                    f"  {i+1}. ID: {doc['id']}, Title: {doc.get('title', 'No title')}"
+                    f"  {i + 1}. ID: {doc['id']}, Title: {doc.get('title', 'No title')}"
                 )
                 # Check if document has test tags
                 if "tags" in doc:

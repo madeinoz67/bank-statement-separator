@@ -1,11 +1,12 @@
 """LangGraph workflow definition for bank statement separation."""
 
-from typing import Dict, Any, List, Optional, TypedDict
-from dataclasses import dataclass
-from langgraph.graph import StateGraph, END
 import logging
 import shutil
+from dataclasses import dataclass
 from pathlib import Path
+from typing import Any, Dict, List, Optional, TypedDict
+
+from langgraph.graph import END, StateGraph
 
 logger = logging.getLogger(__name__)
 
@@ -759,6 +760,7 @@ class BankStatementWorkflow:
             Dict containing validation results and details
         """
         import os
+
         import fitz
 
         validation_results = {

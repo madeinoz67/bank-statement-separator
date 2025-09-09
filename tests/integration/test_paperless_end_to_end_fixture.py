@@ -10,14 +10,15 @@ The fixture ensures reproducible test results by using controlled test data
 with predictable statement boundaries and metadata.
 """
 
-import pytest
 import os
 import tempfile
 import time
-from pathlib import Path
-from typing import List, Dict, Any, Optional
 from dataclasses import dataclass
+from pathlib import Path
+from typing import Any, Dict, List, Optional
+
 import httpx
+import pytest
 
 from src.bank_statement_separator.config import Config
 from src.bank_statement_separator.utils.paperless_client import (
@@ -27,7 +28,7 @@ from src.bank_statement_separator.workflow import BankStatementWorkflow
 
 
 @dataclass
-class TestStatementSpec:
+class StatementSpec:
     """Specification for a standardized test statement."""
 
     bank_name: str
@@ -43,13 +44,13 @@ class TestStatementSpec:
 
 
 @dataclass
-class TestDocumentSpec:
+class DocumentSpec:
     """Specification for a test document containing multiple statements."""
 
     title: str
     filename: str
     description: str
-    statements: List[TestStatementSpec]
+    statements: List[StatementSpec]
     total_pages: int
     expected_output_files: List[str]
 
@@ -143,19 +144,19 @@ class PaperlessEndToEndFixture:
 
         return cleanup_results
 
-    def generate_standardized_test_data(self) -> List[TestDocumentSpec]:
+    def generate_standardized_test_data(self) -> List[DocumentSpec]:
         """Generate standardized test document specifications with known metadata.
 
         Returns:
             List of test document specifications
         """
         test_docs = [
-            TestDocumentSpec(
+            DocumentSpec(
                 title=f"Test Multi-Statement Bundle - Standard 3 Statements [{self.test_timestamp}001]",
                 filename=f"test_multi_3_statements_{self.test_timestamp}001.pdf",
                 description="Controlled 3-statement bundle with predictable boundaries",
                 statements=[
-                    TestStatementSpec(
+                    StatementSpec(
                         bank_name="Test Bank Alpha",
                         account_number="1234567890123456",
                         account_suffix="3456",
@@ -167,7 +168,7 @@ class PaperlessEndToEndFixture:
                         closing_balance="$2,845.67",
                         transaction_count=8,
                     ),
-                    TestStatementSpec(
+                    StatementSpec(
                         bank_name="Test Bank Alpha",
                         account_number="1234567890127890",
                         account_suffix="7890",
@@ -179,7 +180,7 @@ class PaperlessEndToEndFixture:
                         closing_balance="$3,567.89",
                         transaction_count=6,
                     ),
-                    TestStatementSpec(
+                    StatementSpec(
                         bank_name="Test Credit Union Beta",
                         account_number="9876543210654321",
                         account_suffix="4321",
@@ -199,12 +200,12 @@ class PaperlessEndToEndFixture:
                     "test-credit-union-beta-4321-2024-03-31.pdf",
                 ],
             ),
-            TestDocumentSpec(
+            DocumentSpec(
                 title=f"Test Dual-Statement Document - 2 Statements [{self.test_timestamp}002]",
                 filename=f"test_dual_statements_{self.test_timestamp}002.pdf",
                 description="Controlled 2-statement document for validation testing",
                 statements=[
-                    TestStatementSpec(
+                    StatementSpec(
                         bank_name="Test Community Bank",
                         account_number="5555666677778888",
                         account_suffix="8888",
@@ -216,7 +217,7 @@ class PaperlessEndToEndFixture:
                         closing_balance="$6,789.01",
                         transaction_count=10,
                     ),
-                    TestStatementSpec(
+                    StatementSpec(
                         bank_name="Test Savings & Loan",
                         account_number="1111222233334444",
                         account_suffix="4444",
@@ -239,7 +240,7 @@ class PaperlessEndToEndFixture:
 
         return test_docs
 
-    def create_standardized_pdf(self, doc_spec: TestDocumentSpec) -> bytes:
+    def create_standardized_pdf(self, doc_spec: DocumentSpec) -> bytes:
         """Create a standardized PDF with known statement boundaries.
 
         Args:
@@ -248,10 +249,11 @@ class PaperlessEndToEndFixture:
         Returns:
             PDF content as bytes
         """
+        import io
+
         from reportlab.lib.pagesizes import letter
         from reportlab.lib.styles import getSampleStyleSheet
-        from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, PageBreak
-        import io
+        from reportlab.platypus import PageBreak, Paragraph, SimpleDocTemplate, Spacer
 
         # Create PDF in memory
         pdf_buffer = io.BytesIO()
@@ -293,7 +295,7 @@ class PaperlessEndToEndFixture:
 
             # Add sample transactions based on transaction count
             for j in range(stmt.transaction_count):
-                transaction_date = f"2024-{i+1:02d}-{(j+1)*3:02d}"
+                transaction_date = f"2024-{i + 1:02d}-{(j + 1) * 3:02d}"
                 if j % 3 == 0:
                     story.append(
                         Paragraph(
@@ -352,9 +354,7 @@ class PaperlessEndToEndFixture:
 
         return pdf_content
 
-    def upload_test_documents(
-        self, test_docs: List[TestDocumentSpec]
-    ) -> Dict[str, Any]:
+    def upload_test_documents(self, test_docs: List[DocumentSpec]) -> Dict[str, Any]:
         """Upload standardized test documents to Paperless.
 
         Args:
@@ -901,12 +901,12 @@ class TestPaperlessEndToEndProcessing:
         )
 
         # Validate processing results
-        assert (
-            processing_results["success"] is True
-        ), f"Processing failed: {processing_results['errors']}"
-        assert (
-            len(processing_results["processed_documents"]) > 0
-        ), "No documents were processed"
+        assert processing_results["success"] is True, (
+            f"Processing failed: {processing_results['errors']}"
+        )
+        assert len(processing_results["processed_documents"]) > 0, (
+            "No documents were processed"
+        )
 
         # Validate individual document results
         for processed_doc in processing_results["processed_documents"]:
@@ -930,19 +930,19 @@ class TestPaperlessEndToEndProcessing:
 
             # Verify output files exist and are valid PDFs
             for file_validation in validation["file_validations"]:
-                assert file_validation[
-                    "exists"
-                ], f"Expected file not found: {file_validation['expected_filename']}"
+                assert file_validation["exists"], (
+                    f"Expected file not found: {file_validation['expected_filename']}"
+                )
                 if file_validation["exists"]:
-                    assert file_validation[
-                        "is_pdf"
-                    ], f"File is not a PDF: {file_validation['actual_filename']}"
-                    assert (
-                        file_validation["size_bytes"] > 1000
-                    ), f"File too small: {file_validation['actual_filename']}"
-                    assert file_validation.get(
-                        "valid_pdf_header", False
-                    ), f"Invalid PDF header: {file_validation['actual_filename']}"
+                    assert file_validation["is_pdf"], (
+                        f"File is not a PDF: {file_validation['actual_filename']}"
+                    )
+                    assert file_validation["size_bytes"] > 1000, (
+                        f"File too small: {file_validation['actual_filename']}"
+                    )
+                    assert file_validation.get("valid_pdf_header", False), (
+                        f"Invalid PDF header: {file_validation['actual_filename']}"
+                    )
 
         print(
             f"✅ End-to-end test completed successfully: {len(processing_results['processed_documents'])} documents processed"
@@ -961,16 +961,16 @@ class TestPaperlessEndToEndProcessing:
             # Validate document specification
             assert spec.title, "Document must have a title"
             assert spec.statements, "Document must contain statements"
-            assert (
-                len(spec.statements) >= 1
-            ), "Document must contain at least 1 statement"
+            assert len(spec.statements) >= 1, (
+                "Document must contain at least 1 statement"
+            )
             assert spec.total_pages > 0, "Document must have pages"
-            assert (
-                spec.expected_output_files
-            ), "Document must specify expected output files"
-            assert len(spec.expected_output_files) == len(
-                spec.statements
-            ), "Output file count must match statement count"
+            assert spec.expected_output_files, (
+                "Document must specify expected output files"
+            )
+            assert len(spec.expected_output_files) == len(spec.statements), (
+                "Output file count must match statement count"
+            )
 
             # Validate individual statements
             for stmt in spec.statements:
@@ -978,9 +978,9 @@ class TestPaperlessEndToEndProcessing:
                 assert stmt.account_number, "Statement must have account number"
                 assert stmt.account_suffix, "Statement must have account suffix"
                 assert stmt.statement_date, "Statement must have statement date"
-                assert (
-                    stmt.expected_filename_pattern
-                ), "Statement must have expected filename pattern"
+                assert stmt.expected_filename_pattern, (
+                    "Statement must have expected filename pattern"
+                )
                 assert stmt.page_count > 0, "Statement must have pages"
                 assert stmt.opening_balance, "Statement must have opening balance"
                 assert stmt.closing_balance, "Statement must have closing balance"
@@ -996,12 +996,12 @@ class TestPaperlessEndToEndProcessing:
 
         # Test cleanup functionality (this was already run during fixture setup)
         # Verify the fixture's storage paths are configured correctly
-        assert (
-            "test-input" in fixture.test_storage_paths
-        ), "test-input storage path should be configured"
-        assert (
-            "test-processed" in fixture.test_storage_paths
-        ), "test-processed storage path should be configured"
+        assert "test-input" in fixture.test_storage_paths, (
+            "test-input storage path should be configured"
+        )
+        assert "test-processed" in fixture.test_storage_paths, (
+            "test-processed storage path should be configured"
+        )
 
         # The cleanup was already performed during fixture setup
         # This test validates that the functionality exists and is configurable

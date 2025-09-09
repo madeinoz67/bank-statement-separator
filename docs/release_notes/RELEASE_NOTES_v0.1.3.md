@@ -10,7 +10,6 @@ This release focuses on CI/CD improvements, configuration validation enhancement
 ## 🐛 Bug Fixes
 
 - **CI Configuration**: Allow test API keys in configuration validation
-
   - Added intelligent test environment detection for OpenAI API key validation
   - Skip strict 'sk-' prefix validation for test keys (test-key, mock-key, etc.)
   - Automatically detect pytest execution context and bypass validation accordingly
@@ -40,7 +39,6 @@ This release focuses on CI/CD improvements, configuration validation enhancement
 ## 🔧 Infrastructure Improvements
 
 - **Release Automation**: Complete release workflow setup
-
   - Implemented automated release creation with GitHub Actions
   - Added PyPI publishing automation (workflow ready for future releases)
   - Enhanced release-please integration for semantic versioning

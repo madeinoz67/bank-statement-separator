@@ -4,8 +4,9 @@ import os
 import sys
 from pathlib import Path
 from typing import List, Optional
-from pydantic import BaseModel, Field, field_validator, ConfigDict
+
 from dotenv import load_dotenv
+from pydantic import BaseModel, ConfigDict, Field, field_validator
 
 
 class Config(BaseModel):
