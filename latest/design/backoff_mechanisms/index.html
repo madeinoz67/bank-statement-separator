@@ -1141,36 +1141,44 @@
 <h2 id="troubleshooting">Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permanent link">¶</a></h2>
 <h3 id="common-issues-and-solutions">Common Issues and Solutions<a class="headerlink" href="#common-issues-and-solutions" title="Permanent link">¶</a></h3>
 <h4 id="high-rate-limit-frequency">High Rate Limit Frequency<a class="headerlink" href="#high-rate-limit-frequency" title="Permanent link">¶</a></h4>
-<p><strong>Symptoms</strong>: Frequent backoff warnings in logs
+<p><strong>Symptoms</strong>: Frequent backoff warnings in logs</p>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-9-1"><a href="#__codelineno-9-1" id="__codelineno-9-1" name="__codelineno-9-1"></a>WARNING - Rate limit hit (attempt 1/2), backing off for 1.2s
-</span></code></pre></div></p>
-<p><strong>Solutions</strong>:
-- Reduce <code>OPENAI_REQUESTS_PER_MINUTE</code> in environment variables
-- Increase <code>OPENAI_BURST_LIMIT</code> to handle traffic spikes
-- Implement request batching or queuing
-- Check for concurrent processes hitting the same API key</p>
+</span></code></pre></div>
+<p><strong>Solutions</strong>:</p>
+<ul>
+<li>Reduce <code>OPENAI_REQUESTS_PER_MINUTE</code> in environment variables</li>
+<li>Increase <code>OPENAI_BURST_LIMIT</code> to handle traffic spikes</li>
+<li>Implement request batching or queuing</li>
+<li>Check for concurrent processes hitting the same API key</li>
+</ul>
 <h4 id="persistent-rate-limit-errors">Persistent Rate Limit Errors<a class="headerlink" href="#persistent-rate-limit-errors" title="Permanent link">¶</a></h4>
-<p><strong>Symptoms</strong>: All retry attempts exhausted
+<p><strong>Symptoms</strong>: All retry attempts exhausted</p>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-10-1"><a href="#__codelineno-10-1" id="__codelineno-10-1" name="__codelineno-10-1"></a>ERROR - Rate limit error persisted after 2 attempts
-</span></code></pre></div></p>
-<p><strong>Solutions</strong>:
-- Verify API key limits with OpenAI dashboard
-- Implement fallback processing (<code>ENABLE_FALLBACK_PROCESSING=true</code>)
-- Add circuit breaker pattern to temporarily disable API calls
-- Check for API key sharing across multiple applications</p>
+</span></code></pre></div>
+<p><strong>Solutions</strong>:</p>
+<ul>
+<li>Verify API key limits with OpenAI dashboard</li>
+<li>Implement fallback processing (<code>ENABLE_FALLBACK_PROCESSING=true</code>)</li>
+<li>Add circuit breaker pattern to temporarily disable API calls</li>
+<li>Check for API key sharing across multiple applications</li>
+</ul>
 <h4 id="excessive-memory-usage">Excessive Memory Usage<a class="headerlink" href="#excessive-memory-usage" title="Permanent link">¶</a></h4>
 <p><strong>Symptoms</strong>: Growing memory consumption over time</p>
-<p><strong>Solutions</strong>:
-- The rate limiter automatically cleans old timestamps (60-second window)
-- Monitor <code>total_requests_tracked</code> in statistics
-- Consider reducing <code>requests_per_minute</code> if tracking too many requests</p>
+<p><strong>Solutions</strong>:</p>
+<ul>
+<li>The rate limiter automatically cleans old timestamps (60-second window)</li>
+<li>Monitor <code>total_requests_tracked</code> in statistics</li>
+<li>Consider reducing <code>requests_per_minute</code> if tracking too many requests</li>
+</ul>
 <h4 id="thundering-herd-problems">Thundering Herd Problems<a class="headerlink" href="#thundering-herd-problems" title="Permanent link">¶</a></h4>
 <p><strong>Symptoms</strong>: Multiple instances hitting rate limits simultaneously</p>
-<p><strong>Solutions</strong>:
-- Stagger application startup times
-- Use different API keys for different instances
-- Implement randomized delays in addition to jitter
-- Consider a distributed rate limiting solution</p>
+<p><strong>Solutions</strong>:</p>
+<ul>
+<li>Stagger application startup times</li>
+<li>Use different API keys for different instances</li>
+<li>Implement randomized delays in addition to jitter</li>
+<li>Consider a distributed rate limiting solution</li>
+</ul>
 <h3 id="debug-commands">Debug Commands<a class="headerlink" href="#debug-commands" title="Permanent link">¶</a></h3>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-11-1"><a href="#__codelineno-11-1" id="__codelineno-11-1" name="__codelineno-11-1"></a><span class="c1"># Check current rate limiter statistics</span>
 </span><span id="__span-11-2"><a href="#__codelineno-11-2" id="__codelineno-11-2" name="__codelineno-11-2"></a>python<span class="w"> </span>-c<span class="w"> </span><span class="s2">"</span>
@@ -1201,10 +1209,12 @@
 </ol>
 <h2 id="api-compatibility-and-version-considerations">API Compatibility and Version Considerations<a class="headerlink" href="#api-compatibility-and-version-considerations" title="Permanent link">¶</a></h2>
 <h3 id="openai-api-versions">OpenAI API Versions<a class="headerlink" href="#openai-api-versions" title="Permanent link">¶</a></h3>
-<p>The backoff mechanism is designed to work with:
-- <strong>OpenAI Python Client</strong>: <code>openai&gt;=1.0.0</code>
-- <strong>RateLimitError</strong>: Standard exception from OpenAI client
-- <strong>APIError</strong>: General API errors (non-retryable)</p>
+<p>The backoff mechanism is designed to work with:</p>
+<ul>
+<li><strong>OpenAI Python Client</strong>: <code>openai&gt;=1.0.0</code></li>
+<li><strong>RateLimitError</strong>: Standard exception from OpenAI client</li>
+<li><strong>APIError</strong>: General API errors (non-retryable)</li>
+</ul>
 <h3 id="backward-compatibility">Backward Compatibility<a class="headerlink" href="#backward-compatibility" title="Permanent link">¶</a></h3>
 <ul>
 <li><strong>Environment Variables</strong>: All existing environment variables are preserved</li>
@@ -1212,11 +1222,13 @@
 <li><strong>Provider Interface</strong>: No breaking changes to <code>LLMProvider</code> interface</li>
 </ul>
 <h3 id="migration-notes">Migration Notes<a class="headerlink" href="#migration-notes" title="Permanent link">¶</a></h3>
-<p>When upgrading OpenAI client versions:
-1. Verify <code>RateLimitError</code> exception handling remains compatible
-2. Test backoff behavior with new API version
-3. Update rate limits based on new API quotas
-4. Monitor for changes in error response formats</p>
+<p>When upgrading OpenAI client versions:</p>
+<ol>
+<li>Verify <code>RateLimitError</code> exception handling remains compatible</li>
+<li>Test backoff behavior with new API version</li>
+<li>Update rate limits based on new API quotas</li>
+<li>Monitor for changes in error response formats</li>
+</ol>
 <h3 id="dependencies">Dependencies<a class="headerlink" href="#dependencies" title="Permanent link">¶</a></h3>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-13-1"><a href="#__codelineno-13-1" id="__codelineno-13-1" name="__codelineno-13-1"></a><span class="c1"># Core dependencies for backoff mechanism</span>
 </span><span id="__span-13-2"><a href="#__codelineno-13-2" id="__codelineno-13-2" name="__codelineno-13-2"></a><span class="n">openai</span><span class="o">&gt;=</span><span class="mf">1.0.0</span>        <span class="c1"># For RateLimitError exception</span>

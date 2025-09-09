@@ -808,26 +808,28 @@
 <h1 id="model-selection-guide">Model Selection Guide<a class="headerlink" href="#model-selection-guide" title="Permanent link">¶</a></h1>
 <h2 id="quick-start-just-tell-me-what-to-use">Quick Start - Just Tell Me What To Use!<a class="headerlink" href="#quick-start-just-tell-me-what-to-use" title="Permanent link">¶</a></h2>
 <h3 id="best-overall-choice">Best Overall Choice<a class="headerlink" href="#best-overall-choice" title="Permanent link">¶</a></h3>
-<p><strong>Recommendation: OpenAI GPT-4o-mini</strong>
+<p><strong>Recommendation: OpenAI GPT-4o-mini</strong></p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a href="#__codelineno-0-1" id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="c1"># Set in your .env file</span>
 </span><span id="__span-0-2"><a href="#__codelineno-0-2" id="__codelineno-0-2" name="__codelineno-0-2"></a><span class="nv">LLM_PROVIDER</span><span class="o">=</span>openai
 </span><span id="__span-0-3"><a href="#__codelineno-0-3" id="__codelineno-0-3" name="__codelineno-0-3"></a><span class="nv">OPENAI_MODEL</span><span class="o">=</span>gpt-4o-mini
 </span><span id="__span-0-4"><a href="#__codelineno-0-4" id="__codelineno-0-4" name="__codelineno-0-4"></a><span class="nv">OPENAI_API_KEY</span><span class="o">=</span>your-api-key-here
 </span></code></pre></div>
-<strong>Why</strong>: Perfect accuracy, fast processing (10.85s), complete metadata extraction.</p>
+<p><strong>Why</strong>: Perfect accuracy, fast processing (10.85s), complete metadata extraction.</p>
 <h3 id="best-localoffline-choice">Best Local/Offline Choice<a class="headerlink" href="#best-localoffline-choice" title="Permanent link">¶</a></h3>
-<p><strong>Recommendation: Gemma2:9B</strong>
+<p><strong>Recommendation: Gemma2:9B</strong></p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a href="#__codelineno-1-1" id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="c1"># Set in your .env file</span>
 </span><span id="__span-1-2"><a href="#__codelineno-1-2" id="__codelineno-1-2" name="__codelineno-1-2"></a><span class="nv">LLM_PROVIDER</span><span class="o">=</span>ollama
 </span><span id="__span-1-3"><a href="#__codelineno-1-3" id="__codelineno-1-3" name="__codelineno-1-3"></a><span class="nv">OLLAMA_MODEL</span><span class="o">=</span>gemma2:9b
 </span><span id="__span-1-4"><a href="#__codelineno-1-4" id="__codelineno-1-4" name="__codelineno-1-4"></a><span class="nv">OLLAMA_BASE_URL</span><span class="o">=</span>http://localhost:11434
 </span></code></pre></div>
-<strong>Why</strong>: Fastest local model (6.65s), excellent quality, privacy-first.</p>
+<p><strong>Why</strong>: Fastest local model (6.65s), excellent quality, privacy-first.</p>
 <h3 id="most-cost-effective">Most Cost-Effective<a class="headerlink" href="#most-cost-effective" title="Permanent link">¶</a></h3>
-<p><strong>Recommendation: Self-hosted Gemma2:9B</strong>
-- Zero marginal cost after setup
-- Excellent performance for unlimited processing
-- Full privacy and control</p>
+<p><strong>Recommendation: Self-hosted Gemma2:9B</strong></p>
+<ul>
+<li>Zero marginal cost after setup</li>
+<li>Excellent performance for unlimited processing</li>
+<li>Full privacy and control</li>
+</ul>
 <h2 id="decision-tree">Decision Tree<a class="headerlink" href="#decision-tree" title="Permanent link">¶</a></h2>
 <pre class="mermaid"><code>flowchart TD
     A[Need LLM for Bank Statement Processing?] --&gt; B{Privacy Required?}
@@ -905,7 +907,7 @@
 </ol>
 <h4 id="hybrid-flexible">Hybrid (Flexible)<a class="headerlink" href="#hybrid-flexible" title="Permanent link">¶</a></h4>
 <ul>
-<li>Primary: OpenAI for critical documents  </li>
+<li>Primary: OpenAI for critical documents</li>
 <li>Fallback: Gemma2:9B for routine processing</li>
 <li>Configure both in environment</li>
 </ul>
@@ -987,7 +989,7 @@
 </span></code></pre></div>
 <h3 id="budget-setup-minimize-costs">Budget Setup (Minimize Costs)<a class="headerlink" href="#budget-setup-minimize-costs" title="Permanent link">¶</a></h3>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a href="#__codelineno-6-1" id="__codelineno-6-1" name="__codelineno-6-1"></a><span class="c1"># Free local processing</span>
-</span><span id="__span-6-2"><a href="#__codelineno-6-2" id="__codelineno-6-2" name="__codelineno-6-2"></a><span class="nv">LLM_PROVIDER</span><span class="o">=</span>ollama<span class="w">  </span>
+</span><span id="__span-6-2"><a href="#__codelineno-6-2" id="__codelineno-6-2" name="__codelineno-6-2"></a><span class="nv">LLM_PROVIDER</span><span class="o">=</span>ollama
 </span><span id="__span-6-3"><a href="#__codelineno-6-3" id="__codelineno-6-3" name="__codelineno-6-3"></a><span class="nv">OLLAMA_MODEL</span><span class="o">=</span>mistral:instruct
 </span><span id="__span-6-4"><a href="#__codelineno-6-4" id="__codelineno-6-4" name="__codelineno-6-4"></a><span class="nv">OLLAMA_BASE_URL</span><span class="o">=</span>http://localhost:11434
 </span><span id="__span-6-5"><a href="#__codelineno-6-5" id="__codelineno-6-5" name="__codelineno-6-5"></a>
@@ -1023,7 +1025,7 @@
 <h3 id="researchacademic">Research/Academic<a class="headerlink" href="#researchacademic" title="Permanent link">¶</a></h3>
 <ul>
 <li><strong>Model</strong>: Multiple models for comparison</li>
-<li><strong>Reason</strong>: Study model behavior and accuracy  </li>
+<li><strong>Reason</strong>: Study model behavior and accuracy</li>
 <li><strong>Setup</strong>: Full Ollama installation with all models</li>
 </ul>
 <h2 id="common-issues-solutions">Common Issues &amp; Solutions<a class="headerlink" href="#common-issues-solutions" title="Permanent link">¶</a></h2>
@@ -1067,7 +1069,7 @@
 <ul>
 <li><strong>Processing Time</strong>: Target &lt; 15 seconds per document</li>
 <li><strong>Accuracy Rate</strong>: Track segmentation errors</li>
-<li><strong>Memory Usage</strong>: Monitor during processing  </li>
+<li><strong>Memory Usage</strong>: Monitor during processing</li>
 <li><strong>Error Rate</strong>: LLM failures vs fallback usage</li>
 </ul>
 <h3 id="monitoring-commands">Monitoring Commands<a class="headerlink" href="#monitoring-commands" title="Permanent link">¶</a></h3>
@@ -1093,7 +1095,7 @@
 <h3 id="performance-issues">Performance Issues<a class="headerlink" href="#performance-issues" title="Permanent link">¶</a></h3>
 <ol>
 <li>Run model comparison tests (see <a href="../../reference/llm_model_testing/">LLM Model Testing</a>)</li>
-<li>Check <a href="../../reference/model_comparison_tables/">Model Comparison Tables</a> </li>
+<li>Check <a href="../../reference/model_comparison_tables/">Model Comparison Tables</a></li>
 <li>Review <a href="../../reference/troubleshooting/">Troubleshooting Guide</a></li>
 </ol>
 <h3 id="community-resources">Community Resources<a class="headerlink" href="#community-resources" title="Permanent link">¶</a></h3>

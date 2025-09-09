@@ -884,12 +884,14 @@
 <h3 id="4-documentation-versioned-workflow-docs-versionedyml">4. Documentation Versioned Workflow (<code>docs-versioned.yml</code>)<a class="headerlink" href="#4-documentation-versioned-workflow-docs-versionedyml" title="Permanent link">¶</a></h3>
 <h4 id="enhanced-trigger-logic-safety-checks">Enhanced Trigger Logic &amp; Safety Checks<a class="headerlink" href="#enhanced-trigger-logic-safety-checks" title="Permanent link">¶</a></h4>
 <p>The docs-versioned workflow has been significantly improved with robust trigger logic and comprehensive safety checks:</p>
-<p><strong>Key Improvements:</strong>
-- <strong>Enhanced Trigger Logic</strong>: Proper handling of all event types (push, release, repository_dispatch, workflow_dispatch)
-- <strong>Version Validation</strong>: Validates semantic version format before deployment
-- <strong>Conflict Resolution</strong>: Retry logic with exponential backoff for concurrent deployments
-- <strong>Safety Checks</strong>: Prevents no-op deployments with explicit verification
-- <strong>Comprehensive Logging</strong>: Debug output for troubleshooting deployment issues</p>
+<p><strong>Key Improvements:</strong></p>
+<ul>
+<li><strong>Enhanced Trigger Logic</strong>: Proper handling of all event types (push, release, repository_dispatch, workflow_dispatch)</li>
+<li><strong>Version Validation</strong>: Validates semantic version format before deployment</li>
+<li><strong>Conflict Resolution</strong>: Retry logic with exponential backoff for concurrent deployments</li>
+<li><strong>Safety Checks</strong>: Prevents no-op deployments with explicit verification</li>
+<li><strong>Comprehensive Logging</strong>: Debug output for troubleshooting deployment issues</li>
+</ul>
 <pre class="mermaid"><code>flowchart TD
     %% Triggers with Enhanced Logic
     PushMain[📥 Push to Main<br/>docs/** changes] --&gt; DocsStart[📚 Docs Versioned<br/>Workflow Start]
@@ -1009,23 +1011,31 @@
     class DocsSkipped skipStyle
 </code></pre>
 <h4 id="key-workflow-features">Key Workflow Features<a class="headerlink" href="#key-workflow-features" title="Permanent link">¶</a></h4>
-<p><strong>Enhanced Trigger Logic:</strong>
-- <strong>Push to Main</strong>: Automatically deploys <code>latest</code> documentation for docs changes
-- <strong>Release Events</strong>: Extracts version from <code>release.tag_name</code> and deploys versioned docs
-- <strong>Repository Dispatch</strong>: Handles <code>release-triggered</code> events from release workflow
-- <strong>Manual Dispatch</strong>: Supports both "latest" and specific version deployments</p>
-<p><strong>Version Validation:</strong>
-- Validates semantic versioning format (X.Y.Z or X.Y.Z-suffix)
-- Prevents deployment of invalid version formats
-- Comprehensive error reporting for validation failures</p>
-<p><strong>Conflict Resolution:</strong>
-- Robust retry logic with exponential backoff (3 attempts)
-- Automatic conflict resolution via rebase/reset
-- Prevents concurrent deployment conflicts with exclusive concurrency group</p>
-<p><strong>Safety &amp; Monitoring:</strong>
-- Explicit no-deployment warnings for unhandled events
-- Comprehensive debug logging throughout the process
-- Clear success/failure reporting with actionable URLs</p>
+<p><strong>Enhanced Trigger Logic:</strong></p>
+<ul>
+<li><strong>Push to Main</strong>: Automatically deploys <code>latest</code> documentation for docs changes</li>
+<li><strong>Release Events</strong>: Extracts version from <code>release.tag_name</code> and deploys versioned docs</li>
+<li><strong>Repository Dispatch</strong>: Handles <code>release-triggered</code> events from release workflow</li>
+<li><strong>Manual Dispatch</strong>: Supports both "latest" and specific version deployments</li>
+</ul>
+<p><strong>Version Validation:</strong></p>
+<ul>
+<li>Validates semantic versioning format (X.Y.Z or X.Y.Z-suffix)</li>
+<li>Prevents deployment of invalid version formats</li>
+<li>Comprehensive error reporting for validation failures</li>
+</ul>
+<p><strong>Conflict Resolution:</strong></p>
+<ul>
+<li>Robust retry logic with exponential backoff (3 attempts)</li>
+<li>Automatic conflict resolution via rebase/reset</li>
+<li>Prevents concurrent deployment conflicts with exclusive concurrency group</li>
+</ul>
+<p><strong>Safety &amp; Monitoring:</strong></p>
+<ul>
+<li>Explicit no-deployment warnings for unhandled events</li>
+<li>Comprehensive debug logging throughout the process</li>
+<li>Clear success/failure reporting with actionable URLs</li>
+</ul>
 <h3 id="5-dependency-review-workflow-dependency-reviewyml">5. Dependency Review Workflow (<code>dependency-review.yml</code>)<a class="headerlink" href="#5-dependency-review-workflow-dependency-reviewyml" title="Permanent link">¶</a></h3>
 <pre class="mermaid"><code>flowchart TD
     %% Trigger
@@ -1140,7 +1150,7 @@
 <p>The workflows provide comprehensive monitoring through:</p>
 <ol>
 <li><strong>GitHub Actions Dashboard</strong>: Real-time workflow status</li>
-<li><strong>Status Checks</strong>: PR blocking for failed workflows  </li>
+<li><strong>Status Checks</strong>: PR blocking for failed workflows</li>
 <li><strong>Notifications</strong>: Email/GitHub notifications for failures</li>
 <li><strong>Debug Logging</strong>: Comprehensive debug output for troubleshooting</li>
 <li><strong>Artifact Storage</strong>: Build artifacts and logs for analysis</li>

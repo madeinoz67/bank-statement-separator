@@ -872,11 +872,13 @@
 <p>The system detects 8 distinct categories of hallucinations, each targeting specific failure modes of LLM processing:</p>
 <h3 id="1-phantom-statements-phantom_statement">1. Phantom Statements (<code>PHANTOM_STATEMENT</code>)<a class="headerlink" href="#1-phantom-statements-phantom_statement" title="Permanent link">¶</a></h3>
 <p><strong>Description</strong>: Detection of more statement boundaries than physically possible in the document.</p>
-<p><strong>Examples</strong>:
-- LLM reports 5 statements in a 3-page document
-- Boundaries reference pages that don't exist (e.g., page 25 in a 12-page document)
-- More statements detected than reasonable based on document structure</p>
-<p><strong>Detection Logic</strong>:
+<p><strong>Examples</strong>:</p>
+<ul>
+<li>LLM reports 5 statements in a 3-page document</li>
+<li>Boundaries reference pages that don't exist (e.g., page 25 in a 12-page document)</li>
+<li>More statements detected than reasonable based on document structure</li>
+</ul>
+<p><strong>Detection Logic</strong>:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-1-1"><a href="#__codelineno-1-1" id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">boundaries</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">total_pages</span><span class="p">:</span>
 </span><span id="__span-1-2"><a href="#__codelineno-1-2" id="__codelineno-1-2" name="__codelineno-1-2"></a>    <span class="c1"># Critical: More statements than pages</span>
 </span><span id="__span-1-3"><a href="#__codelineno-1-3" id="__codelineno-1-3" name="__codelineno-1-3"></a>    <span class="n">alert</span> <span class="o">=</span> <span class="n">HallucinationAlert</span><span class="p">(</span>
@@ -884,28 +886,32 @@
 </span><span id="__span-1-5"><a href="#__codelineno-1-5" id="__codelineno-1-5" name="__codelineno-1-5"></a>        <span class="n">severity</span><span class="o">=</span><span class="s2">"critical"</span><span class="p">,</span>
 </span><span id="__span-1-6"><a href="#__codelineno-1-6" id="__codelineno-1-6" name="__codelineno-1-6"></a>        <span class="n">description</span><span class="o">=</span><span class="sa">f</span><span class="s2">"Detected </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">boundaries</span><span class="p">)</span><span class="si">}</span><span class="s2"> statements in </span><span class="si">{</span><span class="n">total_pages</span><span class="si">}</span><span class="s2">-page document"</span>
 </span><span id="__span-1-7"><a href="#__codelineno-1-7" id="__codelineno-1-7" name="__codelineno-1-7"></a>    <span class="p">)</span>
-</span></code></pre></div></p>
+</span></code></pre></div>
 <h3 id="2-invalid-page-ranges-invalid_page_range">2. Invalid Page Ranges (<code>INVALID_PAGE_RANGE</code>)<a class="headerlink" href="#2-invalid-page-ranges-invalid_page_range" title="Permanent link">¶</a></h3>
 <p><strong>Description</strong>: Logically impossible or invalid page number ranges in boundary detection.</p>
-<p><strong>Examples</strong>:
-- start_page &gt; end_page (e.g., pages 5-2)
-- Negative page numbers (e.g., page -1)
-- Pages exceeding document length</p>
-<p><strong>Detection Logic</strong>:
+<p><strong>Examples</strong>:</p>
+<ul>
+<li>start_page &gt; end_page (e.g., pages 5-2)</li>
+<li>Negative page numbers (e.g., page -1)</li>
+<li>Pages exceeding document length</li>
+</ul>
+<p><strong>Detection Logic</strong>:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-2-1"><a href="#__codelineno-2-1" id="__codelineno-2-1" name="__codelineno-2-1"></a><span class="k">if</span> <span class="n">start_page</span> <span class="o">&gt;</span> <span class="n">end_page</span><span class="p">:</span>
 </span><span id="__span-2-2"><a href="#__codelineno-2-2" id="__codelineno-2-2" name="__codelineno-2-2"></a>    <span class="n">alert</span> <span class="o">=</span> <span class="n">HallucinationAlert</span><span class="p">(</span>
 </span><span id="__span-2-3"><a href="#__codelineno-2-3" id="__codelineno-2-3" name="__codelineno-2-3"></a>        <span class="nb">type</span><span class="o">=</span><span class="n">HallucinationType</span><span class="o">.</span><span class="n">INVALID_PAGE_RANGE</span><span class="p">,</span>
 </span><span id="__span-2-4"><a href="#__codelineno-2-4" id="__codelineno-2-4" name="__codelineno-2-4"></a>        <span class="n">severity</span><span class="o">=</span><span class="s2">"high"</span><span class="p">,</span>
 </span><span id="__span-2-5"><a href="#__codelineno-2-5" id="__codelineno-2-5" name="__codelineno-2-5"></a>        <span class="n">description</span><span class="o">=</span><span class="sa">f</span><span class="s2">"Invalid range: start_page (</span><span class="si">{</span><span class="n">start_page</span><span class="si">}</span><span class="s2">) &gt; end_page (</span><span class="si">{</span><span class="n">end_page</span><span class="si">}</span><span class="s2">)"</span>
 </span><span id="__span-2-6"><a href="#__codelineno-2-6" id="__codelineno-2-6" name="__codelineno-2-6"></a>    <span class="p">)</span>
-</span></code></pre></div></p>
+</span></code></pre></div>
 <h3 id="3-impossible-dates-impossible_dates">3. Impossible Dates (<code>IMPOSSIBLE_DATES</code>)<a class="headerlink" href="#3-impossible-dates-impossible_dates" title="Permanent link">¶</a></h3>
 <p><strong>Description</strong>: Temporal inconsistencies in statement periods and dates.</p>
-<p><strong>Examples</strong>:
-- Future dates (statements from 2035)
-- Historically impossible dates (bank statements from 1850)
-- Dates that exceed reasonable business ranges</p>
-<p><strong>Detection Logic</strong>:
+<p><strong>Examples</strong>:</p>
+<ul>
+<li>Future dates (statements from 2035)</li>
+<li>Historically impossible dates (bank statements from 1850)</li>
+<li>Dates that exceed reasonable business ranges</li>
+</ul>
+<p><strong>Detection Logic</strong>:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-3-1"><a href="#__codelineno-3-1" id="__codelineno-3-1" name="__codelineno-3-1"></a><span class="n">current_year</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">year</span>
 </span><span id="__span-3-2"><a href="#__codelineno-3-2" id="__codelineno-3-2" name="__codelineno-3-2"></a><span class="k">if</span> <span class="n">year</span> <span class="o">&gt;</span> <span class="n">current_year</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:</span>  <span class="c1"># Allow 1 year buffer</span>
 </span><span id="__span-3-3"><a href="#__codelineno-3-3" id="__codelineno-3-3" name="__codelineno-3-3"></a>    <span class="n">alert</span> <span class="o">=</span> <span class="n">HallucinationAlert</span><span class="p">(</span>
@@ -919,15 +925,17 @@
 </span><span id="__span-3-11"><a href="#__codelineno-3-11" id="__codelineno-3-11" name="__codelineno-3-11"></a>        <span class="n">severity</span><span class="o">=</span><span class="s2">"medium"</span><span class="p">,</span>
 </span><span id="__span-3-12"><a href="#__codelineno-3-12" id="__codelineno-3-12" name="__codelineno-3-12"></a>        <span class="n">description</span><span class="o">=</span><span class="sa">f</span><span class="s2">"Unrealistic historical year: </span><span class="si">{</span><span class="n">year</span><span class="si">}</span><span class="s2">"</span>
 </span><span id="__span-3-13"><a href="#__codelineno-3-13" id="__codelineno-3-13" name="__codelineno-3-13"></a>    <span class="p">)</span>
-</span></code></pre></div></p>
+</span></code></pre></div>
 <h3 id="4-nonsensical-account-numbers-nonsensical_account">4. Nonsensical Account Numbers (<code>NONSENSICAL_ACCOUNT</code>)<a class="headerlink" href="#4-nonsensical-account-numbers-nonsensical_account" title="Permanent link">¶</a></h3>
 <p><strong>Description</strong>: Account numbers that follow obviously fake or impossible patterns.</p>
-<p><strong>Examples</strong>:
-- Placeholder patterns: "123456789", "000000000"
-- Masked patterns: "<strong><em>1234</em></strong>"
-- Extremely long or short account numbers
-- Non-numeric characters in inappropriate positions</p>
-<p><strong>Detection Logic</strong>:
+<p><strong>Examples</strong>:</p>
+<ul>
+<li>Placeholder patterns: "123456789", "000000000"</li>
+<li>Masked patterns: "<strong><em>1234</em></strong>"</li>
+<li>Extremely long or short account numbers</li>
+<li>Non-numeric characters in inappropriate positions</li>
+</ul>
+<p><strong>Detection Logic</strong>:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-4-1"><a href="#__codelineno-4-1" id="__codelineno-4-1" name="__codelineno-4-1"></a><span class="n">fake_patterns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'123456789'</span><span class="p">,</span> <span class="s1">'000000000'</span><span class="p">,</span> <span class="s1">'111111111'</span><span class="p">,</span> <span class="s1">'***1234***'</span><span class="p">]</span>
 </span><span id="__span-4-2"><a href="#__codelineno-4-2" id="__codelineno-4-2" name="__codelineno-4-2"></a><span class="k">if</span> <span class="n">account_number</span> <span class="ow">in</span> <span class="n">fake_patterns</span><span class="p">:</span>
 </span><span id="__span-4-3"><a href="#__codelineno-4-3" id="__codelineno-4-3" name="__codelineno-4-3"></a>    <span class="n">alert</span> <span class="o">=</span> <span class="n">HallucinationAlert</span><span class="p">(</span>
@@ -942,22 +950,24 @@
 </span><span id="__span-4-12"><a href="#__codelineno-4-12" id="__codelineno-4-12" name="__codelineno-4-12"></a>        <span class="n">severity</span><span class="o">=</span><span class="s2">"medium"</span><span class="p">,</span>
 </span><span id="__span-4-13"><a href="#__codelineno-4-13" id="__codelineno-4-13" name="__codelineno-4-13"></a>        <span class="n">description</span><span class="o">=</span><span class="sa">f</span><span class="s2">"Account number has unusual length: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">account_number</span><span class="p">)</span><span class="si">}</span><span class="s2"> chars"</span>
 </span><span id="__span-4-14"><a href="#__codelineno-4-14" id="__codelineno-4-14" name="__codelineno-4-14"></a>    <span class="p">)</span>
-</span></code></pre></div></p>
+</span></code></pre></div>
 <h3 id="5-fabricated-banks-fabricated_bank">5. Fabricated Banks (<code>FABRICATED_BANK</code>)<a class="headerlink" href="#5-fabricated-banks-fabricated_bank" title="Permanent link">¶</a></h3>
 <p><strong>Description</strong>: Bank names that don't exist in known banking institutions or don't appear in the document text.</p>
-<p><strong>Examples</strong>:
-- "Fictional Credit Institution of Dreams"
-- "Bank of Atlantis"
-- Real bank names not found in the processed document text</p>
-<p><strong>Detection Logic</strong>:
+<p><strong>Examples</strong>:</p>
+<ul>
+<li>"Fictional Credit Institution of Dreams"</li>
+<li>"Bank of Atlantis"</li>
+<li>Real bank names not found in the processed document text</li>
+</ul>
+<p><strong>Detection Logic</strong>:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-5-1"><a href="#__codelineno-5-1" id="__codelineno-5-1" name="__codelineno-5-1"></a><span class="c1"># Check if bank name appears in document</span>
 </span><span id="__span-5-2"><a href="#__codelineno-5-2" id="__codelineno-5-2" name="__codelineno-5-2"></a><span class="k">if</span> <span class="n">bank_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">document_text</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
 </span><span id="__span-5-3"><a href="#__codelineno-5-3" id="__codelineno-5-3" name="__codelineno-5-3"></a>    <span class="c1"># Check against known bank list with substantial word matching</span>
-</span><span id="__span-5-4"><a href="#__codelineno-5-4" id="__codelineno-5-4" name="__codelineno-5-4"></a>    <span class="n">substantial_words</span> <span class="o">=</span> <span class="p">[</span><span class="n">word</span> <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">bank_name</span><span class="o">.</span><span class="n">split</span><span class="p">()</span> 
+</span><span id="__span-5-4"><a href="#__codelineno-5-4" id="__codelineno-5-4" name="__codelineno-5-4"></a>    <span class="n">substantial_words</span> <span class="o">=</span> <span class="p">[</span><span class="n">word</span> <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">bank_name</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
 </span><span id="__span-5-5"><a href="#__codelineno-5-5" id="__codelineno-5-5" name="__codelineno-5-5"></a>                        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">word</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">3</span> <span class="ow">and</span> <span class="n">word</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">'bank'</span><span class="p">,</span> <span class="s1">'banking'</span><span class="p">,</span> <span class="s1">'corporation'</span><span class="p">]]</span>
 </span><span id="__span-5-6"><a href="#__codelineno-5-6" id="__codelineno-5-6" name="__codelineno-5-6"></a>
-</span><span id="__span-5-7"><a href="#__codelineno-5-7" id="__codelineno-5-7" name="__codelineno-5-7"></a>    <span class="n">found_match</span> <span class="o">=</span> <span class="nb">any</span><span class="p">(</span><span class="n">word</span> <span class="ow">in</span> <span class="n">substantial_words</span> 
-</span><span id="__span-5-8"><a href="#__codelineno-5-8" id="__codelineno-5-8" name="__codelineno-5-8"></a>                     <span class="k">for</span> <span class="n">known_bank</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">valid_banks</span> 
+</span><span id="__span-5-7"><a href="#__codelineno-5-7" id="__codelineno-5-7" name="__codelineno-5-7"></a>    <span class="n">found_match</span> <span class="o">=</span> <span class="nb">any</span><span class="p">(</span><span class="n">word</span> <span class="ow">in</span> <span class="n">substantial_words</span>
+</span><span id="__span-5-8"><a href="#__codelineno-5-8" id="__codelineno-5-8" name="__codelineno-5-8"></a>                     <span class="k">for</span> <span class="n">known_bank</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">valid_banks</span>
 </span><span id="__span-5-9"><a href="#__codelineno-5-9" id="__codelineno-5-9" name="__codelineno-5-9"></a>                     <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">known_bank</span><span class="o">.</span><span class="n">split</span><span class="p">()</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">word</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="p">)</span>
 </span><span id="__span-5-10"><a href="#__codelineno-5-10" id="__codelineno-5-10" name="__codelineno-5-10"></a>
 </span><span id="__span-5-11"><a href="#__codelineno-5-11" id="__codelineno-5-11" name="__codelineno-5-11"></a>    <span class="k">if</span> <span class="ow">not</span> <span class="n">found_match</span><span class="p">:</span>
@@ -966,13 +976,15 @@
 </span><span id="__span-5-14"><a href="#__codelineno-5-14" id="__codelineno-5-14" name="__codelineno-5-14"></a>            <span class="n">severity</span><span class="o">=</span><span class="s2">"high"</span><span class="p">,</span>
 </span><span id="__span-5-15"><a href="#__codelineno-5-15" id="__codelineno-5-15" name="__codelineno-5-15"></a>            <span class="n">description</span><span class="o">=</span><span class="sa">f</span><span class="s2">"Bank name not found in document and not in known bank list"</span>
 </span><span id="__span-5-16"><a href="#__codelineno-5-16" id="__codelineno-5-16" name="__codelineno-5-16"></a>        <span class="p">)</span>
-</span></code></pre></div></p>
+</span></code></pre></div>
 <h3 id="6-duplicate-boundaries-duplicate_boundaries">6. Duplicate Boundaries (<code>DUPLICATE_BOUNDARIES</code>)<a class="headerlink" href="#6-duplicate-boundaries-duplicate_boundaries" title="Permanent link">¶</a></h3>
 <p><strong>Description</strong>: Identical or overlapping statement boundaries that indicate processing errors.</p>
-<p><strong>Examples</strong>:
-- Two statements with identical page ranges (1-5, 1-5)
-- Overlapping boundaries that don't make logical sense</p>
-<p><strong>Detection Logic</strong>:
+<p><strong>Examples</strong>:</p>
+<ul>
+<li>Two statements with identical page ranges (1-5, 1-5)</li>
+<li>Overlapping boundaries that don't make logical sense</li>
+</ul>
+<p><strong>Detection Logic</strong>:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-6-1"><a href="#__codelineno-6-1" id="__codelineno-6-1" name="__codelineno-6-1"></a><span class="n">seen_ranges</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
 </span><span id="__span-6-2"><a href="#__codelineno-6-2" id="__codelineno-6-2" name="__codelineno-6-2"></a><span class="k">for</span> <span class="n">boundary</span> <span class="ow">in</span> <span class="n">boundaries</span><span class="p">:</span>
 </span><span id="__span-6-3"><a href="#__codelineno-6-3" id="__codelineno-6-3" name="__codelineno-6-3"></a>    <span class="n">range_key</span> <span class="o">=</span> <span class="p">(</span><span class="n">start_page</span><span class="p">,</span> <span class="n">end_page</span><span class="p">)</span>
@@ -982,13 +994,15 @@
 </span><span id="__span-6-7"><a href="#__codelineno-6-7" id="__codelineno-6-7" name="__codelineno-6-7"></a>            <span class="n">severity</span><span class="o">=</span><span class="s2">"medium"</span><span class="p">,</span>
 </span><span id="__span-6-8"><a href="#__codelineno-6-8" id="__codelineno-6-8" name="__codelineno-6-8"></a>            <span class="n">description</span><span class="o">=</span><span class="sa">f</span><span class="s2">"Duplicate boundary detected: pages </span><span class="si">{</span><span class="n">start_page</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">end_page</span><span class="si">}</span><span class="s2">"</span>
 </span><span id="__span-6-9"><a href="#__codelineno-6-9" id="__codelineno-6-9" name="__codelineno-6-9"></a>        <span class="p">)</span>
-</span></code></pre></div></p>
+</span></code></pre></div>
 <h3 id="7-missing-content-missing_content">7. Missing Content (<code>MISSING_CONTENT</code>)<a class="headerlink" href="#7-missing-content-missing_content" title="Permanent link">¶</a></h3>
 <p><strong>Description</strong>: Boundaries detected in documents with insufficient textual content.</p>
-<p><strong>Examples</strong>:
-- Multiple statements detected in a document with &lt;50 characters
-- Complex boundary structures in documents that are mostly blank</p>
-<p><strong>Detection Logic</strong>:
+<p><strong>Examples</strong>:</p>
+<ul>
+<li>Multiple statements detected in a document with &lt;50 characters</li>
+<li>Complex boundary structures in documents that are mostly blank</li>
+</ul>
+<p><strong>Detection Logic</strong>:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-7-1"><a href="#__codelineno-7-1" id="__codelineno-7-1" name="__codelineno-7-1"></a><span class="k">if</span> <span class="ow">not</span> <span class="n">document_text</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">document_text</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span> <span class="o">&lt;</span> <span class="mi">50</span><span class="p">:</span>
 </span><span id="__span-7-2"><a href="#__codelineno-7-2" id="__codelineno-7-2" name="__codelineno-7-2"></a>    <span class="k">for</span> <span class="n">boundary</span> <span class="ow">in</span> <span class="n">boundaries</span><span class="p">:</span>
 </span><span id="__span-7-3"><a href="#__codelineno-7-3" id="__codelineno-7-3" name="__codelineno-7-3"></a>        <span class="n">alert</span> <span class="o">=</span> <span class="n">HallucinationAlert</span><span class="p">(</span>
@@ -996,13 +1010,15 @@
 </span><span id="__span-7-5"><a href="#__codelineno-7-5" id="__codelineno-7-5" name="__codelineno-7-5"></a>            <span class="n">severity</span><span class="o">=</span><span class="s2">"high"</span><span class="p">,</span>
 </span><span id="__span-7-6"><a href="#__codelineno-7-6" id="__codelineno-7-6" name="__codelineno-7-6"></a>            <span class="n">description</span><span class="o">=</span><span class="sa">f</span><span class="s2">"Boundary detected but document has minimal content"</span>
 </span><span id="__span-7-7"><a href="#__codelineno-7-7" id="__codelineno-7-7" name="__codelineno-7-7"></a>        <span class="p">)</span>
-</span></code></pre></div></p>
+</span></code></pre></div>
 <h3 id="8-inconsistent-data-inconsistent_data">8. Inconsistent Data (<code>INCONSISTENT_DATA</code>)<a class="headerlink" href="#8-inconsistent-data-inconsistent_data" title="Permanent link">¶</a></h3>
 <p><strong>Description</strong>: Internal contradictions within extracted metadata.</p>
-<p><strong>Examples</strong>:
-- Credit union with direct Visa account type
-- Checking account with credit card features
-- Mismatched institution types and account characteristics</p>
+<p><strong>Examples</strong>:</p>
+<ul>
+<li>Credit union with direct Visa account type</li>
+<li>Checking account with credit card features</li>
+<li>Mismatched institution types and account characteristics</li>
+</ul>
 <h2 id="severity-classification">Severity Classification<a class="headerlink" href="#severity-classification" title="Permanent link">¶</a></h2>
 <p>The system uses a four-tier severity system to prioritize responses:</p>
 <h3 id="critical-severity">Critical Severity<a class="headerlink" href="#critical-severity" title="Permanent link">¶</a></h3>
@@ -1123,11 +1139,11 @@
 <li><strong>Increment monitoring counters</strong></li>
 <li><strong>Generate audit trail entry</strong></li>
 </ol>
-<p>Example rejection scenario:
+<p>Example rejection scenario:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-13-1"><a href="#__codelineno-13-1" id="__codelineno-13-1" name="__codelineno-13-1"></a><span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">hallucination_detector</span><span class="o">.</span><span class="n">should_reject_response</span><span class="p">(</span><span class="n">alerts</span><span class="p">):</span>
 </span><span id="__span-13-2"><a href="#__codelineno-13-2" id="__codelineno-13-2" name="__codelineno-13-2"></a>    <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">"🚨 CRITICAL HALLUCINATION: Rejecting response due to severe hallucinations"</span><span class="p">)</span>
 </span><span id="__span-13-3"><a href="#__codelineno-13-3" id="__codelineno-13-3" name="__codelineno-13-3"></a>    <span class="k">raise</span> <span class="n">LLMProviderError</span><span class="p">(</span><span class="s2">"Response rejected due to detected hallucinations - falling back to pattern matching"</span><span class="p">)</span>
-</span></code></pre></div></p>
+</span></code></pre></div>
 <h2 id="integration-points">Integration Points<a class="headerlink" href="#integration-points" title="Permanent link">¶</a></h2>
 <h3 id="llm-provider-integration">LLM Provider Integration<a class="headerlink" href="#llm-provider-integration" title="Permanent link">¶</a></h3>
 <p>Both OpenAI and Ollama providers integrate hallucination detection:</p>
@@ -1245,7 +1261,7 @@
 </span><span id="__span-21-5"><a href="#__codelineno-21-5" id="__codelineno-21-5" name="__codelineno-21-5"></a>    <span class="sa">r</span><span class="s1">'page\s+1\s+of\s+\d+'</span>
 </span><span id="__span-21-6"><a href="#__codelineno-21-6" id="__codelineno-21-6" name="__codelineno-21-6"></a><span class="p">]</span>
 </span><span id="__span-21-7"><a href="#__codelineno-21-7" id="__codelineno-21-7" name="__codelineno-21-7"></a>
-</span><span id="__span-21-8"><a href="#__codelineno-21-8" id="__codelineno-21-8" name="__codelineno-21-8"></a><span class="c1"># Generic banking patterns  </span>
+</span><span id="__span-21-8"><a href="#__codelineno-21-8" id="__codelineno-21-8" name="__codelineno-21-8"></a><span class="c1"># Generic banking patterns</span>
 </span><span id="__span-21-9"><a href="#__codelineno-21-9" id="__codelineno-21-9" name="__codelineno-21-9"></a><span class="n">GENERIC_PATTERNS</span> <span class="o">=</span> <span class="p">[</span>
 </span><span id="__span-21-10"><a href="#__codelineno-21-10" id="__codelineno-21-10" name="__codelineno-21-10"></a>    <span class="sa">r</span><span class="s1">'statement\s+period'</span><span class="p">,</span>
 </span><span id="__span-21-11"><a href="#__codelineno-21-11" id="__codelineno-21-11" name="__codelineno-21-11"></a>    <span class="sa">r</span><span class="s1">'account\s+number'</span><span class="p">,</span>
@@ -1283,7 +1299,7 @@
 </span><span id="__span-23-4"><a href="#__codelineno-23-4" id="__codelineno-23-4" name="__codelineno-23-4"></a>        <span class="s2">"total_alerts"</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">alerts</span><span class="p">),</span>
 </span><span id="__span-23-5"><a href="#__codelineno-23-5" id="__codelineno-23-5" name="__codelineno-23-5"></a>        <span class="s2">"by_severity"</span><span class="p">:</span> <span class="p">{</span>
 </span><span id="__span-23-6"><a href="#__codelineno-23-6" id="__codelineno-23-6" name="__codelineno-23-6"></a>            <span class="s2">"critical"</span><span class="p">:</span> <span class="n">count_by_severity</span><span class="p">[</span><span class="s2">"critical"</span><span class="p">],</span>
-</span><span id="__span-23-7"><a href="#__codelineno-23-7" id="__codelineno-23-7" name="__codelineno-23-7"></a>            <span class="s2">"high"</span><span class="p">:</span> <span class="n">count_by_severity</span><span class="p">[</span><span class="s2">"high"</span><span class="p">],</span> 
+</span><span id="__span-23-7"><a href="#__codelineno-23-7" id="__codelineno-23-7" name="__codelineno-23-7"></a>            <span class="s2">"high"</span><span class="p">:</span> <span class="n">count_by_severity</span><span class="p">[</span><span class="s2">"high"</span><span class="p">],</span>
 </span><span id="__span-23-8"><a href="#__codelineno-23-8" id="__codelineno-23-8" name="__codelineno-23-8"></a>            <span class="s2">"medium"</span><span class="p">:</span> <span class="n">count_by_severity</span><span class="p">[</span><span class="s2">"medium"</span><span class="p">],</span>
 </span><span id="__span-23-9"><a href="#__codelineno-23-9" id="__codelineno-23-9" name="__codelineno-23-9"></a>            <span class="s2">"low"</span><span class="p">:</span> <span class="n">count_by_severity</span><span class="p">[</span><span class="s2">"low"</span><span class="p">]</span>
 </span><span id="__span-23-10"><a href="#__codelineno-23-10" id="__codelineno-23-10" name="__codelineno-23-10"></a>        <span class="p">},</span>
@@ -1305,7 +1321,7 @@
 <h3 id="attack-prevention">Attack Prevention<a class="headerlink" href="#attack-prevention" title="Permanent link">¶</a></h3>
 <ol>
 <li><strong>Injection Prevention</strong>: Pattern matching uses safe regex compilation</li>
-<li><strong>Resource Limits</strong>: Detection methods include timeout and complexity limits  </li>
+<li><strong>Resource Limits</strong>: Detection methods include timeout and complexity limits</li>
 <li><strong>Fail-Safe Design</strong>: System defaults to rejection when in doubt</li>
 </ol>
 <h3 id="compliance">Compliance<a class="headerlink" href="#compliance" title="Permanent link">¶</a></h3>

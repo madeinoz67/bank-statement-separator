@@ -1063,15 +1063,13 @@
 <p>The automated release process uses <a href="https://github.com/googleapis/release-please">release-please</a> to manage versioning and releases based on conventional commit messages.</p>
 <h4 id="workflow-steps">Workflow Steps<a class="headerlink" href="#workflow-steps" title="Permanent link">¶</a></h4>
 <ol>
-<li>
-<p><strong>Developer commits</strong> with conventional format:
-   <div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a href="#__codelineno-0-1" id="__codelineno-0-1" name="__codelineno-0-1"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">"feat: add new PDF processing feature"</span>
+<li><strong>Developer commits</strong> with conventional format:</li>
+</ol>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a href="#__codelineno-0-1" id="__codelineno-0-1" name="__codelineno-0-1"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">"feat: add new PDF processing feature"</span>
 </span><span id="__span-0-2"><a href="#__codelineno-0-2" id="__codelineno-0-2" name="__codelineno-0-2"></a>git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>main
-</span></code></pre></div></p>
-</li>
-<li>
-<p><strong>Release-please analyzes commits</strong> and determines version bump:</p>
-</li>
+</span></code></pre></div>
+<ol>
+<li><strong>Release-please analyzes commits</strong> and determines version bump:</li>
 <li><code>feat:</code> commits → Minor version (1.0.0 → 1.1.0)</li>
 <li><code>fix:</code> commits → Patch version (1.0.0 → 1.0.1)</li>
 <li>
@@ -1136,11 +1134,13 @@
 </span></code></pre></div>
 <h2 id="manual-release-process">Manual Release Process<a class="headerlink" href="#manual-release-process" title="Permanent link">¶</a></h2>
 <h3 id="when-to-use-manual-releases">When to Use Manual Releases<a class="headerlink" href="#when-to-use-manual-releases" title="Permanent link">¶</a></h3>
-<p>Manual releases are appropriate for:
-- Urgent security fixes
-- Special versioning requirements
-- Testing workflow changes
-- One-off releases with specific needs</p>
+<p>Manual releases are appropriate for:</p>
+<ul>
+<li>Urgent security fixes</li>
+<li>Special versioning requirements</li>
+<li>Testing workflow changes</li>
+<li>One-off releases with specific needs</li>
+</ul>
 <h3 id="step-by-step-manual-release">Step-by-Step Manual Release<a class="headerlink" href="#step-by-step-manual-release" title="Permanent link">¶</a></h3>
 <h4 id="1-update-version">1. Update Version<a class="headerlink" href="#1-update-version" title="Permanent link">¶</a></h4>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a href="#__codelineno-5-1" id="__codelineno-5-1" name="__codelineno-5-1"></a><span class="c1"># Edit pyproject.toml</span>
@@ -1225,14 +1225,18 @@
 <li><strong>PATCH</strong>: Bug fixes (backward compatible)</li>
 </ul>
 <h3 id="version-file-updates">Version File Updates<a class="headerlink" href="#version-file-updates" title="Permanent link">¶</a></h3>
-<p>Release-please automatically updates:
-- <code>pyproject.toml</code> version field
-- <code>.release-please-manifest.json</code> version tracking
-- Creates versioned changelog</p>
+<p>Release-please automatically updates:</p>
+<ul>
+<li><code>pyproject.toml</code> version field</li>
+<li><code>.release-please-manifest.json</code> version tracking</li>
+<li>Creates versioned changelog</li>
+</ul>
 <h3 id="manual-version-updates">Manual Version Updates<a class="headerlink" href="#manual-version-updates" title="Permanent link">¶</a></h3>
-<p>For manual releases, update:
-- <code>pyproject.toml</code> version field
-- Ensure version matches tag name</p>
+<p>For manual releases, update:</p>
+<ul>
+<li><code>pyproject.toml</code> version field</li>
+<li>Ensure version matches tag name</li>
+</ul>
 <h2 id="quality-assurance">Quality Assurance<a class="headerlink" href="#quality-assurance" title="Permanent link">¶</a></h2>
 <h3 id="pre-release-checks">Pre-Release Checks<a class="headerlink" href="#pre-release-checks" title="Permanent link">¶</a></h3>
 <h4 id="automated-checks">Automated Checks<a class="headerlink" href="#automated-checks" title="Permanent link">¶</a></h4>
@@ -1333,18 +1337,24 @@
 <li><strong>Monitor automated releases</strong> for quality</li>
 </ol>
 <h3 id="repository-setup">Repository Setup<a class="headerlink" href="#repository-setup" title="Permanent link">¶</a></h3>
-<p>Required secrets:
-- <code>PYPI_API_TOKEN</code>: For PyPI publishing
-- <code>OPENAI_API_KEY</code>: For CI testing (optional)</p>
-<p>Required permissions:
-- Contents: write (for releases)
-- Pull requests: write (for release-please)</p>
+<p>Required secrets:</p>
+<ul>
+<li><code>PYPI_API_TOKEN</code>: For PyPI publishing</li>
+<li><code>OPENAI_API_KEY</code>: For CI testing (optional)</li>
+</ul>
+<p>Required permissions:</p>
+<ul>
+<li>Contents: write (for releases)</li>
+<li>Pull requests: write (for release-please)</li>
+</ul>
 <h2 id="support">Support<a class="headerlink" href="#support" title="Permanent link">¶</a></h2>
-<p>For release management issues:
-1. Check this documentation
-2. Review GitHub Actions logs
-3. Create issue in repository
-4. Contact development team</p>
+<p>For release management issues:</p>
+<ol>
+<li>Check this documentation</li>
+<li>Review GitHub Actions logs</li>
+<li>Create issue in repository</li>
+<li>Contact development team</li>
+</ol>
 <h2 id="quick-reference">Quick Reference<a class="headerlink" href="#quick-reference" title="Permanent link">¶</a></h2>
 <h3 id="automated-release">Automated Release<a class="headerlink" href="#automated-release" title="Permanent link">¶</a></h3>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-10-1"><a href="#__codelineno-10-1" id="__codelineno-10-1" name="__codelineno-10-1"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">"feat: add new feature"</span>
@@ -1363,13 +1373,15 @@
 </span><span id="__span-11-9"><a href="#__codelineno-11-9" id="__codelineno-11-9" name="__codelineno-11-9"></a><span class="c1"># Then use GitHub Actions UI</span>
 </span></code></pre></div>
 <h3 id="check-status">Check Status<a class="headerlink" href="#check-status" title="Permanent link">¶</a></h3>
-<p>```bash</p>
-<h1 id="check-tags">Check tags<a class="headerlink" href="#check-tags" title="Permanent link">¶</a></h1>
-<p>git tag -l</p>
-<h1 id="check-releases">Check releases<a class="headerlink" href="#check-releases" title="Permanent link">¶</a></h1>
-<p>gh release list</p>
-<h1 id="check-pypi">Check PyPI<a class="headerlink" href="#check-pypi" title="Permanent link">¶</a></h1>
-<p>pip index versions bank-statement-separator</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-12-1"><a href="#__codelineno-12-1" id="__codelineno-12-1" name="__codelineno-12-1"></a><span class="c1"># Check tags</span>
+</span><span id="__span-12-2"><a href="#__codelineno-12-2" id="__codelineno-12-2" name="__codelineno-12-2"></a>git<span class="w"> </span>tag<span class="w"> </span>-l
+</span><span id="__span-12-3"><a href="#__codelineno-12-3" id="__codelineno-12-3" name="__codelineno-12-3"></a>
+</span><span id="__span-12-4"><a href="#__codelineno-12-4" id="__codelineno-12-4" name="__codelineno-12-4"></a><span class="c1"># Check releases</span>
+</span><span id="__span-12-5"><a href="#__codelineno-12-5" id="__codelineno-12-5" name="__codelineno-12-5"></a>gh<span class="w"> </span>release<span class="w"> </span>list
+</span><span id="__span-12-6"><a href="#__codelineno-12-6" id="__codelineno-12-6" name="__codelineno-12-6"></a>
+</span><span id="__span-12-7"><a href="#__codelineno-12-7" id="__codelineno-12-7" name="__codelineno-12-7"></a><span class="c1"># Check PyPI</span>
+</span><span id="__span-12-8"><a href="#__codelineno-12-8" id="__codelineno-12-8" name="__codelineno-12-8"></a>pip<span class="w"> </span>index<span class="w"> </span>versions<span class="w"> </span>bank-statement-separator
+</span></code></pre></div>
 </article>
 </div>
 <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>

@@ -2031,7 +2031,7 @@
 <p>The test suite is organized into three main categories:</p>
 <ul>
 <li><strong>Unit Tests</strong> (<code>tests/unit/</code>) - Fast, isolated tests for individual components</li>
-<li><strong>Integration Tests</strong> (<code>tests/integration/</code>) - Tests that verify component interactions  </li>
+<li><strong>Integration Tests</strong> (<code>tests/integration/</code>) - Tests that verify component interactions</li>
 <li><strong>Manual Tests</strong> (<code>tests/manual/</code>) - Scripts for testing external integrations that require manual verification</li>
 </ul>
 <h2 id="prerequisites">Prerequisites<a class="headerlink" href="#prerequisites" title="Permanent link">&para;</a></h2>
@@ -2039,31 +2039,31 @@
 <p>Install all development dependencies:</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>uv<span class="w"> </span>sync<span class="w"> </span>--group<span class="w"> </span>dev
 </span></code></pre></div>
-<p>This installs:
-- <code>pytest</code> - Test framework
-- <code>pytest-cov</code> - Coverage reporting
-- <code>pytest-mock</code> - Mocking utilities
-- <code>pytest-asyncio</code> - Async test support
-- <code>faker</code> - Test data generation
-- <code>httpx</code> - HTTP client for API testing</p>
+<p>This installs:</p>
+<ul>
+<li><code>pytest</code> - Test framework</li>
+<li><code>pytest-cov</code> - Coverage reporting</li>
+<li><code>pytest-mock</code> - Mocking utilities</li>
+<li><code>pytest-asyncio</code> - Async test support</li>
+<li><code>faker</code> - Test data generation</li>
+<li><code>httpx</code> - HTTP client for API testing</li>
+</ul>
 <h3 id="environment-setup">Environment Setup<a class="headerlink" href="#environment-setup" title="Permanent link">&para;</a></h3>
 <ol>
-<li>
-<p><strong>Copy the example environment file:</strong>
-    <div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>cp<span class="w"> </span>.env.example<span class="w"> </span>.env
-</span></code></pre></div></p>
-</li>
-<li>
-<p><strong>Configure test-specific settings:</strong>
-    <div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># Optional: Set for integration tests</span>
+<li><strong>Copy the example environment file:</strong></li>
+</ol>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>cp<span class="w"> </span>.env.example<span class="w"> </span>.env
+</span></code></pre></div>
+<ol>
+<li><strong>Configure test-specific settings:</strong></li>
+</ol>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># Optional: Set for integration tests</span>
 </span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="nb">export</span><span class="w"> </span><span class="nv">OPENAI_API_KEY</span><span class="o">=</span><span class="s2">&quot;your-test-key&quot;</span>
 </span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
 </span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="c1"># Optional: Set for Paperless integration tests</span>
 </span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="nb">export</span><span class="w"> </span><span class="nv">PAPERLESS_URL</span><span class="o">=</span><span class="s2">&quot;http://localhost:8000&quot;</span>
 </span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="nb">export</span><span class="w"> </span><span class="nv">PAPERLESS_TOKEN</span><span class="o">=</span><span class="s2">&quot;your-test-token&quot;</span>
-</span></code></pre></div></p>
-</li>
-</ol>
+</span></code></pre></div>
 <h3 id="test-environment-configurations">Test Environment Configurations<a class="headerlink" href="#test-environment-configurations" title="Permanent link">&para;</a></h3>
 <p>The project includes comprehensive test environment configurations in <code>tests/env/</code> for testing different LLM providers and scenarios:</p>
 <h4 id="available-test-environments">Available Test Environments<a class="headerlink" href="#available-test-environments" title="Permanent link">&para;</a></h4>
@@ -2108,9 +2108,9 @@
 </ul>
 <h2 id="running-tests">Running Tests<a class="headerlink" href="#running-tests" title="Permanent link">&para;</a></h2>
 <h3 id="quick-start">Quick Start<a class="headerlink" href="#quick-start" title="Permanent link">&para;</a></h3>
-<p>Run all automated tests:
+<p>Run all automated tests:</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>uv<span class="w"> </span>run<span class="w"> </span>pytest
-</span></code></pre></div></p>
+</span></code></pre></div>
 <h3 id="test-categories">Test Categories<a class="headerlink" href="#test-categories" title="Permanent link">&para;</a></h3>
 <h4 id="unit-tests-only">Unit Tests Only<a class="headerlink" href="#unit-tests-only" title="Permanent link">&para;</a></h4>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>uv<span class="w"> </span>run<span class="w"> </span>pytest<span class="w"> </span>tests/unit/
@@ -2183,14 +2183,18 @@
 </span><span id="__span-17-9"><a id="__codelineno-17-9" name="__codelineno-17-9" href="#__codelineno-17-9"></a>uv<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>tests/manual/test_ollama.py
 </span></code></pre></div>
 <h3 id="manual-test-prerequisites">Manual Test Prerequisites<a class="headerlink" href="#manual-test-prerequisites" title="Permanent link">&para;</a></h3>
-<p><strong>For Ollama Tests (<code>test_ollama.py</code>):</strong>
-- Install and start Ollama server: <code>https://ollama.ai/</code>
-- Pull compatible model: <code>ollama pull llama3.2</code>
-- Configure Ollama server URL in test environment</p>
-<p><strong>For Paperless Tests:</strong>
-- Configured Paperless-ngx instance
-- Valid <code>PAPERLESS_URL</code> and <code>PAPERLESS_TOKEN</code> in <code>.env</code>
-- May create actual entities in your Paperless instance</p>
+<p><strong>For Ollama Tests (<code>test_ollama.py</code>):</strong></p>
+<ul>
+<li>Install and start Ollama server: <code>https://ollama.ai/</code></li>
+<li>Pull compatible model: <code>ollama pull llama3.2</code></li>
+<li>Configure Ollama server URL in test environment</li>
+</ul>
+<p><strong>For Paperless Tests:</strong></p>
+<ul>
+<li>Configured Paperless-ngx instance</li>
+<li>Valid <code>PAPERLESS_URL</code> and <code>PAPERLESS_TOKEN</code> in <code>.env</code></li>
+<li>May create actual entities in your Paperless instance</li>
+</ul>
 <h3 id="manual-test-execution-notes">Manual Test Execution Notes<a class="headerlink" href="#manual-test-execution-notes" title="Permanent link">&para;</a></h3>
 <ul>
 <li>Manual tests are designed for standalone execution, not pytest integration</li>
@@ -2202,11 +2206,13 @@
 <h3 id="generate-test-statements">Generate Test Statements<a class="headerlink" href="#generate-test-statements" title="Permanent link">&para;</a></h3>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>uv<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>scripts/generate_test_statements.py
 </span></code></pre></div>
-<p>This creates various test scenarios in <code>test/input/generated/</code>:
-- Single statements
-- Multiple statements in one PDF
-- Overlapping date periods
-- Different banks and formats</p>
+<p>This creates various test scenarios in <code>test/input/generated/</code>:</p>
+<ul>
+<li>Single statements</li>
+<li>Multiple statements in one PDF</li>
+<li>Overlapping date periods</li>
+<li>Different banks and formats</li>
+</ul>
 <h2 id="writing-tests">Writing Tests<a class="headerlink" href="#writing-tests" title="Permanent link">&para;</a></h2>
 <h3 id="test-structure">Test Structure<a class="headerlink" href="#test-structure" title="Permanent link">&para;</a></h3>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">pytest</span>
@@ -2281,7 +2287,7 @@
 <li><code>@pytest.mark.requires_paperless</code> - Tests requiring Paperless-ngx</li>
 <li><code>@pytest.mark.manual</code> - Manual execution tests (not automated)</li>
 </ul>
-<p>Example usage:
+<p>Example usage:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">unit</span>
 </span><span id="__span-23-2"><a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a><span class="k">def</span><span class="w"> </span><span class="nf">test_fast_unit</span><span class="p">():</span>
 </span><span id="__span-23-3"><a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Fast unit test.&quot;&quot;&quot;</span>
@@ -2292,12 +2298,14 @@
 </span><span id="__span-23-8"><a id="__codelineno-23-8" name="__codelineno-23-8" href="#__codelineno-23-8"></a><span class="k">def</span><span class="w"> </span><span class="nf">test_with_openai</span><span class="p">():</span>
 </span><span id="__span-23-9"><a id="__codelineno-23-9" name="__codelineno-23-9" href="#__codelineno-23-9"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Integration test requiring API.&quot;&quot;&quot;</span>
 </span><span id="__span-23-10"><a id="__codelineno-23-10" name="__codelineno-23-10" href="#__codelineno-23-10"></a>    <span class="c1"># Test implementation</span>
-</span></code></pre></div></p>
+</span></code></pre></div>
 <h2 id="continuous-integration">Continuous Integration<a class="headerlink" href="#continuous-integration" title="Permanent link">&para;</a></h2>
-<p>Tests are automatically run on:
-- Every push to main branch
-- Every pull request
-- Can be triggered manually via GitHub Actions</p>
+<p>Tests are automatically run on:</p>
+<ul>
+<li>Every push to main branch</li>
+<li>Every pull request</li>
+<li>Can be triggered manually via GitHub Actions</li>
+</ul>
 <h3 id="ci-test-command">CI Test Command<a class="headerlink" href="#ci-test-command" title="Permanent link">&para;</a></h3>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-24-1"><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="c1"># Same as CI pipeline</span>
 </span><span id="__span-24-2"><a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a>uv<span class="w"> </span>run<span class="w"> </span>pytest<span class="w"> </span>tests/unit/<span class="w"> </span>tests/integration/<span class="w"> </span>-v<span class="w"> </span>--tb<span class="o">=</span>short
@@ -2333,131 +2341,125 @@
 <h2 id="troubleshooting">Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permanent link">&para;</a></h2>
 <h3 id="common-issues">Common Issues<a class="headerlink" href="#common-issues" title="Permanent link">&para;</a></h3>
 <ol>
-<li>
-<p><strong>Import Errors</strong>
-   <div class="language-bash highlight"><pre><span></span><code><span id="__span-30-1"><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a><span class="c1"># Ensure you&#39;re in project root</span>
+<li><strong>Import Errors</strong></li>
+</ol>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-30-1"><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a><span class="c1"># Ensure you&#39;re in project root</span>
 </span><span id="__span-30-2"><a id="__codelineno-30-2" name="__codelineno-30-2" href="#__codelineno-30-2"></a><span class="nb">cd</span><span class="w"> </span>/path/to/bank-statement-separator
 </span><span id="__span-30-3"><a id="__codelineno-30-3" name="__codelineno-30-3" href="#__codelineno-30-3"></a>
 </span><span id="__span-30-4"><a id="__codelineno-30-4" name="__codelineno-30-4" href="#__codelineno-30-4"></a><span class="c1"># Reinstall dependencies</span>
 </span><span id="__span-30-5"><a id="__codelineno-30-5" name="__codelineno-30-5" href="#__codelineno-30-5"></a>uv<span class="w"> </span>sync<span class="w"> </span>--group<span class="w"> </span>dev
-</span></code></pre></div></p>
-</li>
-<li>
-<p><strong>Test Discovery Issues</strong>
-   <div class="language-bash highlight"><pre><span></span><code><span id="__span-31-1"><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a><span class="c1"># Check test discovery</span>
+</span></code></pre></div>
+<ol>
+<li><strong>Test Discovery Issues</strong></li>
+</ol>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-31-1"><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a><span class="c1"># Check test discovery</span>
 </span><span id="__span-31-2"><a id="__codelineno-31-2" name="__codelineno-31-2" href="#__codelineno-31-2"></a>uv<span class="w"> </span>run<span class="w"> </span>pytest<span class="w"> </span>--collect-only
 </span><span id="__span-31-3"><a id="__codelineno-31-3" name="__codelineno-31-3" href="#__codelineno-31-3"></a>
 </span><span id="__span-31-4"><a id="__codelineno-31-4" name="__codelineno-31-4" href="#__codelineno-31-4"></a><span class="c1"># Verify pytest.ini configuration</span>
 </span><span id="__span-31-5"><a id="__codelineno-31-5" name="__codelineno-31-5" href="#__codelineno-31-5"></a>cat<span class="w"> </span>pytest.ini
-</span></code></pre></div></p>
-</li>
-<li>
-<p><strong>Manual Tests Running Automatically</strong></p>
-<ul>
+</span></code></pre></div>
+<ol>
+<li><strong>Manual Tests Running Automatically</strong></li>
 <li>Manual tests should be in <code>tests/manual/</code></li>
-<li>Check <code>pyproject.toml</code> includes <code>addopts = "--ignore=tests/manual"</code></li>
-</ul>
+<li>
+<p>Check <code>pyproject.toml</code> includes <code>addopts = "--ignore=tests/manual"</code></p>
 </li>
 <li>
-<p><strong>Temporary Directory Issues</strong>
-    <div class="language-bash highlight"><pre><span></span><code><span id="__span-32-1"><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a><span class="c1"># Check temp directory creation</span>
+<p><strong>Temporary Directory Issues</strong></p>
+</li>
+</ol>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-32-1"><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a><span class="c1"># Check temp directory creation</span>
 </span><span id="__span-32-2"><a id="__codelineno-32-2" name="__codelineno-32-2" href="#__codelineno-32-2"></a>ls<span class="w"> </span>-la<span class="w"> </span>tests/temp_test_data/
 </span><span id="__span-32-3"><a id="__codelineno-32-3" name="__codelineno-32-3" href="#__codelineno-32-3"></a>
 </span><span id="__span-32-4"><a id="__codelineno-32-4" name="__codelineno-32-4" href="#__codelineno-32-4"></a><span class="c1"># Clean up temp directories manually if needed</span>
 </span><span id="__span-32-5"><a id="__codelineno-32-5" name="__codelineno-32-5" href="#__codelineno-32-5"></a>rm<span class="w"> </span>-rf<span class="w"> </span>tests/temp_test_data/
-</span></code></pre></div></p>
-</li>
-<li>
-<p><strong>Test Environment Configuration Issues</strong>
-    <div class="language-bash highlight"><pre><span></span><code><span id="__span-33-1"><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a><span class="c1"># Check available test environments</span>
+</span></code></pre></div>
+<ol>
+<li><strong>Test Environment Configuration Issues</strong></li>
+</ol>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-33-1"><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a><span class="c1"># Check available test environments</span>
 </span><span id="__span-33-2"><a id="__codelineno-33-2" name="__codelineno-33-2" href="#__codelineno-33-2"></a>ls<span class="w"> </span>tests/env/
 </span><span id="__span-33-3"><a id="__codelineno-33-3" name="__codelineno-33-3" href="#__codelineno-33-3"></a>
 </span><span id="__span-33-4"><a id="__codelineno-33-4" name="__codelineno-33-4" href="#__codelineno-33-4"></a><span class="c1"># Use specific test environment</span>
 </span><span id="__span-33-5"><a id="__codelineno-33-5" name="__codelineno-33-5" href="#__codelineno-33-5"></a>uv<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>-m<span class="w"> </span>src.bank_statement_separator.main<span class="w"> </span>process<span class="w"> </span><span class="se">\</span>
 </span><span id="__span-33-6"><a id="__codelineno-33-6" name="__codelineno-33-6" href="#__codelineno-33-6"></a><span class="w">  </span>test/input/sample.pdf<span class="w"> </span><span class="se">\</span>
 </span><span id="__span-33-7"><a id="__codelineno-33-7" name="__codelineno-33-7" href="#__codelineno-33-7"></a><span class="w">  </span>--env-file<span class="w"> </span>tests/env/.env.fallback
-</span></code></pre></div></p>
-</li>
-<li>
-<p><strong>Missing Test Dependencies</strong>
-   <div class="language-bash highlight"><pre><span></span><code><span id="__span-34-1"><a id="__codelineno-34-1" name="__codelineno-34-1" href="#__codelineno-34-1"></a><span class="c1"># Install all dev dependencies</span>
+</span></code></pre></div>
+<ol>
+<li><strong>Missing Test Dependencies</strong></li>
+</ol>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-34-1"><a id="__codelineno-34-1" name="__codelineno-34-1" href="#__codelineno-34-1"></a><span class="c1"># Install all dev dependencies</span>
 </span><span id="__span-34-2"><a id="__codelineno-34-2" name="__codelineno-34-2" href="#__codelineno-34-2"></a>uv<span class="w"> </span>sync<span class="w"> </span>--group<span class="w"> </span>dev
 </span><span id="__span-34-3"><a id="__codelineno-34-3" name="__codelineno-34-3" href="#__codelineno-34-3"></a>
 </span><span id="__span-34-4"><a id="__codelineno-34-4" name="__codelineno-34-4" href="#__codelineno-34-4"></a><span class="c1"># Check installed packages</span>
 </span><span id="__span-34-5"><a id="__codelineno-34-5" name="__codelineno-34-5" href="#__codelineno-34-5"></a>uv<span class="w"> </span>pip<span class="w"> </span>list
-</span></code></pre></div></p>
-</li>
-<li>
-<p><strong>Environment Variable Issues</strong>
-   <div class="language-bash highlight"><pre><span></span><code><span id="__span-35-1"><a id="__codelineno-35-1" name="__codelineno-35-1" href="#__codelineno-35-1"></a><span class="c1"># Check current environment</span>
+</span></code></pre></div>
+<ol>
+<li><strong>Environment Variable Issues</strong></li>
+</ol>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-35-1"><a id="__codelineno-35-1" name="__codelineno-35-1" href="#__codelineno-35-1"></a><span class="c1"># Check current environment</span>
 </span><span id="__span-35-2"><a id="__codelineno-35-2" name="__codelineno-35-2" href="#__codelineno-35-2"></a>env<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>OPENAI
 </span><span id="__span-35-3"><a id="__codelineno-35-3" name="__codelineno-35-3" href="#__codelineno-35-3"></a>env<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>PAPERLESS
 </span><span id="__span-35-4"><a id="__codelineno-35-4" name="__codelineno-35-4" href="#__codelineno-35-4"></a>
 </span><span id="__span-35-5"><a id="__codelineno-35-5" name="__codelineno-35-5" href="#__codelineno-35-5"></a><span class="c1"># Source .env file</span>
 </span><span id="__span-35-6"><a id="__codelineno-35-6" name="__codelineno-35-6" href="#__codelineno-35-6"></a><span class="nb">source</span><span class="w"> </span>.env
-</span></code></pre></div></p>
-</li>
-</ol>
+</span></code></pre></div>
 <h2 id="best-practices">Best Practices<a class="headerlink" href="#best-practices" title="Permanent link">&para;</a></h2>
 <ol>
-<li>
-<p><strong>Test Naming</strong></p>
-<ul>
+<li><strong>Test Naming</strong></li>
 <li>Use descriptive names: <code>test_boundary_detection_with_multiple_statements</code></li>
 <li>Group related tests in classes</li>
-<li>Prefix test files with <code>test_</code></li>
-</ul>
+<li>
+<p>Prefix test files with <code>test_</code></p>
 </li>
 <li>
 <p><strong>Test Independence</strong></p>
-<ul>
+</li>
 <li>Each test should be independent</li>
 <li>Use fixtures for setup/teardown</li>
-<li>Don't rely on test execution order</li>
-</ul>
+<li>
+<p>Don't rely on test execution order</p>
 </li>
 <li>
 <p><strong>Assertions</strong></p>
-<ul>
+</li>
 <li>Use specific assertions with clear messages</li>
 <li>Test both success and failure cases</li>
-<li>Verify edge cases and boundaries</li>
-</ul>
+<li>
+<p>Verify edge cases and boundaries</p>
 </li>
 <li>
 <p><strong>Performance</strong></p>
-<ul>
+</li>
 <li>Keep unit tests fast (&lt; 1 second)</li>
 <li>Mock external services in unit tests</li>
-<li>Use integration tests for end-to-end validation</li>
-</ul>
+<li>
+<p>Use integration tests for end-to-end validation</p>
 </li>
 <li>
 <p><strong>Documentation</strong></p>
-<ul>
+</li>
 <li>Add docstrings to test functions</li>
 <li>Document complex test scenarios</li>
-<li>Include examples in comments</li>
-</ul>
+<li>
+<p>Include examples in comments</p>
 </li>
 <li>
 <p><strong>Test Environment Management</strong></p>
-<ul>
+</li>
 <li>Use appropriate test environments from <code>tests/env/</code> for different scenarios</li>
 <li>Test with multiple LLM providers when possible</li>
 <li>Include fallback testing without API keys</li>
-<li>Document specific environment requirements in test docstrings</li>
-</ul>
+<li>
+<p>Document specific environment requirements in test docstrings</p>
 </li>
 <li>
 <p><strong>Temporary File Management</strong></p>
-<ul>
+</li>
 <li>Use provided fixtures for temp directory management</li>
 <li>Don't create temp files in project root</li>
 <li>Let fixtures handle cleanup automatically</li>
 <li>Use descriptive names for temp files and directories</li>
-</ul>
-</li>
 </ol>
 <h2 id="test-categories-and-coverage">Test Categories and Coverage<a class="headerlink" href="#test-categories-and-coverage" title="Permanent link">&para;</a></h2>
 <h3 id="unit-tests-testsunit">Unit Tests (tests/unit/)<a class="headerlink" href="#unit-tests-testsunit" title="Permanent link">&para;</a></h3>
@@ -2489,15 +2491,19 @@
 </ul>
 <h3 id="key-test-features">Key Test Features<a class="headerlink" href="#key-test-features" title="Permanent link">&para;</a></h3>
 <h4 id="fragment-detection-testing">Fragment Detection Testing<a class="headerlink" href="#fragment-detection-testing" title="Permanent link">&para;</a></h4>
-<p>The test suite includes comprehensive testing for the fragment detection feature that filters out low-confidence document fragments:
-- Tests adapt to varying numbers of detected statements due to fragment filtering
-- Validation accounts for intentionally skipped pages
-- Performance tests verify fragment filtering doesn't impact processing speed</p>
+<p>The test suite includes comprehensive testing for the fragment detection feature that filters out low-confidence document fragments:</p>
+<ul>
+<li>Tests adapt to varying numbers of detected statements due to fragment filtering</li>
+<li>Validation accounts for intentionally skipped pages</li>
+<li>Performance tests verify fragment filtering doesn't impact processing speed</li>
+</ul>
 <h4 id="fallback-processing">Fallback Processing<a class="headerlink" href="#fallback-processing" title="Permanent link">&para;</a></h4>
-<p>Tests verify the system works without OpenAI API key:
-- Pattern-based boundary detection
-- Regex-based metadata extraction
-- Graceful degradation of features</p>
+<p>Tests verify the system works without OpenAI API key:</p>
+<ul>
+<li>Pattern-based boundary detection</li>
+<li>Regex-based metadata extraction</li>
+<li>Graceful degradation of features</li>
+</ul>
 <h2 id="common-test-patterns">Common Test Patterns<a class="headerlink" href="#common-test-patterns" title="Permanent link">&para;</a></h2>
 <h3 id="testing-with-fragment-filtering">Testing with Fragment Filtering<a class="headerlink" href="#testing-with-fragment-filtering" title="Permanent link">&para;</a></h3>
 <p>When testing document processing, account for fragment filtering:</p>

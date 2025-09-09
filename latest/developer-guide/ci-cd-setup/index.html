@@ -874,68 +874,92 @@
     class Success,ReleaseSuccess,DocsSuccess,TestSuccess successStyle
 </code></pre>
 <h3 id="1-ci-workflow-githubworkflowsciyml">1. CI Workflow (<code>.github/workflows/ci.yml</code>)<a class="headerlink" href="#1-ci-workflow-githubworkflowsciyml" title="Permanent link">¶</a></h3>
-<p><strong>Triggers:</strong>
-- Push to <code>main</code> branch
-- Pull requests to <code>main</code> or <code>develop</code> branches
-- Manual workflow dispatch</p>
-<p><strong>Jobs:</strong>
-- <strong>test</strong>: Runs comprehensive test suite across Python 3.11 and 3.12
-- <strong>test-with-api</strong>: Runs API-dependent tests (requires OpenAI API key)
-- <strong>security</strong>: Performs security scanning with Safety and Bandit</p>
-<p><strong>Enhanced Features:</strong>
-- Matrix testing across multiple Python versions
-- Code formatting and linting with Ruff
-- Intelligent API test detection with environment validation
-- Enhanced error reporting and debugging
-- Comprehensive coverage reporting</p>
+<p><strong>Triggers:</strong></p>
+<ul>
+<li>Push to <code>main</code> branch</li>
+<li>Pull requests to <code>main</code> or <code>develop</code> branches</li>
+<li>Manual workflow dispatch</li>
+</ul>
+<p><strong>Jobs:</strong></p>
+<ul>
+<li><strong>test</strong>: Runs comprehensive test suite across Python 3.11 and 3.12</li>
+<li><strong>test-with-api</strong>: Runs API-dependent tests (requires OpenAI API key)</li>
+<li><strong>security</strong>: Performs security scanning with Safety and Bandit</li>
+</ul>
+<p><strong>Enhanced Features:</strong></p>
+<ul>
+<li>Matrix testing across multiple Python versions</li>
+<li>Code formatting and linting with Ruff</li>
+<li>Intelligent API test detection with environment validation</li>
+<li>Enhanced error reporting and debugging</li>
+<li>Comprehensive coverage reporting</li>
+</ul>
 <h3 id="2-release-please-workflow-githubworkflowsrelease-pleaseyml">2. Release Please Workflow (<code>.github/workflows/release-please.yml</code>)<a class="headerlink" href="#2-release-please-workflow-githubworkflowsrelease-pleaseyml" title="Permanent link">¶</a></h3>
-<p><strong>Triggers:</strong>
-- Push to <code>main</code> branch (with conventional commits)
-- Automated based on commit message analysis</p>
-<p><strong>Features:</strong>
-- Automated version bumping based on conventional commits
-- Changelog generation from commit messages<br/>
-- Release PR creation and management
-- Git tag creation when release PR is merged
-- Integration with release workflow</p>
+<p><strong>Triggers:</strong></p>
+<ul>
+<li>Push to <code>main</code> branch (with conventional commits)</li>
+<li>Automated based on commit message analysis</li>
+</ul>
+<p><strong>Features:</strong></p>
+<ul>
+<li>Automated version bumping based on conventional commits</li>
+<li>Changelog generation from commit messages</li>
+<li>Release PR creation and management</li>
+<li>Git tag creation when release PR is merged</li>
+<li>Integration with release workflow</li>
+</ul>
 <h3 id="3-release-workflow-githubworkflowsreleaseyml">3. Release Workflow (<code>.github/workflows/release.yml</code>)<a class="headerlink" href="#3-release-workflow-githubworkflowsreleaseyml" title="Permanent link">¶</a></h3>
-<p><strong>Triggers:</strong>
-- Git tag push (created by release-please)
-- Manual workflow dispatch with version input</p>
-<p><strong>Enhanced Features:</strong>
-- Comprehensive debugging and logging
-- Package building with uv
-- Package verification with twine check
-- PyPI publishing with enhanced error handling
-- GitHub release creation with artifacts
-- Simplified job conditions using startsWith() checks</p>
+<p><strong>Triggers:</strong></p>
+<ul>
+<li>Git tag push (created by release-please)</li>
+<li>Manual workflow dispatch with version input</li>
+</ul>
+<p><strong>Enhanced Features:</strong></p>
+<ul>
+<li>Comprehensive debugging and logging</li>
+<li>Package building with uv</li>
+<li>Package verification with twine check</li>
+<li>PyPI publishing with enhanced error handling</li>
+<li>GitHub release creation with artifacts</li>
+<li>Simplified job conditions using startsWith() checks</li>
+</ul>
 <h3 id="4-documentation-versioned-workflow-githubworkflowsdocs-versionedyml">4. Documentation Versioned Workflow (<code>.github/workflows/docs-versioned.yml</code>)<a class="headerlink" href="#4-documentation-versioned-workflow-githubworkflowsdocs-versionedyml" title="Permanent link">¶</a></h3>
-<p><strong>Triggers:</strong>
-- Push to <code>main</code> branch (for latest docs)
-- Release creation (for versioned docs)
-- Repository dispatch events
-- Manual workflow dispatch</p>
-<p><strong>Recently Enhanced Features:</strong>
-- <strong>Enhanced Trigger Logic</strong>: Comprehensive event type handling for all deployment scenarios
-- <strong>Version Validation</strong>: Semantic version format validation (X.Y.Z) before deployment
-- <strong>Safety Checks</strong>: Explicit no-deployment warnings prevent workflow no-ops
-- <strong>Conflict Resolution</strong>: Retry logic with exponential backoff for concurrent deployments
-- <strong>Mike Integration</strong>: Uses Mike's built-in version selector (removed conflicting custom JS)
-- <strong>Comprehensive Logging</strong>: Debug output for troubleshooting deployment issues
-- <strong>Robust Error Handling</strong>: Automatic conflict resolution and retry mechanisms</p>
-<p><strong>Key Improvements Made:</strong>
-- <strong>Fixed Version Selector Bug</strong>: Removed conflicting custom JavaScript that prevented version dropdown from working
-- <strong>Enhanced Workflow Logic</strong>: Comprehensive trigger handling for push, release, dispatch, and manual events<br/>
-- <strong>Version Validation</strong>: Prevents deployment of invalid version formats
-- <strong>Concurrency Control</strong>: Exclusive concurrency group prevents gh-pages conflicts</p>
+<p><strong>Triggers:</strong></p>
+<ul>
+<li>Push to <code>main</code> branch (for latest docs)</li>
+<li>Release creation (for versioned docs)</li>
+<li>Repository dispatch events</li>
+<li>Manual workflow dispatch</li>
+</ul>
+<p><strong>Recently Enhanced Features:</strong></p>
+<ul>
+<li><strong>Enhanced Trigger Logic</strong>: Comprehensive event type handling for all deployment scenarios</li>
+<li><strong>Version Validation</strong>: Semantic version format validation (X.Y.Z) before deployment</li>
+<li><strong>Safety Checks</strong>: Explicit no-deployment warnings prevent workflow no-ops</li>
+<li><strong>Conflict Resolution</strong>: Retry logic with exponential backoff for concurrent deployments</li>
+<li><strong>Mike Integration</strong>: Uses Mike's built-in version selector (removed conflicting custom JS)</li>
+<li><strong>Comprehensive Logging</strong>: Debug output for troubleshooting deployment issues</li>
+<li><strong>Robust Error Handling</strong>: Automatic conflict resolution and retry mechanisms</li>
+</ul>
+<p><strong>Key Improvements Made:</strong></p>
+<ul>
+<li><strong>Fixed Version Selector Bug</strong>: Removed conflicting custom JavaScript that prevented version dropdown from working</li>
+<li><strong>Enhanced Workflow Logic</strong>: Comprehensive trigger handling for push, release, dispatch, and manual events</li>
+<li><strong>Version Validation</strong>: Prevents deployment of invalid version formats</li>
+<li><strong>Concurrency Control</strong>: Exclusive concurrency group prevents gh-pages conflicts</li>
+</ul>
 <h3 id="5-dependency-review-githubworkflowsdependency-reviewyml">5. Dependency Review (<code>.github/workflows/dependency-review.yml</code>)<a class="headerlink" href="#5-dependency-review-githubworkflowsdependency-reviewyml" title="Permanent link">¶</a></h3>
-<p><strong>Triggers:</strong>
-- Pull requests to <code>main</code> or <code>develop</code> branches</p>
-<p><strong>Features:</strong>
-- Automated dependency vulnerability scanning
-- License compliance checking
-- Security advisory integration
-- Automated security updates</p>
+<p><strong>Triggers:</strong></p>
+<ul>
+<li>Pull requests to <code>main</code> or <code>develop</code> branches</li>
+</ul>
+<p><strong>Features:</strong></p>
+<ul>
+<li>Automated dependency vulnerability scanning</li>
+<li>License compliance checking</li>
+<li>Security advisory integration</li>
+<li>Automated security updates</li>
+</ul>
 <h2 id="configuration-files">Configuration Files<a class="headerlink" href="#configuration-files" title="Permanent link">¶</a></h2>
 <h3 id="dependency-review-config-githubdependency-review-configyml">Dependency Review Config (<code>.github/dependency-review-config.yml</code>)<a class="headerlink" href="#dependency-review-config-githubdependency-review-configyml" title="Permanent link">¶</a></h3>
 <div class="language-yaml highlight"><pre><span></span><code><span id="__span-0-1"><a href="#__codelineno-0-1" id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="nt">fail_on_severity</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">moderate</span>
@@ -954,8 +978,8 @@
 </span></code></pre></div>
 <div class="admonition info">
 <p class="admonition-title">License Compatibility</p>
-<p>The project uses MIT License, which is fully compatible with the CI/CD pipeline's license checking. The dependency review workflow ensures all dependencies also use approved open-source licenses.</p>
 </div>
+<p>The project uses MIT License, which is fully compatible with the CI/CD pipeline's license checking. The dependency review workflow ensures all dependencies also use approved open-source licenses.</p>
 <h2 id="documentation-versioning">Documentation Versioning<a class="headerlink" href="#documentation-versioning" title="Permanent link">¶</a></h2>
 <p>The CI/CD pipeline includes automated documentation versioning that deploys versioned documentation for each release:</p>
 <h3 id="versioned-deployment-process">Versioned Deployment Process<a class="headerlink" href="#versioned-deployment-process" title="Permanent link">¶</a></h3>
@@ -979,27 +1003,35 @@
 <li><strong>Maintenance</strong>: Old versions can be archived or removed as needed</li>
 </ul>
 <h3 id="version-selector">Version Selector<a class="headerlink" href="#version-selector" title="Permanent link">¶</a></h3>
-<p>The documentation includes a version selector in the header that allows users to:
-- Switch between documentation versions<br/>
-- See all available versions
-- Access version-specific content</p>
+<p>The documentation includes a version selector in the header that allows users to:</p>
+<ul>
+<li>Switch between documentation versions</li>
+<li>See all available versions</li>
+<li>Access version-specific content</li>
+</ul>
 <p><strong>Recent Fix (Issue <a class="magiclink magiclink-github magiclink-issue" href="https://github.com/your-org/bank-statement-separator/issues/18" title="GitHub Issue: your-org/bank-statement-separator #18">#18</a>)</strong>:
-The version selector was previously showing only "latest" due to conflicting custom JavaScript implementation. This has been resolved by:
-- Removing conflicting custom JavaScript (<code>docs/javascripts/version-selector.js</code>)
-- Removing conflicting custom CSS (<code>docs/stylesheets/version-selector.css</code>) 
-- Activating Mike's built-in version selector with <code>extra.version.provider: mike</code>
-- The version selector now properly displays all available versions (latest, v0.1.4, v0.2.0, etc.)</p>
+The version selector was previously showing only "latest" due to conflicting custom JavaScript implementation. This has been resolved by:</p>
+<ul>
+<li>Removing conflicting custom JavaScript (<code>docs/javascripts/version-selector.js</code>)</li>
+<li>Removing conflicting custom CSS (<code>docs/stylesheets/version-selector.css</code>)</li>
+<li>Activating Mike's built-in version selector with <code>extra.version.provider: mike</code></li>
+<li>The version selector now properly displays all available versions (latest, v0.1.4, v0.2.0, etc.)</li>
+</ul>
 <h3 id="pull-request-template-githubpull_request_templatemd">Pull Request Template (<code>.github/PULL_REQUEST_TEMPLATE.md</code>)<a class="headerlink" href="#pull-request-template-githubpull_request_templatemd" title="Permanent link">¶</a></h3>
-<p>Standardized PR template with:
-- Change type classification
-- Testing checklist
-- Code review requirements</p>
+<p>Standardized PR template with:</p>
+<ul>
+<li>Change type classification</li>
+<li>Testing checklist</li>
+<li>Code review requirements</li>
+</ul>
 <h3 id="code-owners-githubcodeowners">Code Owners (<code>.github/CODEOWNERS</code>)<a class="headerlink" href="#code-owners-githubcodeowners" title="Permanent link">¶</a></h3>
-<p>Automatic review assignment for:
-- CI/CD changes
-- Documentation updates
-- Core application code
-- Test modifications</p>
+<p>Automatic review assignment for:</p>
+<ul>
+<li>CI/CD changes</li>
+<li>Documentation updates</li>
+<li>Core application code</li>
+<li>Test modifications</li>
+</ul>
 <h2 id="repository-secrets">Repository Secrets<a class="headerlink" href="#repository-secrets" title="Permanent link">¶</a></h2>
 <p>The following secrets need to be configured in GitHub repository settings:</p>
 <ul>
@@ -1084,9 +1116,11 @@ The version selector was previously showing only "latest" due to conflicting cus
 </span></code></pre></div>
 <h2 id="deployment">Deployment<a class="headerlink" href="#deployment" title="Permanent link">¶</a></h2>
 <h3 id="documentation">Documentation<a class="headerlink" href="#documentation" title="Permanent link">¶</a></h3>
-<p>Documentation is automatically deployed to GitHub Pages on pushes to <code>main</code>:
-- Build command: <code>uv run mkdocs build</code>
-- Deploy command: <code>uv run mkdocs gh-deploy</code></p>
+<p>Documentation is automatically deployed to GitHub Pages on pushes to <code>main</code>:</p>
+<ul>
+<li>Build command: <code>uv run mkdocs build</code></li>
+<li>Deploy command: <code>uv run mkdocs gh-deploy</code></li>
+</ul>
 <h3 id="releases">Releases<a class="headerlink" href="#releases" title="Permanent link">¶</a></h3>
 <h4 id="automated-release-process-recommended">Automated Release Process (Recommended)<a class="headerlink" href="#automated-release-process-recommended" title="Permanent link">¶</a></h4>
 <ol>
@@ -1184,20 +1218,24 @@ The version selector was previously showing only "latest" due to conflicting cus
 </span><span id="__span-7-7"><a href="#__codelineno-7-7" id="__codelineno-7-7" name="__codelineno-7-7"></a><span class="c1"># Version command (no header option needed as it has its own display)</span>
 </span><span id="__span-7-8"><a href="#__codelineno-7-8" id="__codelineno-7-8" name="__codelineno-7-8"></a>uv<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>-m<span class="w"> </span>src.bank_statement_separator.main<span class="w"> </span>version
 </span></code></pre></div>
-<p>This is useful for:
-- <strong>Scripting</strong>: Clean output for automated scripts
-- <strong>Integration</strong>: Better integration with other tools
-- <strong>CI/CD</strong>: Reduced noise in automated pipelines
-- <strong>API Usage</strong>: Cleaner output for programmatic usage</p>
+<p>This is useful for:</p>
+<ul>
+<li><strong>Scripting</strong>: Clean output for automated scripts</li>
+<li><strong>Integration</strong>: Better integration with other tools</li>
+<li><strong>CI/CD</strong>: Reduced noise in automated pipelines</li>
+<li><strong>API Usage</strong>: Cleaner output for programmatic usage</li>
+</ul>
 <h2 id="future-enhancements">Future Enhancements<a class="headerlink" href="#future-enhancements" title="Permanent link">¶</a></h2>
-<p>Potential improvements to the CI/CD pipeline:
-- Docker container builds and testing
-- Performance regression testing
-- Automated dependency updates (Dependabot)
-- Multi-platform testing (Windows, macOS)
-- Integration with external services
-- Advanced security scanning
-- Automated changelog generation</p>
+<p>Potential improvements to the CI/CD pipeline:</p>
+<ul>
+<li>Docker container builds and testing</li>
+<li>Performance regression testing</li>
+<li>Automated dependency updates (Dependabot)</li>
+<li>Multi-platform testing (Windows, macOS)</li>
+<li>Integration with external services</li>
+<li>Advanced security scanning</li>
+<li>Automated changelog generation</li>
+</ul>
 </article>
 </div>
 <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>

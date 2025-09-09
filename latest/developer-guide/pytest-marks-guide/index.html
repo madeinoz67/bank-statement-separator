@@ -1701,37 +1701,37 @@
 <li><strong>Description</strong>: Fast, isolated tests for individual components</li>
 <li><strong>Characteristics</strong>: No external dependencies, typically run in &lt; 1 second</li>
 <li><strong>Usage</strong>: Applied to all unit test classes and functions</li>
-<li><strong>Example</strong>:
+<li><strong>Example</strong>:</li>
+</ul>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">unit</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="k">class</span><span class="w"> </span><span class="nc">TestFilenameGeneration</span><span class="p">:</span>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Test filename generation methods.&quot;&quot;&quot;</span>
-</span></code></pre></div></li>
-</ul>
+</span></code></pre></div>
 <h4 id="pytestmarkintegration"><code>@pytest.mark.integration</code><a class="headerlink" href="#pytestmarkintegration" title="Permanent link">&para;</a></h4>
 <ul>
 <li><strong>Description</strong>: Tests that verify component interactions</li>
 <li><strong>Characteristics</strong>: May involve multiple components, file I/O, or mocked external services</li>
 <li><strong>Usage</strong>: Applied to integration test scenarios</li>
-<li><strong>Example</strong>:
+<li><strong>Example</strong>:</li>
+</ul>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">integration</span>
 </span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">edge_case</span>
 </span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="k">class</span><span class="w"> </span><span class="nc">TestEdgeCaseScenarios</span><span class="p">:</span>
 </span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Test edge case scenarios with full workflow.&quot;&quot;&quot;</span>
-</span></code></pre></div></li>
-</ul>
+</span></code></pre></div>
 <h3 id="performance-marks">Performance Marks<a class="headerlink" href="#performance-marks" title="Permanent link">&para;</a></h3>
 <h4 id="pytestmarkslow"><code>@pytest.mark.slow</code><a class="headerlink" href="#pytestmarkslow" title="Permanent link">&para;</a></h4>
 <ul>
 <li><strong>Description</strong>: Tests that take more than 5 seconds to execute</li>
 <li><strong>Characteristics</strong>: Long-running tests, performance benchmarks</li>
 <li><strong>Usage</strong>: Applied to performance and scalability tests</li>
-<li><strong>Example</strong>:
+<li><strong>Example</strong>:</li>
+</ul>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">integration</span>
 </span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">slow</span>
 </span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="k">class</span><span class="w"> </span><span class="nc">TestPerformanceScenarios</span><span class="p">:</span>
 </span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Test performance with large documents.&quot;&quot;&quot;</span>
-</span></code></pre></div></li>
-</ul>
+</span></code></pre></div>
 <h4 id="pytestmarkperformance"><code>@pytest.mark.performance</code><a class="headerlink" href="#pytestmarkperformance" title="Permanent link">&para;</a></h4>
 <ul>
 <li><strong>Description</strong>: Performance and scalability tests</li>
@@ -1916,32 +1916,30 @@
 <h2 id="adding-new-marks">Adding New Marks<a class="headerlink" href="#adding-new-marks" title="Permanent link">&para;</a></h2>
 <p>To add a new mark:</p>
 <ol>
-<li>
-<p><strong>Register in pyproject.toml</strong>:
+<li><strong>Register in pyproject.toml</strong>:</li>
+</ol>
 <div class="language-toml highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="k">[tool.pytest.ini_options]</span>
 </span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="n">markers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span>
 </span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="w">    </span><span class="c1"># ... existing marks ...</span>
 </span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="w">    </span><span class="s2">&quot;new_mark: Description of the new mark&quot;</span><span class="p">,</span>
 </span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="p">]</span>
-</span></code></pre></div></p>
-</li>
-<li>
-<p><strong>Apply to tests</strong>:
+</span></code></pre></div>
+<ol>
+<li><strong>Apply to tests</strong>:</li>
+</ol>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">new_mark</span>
 </span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="k">def</span><span class="w"> </span><span class="nf">test_something</span><span class="p">():</span>
 </span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Test with new mark.&quot;&quot;&quot;</span>
 </span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>    <span class="k">pass</span>
-</span></code></pre></div></p>
-</li>
-<li>
-<p><strong>Update CI/CD if needed</strong>:
+</span></code></pre></div>
+<ol>
+<li><strong>Update CI/CD if needed</strong>:</li>
+</ol>
 <div class="language-yaml highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Run new mark tests</span>
 </span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="w">  </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">uv run pytest -m new_mark</span>
-</span></code></pre></div></p>
-</li>
-<li>
-<p><strong>Document in this guide</strong></p>
-</li>
+</span></code></pre></div>
+<ol>
+<li><strong>Document in this guide</strong></li>
 </ol>
 <h2 id="troubleshooting">Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permanent link">&para;</a></h2>
 <h3 id="unknown-mark-warnings">Unknown Mark Warnings<a class="headerlink" href="#unknown-mark-warnings" title="Permanent link">&para;</a></h3>

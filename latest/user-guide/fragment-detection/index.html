@@ -652,10 +652,12 @@
 <li><strong>Pattern Matching</strong>: Recognition of fragment-specific patterns</li>
 </ul>
 <h4 id="critical-element-validation">Critical Element Validation<a class="headerlink" href="#critical-element-validation" title="Permanent link">¶</a></h4>
-<p>For each section, the system checks for:
-- <strong>Bank Name</strong>: Major bank identifiers (Westpac, ANZ, NAB, etc.)
-- <strong>Account Information</strong>: Account numbers, BSB codes, account types
-- <strong>Period Information</strong>: Statement dates, period ranges</p>
+<p>For each section, the system checks for:</p>
+<ul>
+<li><strong>Bank Name</strong>: Major bank identifiers (Westpac, ANZ, NAB, etc.)</li>
+<li><strong>Account Information</strong>: Account numbers, BSB codes, account types</li>
+<li><strong>Period Information</strong>: Statement dates, period ranges</li>
+</ul>
 <h4 id="confidence-scoring">Confidence Scoring<a class="headerlink" href="#confidence-scoring" title="Permanent link">¶</a></h4>
 <ul>
 <li><strong>High Confidence (&gt; 0.7)</strong>: Complete statements with all elements</li>
@@ -699,75 +701,75 @@
 </ol>
 <h2 id="fragment-pattern-examples">Fragment Pattern Examples<a class="headerlink" href="#fragment-pattern-examples" title="Permanent link">¶</a></h2>
 <h3 id="common-fragment-patterns">Common Fragment Patterns<a class="headerlink" href="#common-fragment-patterns" title="Permanent link">¶</a></h3>
-<div class="tabbed-set tabbed-alternate" data-tabs="1:3"><input checked="checked" id="common-fragment-patterns-transaction-fragment" name="__tabbed_1" type="radio"><input id="common-fragment-patterns-test-footer" name="__tabbed_1" type="radio"><input id="common-fragment-patterns-page-number-only" name="__tabbed_1" type="radio"><div class="tabbed-labels"><label for="common-fragment-patterns-transaction-fragment">Transaction Fragment</label><label for="common-fragment-patterns-test-footer">Test Footer</label><label for="common-fragment-patterns-page-number-only">Page Number Only</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:1"><input checked="checked" id="common-fragment-patterns-transaction-fragment" name="__tabbed_1" type="radio"><div class="tabbed-labels"><label for="common-fragment-patterns-transaction-fragment">Transaction Fragment</label></div>
 <div class="tabbed-content">
-<div class="tabbed-block">
-<p><div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a href="#__codelineno-0-1" id="__codelineno-0-1" name="__codelineno-0-1"></a>10/02/2023 ATM WITHDRAWAL Livingston-Miller -$32.00 $25,397.00
-</span><span id="__span-0-2"><a href="#__codelineno-0-2" id="__codelineno-0-2" name="__codelineno-0-2"></a>This statement was generated for testing purposes on 31/08/2025
-</span></code></pre></div>
-<strong>Detection</strong>: Single transaction without statement context</p>
-</div>
-<div class="tabbed-block">
-<p><div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a href="#__codelineno-1-1" id="__codelineno-1-1" name="__codelineno-1-1"></a>This statement was generated for testing purposes on 31/08/2025
-</span></code></pre></div>
-<strong>Detection</strong>: Test text without banking content</p>
-</div>
-<div class="tabbed-block">
-<p><div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a href="#__codelineno-2-1" id="__codelineno-2-1" name="__codelineno-2-1"></a>Page 3
-</span></code></pre></div>
-<strong>Detection</strong>: Minimal content, no banking information</p>
-</div>
-</div>
-</input></input></input></div>
-<h3 id="valid-statement-headers">Valid Statement Headers<a class="headerlink" href="#valid-statement-headers" title="Permanent link">¶</a></h3>
-<div class="tabbed-set tabbed-alternate" data-tabs="2:1"><input checked="checked" id="valid-statement-headers-complete-header" name="__tabbed_2" type="radio"><div class="tabbed-labels"><label for="valid-statement-headers-complete-header">Complete Header</label></div>
-<div class="tabbed-content">
-<div class="tabbed-block">
-<p><div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a href="#__codelineno-3-1" id="__codelineno-3-1" name="__codelineno-3-1"></a>NAB Banking Corporation
-</span><span id="__span-3-2"><a href="#__codelineno-3-2" id="__codelineno-3-2" name="__codelineno-3-2"></a>Statement Period: 16 January 2023 to 15 February 2023
-</span><span id="__span-3-3"><a href="#__codelineno-3-3" id="__codelineno-3-3" name="__codelineno-3-3"></a>Account Type: Classic Banking Account
-</span><span id="__span-3-4"><a href="#__codelineno-3-4" id="__codelineno-3-4" name="__codelineno-3-4"></a>Account Number: 084234560267
-</span><span id="__span-3-5"><a href="#__codelineno-3-5" id="__codelineno-3-5" name="__codelineno-3-5"></a>BSB: 084-419
-</span></code></pre></div>
-<strong>Detection</strong>: Full statement header with all elements</p>
-</div>
+<div class="tabbed-block"></div>
 </div>
 </input></div>
+<p><code>10/02/2023 ATM WITHDRAWAL Livingston-Miller -$32.00 $25,397.00
+    This statement was generated for testing purposes on 31/08/2025</code>
+<strong>Detection</strong>: Single transaction without statement context</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="2:1"><input checked="checked" id="common-fragment-patterns-test-footer" name="__tabbed_2" type="radio"><div class="tabbed-labels"><label for="common-fragment-patterns-test-footer">Test Footer</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block"></div>
+</div>
+</input></div>
+<p><code>This statement was generated for testing purposes on 31/08/2025</code>
+<strong>Detection</strong>: Test text without banking content</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="3:1"><input checked="checked" id="common-fragment-patterns-page-number-only" name="__tabbed_3" type="radio"><div class="tabbed-labels"><label for="common-fragment-patterns-page-number-only">Page Number Only</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block"></div>
+</div>
+</input></div>
+<p><code>Page 3</code>
+<strong>Detection</strong>: Minimal content, no banking information</p>
+<h3 id="valid-statement-headers">Valid Statement Headers<a class="headerlink" href="#valid-statement-headers" title="Permanent link">¶</a></h3>
+<div class="tabbed-set tabbed-alternate" data-tabs="4:1"><input checked="checked" id="valid-statement-headers-complete-header" name="__tabbed_4" type="radio"><div class="tabbed-labels"><label for="valid-statement-headers-complete-header">Complete Header</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block"></div>
+</div>
+</input></div>
+<p><code>NAB Banking Corporation
+    Statement Period: 16 January 2023 to 15 February 2023
+    Account Type: Classic Banking Account
+    Account Number: 084234560267
+    BSB: 084-419</code>
+<strong>Detection</strong>: Full statement header with all elements</p>
 <h2 id="configuration-options">Configuration Options<a class="headerlink" href="#configuration-options" title="Permanent link">¶</a></h2>
 <h3 id="confidence-threshold">Confidence Threshold<a class="headerlink" href="#confidence-threshold" title="Permanent link">¶</a></h3>
 <p>You can adjust the fragment filtering threshold through environment variables:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a href="#__codelineno-4-1" id="__codelineno-4-1" name="__codelineno-4-1"></a><span class="c1"># Default: 0.3 (30%)</span>
-</span><span id="__span-4-2"><a href="#__codelineno-4-2" id="__codelineno-4-2" name="__codelineno-4-2"></a><span class="nv">FRAGMENT_CONFIDENCE_THRESHOLD</span><span class="o">=</span><span class="m">0</span>.3
-</span><span id="__span-4-3"><a href="#__codelineno-4-3" id="__codelineno-4-3" name="__codelineno-4-3"></a>
-</span><span id="__span-4-4"><a href="#__codelineno-4-4" id="__codelineno-4-4" name="__codelineno-4-4"></a><span class="c1"># More aggressive filtering (fewer fragments allowed)</span>
-</span><span id="__span-4-5"><a href="#__codelineno-4-5" id="__codelineno-4-5" name="__codelineno-4-5"></a><span class="nv">FRAGMENT_CONFIDENCE_THRESHOLD</span><span class="o">=</span><span class="m">0</span>.5
-</span><span id="__span-4-6"><a href="#__codelineno-4-6" id="__codelineno-4-6" name="__codelineno-4-6"></a>
-</span><span id="__span-4-7"><a href="#__codelineno-4-7" id="__codelineno-4-7" name="__codelineno-4-7"></a><span class="c1"># Less aggressive filtering (more fragments allowed) </span>
-</span><span id="__span-4-8"><a href="#__codelineno-4-8" id="__codelineno-4-8" name="__codelineno-4-8"></a><span class="nv">FRAGMENT_CONFIDENCE_THRESHOLD</span><span class="o">=</span><span class="m">0</span>.1
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a href="#__codelineno-0-1" id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="c1"># Default: 0.3 (30%)</span>
+</span><span id="__span-0-2"><a href="#__codelineno-0-2" id="__codelineno-0-2" name="__codelineno-0-2"></a><span class="nv">FRAGMENT_CONFIDENCE_THRESHOLD</span><span class="o">=</span><span class="m">0</span>.3
+</span><span id="__span-0-3"><a href="#__codelineno-0-3" id="__codelineno-0-3" name="__codelineno-0-3"></a>
+</span><span id="__span-0-4"><a href="#__codelineno-0-4" id="__codelineno-0-4" name="__codelineno-0-4"></a><span class="c1"># More aggressive filtering (fewer fragments allowed)</span>
+</span><span id="__span-0-5"><a href="#__codelineno-0-5" id="__codelineno-0-5" name="__codelineno-0-5"></a><span class="nv">FRAGMENT_CONFIDENCE_THRESHOLD</span><span class="o">=</span><span class="m">0</span>.5
+</span><span id="__span-0-6"><a href="#__codelineno-0-6" id="__codelineno-0-6" name="__codelineno-0-6"></a>
+</span><span id="__span-0-7"><a href="#__codelineno-0-7" id="__codelineno-0-7" name="__codelineno-0-7"></a><span class="c1"># Less aggressive filtering (more fragments allowed)</span>
+</span><span id="__span-0-8"><a href="#__codelineno-0-8" id="__codelineno-0-8" name="__codelineno-0-8"></a><span class="nv">FRAGMENT_CONFIDENCE_THRESHOLD</span><span class="o">=</span><span class="m">0</span>.1
 </span></code></pre></div>
 <h3 id="fragment-detection-sensitivity">Fragment Detection Sensitivity<a class="headerlink" href="#fragment-detection-sensitivity" title="Permanent link">¶</a></h3>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a href="#__codelineno-5-1" id="__codelineno-5-1" name="__codelineno-5-1"></a><span class="c1"># Enable/disable fragment detection</span>
-</span><span id="__span-5-2"><a href="#__codelineno-5-2" id="__codelineno-5-2" name="__codelineno-5-2"></a><span class="nv">ENABLE_FRAGMENT_DETECTION</span><span class="o">=</span><span class="nb">true</span>
-</span><span id="__span-5-3"><a href="#__codelineno-5-3" id="__codelineno-5-3" name="__codelineno-5-3"></a>
-</span><span id="__span-5-4"><a href="#__codelineno-5-4" id="__codelineno-5-4" name="__codelineno-5-4"></a><span class="c1"># Minimum text length for valid statements</span>
-</span><span id="__span-5-5"><a href="#__codelineno-5-5" id="__codelineno-5-5" name="__codelineno-5-5"></a><span class="nv">MIN_STATEMENT_TEXT_LENGTH</span><span class="o">=</span><span class="m">200</span>
-</span><span id="__span-5-6"><a href="#__codelineno-5-6" id="__codelineno-5-6" name="__codelineno-5-6"></a>
-</span><span id="__span-5-7"><a href="#__codelineno-5-7" id="__codelineno-5-7" name="__codelineno-5-7"></a><span class="c1"># Required critical elements count</span>
-</span><span id="__span-5-8"><a href="#__codelineno-5-8" id="__codelineno-5-8" name="__codelineno-5-8"></a><span class="nv">MIN_CRITICAL_ELEMENTS</span><span class="o">=</span><span class="m">2</span>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a href="#__codelineno-1-1" id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="c1"># Enable/disable fragment detection</span>
+</span><span id="__span-1-2"><a href="#__codelineno-1-2" id="__codelineno-1-2" name="__codelineno-1-2"></a><span class="nv">ENABLE_FRAGMENT_DETECTION</span><span class="o">=</span><span class="nb">true</span>
+</span><span id="__span-1-3"><a href="#__codelineno-1-3" id="__codelineno-1-3" name="__codelineno-1-3"></a>
+</span><span id="__span-1-4"><a href="#__codelineno-1-4" id="__codelineno-1-4" name="__codelineno-1-4"></a><span class="c1"># Minimum text length for valid statements</span>
+</span><span id="__span-1-5"><a href="#__codelineno-1-5" id="__codelineno-1-5" name="__codelineno-1-5"></a><span class="nv">MIN_STATEMENT_TEXT_LENGTH</span><span class="o">=</span><span class="m">200</span>
+</span><span id="__span-1-6"><a href="#__codelineno-1-6" id="__codelineno-1-6" name="__codelineno-1-6"></a>
+</span><span id="__span-1-7"><a href="#__codelineno-1-7" id="__codelineno-1-7" name="__codelineno-1-7"></a><span class="c1"># Required critical elements count</span>
+</span><span id="__span-1-8"><a href="#__codelineno-1-8" id="__codelineno-1-8" name="__codelineno-1-8"></a><span class="nv">MIN_CRITICAL_ELEMENTS</span><span class="o">=</span><span class="m">2</span>
 </span></code></pre></div>
 <h2 id="logging-and-monitoring">Logging and Monitoring<a class="headerlink" href="#logging-and-monitoring" title="Permanent link">¶</a></h2>
 <h3 id="fragment-detection-logs">Fragment Detection Logs<a class="headerlink" href="#fragment-detection-logs" title="Permanent link">¶</a></h3>
 <p>The system logs detailed information about fragment detection:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-6-1"><a href="#__codelineno-6-1" id="__codelineno-6-1" name="__codelineno-6-1"></a>2025-08-31 19:42:12 - WARNING - Detected fragment page at 4-6
-</span><span id="__span-6-2"><a href="#__codelineno-6-2" id="__codelineno-6-2" name="__codelineno-6-2"></a>2025-08-31 19:42:12 - WARNING - Skipping fragment with confidence 0.2: pages 4-6 (3 pages)
+<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a href="#__codelineno-2-1" id="__codelineno-2-1" name="__codelineno-2-1"></a>2025-08-31 19:42:12 - WARNING - Detected fragment page at 4-6
+</span><span id="__span-2-2"><a href="#__codelineno-2-2" id="__codelineno-2-2" name="__codelineno-2-2"></a>2025-08-31 19:42:12 - WARNING - Skipping fragment with confidence 0.2: pages 4-6 (3 pages)
 </span></code></pre></div>
 <h3 id="processing-summary">Processing Summary<a class="headerlink" href="#processing-summary" title="Permanent link">¶</a></h3>
 <p>The output includes fragment information:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-7-1"><a href="#__codelineno-7-1" id="__codelineno-7-1" name="__codelineno-7-1"></a>📊 PDF generation complete: created 1 files, skipped 1 fragments (3 pages)
+<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a href="#__codelineno-3-1" id="__codelineno-3-1" name="__codelineno-3-1"></a>📊 PDF generation complete: created 1 files, skipped 1 fragments (3 pages)
 </span></code></pre></div>
 <h3 id="validation-reporting">Validation Reporting<a class="headerlink" href="#validation-reporting" title="Permanent link">¶</a></h3>
 <p>Validation accounts for skipped fragments:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-8-1"><a href="#__codelineno-8-1" id="__codelineno-8-1" name="__codelineno-8-1"></a>✅ Page count matches: 3 pages (skipped 3 fragment pages)
+<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a href="#__codelineno-4-1" id="__codelineno-4-1" name="__codelineno-4-1"></a>✅ Page count matches: 3 pages (skipped 3 fragment pages)
 </span></code></pre></div>
 <h2 id="best-practices">Best Practices<a class="headerlink" href="#best-practices" title="Permanent link">¶</a></h2>
 <h3 id="when-using-fragment-detection">When Using Fragment Detection<a class="headerlink" href="#when-using-fragment-detection" title="Permanent link">¶</a></h3>
@@ -794,31 +796,31 @@
 <h2 id="api-integration">API Integration<a class="headerlink" href="#api-integration" title="Permanent link">¶</a></h2>
 <h3 id="confidence-scoring_1">Confidence Scoring<a class="headerlink" href="#confidence-scoring_1" title="Permanent link">¶</a></h3>
 <p>When using the API, confidence scores are available in results:</p>
-<div class="language-json highlight"><pre><span></span><code><span id="__span-9-1"><a href="#__codelineno-9-1" id="__codelineno-9-1" name="__codelineno-9-1"></a><span class="p">{</span>
-</span><span id="__span-9-2"><a href="#__codelineno-9-2" id="__codelineno-9-2" name="__codelineno-9-2"></a><span class="w">  </span><span class="nt">"statements"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-</span><span id="__span-9-3"><a href="#__codelineno-9-3" id="__codelineno-9-3" name="__codelineno-9-3"></a><span class="w">    </span><span class="p">{</span>
-</span><span id="__span-9-4"><a href="#__codelineno-9-4" id="__codelineno-9-4" name="__codelineno-9-4"></a><span class="w">      </span><span class="nt">"pages"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1-3"</span><span class="p">,</span>
-</span><span id="__span-9-5"><a href="#__codelineno-9-5" id="__codelineno-9-5" name="__codelineno-9-5"></a><span class="w">      </span><span class="nt">"confidence"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.85</span><span class="p">,</span>
-</span><span id="__span-9-6"><a href="#__codelineno-9-6" id="__codelineno-9-6" name="__codelineno-9-6"></a><span class="w">      </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"included"</span>
-</span><span id="__span-9-7"><a href="#__codelineno-9-7" id="__codelineno-9-7" name="__codelineno-9-7"></a><span class="w">    </span><span class="p">},</span>
-</span><span id="__span-9-8"><a href="#__codelineno-9-8" id="__codelineno-9-8" name="__codelineno-9-8"></a><span class="w">    </span><span class="p">{</span>
-</span><span id="__span-9-9"><a href="#__codelineno-9-9" id="__codelineno-9-9" name="__codelineno-9-9"></a><span class="w">      </span><span class="nt">"pages"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4-6"</span><span class="p">,</span><span class="w"> </span>
-</span><span id="__span-9-10"><a href="#__codelineno-9-10" id="__codelineno-9-10" name="__codelineno-9-10"></a><span class="w">      </span><span class="nt">"confidence"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.15</span><span class="p">,</span>
-</span><span id="__span-9-11"><a href="#__codelineno-9-11" id="__codelineno-9-11" name="__codelineno-9-11"></a><span class="w">      </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"filtered_fragment"</span>
-</span><span id="__span-9-12"><a href="#__codelineno-9-12" id="__codelineno-9-12" name="__codelineno-9-12"></a><span class="w">    </span><span class="p">}</span>
-</span><span id="__span-9-13"><a href="#__codelineno-9-13" id="__codelineno-9-13" name="__codelineno-9-13"></a><span class="w">  </span><span class="p">]</span>
-</span><span id="__span-9-14"><a href="#__codelineno-9-14" id="__codelineno-9-14" name="__codelineno-9-14"></a><span class="p">}</span>
+<div class="language-json highlight"><pre><span></span><code><span id="__span-5-1"><a href="#__codelineno-5-1" id="__codelineno-5-1" name="__codelineno-5-1"></a><span class="p">{</span>
+</span><span id="__span-5-2"><a href="#__codelineno-5-2" id="__codelineno-5-2" name="__codelineno-5-2"></a><span class="w">  </span><span class="nt">"statements"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+</span><span id="__span-5-3"><a href="#__codelineno-5-3" id="__codelineno-5-3" name="__codelineno-5-3"></a><span class="w">    </span><span class="p">{</span>
+</span><span id="__span-5-4"><a href="#__codelineno-5-4" id="__codelineno-5-4" name="__codelineno-5-4"></a><span class="w">      </span><span class="nt">"pages"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1-3"</span><span class="p">,</span>
+</span><span id="__span-5-5"><a href="#__codelineno-5-5" id="__codelineno-5-5" name="__codelineno-5-5"></a><span class="w">      </span><span class="nt">"confidence"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.85</span><span class="p">,</span>
+</span><span id="__span-5-6"><a href="#__codelineno-5-6" id="__codelineno-5-6" name="__codelineno-5-6"></a><span class="w">      </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"included"</span>
+</span><span id="__span-5-7"><a href="#__codelineno-5-7" id="__codelineno-5-7" name="__codelineno-5-7"></a><span class="w">    </span><span class="p">},</span>
+</span><span id="__span-5-8"><a href="#__codelineno-5-8" id="__codelineno-5-8" name="__codelineno-5-8"></a><span class="w">    </span><span class="p">{</span>
+</span><span id="__span-5-9"><a href="#__codelineno-5-9" id="__codelineno-5-9" name="__codelineno-5-9"></a><span class="w">      </span><span class="nt">"pages"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4-6"</span><span class="p">,</span>
+</span><span id="__span-5-10"><a href="#__codelineno-5-10" id="__codelineno-5-10" name="__codelineno-5-10"></a><span class="w">      </span><span class="nt">"confidence"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.15</span><span class="p">,</span>
+</span><span id="__span-5-11"><a href="#__codelineno-5-11" id="__codelineno-5-11" name="__codelineno-5-11"></a><span class="w">      </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"filtered_fragment"</span>
+</span><span id="__span-5-12"><a href="#__codelineno-5-12" id="__codelineno-5-12" name="__codelineno-5-12"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-5-13"><a href="#__codelineno-5-13" id="__codelineno-5-13" name="__codelineno-5-13"></a><span class="w">  </span><span class="p">]</span>
+</span><span id="__span-5-14"><a href="#__codelineno-5-14" id="__codelineno-5-14" name="__codelineno-5-14"></a><span class="p">}</span>
 </span></code></pre></div>
 <h3 id="fragment-reporting">Fragment Reporting<a class="headerlink" href="#fragment-reporting" title="Permanent link">¶</a></h3>
 <p>Detailed fragment information is available:</p>
-<div class="language-json highlight"><pre><span></span><code><span id="__span-10-1"><a href="#__codelineno-10-1" id="__codelineno-10-1" name="__codelineno-10-1"></a><span class="p">{</span>
-</span><span id="__span-10-2"><a href="#__codelineno-10-2" id="__codelineno-10-2" name="__codelineno-10-2"></a><span class="w">  </span><span class="nt">"processing_summary"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-10-3"><a href="#__codelineno-10-3" id="__codelineno-10-3" name="__codelineno-10-3"></a><span class="w">    </span><span class="nt">"total_sections"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span>
-</span><span id="__span-10-4"><a href="#__codelineno-10-4" id="__codelineno-10-4" name="__codelineno-10-4"></a><span class="w">    </span><span class="nt">"valid_statements"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
-</span><span id="__span-10-5"><a href="#__codelineno-10-5" id="__codelineno-10-5" name="__codelineno-10-5"></a><span class="w">    </span><span class="nt">"filtered_fragments"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
-</span><span id="__span-10-6"><a href="#__codelineno-10-6" id="__codelineno-10-6" name="__codelineno-10-6"></a><span class="w">    </span><span class="nt">"skipped_pages"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span>
-</span><span id="__span-10-7"><a href="#__codelineno-10-7" id="__codelineno-10-7" name="__codelineno-10-7"></a><span class="w">  </span><span class="p">}</span>
-</span><span id="__span-10-8"><a href="#__codelineno-10-8" id="__codelineno-10-8" name="__codelineno-10-8"></a><span class="p">}</span>
+<div class="language-json highlight"><pre><span></span><code><span id="__span-6-1"><a href="#__codelineno-6-1" id="__codelineno-6-1" name="__codelineno-6-1"></a><span class="p">{</span>
+</span><span id="__span-6-2"><a href="#__codelineno-6-2" id="__codelineno-6-2" name="__codelineno-6-2"></a><span class="w">  </span><span class="nt">"processing_summary"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-6-3"><a href="#__codelineno-6-3" id="__codelineno-6-3" name="__codelineno-6-3"></a><span class="w">    </span><span class="nt">"total_sections"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span>
+</span><span id="__span-6-4"><a href="#__codelineno-6-4" id="__codelineno-6-4" name="__codelineno-6-4"></a><span class="w">    </span><span class="nt">"valid_statements"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+</span><span id="__span-6-5"><a href="#__codelineno-6-5" id="__codelineno-6-5" name="__codelineno-6-5"></a><span class="w">    </span><span class="nt">"filtered_fragments"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+</span><span id="__span-6-6"><a href="#__codelineno-6-6" id="__codelineno-6-6" name="__codelineno-6-6"></a><span class="w">    </span><span class="nt">"skipped_pages"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span>
+</span><span id="__span-6-7"><a href="#__codelineno-6-7" id="__codelineno-6-7" name="__codelineno-6-7"></a><span class="w">  </span><span class="p">}</span>
+</span><span id="__span-6-8"><a href="#__codelineno-6-8" id="__codelineno-6-8" name="__codelineno-6-8"></a><span class="p">}</span>
 </span></code></pre></div>
 <h2 id="impact-on-accuracy">Impact on Accuracy<a class="headerlink" href="#impact-on-accuracy" title="Permanent link">¶</a></h2>
 <p>Fragment detection significantly improves output quality:</p>

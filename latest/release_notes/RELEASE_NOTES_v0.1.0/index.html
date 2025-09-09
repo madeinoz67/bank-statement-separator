@@ -1620,7 +1620,7 @@
 
 
 <h1 id="release-notes-version-010">Release Notes - Version 0.1.0<a class="headerlink" href="#release-notes-version-010" title="Permanent link">&para;</a></h1>
-<p><strong>Release Date</strong>: September 7, 2025<br />
+<p><strong>Release Date</strong>: September 7, 2025
 <strong>Focus</strong>: Fresh Start with Comprehensive AI-Powered Bank Statement Processing</p>
 <h2 id="overview">🎯 Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
 <p>Version 0.1.0 represents a fresh start for the bank-statement-separator project, consolidating all major features and improvements into a clean, production-ready foundation. This AI-powered tool automatically processes PDF files containing multiple bank statements and separates them into individual files using advanced LangChain and LangGraph workflows.</p>
@@ -1732,22 +1732,28 @@
 <h2 id="major-bug-fixes-improvements">🐛 Major Bug Fixes &amp; Improvements<a class="headerlink" href="#major-bug-fixes-improvements" title="Permanent link">&para;</a></h2>
 <h3 id="critical-boundary-detection-enhancement">Critical: Boundary Detection Enhancement<a class="headerlink" href="#critical-boundary-detection-enhancement" title="Permanent link">&para;</a></h3>
 <p><strong>Issue</strong>: Single documents treated as one statement instead of multiple separate statements
-<strong>Solution</strong>: 
-- Enhanced boundary detection with Westpac-specific pattern recognition
-- Improved segmentation logic for 12-page documents (billing + individual cards)
-- Smart fragment detection preventing incomplete sections in output</p>
+<strong>Solution</strong>:</p>
+<ul>
+<li>Enhanced boundary detection with Westpac-specific pattern recognition</li>
+<li>Improved segmentation logic for 12-page documents (billing + individual cards)</li>
+<li>Smart fragment detection preventing incomplete sections in output</li>
+</ul>
 <h3 id="critical-metadata-extraction-accuracy">Critical: Metadata Extraction Accuracy<a class="headerlink" href="#critical-metadata-extraction-accuracy" title="Permanent link">&para;</a></h3>
 <p><strong>Issue</strong>: Pattern-matching incorrectly identified banks (e.g., "Chase" from "BusinessChoice")
-<strong>Solution</strong>:
-- Enhanced bank detection with word boundaries and Australian bank patterns
-- Improved account number extraction with spaced format support
-- Better date processing with multiple format support</p>
+<strong>Solution</strong>:</p>
+<ul>
+<li>Enhanced bank detection with word boundaries and Australian bank patterns</li>
+<li>Improved account number extraction with spaced format support</li>
+<li>Better date processing with multiple format support</li>
+</ul>
 <h3 id="critical-workflow-reliability">Critical: Workflow Reliability<a class="headerlink" href="#critical-workflow-reliability" title="Permanent link">&para;</a></h3>
 <p><strong>Issue</strong>: GitHub workflow race conditions and deployment failures
-<strong>Solution</strong>:
-- Comprehensive concurrency controls across all workflows
-- Mike deployment strategy with branch reset for corrupted states
-- Path-based filtering and proper job dependencies</p>
+<strong>Solution</strong>:</p>
+<ul>
+<li>Comprehensive concurrency controls across all workflows</li>
+<li>Mike deployment strategy with branch reset for corrupted states</li>
+<li>Path-based filtering and proper job dependencies</li>
+</ul>
 <h2 id="comprehensive-documentation">📚 Comprehensive Documentation<a class="headerlink" href="#comprehensive-documentation" title="Permanent link">&para;</a></h2>
 <h3 id="user-documentation">📖 User Documentation<a class="headerlink" href="#user-documentation" title="Permanent link">&para;</a></h3>
 <ul>
@@ -1797,7 +1803,7 @@
 <h3 id="processing-performance">⚡ Processing Performance<a class="headerlink" href="#processing-performance" title="Permanent link">&para;</a></h3>
 <ul>
 <li><strong>Ultra Fast Local</strong>: 6.65s with Gemma2:9B</li>
-<li><strong>Production Cloud</strong>: 10.85s with GPT-4o-mini  </li>
+<li><strong>Production Cloud</strong>: 10.85s with GPT-4o-mini</li>
 <li><strong>Memory Efficient</strong>: Minimal memory footprint with smart caching</li>
 <li><strong>Scalable</strong>: Designed for batch processing with rate limiting</li>
 </ul>
@@ -1859,7 +1865,7 @@
 <h3 id="getting-help">💡 Getting Help<a class="headerlink" href="#getting-help" title="Permanent link">&para;</a></h3>
 <ol>
 <li><strong>Documentation</strong>: Check the comprehensive user guide and troubleshooting sections</li>
-<li><strong>Issues</strong>: Search existing issues or create new ones for bugs and feature requests  </li>
+<li><strong>Issues</strong>: Search existing issues or create new ones for bugs and feature requests</li>
 <li><strong>Discussions</strong>: Use GitHub Discussions for questions and community support</li>
 <li><strong>Testing</strong>: Use <code>--dry-run</code> mode to preview processing without creating files</li>
 </ol>
@@ -1874,8 +1880,8 @@
 <p>Version 0.1.0 represents a comprehensive foundation built on extensive testing, user feedback, and real-world validation. The project consolidates major improvements in AI processing, document handling, model evaluation, and development infrastructure into a production-ready tool for automated bank statement processing.</p>
 <p>Special recognition for the comprehensive model testing that evaluated 15+ language models, providing data-driven guidance for optimal performance across different deployment scenarios.</p>
 <hr />
-<p><strong>Installation</strong>: <code>uv sync &amp;&amp; cp .env.example .env</code><br />
-<strong>Quick Start</strong>: <code>uv run python -m src.bank_statement_separator.main input.pdf -o ./output</code><br />
+<p><strong>Installation</strong>: <code>uv sync &amp;&amp; cp .env.example .env</code>
+<strong>Quick Start</strong>: <code>uv run python -m src.bank_statement_separator.main input.pdf -o ./output</code>
 <strong>Documentation</strong>: Available at <a href="https://madeinoz67.github.io/bank-statement-separator/">project documentation site</a></p>
 <p>🎉 <strong>Ready for production with comprehensive AI-powered bank statement processing!</strong></p>
 

@@ -181,11 +181,11 @@
   .feature-grid {
     grid-template-columns: 1fr;
   }
-  
+
   .config-table {
     font-size: 0.8em;
   }
-  
+
   .config-table th,
   .config-table td {
     padding: 0.5rem 0.25rem;
@@ -197,7 +197,7 @@
   .feature-card {
     border-color: var(--md-default-fg-color--lighter);
   }
-  
+
   .progress {
     background-color: var(--md-default-fg-color--lightest);
   }

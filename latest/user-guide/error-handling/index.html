@@ -1791,47 +1791,57 @@
 <h2 id="common-error-scenarios">Common Error Scenarios<a class="headerlink" href="#common-error-scenarios" title="Permanent link">&para;</a></h2>
 <h3 id="password-protected-pdfs">Password-Protected PDFs<a class="headerlink" href="#password-protected-pdfs" title="Permanent link">&para;</a></h3>
 <p><strong>Error</strong>: Document requires password for access</p>
-<p><strong>Recovery Steps</strong>:
-1. Remove password protection using PDF tools
-2. Request unprotected version from source
-3. Use PDF utilities like <code>qpdf</code> or Adobe Acrobat</p>
+<p><strong>Recovery Steps</strong>:</p>
+<ol>
+<li>Remove password protection using PDF tools</li>
+<li>Request unprotected version from source</li>
+<li>Use PDF utilities like <code>qpdf</code> or Adobe Acrobat</li>
+</ol>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># Remove password protection with qpdf</span>
 </span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>qpdf<span class="w"> </span>--password<span class="o">=</span>PASSWORD<span class="w"> </span>--decrypt<span class="w"> </span>input.pdf<span class="w"> </span>output.pdf
 </span></code></pre></div>
 <h3 id="file-corruption">File Corruption<a class="headerlink" href="#file-corruption" title="Permanent link">&para;</a></h3>
 <p><strong>Error</strong>: PDF structure is damaged or incomplete</p>
-<p><strong>Recovery Steps</strong>:
-1. Re-download or re-scan the original document
-2. Use PDF repair tools
-3. Convert to different format and back to PDF</p>
+<p><strong>Recovery Steps</strong>:</p>
+<ol>
+<li>Re-download or re-scan the original document</li>
+<li>Use PDF repair tools</li>
+<li>Convert to different format and back to PDF</li>
+</ol>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># Attempt PDF repair with Ghostscript</span>
 </span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>gs<span class="w"> </span>-o<span class="w"> </span>repaired.pdf<span class="w"> </span>-sDEVICE<span class="o">=</span>pdfwrite<span class="w"> </span>-dPDFSETTINGS<span class="o">=</span>/prepress<span class="w"> </span>input.pdf
 </span></code></pre></div>
 <h3 id="api-quota-exceeded">API Quota Exceeded<a class="headerlink" href="#api-quota-exceeded" title="Permanent link">&para;</a></h3>
 <p><strong>Error</strong>: OpenAI API quota or rate limits exceeded</p>
-<p><strong>Recovery Steps</strong>:
-1. Wait for quota reset (usually monthly)
-2. Upgrade OpenAI plan for higher limits
-3. Use fallback processing mode</p>
+<p><strong>Recovery Steps</strong>:</p>
+<ol>
+<li>Wait for quota reset (usually monthly)</li>
+<li>Upgrade OpenAI plan for higher limits</li>
+<li>Use fallback processing mode</li>
+</ol>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1"># Process without API key (fallback mode)</span>
 </span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="nv">OPENAI_API_KEY</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="w"> </span>uv<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>-m<span class="w"> </span>src.bank_statement_separator.main<span class="w"> </span>process<span class="w"> </span>input.pdf
 </span></code></pre></div>
 <h3 id="insufficient-text-content">Insufficient Text Content<a class="headerlink" href="#insufficient-text-content" title="Permanent link">&para;</a></h3>
 <p><strong>Error</strong>: Document appears to be image-only or has minimal text</p>
-<p><strong>Recovery Steps</strong>:
-1. Check if document is scanned image
-2. Apply OCR processing before separation
-3. Adjust minimum text content ratio</p>
+<p><strong>Recovery Steps</strong>:</p>
+<ol>
+<li>Check if document is scanned image</li>
+<li>Apply OCR processing before separation</li>
+<li>Adjust minimum text content ratio</li>
+</ol>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1"># Adjust text content requirements</span>
 </span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="nv">MIN_TEXT_CONTENT_RATIO</span><span class="o">=</span><span class="m">0</span>.05<span class="w">  </span><span class="c1"># Lower threshold</span>
 </span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="nv">REQUIRE_TEXT_CONTENT</span><span class="o">=</span><span class="nb">false</span><span class="w">   </span><span class="c1"># Disable requirement</span>
 </span></code></pre></div>
 <h3 id="large-file-processing">Large File Processing<a class="headerlink" href="#large-file-processing" title="Permanent link">&para;</a></h3>
 <p><strong>Error</strong>: File exceeds size limits or causes memory issues</p>
-<p><strong>Recovery Steps</strong>:
-1. Increase file size limits in configuration
-2. Process on machine with more memory
-3. Split large documents before processing</p>
+<p><strong>Recovery Steps</strong>:</p>
+<ol>
+<li>Increase file size limits in configuration</li>
+<li>Process on machine with more memory</li>
+<li>Split large documents before processing</li>
+</ol>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># Increase size limits</span>
 </span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="nv">MAX_FILE_SIZE_MB</span><span class="o">=</span><span class="m">500</span>
 </span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="nv">MAX_TOTAL_PAGES</span><span class="o">=</span><span class="m">1000</span>
@@ -2046,7 +2056,7 @@
 <p>This technical guide includes:</p>
 <ul>
 <li>Complete environment variable configurations</li>
-<li>Production deployment best practices  </li>
+<li>Production deployment best practices</li>
 <li>Advanced monitoring and maintenance procedures</li>
 <li>Detailed cron job setups for automation</li>
 <li>Low-level implementation details</li>

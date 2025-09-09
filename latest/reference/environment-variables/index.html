@@ -1699,8 +1699,8 @@
 <p>The system uses environment variables loaded from a <code>.env</code> file for configuration. Variables are organized into logical groups for different aspects of the system.</p>
 <div class="admonition tip">
 <p class="admonition-title">Configuration Template</p>
-<p>Copy <code>.env.example</code> to <code>.env</code> to get started with documented default values for all variables.</p>
 </div>
+<p>Copy <code>.env.example</code> to <code>.env</code> to get started with documented default values for all variables.</p>
 <h2 id="core-processing-variables">Core Processing Variables<a class="headerlink" href="#core-processing-variables" title="Permanent link">&para;</a></h2>
 <h3 id="ai-processing">AI Processing<a class="headerlink" href="#ai-processing" title="Permanent link">&para;</a></h3>
 <table>
@@ -1745,14 +1745,7 @@
 </tr>
 </tbody>
 </table>
-<div class="admonition info">
-<p class="admonition-title">AI Model Selection</p>
-<ul>
-<li><code>gpt-4o-mini</code>: Best balance of cost and performance (recommended)</li>
-<li><code>gpt-4o</code>: Highest accuracy, higher cost</li>
-<li><code>gpt-3.5-turbo</code>: Fastest processing, lower accuracy</li>
-</ul>
-</div>
+<p>!!! info "AI Model Selection" - <code>gpt-4o-mini</code>: Best balance of cost and performance (recommended) - <code>gpt-4o</code>: Highest accuracy, higher cost - <code>gpt-3.5-turbo</code>: Fastest processing, lower accuracy</p>
 <h3 id="text-processing">Text Processing<a class="headerlink" href="#text-processing" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
@@ -1867,11 +1860,10 @@
 </table>
 <div class="admonition example">
 <p class="admonition-title">Filename Format</p>
-<p>With <code>INCLUDE_BANK_IN_FILENAME=true</code> and <code>DATE_FORMAT=YYYY-MM-DD</code>:
-<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>westpac-2819-2015-05-21.pdf
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>anz-1234-2023-12-31.pdf
-</span></code></pre></div></p>
 </div>
+<p>With <code>INCLUDE_BANK_IN_FILENAME=true</code> and <code>DATE_FORMAT=YYYY-MM-DD</code>:
+<code>westpac-2819-2015-05-21.pdf
+    anz-1234-2023-12-31.pdf</code></p>
 <h3 id="file-naming-patterns">File Naming Patterns<a class="headerlink" href="#file-naming-patterns" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
@@ -1937,11 +1929,11 @@
 </table>
 <div class="admonition warning">
 <p class="admonition-title">Production Security</p>
-<p>Always set <code>ALLOWED_INPUT_DIRS</code> and <code>ALLOWED_OUTPUT_DIRS</code> in production:
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nv">ALLOWED_INPUT_DIRS</span><span class="o">=</span>/secure/input,/approved/documents
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="nv">ALLOWED_OUTPUT_DIRS</span><span class="o">=</span>/secure/output,/processed/statements
-</span></code></pre></div></p>
 </div>
+<p>Always set <code>ALLOWED_INPUT_DIRS</code> and <code>ALLOWED_OUTPUT_DIRS</code> in production:
+<code>bash
+    ALLOWED_INPUT_DIRS=/secure/input,/approved/documents
+    ALLOWED_OUTPUT_DIRS=/secure/output,/processed/statements</code></p>
 <h3 id="api-security">API Security<a class="headerlink" href="#api-security" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
@@ -2123,14 +2115,7 @@
 </tr>
 </tbody>
 </table>
-<div class="admonition info">
-<p class="admonition-title">Validation Strictness Levels</p>
-<ul>
-<li><strong>Strict</strong>: All validation issues cause processing to fail</li>
-<li><strong>Normal</strong>: Balance between validation and processing success</li>
-<li><strong>Lenient</strong>: Most validation issues generate warnings only</li>
-</ul>
-</div>
+<p>!!! info "Validation Strictness Levels" - <strong>Strict</strong>: All validation issues cause processing to fail - <strong>Normal</strong>: Balance between validation and processing success - <strong>Lenient</strong>: Most validation issues generate warnings only</p>
 <h3 id="content-validation">Content Validation<a class="headerlink" href="#content-validation" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
@@ -2278,12 +2263,18 @@
 <td><code>Bank Statements</code></td>
 <td>Storage path</td>
 </tr>
+<tr>
+<td><code>PAPERLESS_TAG_WAIT_TIME</code></td>
+<td>Integer</td>
+<td><code>5</code></td>
+<td>Wait time (seconds) before applying tags</td>
+</tr>
 </tbody>
 </table>
 <div class="admonition tip">
 <p class="admonition-title">Auto-Creation</p>
-<p>The system automatically creates missing tags, correspondents, document types, and storage paths in Paperless-ngx.</p>
 </div>
+<p>The system automatically creates missing tags, correspondents, document types, and storage paths in Paperless-ngx.</p>
 <h3 id="upload-behavior">Upload Behavior<a class="headerlink" href="#upload-behavior" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
@@ -2511,144 +2502,163 @@
 <h2 id="configuration-validation">Configuration Validation<a class="headerlink" href="#configuration-validation" title="Permanent link">&para;</a></h2>
 <h3 id="variable-types">Variable Types<a class="headerlink" href="#variable-types" title="Permanent link">&para;</a></h3>
 <p>Variables are automatically validated based on their type:</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="1:6"><input checked="checked" id="variable-types-boolean-variables" name="__tabbed_1" type="radio" /><input id="variable-types-integer-variables" name="__tabbed_1" type="radio" /><input id="variable-types-float-variables" name="__tabbed_1" type="radio" /><input id="variable-types-path-variables" name="__tabbed_1" type="radio" /><input id="variable-types-list-variables" name="__tabbed_1" type="radio" /><input id="variable-types-choice-variables" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="variable-types-boolean-variables">Boolean Variables</label><label for="variable-types-integer-variables">Integer Variables</label><label for="variable-types-float-variables">Float Variables</label><label for="variable-types-path-variables">Path Variables</label><label for="variable-types-list-variables">List Variables</label><label for="variable-types-choice-variables">Choice Variables</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:1"><input checked="checked" id="variable-types-boolean-variables" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="variable-types-boolean-variables">Boolean Variables</label></div>
 <div class="tabbed-content">
-<div class="tabbed-block">
+<div class="tabbed-block"></div>
+</div>
+</div>
 <p>Accept: <code>true</code>, <code>false</code>, <code>1</code>, <code>0</code>, <code>yes</code>, <code>no</code> (case-insensitive)
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nv">ENABLE_AUDIT_LOGGING</span><span class="o">=</span><span class="nb">true</span>
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="nv">PAPERLESS_ENABLED</span><span class="o">=</span><span class="nb">false</span>
-</span></code></pre></div></p>
+<code>bash
+    ENABLE_AUDIT_LOGGING=true
+    PAPERLESS_ENABLED=false</code></p>
+<div class="tabbed-set tabbed-alternate" data-tabs="2:1"><input checked="checked" id="variable-types-integer-variables" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="variable-types-integer-variables">Integer Variables</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block"></div>
 </div>
-<div class="tabbed-block">
+</div>
 <p>Must be valid integers within allowed ranges:
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nv">MAX_FILE_SIZE_MB</span><span class="o">=</span><span class="m">100</span>
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="nv">CHUNK_SIZE</span><span class="o">=</span><span class="m">6000</span>
-</span></code></pre></div></p>
+<code>bash
+    MAX_FILE_SIZE_MB=100
+    CHUNK_SIZE=6000</code></p>
+<div class="tabbed-set tabbed-alternate" data-tabs="3:1"><input checked="checked" id="variable-types-float-variables" name="__tabbed_3" type="radio" /><div class="tabbed-labels"><label for="variable-types-float-variables">Float Variables</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block"></div>
 </div>
-<div class="tabbed-block">
+</div>
 <p>Must be valid floating-point numbers:
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="nv">LLM_TEMPERATURE</span><span class="o">=</span><span class="m">0</span>.1
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="nv">MIN_TEXT_CONTENT_RATIO</span><span class="o">=</span><span class="m">0</span>.15
-</span></code></pre></div></p>
+<code>bash
+    LLM_TEMPERATURE=0.1
+    MIN_TEXT_CONTENT_RATIO=0.15</code></p>
+<div class="tabbed-set tabbed-alternate" data-tabs="4:1"><input checked="checked" id="variable-types-path-variables" name="__tabbed_4" type="radio" /><div class="tabbed-labels"><label for="variable-types-path-variables">Path Variables</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block"></div>
 </div>
-<div class="tabbed-block">
+</div>
 <p>Validated as file system paths:
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nv">DEFAULT_OUTPUT_DIR</span><span class="o">=</span>./separated_statements
-</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="nv">LOG_FILE</span><span class="o">=</span>/var/log/processing.log
-</span></code></pre></div></p>
+<code>bash
+    DEFAULT_OUTPUT_DIR=./separated_statements
+    LOG_FILE=/var/log/processing.log</code></p>
+<div class="tabbed-set tabbed-alternate" data-tabs="5:1"><input checked="checked" id="variable-types-list-variables" name="__tabbed_5" type="radio" /><div class="tabbed-labels"><label for="variable-types-list-variables">List Variables</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block"></div>
 </div>
-<div class="tabbed-block">
+</div>
 <p>Comma-separated values:
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="nv">PAPERLESS_TAGS</span><span class="o">=</span>bank-statement,automated,monthly
-</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="nv">ALLOWED_INPUT_DIRS</span><span class="o">=</span>/secure/input,/approved/docs
-</span></code></pre></div></p>
+<code>bash
+    PAPERLESS_TAGS=bank-statement,automated,monthly
+    ALLOWED_INPUT_DIRS=/secure/input,/approved/docs</code></p>
+<div class="tabbed-set tabbed-alternate" data-tabs="6:1"><input checked="checked" id="variable-types-choice-variables" name="__tabbed_6" type="radio" /><div class="tabbed-labels"><label for="variable-types-choice-variables">Choice Variables</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block"></div>
 </div>
-<div class="tabbed-block">
+</div>
 <p>Must match predefined options:
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="nv">LLM_MODEL</span><span class="o">=</span>gpt-4o-mini<span class="w">  </span><span class="c1"># or gpt-4o, gpt-3.5-turbo</span>
-</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="nv">VALIDATION_STRICTNESS</span><span class="o">=</span>normal<span class="w">  </span><span class="c1"># or strict, lenient</span>
-</span></code></pre></div></p>
-</div>
-</div>
-</div>
+<code>bash
+    LLM_MODEL=gpt-4o-mini  # or gpt-4o, gpt-3.5-turbo
+    VALIDATION_STRICTNESS=normal  # or strict, lenient</code></p>
 <h2 id="environment-specific-configurations">Environment-Specific Configurations<a class="headerlink" href="#environment-specific-configurations" title="Permanent link">&para;</a></h2>
 <h3 id="development-environment">Development Environment<a class="headerlink" href="#development-environment" title="Permanent link">&para;</a></h3>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1"># .env.development</span>
-</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="nv">OPENAI_API_KEY</span><span class="o">=</span>sk-dev-key
-</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="nv">LOG_LEVEL</span><span class="o">=</span>DEBUG
-</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="nv">VALIDATION_STRICTNESS</span><span class="o">=</span>lenient
-</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="nv">PRESERVE_FAILED_OUTPUTS</span><span class="o">=</span><span class="nb">true</span>
-</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="nv">DEVELOPMENT_MODE</span><span class="o">=</span><span class="nb">true</span>
-</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="nv">ENABLE_PROFILING</span><span class="o">=</span><span class="nb">true</span>
-</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="nv">MAX_RETRY_ATTEMPTS</span><span class="o">=</span><span class="m">1</span>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># .env.development</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="nv">OPENAI_API_KEY</span><span class="o">=</span>sk-dev-key
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="nv">LOG_LEVEL</span><span class="o">=</span>DEBUG
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="nv">VALIDATION_STRICTNESS</span><span class="o">=</span>lenient
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="nv">PRESERVE_FAILED_OUTPUTS</span><span class="o">=</span><span class="nb">true</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="nv">DEVELOPMENT_MODE</span><span class="o">=</span><span class="nb">true</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="nv">ENABLE_PROFILING</span><span class="o">=</span><span class="nb">true</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="nv">MAX_RETRY_ATTEMPTS</span><span class="o">=</span><span class="m">1</span>
 </span></code></pre></div>
 <h3 id="testing-environment">Testing Environment<a class="headerlink" href="#testing-environment" title="Permanent link">&para;</a></h3>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># .env.testing</span>
-</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="nv">OPENAI_API_KEY</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="w">  </span><span class="c1"># Test fallback mode</span>
-</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="nv">LOG_LEVEL</span><span class="o">=</span>WARNING
-</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="nv">TEST_MODE</span><span class="o">=</span><span class="nb">true</span>
-</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="nv">MOCK_API_RESPONSES</span><span class="o">=</span><span class="nb">true</span>
-</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="nv">QUARANTINE_DIRECTORY</span><span class="o">=</span>./test/quarantine
-</span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="nv">DEFAULT_OUTPUT_DIR</span><span class="o">=</span>./test/output
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># .env.testing</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="nv">OPENAI_API_KEY</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="w">  </span><span class="c1"># Test fallback mode</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="nv">LOG_LEVEL</span><span class="o">=</span>WARNING
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="nv">TEST_MODE</span><span class="o">=</span><span class="nb">true</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="nv">MOCK_API_RESPONSES</span><span class="o">=</span><span class="nb">true</span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="nv">QUARANTINE_DIRECTORY</span><span class="o">=</span>./test/quarantine
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="nv">DEFAULT_OUTPUT_DIR</span><span class="o">=</span>./test/output
 </span></code></pre></div>
 <h3 id="production-environment">Production Environment<a class="headerlink" href="#production-environment" title="Permanent link">&para;</a></h3>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="c1"># .env.production</span>
-</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="nv">OPENAI_API_KEY</span><span class="o">=</span>sk-prod-key
-</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="nv">LOG_LEVEL</span><span class="o">=</span>INFO
-</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="nv">VALIDATION_STRICTNESS</span><span class="o">=</span>strict
-</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="nv">ENABLE_AUDIT_LOGGING</span><span class="o">=</span><span class="nb">true</span>
-</span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="nv">MAX_FILE_SIZE_MB</span><span class="o">=</span><span class="m">200</span>
-</span><span id="__span-10-7"><a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a>
-</span><span id="__span-10-8"><a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a><span class="c1"># Security</span>
-</span><span id="__span-10-9"><a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a><span class="nv">ALLOWED_INPUT_DIRS</span><span class="o">=</span>/secure/input,/approved/documents
-</span><span id="__span-10-10"><a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a><span class="nv">ALLOWED_OUTPUT_DIRS</span><span class="o">=</span>/secure/output,/processed/statements
-</span><span id="__span-10-11"><a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a><span class="nv">QUARANTINE_DIRECTORY</span><span class="o">=</span>/secure/quarantine
-</span><span id="__span-10-12"><a id="__codelineno-10-12" name="__codelineno-10-12" href="#__codelineno-10-12"></a>
-</span><span id="__span-10-13"><a id="__codelineno-10-13" name="__codelineno-10-13" href="#__codelineno-10-13"></a><span class="c1"># Paperless integration</span>
-</span><span id="__span-10-14"><a id="__codelineno-10-14" name="__codelineno-10-14" href="#__codelineno-10-14"></a><span class="nv">PAPERLESS_ENABLED</span><span class="o">=</span><span class="nb">true</span>
-</span><span id="__span-10-15"><a id="__codelineno-10-15" name="__codelineno-10-15" href="#__codelineno-10-15"></a><span class="nv">PAPERLESS_URL</span><span class="o">=</span>https://paperless.company.com
-</span><span id="__span-10-16"><a id="__codelineno-10-16" name="__codelineno-10-16" href="#__codelineno-10-16"></a><span class="nv">PAPERLESS_TOKEN</span><span class="o">=</span>prod-api-token
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># .env.production</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="nv">OPENAI_API_KEY</span><span class="o">=</span>sk-prod-key
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="nv">LOG_LEVEL</span><span class="o">=</span>INFO
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="nv">VALIDATION_STRICTNESS</span><span class="o">=</span>strict
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="nv">ENABLE_AUDIT_LOGGING</span><span class="o">=</span><span class="nb">true</span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="nv">MAX_FILE_SIZE_MB</span><span class="o">=</span><span class="m">200</span>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="c1"># Security</span>
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="nv">ALLOWED_INPUT_DIRS</span><span class="o">=</span>/secure/input,/approved/documents
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="nv">ALLOWED_OUTPUT_DIRS</span><span class="o">=</span>/secure/output,/processed/statements
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="nv">QUARANTINE_DIRECTORY</span><span class="o">=</span>/secure/quarantine
+</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>
+</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="c1"># Paperless integration</span>
+</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="nv">PAPERLESS_ENABLED</span><span class="o">=</span><span class="nb">true</span>
+</span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="nv">PAPERLESS_URL</span><span class="o">=</span>https://paperless.company.com
+</span><span id="__span-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="nv">PAPERLESS_TOKEN</span><span class="o">=</span>prod-api-token
 </span></code></pre></div>
 <h2 id="configuration-validation_1">Configuration Validation<a class="headerlink" href="#configuration-validation_1" title="Permanent link">&para;</a></h2>
 <p>Test your configuration:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="c1"># Validate all variables</span>
-</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>uv<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;</span>
-</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="s2">from src.bank_statement_separator.config import load_config</span>
-</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="s2">try:</span>
-</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="s2">    config = load_config()</span>
-</span><span id="__span-11-6"><a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a><span class="s2">    print(&#39;✅ Configuration valid&#39;)</span>
-</span><span id="__span-11-7"><a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="s2">    print(f&#39;Model: {config.llm_model}&#39;)</span>
-</span><span id="__span-11-8"><a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a><span class="s2">    print(f&#39;Output: {config.default_output_dir}&#39;)</span>
-</span><span id="__span-11-9"><a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a><span class="s2">    print(f&#39;Validation: {config.validation_strictness}&#39;)</span>
-</span><span id="__span-11-10"><a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a><span class="s2">except Exception as e:</span>
-</span><span id="__span-11-11"><a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a><span class="s2">    print(f&#39;❌ Configuration error: {e}&#39;)</span>
-</span><span id="__span-11-12"><a id="__codelineno-11-12" name="__codelineno-11-12" href="#__codelineno-11-12"></a><span class="s2">&quot;</span>
-</span><span id="__span-11-13"><a id="__codelineno-11-13" name="__codelineno-11-13" href="#__codelineno-11-13"></a>
-</span><span id="__span-11-14"><a id="__codelineno-11-14" name="__codelineno-11-14" href="#__codelineno-11-14"></a><span class="c1"># Check specific variable</span>
-</span><span id="__span-11-15"><a id="__codelineno-11-15" name="__codelineno-11-15" href="#__codelineno-11-15"></a>uv<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;</span>
-</span><span id="__span-11-16"><a id="__codelineno-11-16" name="__codelineno-11-16" href="#__codelineno-11-16"></a><span class="s2">import os</span>
-</span><span id="__span-11-17"><a id="__codelineno-11-17" name="__codelineno-11-17" href="#__codelineno-11-17"></a><span class="s2">print(f&#39;OPENAI_API_KEY: {&quot;</span>Set<span class="s2">&quot; if os.getenv(&quot;</span>OPENAI_API_KEY<span class="s2">&quot;) else &quot;</span>Not<span class="w"> </span>set<span class="s2">&quot;}&#39;)</span>
-</span><span id="__span-11-18"><a id="__codelineno-11-18" name="__codelineno-11-18" href="#__codelineno-11-18"></a><span class="s2">print(f&#39;LOG_LEVEL: {os.getenv(&quot;</span>LOG_LEVEL<span class="s2">&quot;, &quot;</span>Not<span class="w"> </span>set<span class="s2">&quot;)}&#39;)</span>
-</span><span id="__span-11-19"><a id="__codelineno-11-19" name="__codelineno-11-19" href="#__codelineno-11-19"></a><span class="s2">print(f&#39;VALIDATION_STRICTNESS: {os.getenv(&quot;</span>VALIDATION_STRICTNESS<span class="s2">&quot;, &quot;</span>Not<span class="w"> </span>set<span class="s2">&quot;)}&#39;)</span>
-</span><span id="__span-11-20"><a id="__codelineno-11-20" name="__codelineno-11-20" href="#__codelineno-11-20"></a><span class="s2">&quot;</span>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># Validate all variables</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>uv<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="s2">from src.bank_statement_separator.config import load_config</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="s2">try:</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="s2">    config = load_config()</span>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="s2">    print(&#39;✅ Configuration valid&#39;)</span>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="s2">    print(f&#39;Model: {config.llm_model}&#39;)</span>
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="s2">    print(f&#39;Output: {config.default_output_dir}&#39;)</span>
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="s2">    print(f&#39;Validation: {config.validation_strictness}&#39;)</span>
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="s2">except Exception as e:</span>
+</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="s2">    print(f&#39;❌ Configuration error: {e}&#39;)</span>
+</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="s2">&quot;</span>
+</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a>
+</span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a><span class="c1"># Check specific variable</span>
+</span><span id="__span-3-15"><a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a>uv<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;</span>
+</span><span id="__span-3-16"><a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a><span class="s2">import os</span>
+</span><span id="__span-3-17"><a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a><span class="s2">print(f&#39;OPENAI_API_KEY: {&quot;</span>Set<span class="s2">&quot; if os.getenv(&quot;</span>OPENAI_API_KEY<span class="s2">&quot;) else &quot;</span>Not<span class="w"> </span>set<span class="s2">&quot;}&#39;)</span>
+</span><span id="__span-3-18"><a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a><span class="s2">print(f&#39;LOG_LEVEL: {os.getenv(&quot;</span>LOG_LEVEL<span class="s2">&quot;, &quot;</span>Not<span class="w"> </span>set<span class="s2">&quot;)}&#39;)</span>
+</span><span id="__span-3-19"><a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a><span class="s2">print(f&#39;VALIDATION_STRICTNESS: {os.getenv(&quot;</span>VALIDATION_STRICTNESS<span class="s2">&quot;, &quot;</span>Not<span class="w"> </span>set<span class="s2">&quot;)}&#39;)</span>
+</span><span id="__span-3-20"><a id="__codelineno-3-20" name="__codelineno-3-20" href="#__codelineno-3-20"></a><span class="s2">&quot;</span>
 </span></code></pre></div>
 <h2 id="common-configuration-issues">Common Configuration Issues<a class="headerlink" href="#common-configuration-issues" title="Permanent link">&para;</a></h2>
-<div class="tabbed-set tabbed-alternate" data-tabs="2:3"><input checked="checked" id="common-configuration-issues-invalid-values" name="__tabbed_2" type="radio" /><input id="common-configuration-issues-path-issues" name="__tabbed_2" type="radio" /><input id="common-configuration-issues-security-misconfigurations" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="common-configuration-issues-invalid-values">Invalid Values</label><label for="common-configuration-issues-path-issues">Path Issues</label><label for="common-configuration-issues-security-misconfigurations">Security Misconfigurations</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="7:1"><input checked="checked" id="common-configuration-issues-invalid-values" name="__tabbed_7" type="radio" /><div class="tabbed-labels"><label for="common-configuration-issues-invalid-values">Invalid Values</label></div>
 <div class="tabbed-content">
-<div class="tabbed-block">
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="c1"># ❌ Invalid</span>
-</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="nv">LLM_TEMPERATURE</span><span class="o">=</span><span class="m">2</span>.0<span class="w">  </span><span class="c1"># Must be 0-1</span>
-</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="nv">MAX_FILE_SIZE_MB</span><span class="o">=</span>abc<span class="w">  </span><span class="c1"># Must be integer</span>
-</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="nv">VALIDATION_STRICTNESS</span><span class="o">=</span>medium<span class="w">  </span><span class="c1"># Must be strict/normal/lenient</span>
-</span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>
-</span><span id="__span-12-6"><a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a><span class="c1"># ✅ Valid</span>
-</span><span id="__span-12-7"><a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a><span class="nv">LLM_TEMPERATURE</span><span class="o">=</span><span class="m">0</span>.1
-</span><span id="__span-12-8"><a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a><span class="nv">MAX_FILE_SIZE_MB</span><span class="o">=</span><span class="m">100</span>
-</span><span id="__span-12-9"><a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a><span class="nv">VALIDATION_STRICTNESS</span><span class="o">=</span>normal
-</span></code></pre></div>
-</div>
-<div class="tabbed-block">
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="c1"># ❌ Problematic</span>
-</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="nv">DEFAULT_OUTPUT_DIR</span><span class="o">=</span>~/output<span class="w">  </span><span class="c1"># Tilde expansion issues</span>
-</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="nv">QUARANTINE_DIRECTORY</span><span class="o">=</span>output<span class="w">  </span><span class="c1"># Relative path confusion</span>
-</span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>
-</span><span id="__span-13-5"><a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a><span class="c1"># ✅ Better</span>
-</span><span id="__span-13-6"><a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a><span class="nv">DEFAULT_OUTPUT_DIR</span><span class="o">=</span>/home/user/output<span class="w">  </span><span class="c1"># Absolute path</span>
-</span><span id="__span-13-7"><a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a><span class="nv">QUARANTINE_DIRECTORY</span><span class="o">=</span>./quarantine<span class="w">  </span><span class="c1"># Explicit relative path</span>
-</span></code></pre></div>
-</div>
-<div class="tabbed-block">
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="c1"># ❌ Insecure</span>
-</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="nv">ALLOWED_INPUT_DIRS</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="w">  </span><span class="c1"># No restrictions</span>
-</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="nv">LOG_LEVEL</span><span class="o">=</span>DEBUG<span class="w">  </span><span class="c1"># Too verbose for production</span>
-</span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a>
-</span><span id="__span-14-5"><a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="c1"># ✅ Secure</span>
-</span><span id="__span-14-6"><a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a><span class="nv">ALLOWED_INPUT_DIRS</span><span class="o">=</span>/secure/input
-</span><span id="__span-14-7"><a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a><span class="nv">LOG_LEVEL</span><span class="o">=</span>INFO
-</span></code></pre></div>
+<div class="tabbed-block"></div>
 </div>
 </div>
+<p>````bash # ❌ Invalid
+LLM_TEMPERATURE=2.0 # Must be 0-1
+MAX_FILE_SIZE_MB=abc # Must be integer
+VALIDATION_STRICTNESS=medium # Must be strict/normal/lenient</p>
+<div class="language-text highlight"><pre><span></span><code># ✅ Valid
+LLM_TEMPERATURE=0.1
+MAX_FILE_SIZE_MB=100
+VALIDATION_STRICTNESS=normal
+```
+</code></pre></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="8:1"><input checked="checked" id="common-configuration-issues-path-issues" name="__tabbed_8" type="radio" /><div class="tabbed-labels"><label for="common-configuration-issues-path-issues">Path Issues</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block"></div>
 </div>
+</div>
+<p>```bash # ❌ Problematic
+DEFAULT_OUTPUT_DIR=~/output # Tilde expansion issues
+QUARANTINE_DIRECTORY=output # Relative path confusion</p>
+<div class="language-text highlight"><pre><span></span><code># ✅ Better
+DEFAULT_OUTPUT_DIR=/home/user/output  # Absolute path
+QUARANTINE_DIRECTORY=./quarantine  # Explicit relative path
+```
+</code></pre></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="9:1"><input checked="checked" id="common-configuration-issues-security-misconfigurations" name="__tabbed_9" type="radio" /><div class="tabbed-labels"><label for="common-configuration-issues-security-misconfigurations">Security Misconfigurations</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block"></div>
+</div>
+</div>
+<p>```bash # ❌ Insecure
+ALLOWED_INPUT_DIRS="" # No restrictions
+LOG_LEVEL=DEBUG # Too verbose for production</p>
+<div class="language-text highlight"><pre><span></span><code># ✅ Secure
+ALLOWED_INPUT_DIRS=/secure/input
+LOG_LEVEL=INFO
+```
+</code></pre></div>
 <h2 id="configuration-best-practices">Configuration Best Practices<a class="headerlink" href="#configuration-best-practices" title="Permanent link">&para;</a></h2>
 <h3 id="security">Security<a class="headerlink" href="#security" title="Permanent link">&para;</a></h3>
 <ol>
@@ -2676,7 +2686,8 @@
 <li><strong>Enable audit logging</strong> for compliance</li>
 <li><strong>Set up log monitoring</strong> and alerting</li>
 <li><strong>Configure performance metrics</strong> collection</li>
-<li><strong>Monitor API usage</strong> and costs</li>
+<li><strong>Monitor API usage</strong> and costs
+````</li>
 </ol>
 
 

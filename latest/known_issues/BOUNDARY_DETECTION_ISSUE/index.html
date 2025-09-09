@@ -1308,14 +1308,18 @@
 <h2 id="major-resolution-update-august-2025">🎯 Major Resolution Update (August 2025)<a class="headerlink" href="#major-resolution-update-august-2025" title="Permanent link">&para;</a></h2>
 <p><strong>CRITICAL FIX</strong>: Resolved core LLM boundary detection accuracy issue affecting both OpenAI and Ollama providers.</p>
 <h3 id="root-cause-identified-and-fixed">✅ Root Cause Identified and Fixed<a class="headerlink" href="#root-cause-identified-and-fixed" title="Permanent link">&para;</a></h3>
-<p><strong>Primary Issue</strong>: Adjacent Boundary Consolidation Bug in <code>_validate_and_consolidate_boundaries()</code>
-- <strong>Problem</strong>: Logic <code>boundary.start_page &lt;= last_boundary.end_page + 1</code> treated adjacent pages as overlapping
-- <strong>Impact</strong>: 3 separate statements (Westpac, CBA, NAB) merged into 1 statement<br />
-- <strong>Result</strong>: 33% accuracy → 100% accuracy after fix</p>
-<p><strong>Secondary Issue</strong>: LLM Text Preparation Without Page Boundaries
-- <strong>Problem</strong>: Combined text <code>" ".join(text_chunks)</code> provided no structural information
-- <strong>Impact</strong>: LLM couldn't identify page transitions between statements
-- <strong>Result</strong>: Enhanced with <code>=== PAGE N ===</code> markers for clear structure</p>
+<p><strong>Primary Issue</strong>: Adjacent Boundary Consolidation Bug in <code>_validate_and_consolidate_boundaries()</code></p>
+<ul>
+<li><strong>Problem</strong>: Logic <code>boundary.start_page &lt;= last_boundary.end_page + 1</code> treated adjacent pages as overlapping</li>
+<li><strong>Impact</strong>: 3 separate statements (Westpac, CBA, NAB) merged into 1 statement</li>
+<li><strong>Result</strong>: 33% accuracy → 100% accuracy after fix</li>
+</ul>
+<p><strong>Secondary Issue</strong>: LLM Text Preparation Without Page Boundaries</p>
+<ul>
+<li><strong>Problem</strong>: Combined text <code>" ".join(text_chunks)</code> provided no structural information</li>
+<li><strong>Impact</strong>: LLM couldn't identify page transitions between statements</li>
+<li><strong>Result</strong>: Enhanced with <code>=== PAGE N ===</code> markers for clear structure</li>
+</ul>
 <h2 id="resolution-summary">Resolution Summary<a class="headerlink" href="#resolution-summary" title="Permanent link">&para;</a></h2>
 <p>The boundary detection issue has been successfully resolved through comprehensive improvements to the fallback processing system:</p>
 <h3 id="implemented-solutions">✅ Implemented Solutions<a class="headerlink" href="#implemented-solutions" title="Permanent link">&para;</a></h3>
@@ -1356,15 +1360,19 @@
 </ul>
 <h2 id="issue-details">Issue Details<a class="headerlink" href="#issue-details" title="Permanent link">&para;</a></h2>
 <h3 id="what-happened">What Happened<a class="headerlink" href="#what-happened" title="Permanent link">&para;</a></h3>
-<p>The system incorrectly merged two distinct sections:
-1. <strong>Page 1</strong>: A fragment showing a single transaction (10/02/2023 ATM withdrawal)
-2. <strong>Pages 2-3</strong>: Complete NAB statement for period Jan 16 - Feb 15, 2023</p>
+<p>The system incorrectly merged two distinct sections:</p>
+<ol>
+<li><strong>Page 1</strong>: A fragment showing a single transaction (10/02/2023 ATM withdrawal)</li>
+<li><strong>Pages 2-3</strong>: Complete NAB statement for period Jan 16 - Feb 15, 2023</li>
+</ol>
 <h3 id="expected-behavior">Expected Behavior<a class="headerlink" href="#expected-behavior" title="Permanent link">&para;</a></h3>
 <p>These should have been detected as separate statements or the fragment should have been excluded.</p>
 <h3 id="root-cause">Root Cause<a class="headerlink" href="#root-cause" title="Permanent link">&para;</a></h3>
-<p>The fallback boundary detection (pattern-based) failed to identify the boundary between:
-- The transaction fragment on page 1
-- The proper statement header on page 2</p>
+<p>The fallback boundary detection (pattern-based) failed to identify the boundary between:</p>
+<ul>
+<li>The transaction fragment on page 1</li>
+<li>The proper statement header on page 2</li>
+</ul>
 <h2 id="technical-analysis">Technical Analysis<a class="headerlink" href="#technical-analysis" title="Permanent link">&para;</a></h2>
 <h3 id="current-fallback-logic-issues">Current Fallback Logic Issues<a class="headerlink" href="#current-fallback-logic-issues" title="Permanent link">&para;</a></h3>
 <ol>

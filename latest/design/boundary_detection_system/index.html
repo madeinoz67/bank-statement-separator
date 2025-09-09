@@ -1016,11 +1016,13 @@
 <h2 id="detection-strategies">Detection Strategies<a class="headerlink" href="#detection-strategies" title="Permanent link">¶</a></h2>
 <h3 id="1-transaction-based-boundary-detection">1. Transaction-Based Boundary Detection<a class="headerlink" href="#1-transaction-based-boundary-detection" title="Permanent link">¶</a></h3>
 <p><strong>Core Principle</strong>: Identify natural boundaries by finding where one statement's transactions end and the next statement's header begins.</p>
-<p><strong>Key Indicators</strong>:
-- <strong>Statement Headers</strong>: Account holder information, statement periods, bank logos
-- <strong>Transaction Endings</strong>: Closing balances, summary sections, end-of-statement markers
-- <strong>Page Boundaries</strong>: New statement starting with "Page 1 of X"
-- <strong>Account Changes</strong>: Different account numbers or card numbers</p>
+<p><strong>Key Indicators</strong>:</p>
+<ul>
+<li><strong>Statement Headers</strong>: Account holder information, statement periods, bank logos</li>
+<li><strong>Transaction Endings</strong>: Closing balances, summary sections, end-of-statement markers</li>
+<li><strong>Page Boundaries</strong>: New statement starting with "Page 1 of X"</li>
+<li><strong>Account Changes</strong>: Different account numbers or card numbers</li>
+</ul>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-1-1"><a href="#__codelineno-1-1" id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="c1"># Example: Transaction boundary detection</span>
 </span><span id="__span-1-2"><a href="#__codelineno-1-2" id="__codelineno-1-2" name="__codelineno-1-2"></a><span class="k">def</span><span class="w"> </span><span class="nf">find_transaction_boundaries</span><span class="p">(</span><span class="n">document_text</span><span class="p">):</span>
 </span><span id="__span-1-3"><a href="#__codelineno-1-3" id="__codelineno-1-3" name="__codelineno-1-3"></a><span class="w">    </span><span class="sd">"""</span>
@@ -1037,7 +1039,7 @@
 </span><span id="__span-1-14"><a href="#__codelineno-1-14" id="__codelineno-1-14" name="__codelineno-1-14"></a>        <span class="sa">r</span><span class="s1">'(?i)end\s+of\s+statement'</span>
 </span><span id="__span-1-15"><a href="#__codelineno-1-15" id="__codelineno-1-15" name="__codelineno-1-15"></a>    <span class="p">]</span>
 </span><span id="__span-1-16"><a href="#__codelineno-1-16" id="__codelineno-1-16" name="__codelineno-1-16"></a>
-</span><span id="__span-1-17"><a href="#__codelineno-1-17" id="__codelineno-1-17" name="__codelineno-1-17"></a>    <span class="c1"># Statement start patterns  </span>
+</span><span id="__span-1-17"><a href="#__codelineno-1-17" id="__codelineno-1-17" name="__codelineno-1-17"></a>    <span class="c1"># Statement start patterns</span>
 </span><span id="__span-1-18"><a href="#__codelineno-1-18" id="__codelineno-1-18" name="__codelineno-1-18"></a>    <span class="n">start_patterns</span> <span class="o">=</span> <span class="p">[</span>
 </span><span id="__span-1-19"><a href="#__codelineno-1-19" id="__codelineno-1-19" name="__codelineno-1-19"></a>        <span class="sa">r</span><span class="s1">'(?i)statement\s+(?:period|from|for)'</span><span class="p">,</span>
 </span><span id="__span-1-20"><a href="#__codelineno-1-20" id="__codelineno-1-20" name="__codelineno-1-20"></a>        <span class="sa">r</span><span class="s1">'(?i)account\s+(?:number|holder)'</span><span class="p">,</span>
@@ -1047,17 +1049,21 @@
 </span></code></pre></div>
 <h3 id="2-natural-language-boundary-recognition">2. Natural Language Boundary Recognition<a class="headerlink" href="#2-natural-language-boundary-recognition" title="Permanent link">¶</a></h3>
 <p><strong>Core Principle</strong>: Use contextual understanding to identify statement structure through semantic analysis.</p>
-<p><strong>Approach</strong>:
-- Analyze document structure and formatting
-- Identify recurring patterns in statement layout
-- Recognize institution-specific formatting conventions
-- Understand relationship between different sections</p>
+<p><strong>Approach</strong>:</p>
+<ul>
+<li>Analyze document structure and formatting</li>
+<li>Identify recurring patterns in statement layout</li>
+<li>Recognize institution-specific formatting conventions</li>
+<li>Understand relationship between different sections</li>
+</ul>
 <h3 id="3-multi-modal-analysis">3. Multi-Modal Analysis<a class="headerlink" href="#3-multi-modal-analysis" title="Permanent link">¶</a></h3>
 <p><strong>Core Principle</strong>: Combine textual content with document structure and formatting cues.</p>
-<p><strong>Components</strong>:
-- <strong>Text Analysis</strong>: Content patterns and keywords
-- <strong>Structure Analysis</strong>: Page breaks, section headers, formatting changes
-- <strong>Metadata Analysis</strong>: Account numbers, dates, bank identifiers</p>
+<p><strong>Components</strong>:</p>
+<ul>
+<li><strong>Text Analysis</strong>: Content patterns and keywords</li>
+<li><strong>Structure Analysis</strong>: Page breaks, section headers, formatting changes</li>
+<li><strong>Metadata Analysis</strong>: Account numbers, dates, bank identifiers</li>
+</ul>
 <h2 id="multi-provider-llm-integration">Multi-Provider LLM Integration<a class="headerlink" href="#multi-provider-llm-integration" title="Permanent link">¶</a></h2>
 <h3 id="provider-architecture">Provider Architecture<a class="headerlink" href="#provider-architecture" title="Permanent link">¶</a></h3>
 <p>The system supports multiple LLM providers through a unified interface:</p>
@@ -1081,7 +1087,7 @@
 </span><span id="__span-3-6"><a href="#__codelineno-3-6" id="__codelineno-3-6" name="__codelineno-3-6"></a>
 </span><span id="__span-3-7"><a href="#__codelineno-3-7" id="__codelineno-3-7" name="__codelineno-3-7"></a><span class="s2">        Each statement typically:</span>
 </span><span id="__span-3-8"><a href="#__codelineno-3-8" id="__codelineno-3-8" name="__codelineno-3-8"></a><span class="s2">        1. Starts with bank header/logo information</span>
-</span><span id="__span-3-9"><a href="#__codelineno-3-9" id="__codelineno-3-9" name="__codelineno-3-9"></a><span class="s2">        2. Contains account holder details  </span>
+</span><span id="__span-3-9"><a href="#__codelineno-3-9" id="__codelineno-3-9" name="__codelineno-3-9"></a><span class="s2">        2. Contains account holder details</span>
 </span><span id="__span-3-10"><a href="#__codelineno-3-10" id="__codelineno-3-10" name="__codelineno-3-10"></a><span class="s2">        3. Has a statement period or date range</span>
 </span><span id="__span-3-11"><a href="#__codelineno-3-11" id="__codelineno-3-11" name="__codelineno-3-11"></a><span class="s2">        4. Includes transaction listings</span>
 </span><span id="__span-3-12"><a href="#__codelineno-3-12" id="__codelineno-3-12" name="__codelineno-3-12"></a><span class="s2">        5. Ends with balance summaries</span>
@@ -1095,7 +1101,7 @@
 </span><span id="__span-3-20"><a href="#__codelineno-3-20" id="__codelineno-3-20" name="__codelineno-3-20"></a><span class="s2">        """</span><span class="p">)</span>
 </span><span id="__span-3-21"><a href="#__codelineno-3-21" id="__codelineno-3-21" name="__codelineno-3-21"></a>
 </span><span id="__span-3-22"><a href="#__codelineno-3-22" id="__codelineno-3-22" name="__codelineno-3-22"></a>        <span class="n">human_msg</span> <span class="o">=</span> <span class="n">HumanMessage</span><span class="p">(</span><span class="n">content</span><span class="o">=</span><span class="sa">f</span><span class="s2">"""</span>
-</span><span id="__span-3-23"><a href="#__codelineno-3-23" id="__codelineno-3-23" name="__codelineno-3-23"></a><span class="s2">        Analyze this bank statement document (</span><span class="si">{</span><span class="n">total_pages</span><span class="si">}</span><span class="s2"> pages) and identify </span>
+</span><span id="__span-3-23"><a href="#__codelineno-3-23" id="__codelineno-3-23" name="__codelineno-3-23"></a><span class="s2">        Analyze this bank statement document (</span><span class="si">{</span><span class="n">total_pages</span><span class="si">}</span><span class="s2"> pages) and identify</span>
 </span><span id="__span-3-24"><a href="#__codelineno-3-24" id="__codelineno-3-24" name="__codelineno-3-24"></a><span class="s2">        all individual statement boundaries.</span>
 </span><span id="__span-3-25"><a href="#__codelineno-3-25" id="__codelineno-3-25" name="__codelineno-3-25"></a>
 </span><span id="__span-3-26"><a href="#__codelineno-3-26" id="__codelineno-3-26" name="__codelineno-3-26"></a><span class="s2">        DOCUMENT TEXT:</span>
@@ -1111,7 +1117,7 @@
 <div class="language-python highlight"><pre><span></span><code><span id="__span-4-1"><a href="#__codelineno-4-1" id="__codelineno-4-1" name="__codelineno-4-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">OllamaBoundaryDetection</span><span class="p">:</span>
 </span><span id="__span-4-2"><a href="#__codelineno-4-2" id="__codelineno-4-2" name="__codelineno-4-2"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">analyze_boundaries</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BoundaryResult</span><span class="p">:</span>
 </span><span id="__span-4-3"><a href="#__codelineno-4-3" id="__codelineno-4-3" name="__codelineno-4-3"></a>        <span class="n">prompt</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"""</span>
-</span><span id="__span-4-4"><a href="#__codelineno-4-4" id="__codelineno-4-4" name="__codelineno-4-4"></a><span class="s2">        You are a bank statement analyzer. Analyze this document and identify </span>
+</span><span id="__span-4-4"><a href="#__codelineno-4-4" id="__codelineno-4-4" name="__codelineno-4-4"></a><span class="s2">        You are a bank statement analyzer. Analyze this document and identify</span>
 </span><span id="__span-4-5"><a href="#__codelineno-4-5" id="__codelineno-4-5" name="__codelineno-4-5"></a><span class="s2">        individual bank statement boundaries.</span>
 </span><span id="__span-4-6"><a href="#__codelineno-4-6" id="__codelineno-4-6" name="__codelineno-4-6"></a>
 </span><span id="__span-4-7"><a href="#__codelineno-4-7" id="__codelineno-4-7" name="__codelineno-4-7"></a><span class="s2">        DOCUMENT TEXT (</span><span class="si">{</span><span class="n">total_pages</span><span class="si">}</span><span class="s2"> pages):</span>
@@ -1130,7 +1136,7 @@
 </span><span id="__span-4-20"><a href="#__codelineno-4-20" id="__codelineno-4-20" name="__codelineno-4-20"></a><span class="s2">            "boundaries": [</span>
 </span><span id="__span-4-21"><a href="#__codelineno-4-21" id="__codelineno-4-21" name="__codelineno-4-21"></a><span class="s2">                </span><span class="se">{{</span>
 </span><span id="__span-4-22"><a href="#__codelineno-4-22" id="__codelineno-4-22" name="__codelineno-4-22"></a><span class="s2">                    "start_page": &lt;number&gt;,</span>
-</span><span id="__span-4-23"><a href="#__codelineno-4-23" id="__codelineno-4-23" name="__codelineno-4-23"></a><span class="s2">                    "end_page": &lt;number&gt;, </span>
+</span><span id="__span-4-23"><a href="#__codelineno-4-23" id="__codelineno-4-23" name="__codelineno-4-23"></a><span class="s2">                    "end_page": &lt;number&gt;,</span>
 </span><span id="__span-4-24"><a href="#__codelineno-4-24" id="__codelineno-4-24" name="__codelineno-4-24"></a><span class="s2">                    "account_number": "&lt;identifier_if_found&gt;"</span>
 </span><span id="__span-4-25"><a href="#__codelineno-4-25" id="__codelineno-4-25" name="__codelineno-4-25"></a><span class="s2">                </span><span class="se">}}</span>
 </span><span id="__span-4-26"><a href="#__codelineno-4-26" id="__codelineno-4-26" name="__codelineno-4-26"></a><span class="s2">            ]</span>
@@ -1195,7 +1201,7 @@
 </span><span id="__span-6-28"><a href="#__codelineno-6-28" id="__codelineno-6-28" name="__codelineno-6-28"></a>            <span class="n">end_page</span> <span class="o">=</span> <span class="n">total_pages</span>
 </span><span id="__span-6-29"><a href="#__codelineno-6-29" id="__codelineno-6-29" name="__codelineno-6-29"></a>
 </span><span id="__span-6-30"><a href="#__codelineno-6-30" id="__codelineno-6-30" name="__codelineno-6-30"></a>        <span class="n">boundaries</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">StatementBoundary</span><span class="p">(</span>
-</span><span id="__span-6-31"><a href="#__codelineno-6-31" id="__codelineno-6-31" name="__codelineno-6-31"></a>            <span class="n">start_page</span><span class="p">,</span> <span class="n">end_page</span><span class="p">,</span> 
+</span><span id="__span-6-31"><a href="#__codelineno-6-31" id="__codelineno-6-31" name="__codelineno-6-31"></a>            <span class="n">start_page</span><span class="p">,</span> <span class="n">end_page</span><span class="p">,</span>
 </span><span id="__span-6-32"><a href="#__codelineno-6-32" id="__codelineno-6-32" name="__codelineno-6-32"></a>            <span class="n">confidence</span><span class="o">=</span><span class="n">pos</span><span class="p">[</span><span class="s1">'confidence'</span><span class="p">],</span>
 </span><span id="__span-6-33"><a href="#__codelineno-6-33" id="__codelineno-6-33" name="__codelineno-6-33"></a>            <span class="n">reasoning</span><span class="o">=</span><span class="sa">f</span><span class="s2">"Page marker: 'Page 1 of </span><span class="si">{</span><span class="n">pos</span><span class="p">[</span><span class="s1">'statement_pages'</span><span class="p">]</span><span class="si">}</span><span class="s2">' found"</span>
 </span><span id="__span-6-34"><a href="#__codelineno-6-34" id="__codelineno-6-34" name="__codelineno-6-34"></a>        <span class="p">))</span>
@@ -1271,7 +1277,7 @@
 </span><span id="__span-8-24"><a href="#__codelineno-8-24" id="__codelineno-8-24" name="__codelineno-8-24"></a>
 </span><span id="__span-8-25"><a href="#__codelineno-8-25" id="__codelineno-8-25" name="__codelineno-8-25"></a>    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">lines</span><span class="p">):</span>
 </span><span id="__span-8-26"><a href="#__codelineno-8-26" id="__codelineno-8-26" name="__codelineno-8-26"></a>        <span class="c1"># Score line based on header patterns</span>
-</span><span id="__span-8-27"><a href="#__codelineno-8-27" id="__codelineno-8-27" name="__codelineno-8-27"></a>        <span class="n">header_score</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="mi">1</span> <span class="k">for</span> <span class="n">pattern</span> <span class="ow">in</span> <span class="n">header_patterns</span> 
+</span><span id="__span-8-27"><a href="#__codelineno-8-27" id="__codelineno-8-27" name="__codelineno-8-27"></a>        <span class="n">header_score</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="mi">1</span> <span class="k">for</span> <span class="n">pattern</span> <span class="ow">in</span> <span class="n">header_patterns</span>
 </span><span id="__span-8-28"><a href="#__codelineno-8-28" id="__codelineno-8-28" name="__codelineno-8-28"></a>                          <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="n">line</span><span class="p">))</span>
 </span><span id="__span-8-29"><a href="#__codelineno-8-29" id="__codelineno-8-29" name="__codelineno-8-29"></a>
 </span><span id="__span-8-30"><a href="#__codelineno-8-30" id="__codelineno-8-30" name="__codelineno-8-30"></a>        <span class="c1"># Require multiple pattern matches for confidence</span>
@@ -1289,8 +1295,8 @@
 </span><span id="__span-8-42"><a href="#__codelineno-8-42" id="__codelineno-8-42" name="__codelineno-8-42"></a>        <span class="n">boundaries</span> <span class="o">=</span> <span class="p">[]</span>
 </span><span id="__span-8-43"><a href="#__codelineno-8-43" id="__codelineno-8-43" name="__codelineno-8-43"></a>        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">start</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">statement_starts</span><span class="p">):</span>
 </span><span id="__span-8-44"><a href="#__codelineno-8-44" id="__codelineno-8-44" name="__codelineno-8-44"></a>            <span class="n">start_page</span> <span class="o">=</span> <span class="n">start</span><span class="p">[</span><span class="s1">'page'</span><span class="p">]</span>
-</span><span id="__span-8-45"><a href="#__codelineno-8-45" id="__codelineno-8-45" name="__codelineno-8-45"></a>            <span class="n">end_page</span> <span class="o">=</span> <span class="p">(</span><span class="n">statement_starts</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">][</span><span class="s1">'page'</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span> 
-</span><span id="__span-8-46"><a href="#__codelineno-8-46" id="__codelineno-8-46" name="__codelineno-8-46"></a>                       <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">statement_starts</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span> 
+</span><span id="__span-8-45"><a href="#__codelineno-8-45" id="__codelineno-8-45" name="__codelineno-8-45"></a>            <span class="n">end_page</span> <span class="o">=</span> <span class="p">(</span><span class="n">statement_starts</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">][</span><span class="s1">'page'</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span>
+</span><span id="__span-8-46"><a href="#__codelineno-8-46" id="__codelineno-8-46" name="__codelineno-8-46"></a>                       <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">statement_starts</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
 </span><span id="__span-8-47"><a href="#__codelineno-8-47" id="__codelineno-8-47" name="__codelineno-8-47"></a>                       <span class="k">else</span> <span class="n">total_pages</span><span class="p">)</span>
 </span><span id="__span-8-48"><a href="#__codelineno-8-48" id="__codelineno-8-48" name="__codelineno-8-48"></a>
 </span><span id="__span-8-49"><a href="#__codelineno-8-49" id="__codelineno-8-49" name="__codelineno-8-49"></a>            <span class="k">if</span> <span class="n">start_page</span> <span class="o">&lt;=</span> <span class="n">end_page</span><span class="p">:</span>
@@ -1314,7 +1320,7 @@
 </span><span id="__span-9-5"><a href="#__codelineno-9-5" id="__codelineno-9-5" name="__codelineno-9-5"></a>        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Applying Westpac 12-page pattern segmentation"</span><span class="p">)</span>
 </span><span id="__span-9-6"><a href="#__codelineno-9-6" id="__codelineno-9-6" name="__codelineno-9-6"></a>
 </span><span id="__span-9-7"><a href="#__codelineno-9-7" id="__codelineno-9-7" name="__codelineno-9-7"></a>        <span class="k">return</span> <span class="p">[</span>
-</span><span id="__span-9-8"><a href="#__codelineno-9-8" id="__codelineno-9-8" name="__codelineno-9-8"></a>            <span class="n">StatementBoundary</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">confidence</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span> 
+</span><span id="__span-9-8"><a href="#__codelineno-9-8" id="__codelineno-9-8" name="__codelineno-9-8"></a>            <span class="n">StatementBoundary</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">confidence</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span>
 </span><span id="__span-9-9"><a href="#__codelineno-9-9" id="__codelineno-9-9" name="__codelineno-9-9"></a>                            <span class="n">reasoning</span><span class="o">=</span><span class="s2">"Pattern: Westpac billing statement (pages 1-2)"</span><span class="p">),</span>
 </span><span id="__span-9-10"><a href="#__codelineno-9-10" id="__codelineno-9-10" name="__codelineno-9-10"></a>            <span class="n">StatementBoundary</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="n">confidence</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span>
 </span><span id="__span-9-11"><a href="#__codelineno-9-11" id="__codelineno-9-11" name="__codelineno-9-11"></a>                            <span class="n">reasoning</span><span class="o">=</span><span class="s2">"Pattern: Westpac card 1 statement (pages 3-5)"</span><span class="p">),</span>
@@ -1364,7 +1370,7 @@
 </span><span id="__span-11-2"><a href="#__codelineno-11-2" id="__codelineno-11-2" name="__codelineno-11-2"></a><span class="w">    </span><span class="sd">"""Default to single statement spanning all pages"""</span>
 </span><span id="__span-11-3"><a href="#__codelineno-11-3" id="__codelineno-11-3" name="__codelineno-11-3"></a>
 </span><span id="__span-11-4"><a href="#__codelineno-11-4" id="__codelineno-11-4" name="__codelineno-11-4"></a>    <span class="k">return</span> <span class="p">[</span><span class="n">StatementBoundary</span><span class="p">(</span>
-</span><span id="__span-11-5"><a href="#__codelineno-11-5" id="__codelineno-11-5" name="__codelineno-11-5"></a>        <span class="mi">1</span><span class="p">,</span> <span class="n">total_pages</span><span class="p">,</span> 
+</span><span id="__span-11-5"><a href="#__codelineno-11-5" id="__codelineno-11-5" name="__codelineno-11-5"></a>        <span class="mi">1</span><span class="p">,</span> <span class="n">total_pages</span><span class="p">,</span>
 </span><span id="__span-11-6"><a href="#__codelineno-11-6" id="__codelineno-11-6" name="__codelineno-11-6"></a>        <span class="n">confidence</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
 </span><span id="__span-11-7"><a href="#__codelineno-11-7" id="__codelineno-11-7" name="__codelineno-11-7"></a>        <span class="n">reasoning</span><span class="o">=</span><span class="s2">"Default: Single statement assumption (all detection methods failed)"</span>
 </span><span id="__span-11-8"><a href="#__codelineno-11-8" id="__codelineno-11-8" name="__codelineno-11-8"></a>    <span class="p">)]</span>
@@ -1386,7 +1392,7 @@
 </ul>
 <h3 id="fixed-boundary-consolidation-logic">Fixed Boundary Consolidation Logic<a class="headerlink" href="#fixed-boundary-consolidation-logic" title="Permanent link">¶</a></h3>
 <p><strong>Correct Overlap Resolution</strong>: Only merge truly overlapping boundaries, preserve adjacent statements.</p>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-13-1"><a href="#__codelineno-13-1" id="__codelineno-13-1" name="__codelineno-13-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">_validate_and_consolidate_boundaries</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">boundaries</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">StatementBoundary</span><span class="p">],</span> 
+<div class="language-python highlight"><pre><span></span><code><span id="__span-13-1"><a href="#__codelineno-13-1" id="__codelineno-13-1" name="__codelineno-13-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">_validate_and_consolidate_boundaries</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">boundaries</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">StatementBoundary</span><span class="p">],</span>
 </span><span id="__span-13-2"><a href="#__codelineno-13-2" id="__codelineno-13-2" name="__codelineno-13-2"></a>                                       <span class="n">total_pages</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">StatementBoundary</span><span class="p">]:</span>
 </span><span id="__span-13-3"><a href="#__codelineno-13-3" id="__codelineno-13-3" name="__codelineno-13-3"></a><span class="w">    </span><span class="sd">"""Validate and consolidate overlapping or invalid boundaries"""</span>
 </span><span id="__span-13-4"><a href="#__codelineno-13-4" id="__codelineno-13-4" name="__codelineno-13-4"></a>
@@ -1407,7 +1413,7 @@
 </span><span id="__span-13-19"><a href="#__codelineno-13-19" id="__codelineno-13-19" name="__codelineno-13-19"></a>        <span class="c1"># ✅ FIXED: Check for TRUE overlap (not just adjacent pages)</span>
 </span><span id="__span-13-20"><a href="#__codelineno-13-20" id="__codelineno-13-20" name="__codelineno-13-20"></a>        <span class="k">if</span> <span class="n">boundary</span><span class="o">.</span><span class="n">start_page</span> <span class="o">&lt;=</span> <span class="n">last_boundary</span><span class="o">.</span><span class="n">end_page</span><span class="p">:</span>
 </span><span id="__span-13-21"><a href="#__codelineno-13-21" id="__codelineno-13-21" name="__codelineno-13-21"></a>            <span class="c1"># TRUE overlapping boundaries - merge only if they're the same statement</span>
-</span><span id="__span-13-22"><a href="#__codelineno-13-22" id="__codelineno-13-22" name="__codelineno-13-22"></a>            <span class="k">if</span> <span class="p">(</span><span class="n">boundary</span><span class="o">.</span><span class="n">account_number</span> <span class="ow">and</span> <span class="n">last_boundary</span><span class="o">.</span><span class="n">account_number</span> <span class="ow">and</span> 
+</span><span id="__span-13-22"><a href="#__codelineno-13-22" id="__codelineno-13-22" name="__codelineno-13-22"></a>            <span class="k">if</span> <span class="p">(</span><span class="n">boundary</span><span class="o">.</span><span class="n">account_number</span> <span class="ow">and</span> <span class="n">last_boundary</span><span class="o">.</span><span class="n">account_number</span> <span class="ow">and</span>
 </span><span id="__span-13-23"><a href="#__codelineno-13-23" id="__codelineno-13-23" name="__codelineno-13-23"></a>                <span class="n">boundary</span><span class="o">.</span><span class="n">account_number</span> <span class="o">==</span> <span class="n">last_boundary</span><span class="o">.</span><span class="n">account_number</span><span class="p">):</span>
 </span><span id="__span-13-24"><a href="#__codelineno-13-24" id="__codelineno-13-24" name="__codelineno-13-24"></a>                <span class="c1"># Same account - merge boundaries</span>
 </span><span id="__span-13-25"><a href="#__codelineno-13-25" id="__codelineno-13-25" name="__codelineno-13-25"></a>                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Merging overlapping boundaries for same account: </span><span class="si">{</span><span class="n">last_boundary</span><span class="o">.</span><span class="n">start_page</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">last_boundary</span><span class="o">.</span><span class="n">end_page</span><span class="si">}</span><span class="s2"> and </span><span class="si">{</span><span class="n">boundary</span><span class="o">.</span><span class="n">start_page</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">boundary</span><span class="o">.</span><span class="n">end_page</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
@@ -1420,7 +1426,7 @@
 </span><span id="__span-13-32"><a href="#__codelineno-13-32" id="__codelineno-13-32" name="__codelineno-13-32"></a>                    <span class="n">reasoning</span><span class="o">=</span><span class="sa">f</span><span class="s2">"Merged boundaries: </span><span class="si">{</span><span class="n">last_boundary</span><span class="o">.</span><span class="n">reasoning</span><span class="si">}</span><span class="s2"> + </span><span class="si">{</span><span class="n">boundary</span><span class="o">.</span><span class="n">reasoning</span><span class="si">}</span><span class="s2">"</span>
 </span><span id="__span-13-33"><a href="#__codelineno-13-33" id="__codelineno-13-33" name="__codelineno-13-33"></a>                <span class="p">)</span>
 </span><span id="__span-13-34"><a href="#__codelineno-13-34" id="__codelineno-13-34" name="__codelineno-13-34"></a>            <span class="k">elif</span> <span class="ow">not</span> <span class="n">boundary</span><span class="o">.</span><span class="n">account_number</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">last_boundary</span><span class="o">.</span><span class="n">account_number</span><span class="p">:</span>
-</span><span id="__span-13-35"><a href="#__codelineno-13-35" id="__codelineno-13-35" name="__codelineno-13-35"></a>                <span class="c1"># Both missing account numbers - merge cautiously  </span>
+</span><span id="__span-13-35"><a href="#__codelineno-13-35" id="__codelineno-13-35" name="__codelineno-13-35"></a>                <span class="c1"># Both missing account numbers - merge cautiously</span>
 </span><span id="__span-13-36"><a href="#__codelineno-13-36" id="__codelineno-13-36" name="__codelineno-13-36"></a>                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Merging overlapping boundaries with no account info: </span><span class="si">{</span><span class="n">last_boundary</span><span class="o">.</span><span class="n">start_page</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">last_boundary</span><span class="o">.</span><span class="n">end_page</span><span class="si">}</span><span class="s2"> and </span><span class="si">{</span><span class="n">boundary</span><span class="o">.</span><span class="n">start_page</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">boundary</span><span class="o">.</span><span class="n">end_page</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </span><span id="__span-13-37"><a href="#__codelineno-13-37" id="__codelineno-13-37" name="__codelineno-13-37"></a>                <span class="n">consolidated</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">StatementBoundary</span><span class="p">(</span>
 </span><span id="__span-13-38"><a href="#__codelineno-13-38" id="__codelineno-13-38" name="__codelineno-13-38"></a>                    <span class="n">start_page</span><span class="o">=</span><span class="n">last_boundary</span><span class="o">.</span><span class="n">start_page</span><span class="p">,</span>
@@ -1452,13 +1458,13 @@
 </span></code></pre></div>
 <h3 id="key-improvements-made">Key Improvements Made<a class="headerlink" href="#key-improvements-made" title="Permanent link">¶</a></h3>
 <ol>
-<li><strong>✅ Adjacent Boundary Preservation</strong>: </li>
+<li><strong>✅ Adjacent Boundary Preservation</strong>:</li>
 <li><strong>Before</strong>: <code>if boundary.start_page &lt;= last_boundary.end_page + 1</code> (treated adjacent as overlapping)</li>
 <li>
 <p><strong>After</strong>: <code>if boundary.start_page &lt;= last_boundary.end_page</code> (only true overlaps)</p>
 </li>
 <li>
-<p><strong>✅ Account-Based Merging</strong>: </p>
+<p><strong>✅ Account-Based Merging</strong>:</p>
 </li>
 <li>Only merge boundaries with identical account numbers</li>
 <li>Preserve separate statements with different accounts</li>
@@ -1466,14 +1472,14 @@
 <p>Conservative approach prevents incorrect consolidation</p>
 </li>
 <li>
-<p><strong>✅ Confidence Adjustment</strong>: </p>
+<p><strong>✅ Confidence Adjustment</strong>:</p>
 </li>
 <li>Lower confidence when merging boundaries without account info</li>
 <li>Better risk assessment for questionable merges</li>
 </ol>
 <h3 id="page-range-validation">Page Range Validation<a class="headerlink" href="#page-range-validation" title="Permanent link">¶</a></h3>
 <p><strong>Boundary Integrity</strong>: Ensure boundaries are logically valid.</p>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-14-1"><a href="#__codelineno-14-1" id="__codelineno-14-1" name="__codelineno-14-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">_validate_page_ranges</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">boundaries</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">StatementBoundary</span><span class="p">],</span> 
+<div class="language-python highlight"><pre><span></span><code><span id="__span-14-1"><a href="#__codelineno-14-1" id="__codelineno-14-1" name="__codelineno-14-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">_validate_page_ranges</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">boundaries</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">StatementBoundary</span><span class="p">],</span>
 </span><span id="__span-14-2"><a href="#__codelineno-14-2" id="__codelineno-14-2" name="__codelineno-14-2"></a>                         <span class="n">total_pages</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">StatementBoundary</span><span class="p">]:</span>
 </span><span id="__span-14-3"><a href="#__codelineno-14-3" id="__codelineno-14-3" name="__codelineno-14-3"></a><span class="w">    </span><span class="sd">"""Validate that page ranges are logically correct"""</span>
 </span><span id="__span-14-4"><a href="#__codelineno-14-4" id="__codelineno-14-4" name="__codelineno-14-4"></a>
@@ -1518,7 +1524,7 @@
 </span><span id="__span-15-12"><a href="#__codelineno-15-12" id="__codelineno-15-12" name="__codelineno-15-12"></a>        <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="sa">r</span><span class="s1">'(?i)commonwealth.*complete\s+access'</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
 </span><span id="__span-15-13"><a href="#__codelineno-15-13" id="__codelineno-15-13" name="__codelineno-15-13"></a>            <span class="k">return</span> <span class="s2">"cba_standard"</span>
 </span><span id="__span-15-14"><a href="#__codelineno-15-14" id="__codelineno-15-14" name="__codelineno-15-14"></a>
-</span><span id="__span-15-15"><a href="#__codelineno-15-15" id="__codelineno-15-15" name="__codelineno-15-15"></a>        <span class="c1"># NAB detection  </span>
+</span><span id="__span-15-15"><a href="#__codelineno-15-15" id="__codelineno-15-15" name="__codelineno-15-15"></a>        <span class="c1"># NAB detection</span>
 </span><span id="__span-15-16"><a href="#__codelineno-15-16" id="__codelineno-15-16" name="__codelineno-15-16"></a>        <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="sa">r</span><span class="s1">'(?i)nab.*classic\s+banking'</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
 </span><span id="__span-15-17"><a href="#__codelineno-15-17" id="__codelineno-15-17" name="__codelineno-15-17"></a>            <span class="k">return</span> <span class="s2">"nab_standard"</span>
 </span><span id="__span-15-18"><a href="#__codelineno-15-18" id="__codelineno-15-18" name="__codelineno-15-18"></a>
@@ -1528,8 +1534,8 @@
 </span><span id="__span-15-22"><a href="#__codelineno-15-22" id="__codelineno-15-22" name="__codelineno-15-22"></a>
 </span><span id="__span-15-23"><a href="#__codelineno-15-23" id="__codelineno-15-23" name="__codelineno-15-23"></a>        <span class="k">return</span> <span class="s2">"single_statement"</span>
 </span><span id="__span-15-24"><a href="#__codelineno-15-24" id="__codelineno-15-24" name="__codelineno-15-24"></a>
-</span><span id="__span-15-25"><a href="#__codelineno-15-25" id="__codelineno-15-25" name="__codelineno-15-25"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">apply_type_specific_detection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">document_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> 
-</span><span id="__span-15-26"><a href="#__codelineno-15-26" id="__codelineno-15-26" name="__codelineno-15-26"></a>                                    <span class="n">text_chunks</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> 
+</span><span id="__span-15-25"><a href="#__codelineno-15-25" id="__codelineno-15-25" name="__codelineno-15-25"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">apply_type_specific_detection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">document_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+</span><span id="__span-15-26"><a href="#__codelineno-15-26" id="__codelineno-15-26" name="__codelineno-15-26"></a>                                    <span class="n">text_chunks</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
 </span><span id="__span-15-27"><a href="#__codelineno-15-27" id="__codelineno-15-27" name="__codelineno-15-27"></a>                                    <span class="n">total_pages</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">StatementBoundary</span><span class="p">]:</span>
 </span><span id="__span-15-28"><a href="#__codelineno-15-28" id="__codelineno-15-28" name="__codelineno-15-28"></a><span class="w">        </span><span class="sd">"""Apply document-type-specific detection logic"""</span>
 </span><span id="__span-15-29"><a href="#__codelineno-15-29" id="__codelineno-15-29" name="__codelineno-15-29"></a>
@@ -1542,8 +1548,8 @@
 </span></code></pre></div>
 <h3 id="malformed-documents">Malformed Documents<a class="headerlink" href="#malformed-documents" title="Permanent link">¶</a></h3>
 <p><strong>Error Recovery</strong>: Handle documents with formatting issues or corruption.</p>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-16-1"><a href="#__codelineno-16-1" id="__codelineno-16-1" name="__codelineno-16-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">_handle_malformed_document</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text_chunks</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> 
-</span><span id="__span-16-2"><a href="#__codelineno-16-2" id="__codelineno-16-2" name="__codelineno-16-2"></a>                              <span class="n">total_pages</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> 
+<div class="language-python highlight"><pre><span></span><code><span id="__span-16-1"><a href="#__codelineno-16-1" id="__codelineno-16-1" name="__codelineno-16-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">_handle_malformed_document</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text_chunks</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+</span><span id="__span-16-2"><a href="#__codelineno-16-2" id="__codelineno-16-2" name="__codelineno-16-2"></a>                              <span class="n">total_pages</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
 </span><span id="__span-16-3"><a href="#__codelineno-16-3" id="__codelineno-16-3" name="__codelineno-16-3"></a>                              <span class="n">error</span><span class="p">:</span> <span class="ne">Exception</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">StatementBoundary</span><span class="p">]:</span>
 </span><span id="__span-16-4"><a href="#__codelineno-16-4" id="__codelineno-16-4" name="__codelineno-16-4"></a><span class="w">    </span><span class="sd">"""Handle documents with formatting or parsing issues"""</span>
 </span><span id="__span-16-5"><a href="#__codelineno-16-5" id="__codelineno-16-5" name="__codelineno-16-5"></a>
@@ -1632,7 +1638,7 @@
 </span><span id="__span-18-19"><a href="#__codelineno-18-19" id="__codelineno-18-19" name="__codelineno-18-19"></a>            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">first_part</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">6000</span><span class="p">:</span>
 </span><span id="__span-18-20"><a href="#__codelineno-18-20" id="__codelineno-18-20" name="__codelineno-18-20"></a>                <span class="k">break</span>
 </span><span id="__span-18-21"><a href="#__codelineno-18-21" id="__codelineno-18-21" name="__codelineno-18-21"></a>
-</span><span id="__span-18-22"><a href="#__codelineno-18-22" id="__codelineno-18-22" name="__codelineno-18-22"></a>        <span class="c1"># Include last 2-3 pages  </span>
+</span><span id="__span-18-22"><a href="#__codelineno-18-22" id="__codelineno-18-22" name="__codelineno-18-22"></a>        <span class="c1"># Include last 2-3 pages</span>
 </span><span id="__span-18-23"><a href="#__codelineno-18-23" id="__codelineno-18-23" name="__codelineno-18-23"></a>        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">marked_chunks</span><span class="p">)</span><span class="o">-</span><span class="mi">3</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">marked_chunks</span><span class="p">)):</span>
 </span><span id="__span-18-24"><a href="#__codelineno-18-24" id="__codelineno-18-24" name="__codelineno-18-24"></a>            <span class="k">if</span> <span class="n">i</span> <span class="o">&gt;=</span> <span class="mi">3</span><span class="p">:</span>  <span class="c1"># Don't duplicate if we already included in first_part</span>
 </span><span id="__span-18-25"><a href="#__codelineno-18-25" id="__codelineno-18-25" name="__codelineno-18-25"></a>                <span class="n">last_part</span> <span class="o">+=</span> <span class="n">marked_chunks</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="s2">"</span><span class="se">\n\n</span><span class="s2">"</span>
@@ -1645,14 +1651,14 @@
 </span></code></pre></div>
 <h4 id="key-improvements-made_1">Key Improvements Made<a class="headerlink" href="#key-improvements-made_1" title="Permanent link">¶</a></h4>
 <ol>
-<li><strong>✅ Clear Page Markers</strong>: </li>
+<li><strong>✅ Clear Page Markers</strong>:</li>
 <li><code>=== PAGE N ===</code> and <code>=== END PAGE N ===</code> markers</li>
 <li>LLM can clearly identify page boundaries and transitions</li>
 <li>
 <p>Eliminates ambiguity about where each page starts/ends</p>
 </li>
 <li>
-<p><strong>✅ Smarter Truncation Strategy</strong>: </p>
+<p><strong>✅ Smarter Truncation Strategy</strong>:</p>
 </li>
 <li>Preserves beginning pages (statement headers) and end pages (statement completions)</li>
 <li>Clear truncation markers prevent confusion</li>
@@ -1660,7 +1666,7 @@
 <p>Higher context limit (15000 chars) for better analysis</p>
 </li>
 <li>
-<p><strong>✅ Structure Preservation</strong>: </p>
+<p><strong>✅ Structure Preservation</strong>:</p>
 </li>
 <li>Maintains document structure even with truncation</li>
 <li>Prevents loss of critical boundary information</li>
@@ -1797,7 +1803,7 @@
 </span><span id="__span-22-7"><a href="#__codelineno-22-7" id="__codelineno-22-7" name="__codelineno-22-7"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">cache</span> <span class="o">=</span> <span class="n">BoundaryDetectionCache</span><span class="p">()</span>
 </span><span id="__span-22-8"><a href="#__codelineno-22-8" id="__codelineno-22-8" name="__codelineno-22-8"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">document_type_handler</span> <span class="o">=</span> <span class="n">DocumentTypeHandler</span><span class="p">()</span>
 </span><span id="__span-22-9"><a href="#__codelineno-22-9" id="__codelineno-22-9" name="__codelineno-22-9"></a>
-</span><span id="__span-22-10"><a href="#__codelineno-22-10" id="__codelineno-22-10" name="__codelineno-22-10"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">detect_statement_boundaries</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text_chunks</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> 
+</span><span id="__span-22-10"><a href="#__codelineno-22-10" id="__codelineno-22-10" name="__codelineno-22-10"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">detect_statement_boundaries</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text_chunks</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
 </span><span id="__span-22-11"><a href="#__codelineno-22-11" id="__codelineno-22-11" name="__codelineno-22-11"></a>                                  <span class="n">total_pages</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BoundaryDetectionResult</span><span class="p">:</span>
 </span><span id="__span-22-12"><a href="#__codelineno-22-12" id="__codelineno-22-12" name="__codelineno-22-12"></a><span class="w">        </span><span class="sd">"""Main entry point for boundary detection"""</span>
 </span><span id="__span-22-13"><a href="#__codelineno-22-13" id="__codelineno-22-13" name="__codelineno-22-13"></a>
@@ -1893,7 +1899,7 @@
 </span><span id="__span-24-7"><a href="#__codelineno-24-7" id="__codelineno-24-7" name="__codelineno-24-7"></a>    <span class="n">OPENAI_MAX_TOKENS</span> <span class="o">=</span> <span class="mi">4000</span>
 </span><span id="__span-24-8"><a href="#__codelineno-24-8" id="__codelineno-24-8" name="__codelineno-24-8"></a>    <span class="n">OPENAI_SYSTEM_PROMPT_VERSION</span> <span class="o">=</span> <span class="s2">"v2.1"</span>
 </span><span id="__span-24-9"><a href="#__codelineno-24-9" id="__codelineno-24-9" name="__codelineno-24-9"></a>
-</span><span id="__span-24-10"><a href="#__codelineno-24-10" id="__codelineno-24-10" name="__codelineno-24-10"></a>    <span class="c1"># Ollama Configuration  </span>
+</span><span id="__span-24-10"><a href="#__codelineno-24-10" id="__codelineno-24-10" name="__codelineno-24-10"></a>    <span class="c1"># Ollama Configuration</span>
 </span><span id="__span-24-11"><a href="#__codelineno-24-11" id="__codelineno-24-11" name="__codelineno-24-11"></a>    <span class="n">OLLAMA_MODEL</span> <span class="o">=</span> <span class="s2">"llama3.2"</span>
 </span><span id="__span-24-12"><a href="#__codelineno-24-12" id="__codelineno-24-12" name="__codelineno-24-12"></a>    <span class="n">OLLAMA_TEMPERATURE</span> <span class="o">=</span> <span class="mf">0.1</span>
 </span><span id="__span-24-13"><a href="#__codelineno-24-13" id="__codelineno-24-13" name="__codelineno-24-13"></a>    <span class="n">OLLAMA_NUM_PREDICT</span> <span class="o">=</span> <span class="mi">4000</span>
@@ -1943,7 +1949,7 @@
 </span><span id="__span-25-36"><a href="#__codelineno-25-36" id="__codelineno-25-36" name="__codelineno-25-36"></a>        <span class="k">if</span> <span class="n">total_successes</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
 </span><span id="__span-25-37"><a href="#__codelineno-25-37" id="__codelineno-25-37" name="__codelineno-25-37"></a>            <span class="k">return</span> <span class="p">{}</span>
 </span><span id="__span-25-38"><a href="#__codelineno-25-38" id="__codelineno-25-38" name="__codelineno-25-38"></a>
-</span><span id="__span-25-39"><a href="#__codelineno-25-39" id="__codelineno-25-39" name="__codelineno-25-39"></a>        <span class="k">return</span> <span class="p">{</span><span class="n">method</span><span class="p">:</span> <span class="n">count</span> <span class="o">/</span> <span class="n">total_successes</span> 
+</span><span id="__span-25-39"><a href="#__codelineno-25-39" id="__codelineno-25-39" name="__codelineno-25-39"></a>        <span class="k">return</span> <span class="p">{</span><span class="n">method</span><span class="p">:</span> <span class="n">count</span> <span class="o">/</span> <span class="n">total_successes</span>
 </span><span id="__span-25-40"><a href="#__codelineno-25-40" id="__codelineno-25-40" name="__codelineno-25-40"></a>                <span class="k">for</span> <span class="n">method</span><span class="p">,</span> <span class="n">count</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">method_usage</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
 </span><span id="__span-25-41"><a href="#__codelineno-25-41" id="__codelineno-25-41" name="__codelineno-25-41"></a>
 </span><span id="__span-25-42"><a href="#__codelineno-25-42" id="__codelineno-25-42" name="__codelineno-25-42"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_average_confidence</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>

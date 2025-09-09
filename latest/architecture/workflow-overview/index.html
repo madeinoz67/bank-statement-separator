@@ -662,8 +662,8 @@
 </ol>
 <div class="admonition info">
 <p class="admonition-title">Complete Workflow Documentation</p>
-<p>This document focuses on the <strong>application processing workflow</strong>. For comprehensive documentation of the <strong>CI/CD workflows</strong> including release automation, testing, and documentation deployment, see <a href="../github-workflows/">GitHub Workflows Architecture</a>.</p>
 </div>
+<p>This document focuses on the <strong>application processing workflow</strong>. For comprehensive documentation of the <strong>CI/CD workflows</strong> including release automation, testing, and documentation deployment, see <a href="../github-workflows/">GitHub Workflows Architecture</a>.</p>
 <h3 id="application-processing-workflow">Application Processing Workflow<a class="headerlink" href="#application-processing-workflow" title="Permanent link">¶</a></h3>
 <p>The core PDF processing uses an 8-node LangGraph pipeline with comprehensive error handling and recovery systems.</p>
 <h2 id="complete-workflow-diagram">Complete Workflow Diagram<a class="headerlink" href="#complete-workflow-diagram" title="Permanent link">¶</a></h2>
@@ -980,7 +980,7 @@
 <h3 id="logging-and-audit-trail">Logging and Audit Trail<a class="headerlink" href="#logging-and-audit-trail" title="Permanent link">¶</a></h3>
 <ul>
 <li><strong>Processing Logs</strong>: Detailed execution traces</li>
-<li><strong>Audit Logs</strong>: Security and compliance tracking  </li>
+<li><strong>Audit Logs</strong>: Security and compliance tracking</li>
 <li><strong>Error Reports</strong>: Structured failure analysis</li>
 <li><strong>Performance Metrics</strong>: Processing time and resource usage</li>
 </ul>
@@ -1030,11 +1030,13 @@
 <li><strong>Releases</strong>: Automated releases deploy both code and documentation updates</li>
 <li><strong>Monitoring</strong>: Both systems provide comprehensive logging and error reporting</li>
 </ol>
-<p>This dual-workflow architecture ensures:
-- <strong>Robust Processing</strong>: Reliable document processing with fallback mechanisms
-- <strong>Quality Assurance</strong>: Automated testing and security scanning
-- <strong>Continuous Delivery</strong>: Automated releases and documentation updates
-- <strong>Comprehensive Monitoring</strong>: Full visibility into both processing and deployment workflows</p>
+<p>This dual-workflow architecture ensures:</p>
+<ul>
+<li><strong>Robust Processing</strong>: Reliable document processing with fallback mechanisms</li>
+<li><strong>Quality Assurance</strong>: Automated testing and security scanning</li>
+<li><strong>Continuous Delivery</strong>: Automated releases and documentation updates</li>
+<li><strong>Comprehensive Monitoring</strong>: Full visibility into both processing and deployment workflows</li>
+</ul>
 <p>For detailed information about the rate limiting and backoff mechanisms, see the <a href="../../design/backoff_mechanisms/">Backoff Mechanisms Design Document</a>.</p>
 </article>
 </div>

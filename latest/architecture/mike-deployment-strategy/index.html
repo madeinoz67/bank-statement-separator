@@ -1570,8 +1570,8 @@
 <h2 id="implementation-details">Implementation Details<a class="headerlink" href="#implementation-details" title="Permanent link">&para;</a></h2>
 <div class="admonition success">
 <p class="admonition-title">Current Implementation Status</p>
-<p>The <code>docs-versioned.yml</code> workflow has been <strong>updated</strong> to implement this robust deployment strategy as of January 2025. The workflow now uses local deployment followed by retry logic with conflict resolution.</p>
 </div>
+<p>The <code>docs-versioned.yml</code> workflow has been <strong>updated</strong> to implement this robust deployment strategy as of January 2025. The workflow now uses local deployment followed by retry logic with conflict resolution.</p>
 <h3 id="latest-documentation-deployment">Latest Documentation Deployment<a class="headerlink" href="#latest-documentation-deployment" title="Permanent link">&para;</a></h3>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># 1. Fetch and prepare gh-pages branch</span>
 </span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>git<span class="w"> </span>fetch<span class="w"> </span>origin<span class="w"> </span>gh-pages:gh-pages<span class="w"> </span><span class="o">||</span><span class="w"> </span>git<span class="w"> </span>checkout<span class="w"> </span>--orphan<span class="w"> </span>gh-pages<span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nb">true</span>
@@ -1686,38 +1686,46 @@
 <div class="language-text highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>error: failed to push some refs to &#39;https://github.com/user/repo&#39;
 </span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>hint: Updates were rejected because the remote contains work that you do not have locally
 </span></code></pre></div>
-<p><strong>Solution</strong>: The retry logic automatically handles this by:
-1. Fetching latest changes
-2. Rebasing or resetting local branch
-3. Re-deploying and retrying push</p>
+<p><strong>Solution</strong>: The retry logic automatically handles this by:</p>
+<ol>
+<li>Fetching latest changes</li>
+<li>Rebasing or resetting local branch</li>
+<li>Re-deploying and retrying push</li>
+</ol>
 <h4 id="issue-all-attempts-failed">Issue: "All attempts failed"<a class="headerlink" href="#issue-all-attempts-failed" title="Permanent link">&para;</a></h4>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>❌ All attempts failed. Manual intervention required.
 </span></code></pre></div>
-<p><strong>Solution</strong>: 
-1. Check GitHub Pages settings
-2. Verify repository permissions
-3. Manually reset gh-pages branch if corrupted
-4. Re-run workflow after investigation</p>
+<p><strong>Solution</strong>:</p>
+<ol>
+<li>Check GitHub Pages settings</li>
+<li>Verify repository permissions</li>
+<li>Manually reset gh-pages branch if corrupted</li>
+<li>Re-run workflow after investigation</li>
+</ol>
 <h4 id="issue-string-indices-must-be-integers-not-str">Issue: "string indices must be integers, not 'str'"<a class="headerlink" href="#issue-string-indices-must-be-integers-not-str" title="Permanent link">&para;</a></h4>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>error: string indices must be integers, not &#39;str&#39;
 </span></code></pre></div>
-<p><strong>Root Cause</strong>: Mike's internal metadata in gh-pages branch is corrupted, often caused by:
-- Inconsistent version naming schemes
-- Manual gh-pages branch modifications<br />
-- Failed previous deployments leaving incomplete state
-- Using conflicting alias names (e.g., "main" as both branch and alias)</p>
-<p><strong>Solution</strong>:
-1. <strong>Reset gh-pages branch</strong> in workflow:
+<p><strong>Root Cause</strong>: Mike's internal metadata in gh-pages branch is corrupted, often caused by:</p>
+<ul>
+<li>Inconsistent version naming schemes</li>
+<li>Manual gh-pages branch modifications</li>
+<li>Failed previous deployments leaving incomplete state</li>
+<li>Using conflicting alias names (e.g., "main" as both branch and alias)</li>
+</ul>
+<p><strong>Solution</strong>:</p>
+<ol>
+<li><strong>Reset gh-pages branch</strong> in workflow:
    <div class="language-bash highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>git<span class="w"> </span>branch<span class="w"> </span>-D<span class="w"> </span>gh-pages<span class="w"> </span><span class="m">2</span>&gt;/dev/null<span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nb">true</span>
 </span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>--delete<span class="w"> </span>gh-pages<span class="w"> </span><span class="m">2</span>&gt;/dev/null<span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nb">true</span>
-</span></code></pre></div>
-2. <strong>Use consistent version naming</strong>: Avoid "main" as version alias
-3. <strong>Test with fresh branch</strong>: Deploy to test branch first to verify fix
-4. <strong>Use simplified commands</strong>:
+</span></code></pre></div></li>
+<li><strong>Use consistent version naming</strong>: Avoid "main" as version alias</li>
+<li><strong>Test with fresh branch</strong>: Deploy to test branch first to verify fix</li>
+<li><strong>Use simplified commands</strong>:
    <div class="language-bash highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># Instead of: mike deploy --update-aliases latest main</span>
 </span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>uv<span class="w"> </span>run<span class="w"> </span>mike<span class="w"> </span>deploy<span class="w"> </span>latest
 </span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>uv<span class="w"> </span>run<span class="w"> </span>mike<span class="w"> </span>set-default<span class="w"> </span>latest
-</span></code></pre></div></p>
+</span></code></pre></div></li>
+</ol>
 <h4 id="issue-version-selector-not-updating">Issue: Version selector not updating<a class="headerlink" href="#issue-version-selector-not-updating" title="Permanent link">&para;</a></h4>
 <ul>
 <li>Check main branch push permissions</li>
@@ -1760,9 +1768,9 @@
 <h3 id="handling-corrupted-mike-state">Handling Corrupted Mike State<a class="headerlink" href="#handling-corrupted-mike-state" title="Permanent link">&para;</a></h3>
 <p>If encountering <code>"string indices must be integers, not 'str'"</code> errors:</p>
 <ol>
-<li>
-<p><strong>Reset Strategy</strong> (Recommended for corrupted state):
-   <div class="language-yaml highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Reset corrupted gh-pages branch state</span>
+<li><strong>Reset Strategy</strong> (Recommended for corrupted state):</li>
+</ol>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Reset corrupted gh-pages branch state</span>
 </span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="w">  </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
 </span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="w">    </span><span class="no">git branch -D gh-pages 2&gt;/dev/null || true</span>
 </span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="w">    </span><span class="no">git push origin --delete gh-pages 2&gt;/dev/null || true</span>
@@ -1771,11 +1779,9 @@
 </span><span id="__span-10-7"><a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a><span class="w">  </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
 </span><span id="__span-10-8"><a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a><span class="w">    </span><span class="no">uv run mike deploy --push latest</span>
 </span><span id="__span-10-9"><a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a><span class="w">    </span><span class="no">uv run mike set-default --push latest</span>
-</span></code></pre></div></p>
-</li>
-<li>
-<p><strong>Prevention</strong>: </p>
-</li>
+</span></code></pre></div>
+<ol>
+<li><strong>Prevention</strong>:</li>
 <li>Avoid manual gh-pages modifications</li>
 <li>Use consistent version naming conventions</li>
 <li>Don't use git branch names as mike aliases</li>

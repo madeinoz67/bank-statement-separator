@@ -1606,30 +1606,34 @@
 <li><strong>VALIDATION_FAILURE</strong>: Post-processing validation issues</li>
 </ul>
 <h3 id="2-document-format-pre-validation">2. Document Format Pre-Validation<a class="headerlink" href="#2-document-format-pre-validation" title="Permanent link">&para;</a></h3>
-<p>Before processing begins, documents are validated for:
-- File existence and accessibility
-- Allowed file extensions
-- File age (if configured)
-- PDF-specific checks:
-  - Password protection
-  - Page count
-  - Text content availability
-  - Document integrity</p>
+<p>Before processing begins, documents are validated for:</p>
+<ul>
+<li>File existence and accessibility</li>
+<li>Allowed file extensions</li>
+<li>File age (if configured)</li>
+<li>PDF-specific checks:</li>
+<li>Password protection</li>
+<li>Page count</li>
+<li>Text content availability</li>
+<li>Document integrity</li>
+</ul>
 <h3 id="3-quarantine-system">3. Quarantine System<a class="headerlink" href="#3-quarantine-system" title="Permanent link">&para;</a></h3>
 <p>Invalid or critically failed documents are automatically moved to quarantine:</p>
-<p><strong>Features:</strong>
-- Automatic quarantine for critical failures
-- Timestamped filenames to prevent conflicts
-- Detailed error reports with recovery suggestions
-- Management commands for cleanup</p>
-<p><strong>Quarantine Directory Structure:</strong>
+<p><strong>Features:</strong></p>
+<ul>
+<li>Automatic quarantine for critical failures</li>
+<li>Timestamped filenames to prevent conflicts</li>
+<li>Detailed error reports with recovery suggestions</li>
+<li>Management commands for cleanup</li>
+</ul>
+<p><strong>Quarantine Directory Structure:</strong></p>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>quarantine/
 </span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>├── failed_20241201_143022_statement.pdf
 </span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>├── failed_20241201_143055_document.pdf
 </span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>└── reports/
 </span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>    ├── error_report_20241201_143022.json
 </span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>    └── error_report_20241201_143055.json
-</span></code></pre></div></p>
+</span></code></pre></div>
 <h3 id="4-validation-strictness-levels">4. Validation Strictness Levels<a class="headerlink" href="#4-validation-strictness-levels" title="Permanent link">&para;</a></h3>
 <h4 id="strict-mode">Strict Mode<a class="headerlink" href="#strict-mode" title="Permanent link">&para;</a></h4>
 <ul>
@@ -1653,19 +1657,23 @@
 <li>Maximum processing success rate</li>
 </ul>
 <h3 id="5-retry-mechanism">5. Retry Mechanism<a class="headerlink" href="#5-retry-mechanism" title="Permanent link">&para;</a></h3>
-<p>Transient failures are automatically retried:
-- Network-related errors
-- Temporary file access issues
-- Recoverable processing errors
-- Configurable retry count (0-5 attempts)</p>
+<p>Transient failures are automatically retried:</p>
+<ul>
+<li>Network-related errors</li>
+<li>Temporary file access issues</li>
+<li>Recoverable processing errors</li>
+<li>Configurable retry count (0-5 attempts)</li>
+</ul>
 <h3 id="6-enhanced-error-reporting">6. Enhanced Error Reporting<a class="headerlink" href="#6-enhanced-error-reporting" title="Permanent link">&para;</a></h3>
-<p>Detailed error reports include:
-- Timestamp and file information
-- Error reason and context
-- Processing step where failure occurred
-- System configuration details
-- Actionable recovery suggestions</p>
-<p><strong>Example Error Report:</strong>
+<p>Detailed error reports include:</p>
+<ul>
+<li>Timestamp and file information</li>
+<li>Error reason and context</li>
+<li>Processing step where failure occurred</li>
+<li>System configuration details</li>
+<li>Actionable recovery suggestions</li>
+</ul>
+<p><strong>Example Error Report:</strong></p>
 <div class="language-json highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="p">{</span>
 </span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">  </span><span class="nt">&quot;timestamp&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2024-12-01T14:30:22&quot;</span><span class="p">,</span>
 </span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">  </span><span class="nt">&quot;quarantine_file&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/quarantine/failed_20241201_143022_statement.pdf&quot;</span><span class="p">,</span>
@@ -1678,7 +1686,7 @@
 </span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="w">    </span><span class="s2">&quot;Contact the document source for an unlocked version&quot;</span>
 </span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="w">  </span><span class="p">]</span>
 </span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="p">}</span>
-</span></code></pre></div></p>
+</span></code></pre></div>
 <h2 id="cli-commands">CLI Commands<a class="headerlink" href="#cli-commands" title="Permanent link">&para;</a></h2>
 <h3 id="process-documents-enhanced">Process Documents (Enhanced)<a class="headerlink" href="#process-documents-enhanced" title="Permanent link">&para;</a></h3>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># Process with error handling</span>
@@ -1742,55 +1750,51 @@
 <h2 id="best-practices">Best Practices<a class="headerlink" href="#best-practices" title="Permanent link">&para;</a></h2>
 <h3 id="for-production-deployment">For Production Deployment<a class="headerlink" href="#for-production-deployment" title="Permanent link">&para;</a></h3>
 <ol>
-<li>
-<p><strong>Configure Quarantine Directory</strong>
-   <div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="nv">QUARANTINE_DIRECTORY</span><span class="o">=</span>/secure/quarantine
+<li><strong>Configure Quarantine Directory</strong></li>
+</ol>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="nv">QUARANTINE_DIRECTORY</span><span class="o">=</span>/secure/quarantine
 </span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="nv">ERROR_REPORT_DIRECTORY</span><span class="o">=</span>/secure/error_reports
-</span></code></pre></div></p>
-</li>
-<li>
-<p><strong>Set Appropriate Strictness</strong>
-   <div class="language-bash highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1"># For high-accuracy requirements</span>
+</span></code></pre></div>
+<ol>
+<li><strong>Set Appropriate Strictness</strong></li>
+</ol>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1"># For high-accuracy requirements</span>
 </span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="nv">VALIDATION_STRICTNESS</span><span class="o">=</span>strict
 </span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>
 </span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="c1"># For maximum throughput</span>
 </span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="nv">VALIDATION_STRICTNESS</span><span class="o">=</span>lenient
-</span></code></pre></div></p>
-</li>
-<li>
-<p><strong>Enable Comprehensive Reporting</strong>
-   <div class="language-bash highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="nv">ENABLE_ERROR_REPORTING</span><span class="o">=</span><span class="nb">true</span>
+</span></code></pre></div>
+<ol>
+<li><strong>Enable Comprehensive Reporting</strong></li>
+</ol>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="nv">ENABLE_ERROR_REPORTING</span><span class="o">=</span><span class="nb">true</span>
 </span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="nv">ENABLE_AUDIT_LOGGING</span><span class="o">=</span><span class="nb">true</span>
 </span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="nv">LOG_LEVEL</span><span class="o">=</span>INFO
-</span></code></pre></div></p>
-</li>
-<li>
-<p><strong>Configure Cleanup Automation</strong>
+</span></code></pre></div>
+<ol>
+<li><strong>Configure Cleanup Automation</strong>
    <div class="language-bash highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># Add to crontab for weekly cleanup</span>
 </span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="m">0</span><span class="w"> </span><span class="m">2</span><span class="w"> </span>*<span class="w"> </span>*<span class="w"> </span><span class="m">0</span><span class="w"> </span>/usr/local/bin/python<span class="w"> </span>-m<span class="w"> </span>bank_separator<span class="w"> </span>quarantine-clean<span class="w"> </span>--days<span class="w"> </span><span class="m">30</span><span class="w"> </span>--yes
-</span></code></pre></div></p>
-</li>
+</span></code></pre></div></li>
 </ol>
 <h3 id="for-developmenttesting">For Development/Testing<a class="headerlink" href="#for-developmenttesting" title="Permanent link">&para;</a></h3>
 <ol>
-<li>
-<p><strong>Use Lenient Validation</strong>
-   <div class="language-bash highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="nv">VALIDATION_STRICTNESS</span><span class="o">=</span>lenient
+<li><strong>Use Lenient Validation</strong></li>
+</ol>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="nv">VALIDATION_STRICTNESS</span><span class="o">=</span>lenient
 </span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="nv">CONTINUE_ON_VALIDATION_WARNINGS</span><span class="o">=</span><span class="nb">true</span>
-</span></code></pre></div></p>
-</li>
-<li>
-<p><strong>Preserve Debug Information</strong>
-   <div class="language-bash highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="nv">PRESERVE_FAILED_OUTPUTS</span><span class="o">=</span><span class="nb">true</span>
+</span></code></pre></div>
+<ol>
+<li><strong>Preserve Debug Information</strong></li>
+</ol>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="nv">PRESERVE_FAILED_OUTPUTS</span><span class="o">=</span><span class="nb">true</span>
 </span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="nv">LOG_LEVEL</span><span class="o">=</span>DEBUG
-</span></code></pre></div></p>
-</li>
-<li>
-<p><strong>Enable Verbose Error Reporting</strong>
+</span></code></pre></div>
+<ol>
+<li><strong>Enable Verbose Error Reporting</strong>
    <div class="language-bash highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="nv">ENABLE_ERROR_REPORTING</span><span class="o">=</span><span class="nb">true</span>
 </span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="nv">MAX_RETRY_ATTEMPTS</span><span class="o">=</span><span class="m">1</span><span class="w">  </span><span class="c1"># Fail fast for debugging</span>
-</span></code></pre></div></p>
-</li>
+</span></code></pre></div></li>
 </ol>
 <h2 id="monitoring-and-maintenance">Monitoring and Maintenance<a class="headerlink" href="#monitoring-and-maintenance" title="Permanent link">&para;</a></h2>
 <h3 id="regular-health-checks">Regular Health Checks<a class="headerlink" href="#regular-health-checks" title="Permanent link">&para;</a></h3>

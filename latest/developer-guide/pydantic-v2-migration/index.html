@@ -1560,10 +1560,12 @@
 <h1 id="pydantic-v2-migration-guide">Pydantic V2 Migration Guide<a class="headerlink" href="#pydantic-v2-migration-guide" title="Permanent link">&para;</a></h1>
 <p>This document describes the migration from Pydantic V1 to V2 syntax completed in the bank-statement-separator project to resolve deprecation warnings and ensure compatibility with future Pydantic versions.</p>
 <h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
-<p>Pydantic V2 introduced significant changes to improve performance and developer experience. The main deprecations addressed were:
-- Migration from <code>@validator</code> decorators to <code>@field_validator</code>
-- Replacement of class-based <code>Config</code> with <code>ConfigDict</code>
-- Updates to validator method signatures</p>
+<p>Pydantic V2 introduced significant changes to improve performance and developer experience. The main deprecations addressed were:</p>
+<ul>
+<li>Migration from <code>@validator</code> decorators to <code>@field_validator</code></li>
+<li>Replacement of class-based <code>Config</code> with <code>ConfigDict</code></li>
+<li>Updates to validator method signatures</li>
+</ul>
 <h2 id="changes-made">Changes Made<a class="headerlink" href="#changes-made" title="Permanent link">&para;</a></h2>
 <h3 id="1-validator-migration">1. Validator Migration<a class="headerlink" href="#1-validator-migration" title="Permanent link">&para;</a></h3>
 <h4 id="before-pydantic-v1">Before (Pydantic V1):<a class="headerlink" href="#before-pydantic-v1" title="Permanent link">&para;</a></h4>
@@ -1665,11 +1667,13 @@
 </span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span>  <span class="c1"># Additional imports for type hints</span>
 </span></code></pre></div>
 <h2 id="backward-compatibility">Backward Compatibility<a class="headerlink" href="#backward-compatibility" title="Permanent link">&para;</a></h2>
-<p>The migration maintains full backward compatibility:
-- All existing functionality is preserved
-- API remains unchanged for consumers
-- Configuration loading and validation work identically
-- No breaking changes for users of the Config class</p>
+<p>The migration maintains full backward compatibility:</p>
+<ul>
+<li>All existing functionality is preserved</li>
+<li>API remains unchanged for consumers</li>
+<li>Configuration loading and validation work identically</li>
+<li>No breaking changes for users of the Config class</li>
+</ul>
 <h2 id="benefits-of-migration">Benefits of Migration<a class="headerlink" href="#benefits-of-migration" title="Permanent link">&para;</a></h2>
 <ol>
 <li><strong>Future-Proof</strong>: Ready for Pydantic V3 when V1 syntax is removed</li>
@@ -1681,23 +1685,21 @@
 <h2 id="testing-the-migration">Testing the Migration<a class="headerlink" href="#testing-the-migration" title="Permanent link">&para;</a></h2>
 <p>After migration, verify:</p>
 <ol>
-<li>
-<p><strong>Run Tests</strong>: All existing tests should pass
+<li><strong>Run Tests</strong>: All existing tests should pass</li>
+</ol>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>uv<span class="w"> </span>run<span class="w"> </span>pytest<span class="w"> </span>tests/unit/
-</span></code></pre></div></p>
-</li>
-<li>
-<p><strong>Check for Warnings</strong>: No Pydantic deprecation warnings
+</span></code></pre></div>
+<ol>
+<li><strong>Check for Warnings</strong>: No Pydantic deprecation warnings</li>
+</ol>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>uv<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>-W<span class="w"> </span>default::DeprecationWarning<span class="w"> </span>-m<span class="w"> </span>pytest
-</span></code></pre></div></p>
-</li>
-<li>
-<p><strong>Validate Config Loading</strong>: Configuration loads correctly
+</span></code></pre></div>
+<ol>
+<li><strong>Validate Config Loading</strong>: Configuration loads correctly</li>
+</ol>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">src.bank_statement_separator.config</span><span class="w"> </span><span class="kn">import</span> <span class="n">Config</span>
 </span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="n">config</span> <span class="o">=</span> <span class="n">Config</span><span class="p">(</span><span class="n">openai_api_key</span><span class="o">=</span><span class="s2">&quot;test-key&quot;</span><span class="p">)</span>
-</span></code></pre></div></p>
-</li>
-</ol>
+</span></code></pre></div>
 <h2 id="common-migration-issues">Common Migration Issues<a class="headerlink" href="#common-migration-issues" title="Permanent link">&para;</a></h2>
 <h3 id="issue-1-missing-classmethod">Issue 1: Missing <a class="magiclink magiclink-github magiclink-mention" href="https://github.com/classmethod" title="GitHub User: classmethod">@classmethod</a><a class="headerlink" href="#issue-1-missing-classmethod" title="Permanent link">&para;</a></h3>
 <p><strong>Error</strong>: <code>TypeError: field_validator() missing 1 required positional argument</code>
@@ -1716,13 +1718,15 @@
 <li><a href="https://docs.pydantic.dev/latest/concepts/config/">ConfigDict Documentation</a></li>
 </ul>
 <h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
-<p>The migration from Pydantic V1 to V2 was completed successfully with:
-- ✅ All validators updated to V2 syntax
-- ✅ Config class replaced with ConfigDict
-- ✅ Type hints added for better IDE support
-- ✅ All tests passing
-- ✅ No deprecation warnings
-- ✅ Full backward compatibility maintained</p>
+<p>The migration from Pydantic V1 to V2 was completed successfully with:</p>
+<ul>
+<li>✅ All validators updated to V2 syntax</li>
+<li>✅ Config class replaced with ConfigDict</li>
+<li>✅ Type hints added for better IDE support</li>
+<li>✅ All tests passing</li>
+<li>✅ No deprecation warnings</li>
+<li>✅ Full backward compatibility maintained</li>
+</ul>
 <p>This ensures the codebase is ready for future Pydantic versions while maintaining stability and performance.</p>
 
 

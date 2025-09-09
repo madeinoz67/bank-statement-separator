@@ -1648,7 +1648,7 @@
 <h2 id="test-methodology">Test Methodology<a class="headerlink" href="#test-methodology" title="Permanent link">&para;</a></h2>
 <ul>
 <li><strong>Test Document</strong>: <code>westpac_12_page_test.pdf</code> (12 pages, 2,691 words)</li>
-<li><strong>Expected Output</strong>: 3 separate bank statements </li>
+<li><strong>Expected Output</strong>: 3 separate bank statements</li>
 <li><strong>Metrics Measured</strong>: Processing time, statement detection accuracy, metadata extraction quality, filename generation compliance</li>
 <li><strong>Test Environment</strong>: Ollama server at 10.0.0.150:11434, OpenAI GPT-4o-mini</li>
 <li><strong>Validation</strong>: All outputs validated for page count, file integrity, and PRD compliance</li>
@@ -1662,14 +1662,16 @@
 <li><strong>Quality</strong>: Highest accuracy with complete metadata extraction</li>
 <li><strong>Output Files</strong>:</li>
 <li><code>westpac-2819-2015-05-21.pdf</code> (1.3MB, pages 1-5)</li>
-<li><code>westpac-8782-2015-05-21.pdf</code> (651KB, pages 6-7)  </li>
+<li><code>westpac-8782-2015-05-21.pdf</code> (651KB, pages 6-7)</li>
 <li><code>westpac-5261-2023-05-06.pdf</code> (1.9MB, pages 8-12)</li>
 </ul>
-<p><strong>Key Strengths</strong>:
-- Perfect boundary detection
-- Complete metadata extraction (bank, account, dates)
-- PRD-compliant filename format
-- Fast processing with high reliability</p>
+<p><strong>Key Strengths</strong>:</p>
+<ul>
+<li>Perfect boundary detection</li>
+<li>Complete metadata extraction (bank, account, dates)</li>
+<li>PRD-compliant filename format</li>
+<li>Fast processing with high reliability</li>
+</ul>
 <h2 id="ollama-model-results">Ollama Model Results<a class="headerlink" href="#ollama-model-results" title="Permanent link">&para;</a></h2>
 <h3 id="top-tier-6-9-seconds">Top Tier (6-9 seconds) ⭐⭐⭐⭐⭐<a class="headerlink" href="#top-tier-6-9-seconds" title="Permanent link">&para;</a></h3>
 <h4 id="1-gemma29b-best-overall-ollama-model">1. Gemma2:9B - Best Overall Ollama Model<a class="headerlink" href="#1-gemma29b-best-overall-ollama-model" title="Permanent link">&para;</a></h4>

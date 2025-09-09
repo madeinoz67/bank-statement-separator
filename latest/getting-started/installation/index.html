@@ -1542,7 +1542,7 @@
 </span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="c1"># Using pip/venv</span>
 </span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>python<span class="w"> </span>-m<span class="w"> </span>src.bank_statement_separator.main<span class="w"> </span>--help
 </span></code></pre></div>
-<p>Expected output:
+<p>Expected output:</p>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>Usage: main.py [OPTIONS] COMMAND [ARGS]...
 </span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>
 </span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>  Workflow Bank Statement Separator - AI-powered document processing
@@ -1551,7 +1551,7 @@
 </span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>  process            Process a PDF file containing multiple bank statements
 </span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>  quarantine-clean   Clean old files from quarantine directory
 </span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>  quarantine-status  Show quarantine directory status
-</span></code></pre></div></p>
+</span></code></pre></div>
 <h3 id="3-run-test-suite">3. Run Test Suite<a class="headerlink" href="#3-run-test-suite" title="Permanent link">&para;</a></h3>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1"># Using UV</span>
 </span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>uv<span class="w"> </span>run<span class="w"> </span>pytest<span class="w"> </span>tests/unit/<span class="w"> </span>-v
@@ -1559,9 +1559,9 @@
 </span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="c1"># Using pip/venv</span>
 </span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>pytest<span class="w"> </span>tests/unit/<span class="w"> </span>-v
 </span></code></pre></div>
-<p>Expected output:
+<p>Expected output:</p>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>===== 37 passed in 2.34s =====
-</span></code></pre></div></p>
+</span></code></pre></div>
 <h2 id="configuration-setup">Configuration Setup<a class="headerlink" href="#configuration-setup" title="Permanent link">&para;</a></h2>
 <h3 id="1-environment-variables">1. Environment Variables<a class="headerlink" href="#1-environment-variables" title="Permanent link">&para;</a></h3>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># Copy template</span>
@@ -1600,6 +1600,7 @@
 </span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="nv">PAPERLESS_URL</span><span class="o">=</span>http://your-paperless-instance:8000
 </span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="nv">PAPERLESS_TOKEN</span><span class="o">=</span>your-api-token
 </span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="nv">PAPERLESS_TAGS</span><span class="o">=</span>bank-statement,automated
+</span><span id="__span-12-6"><a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a><span class="nv">PAPERLESS_TAG_WAIT_TIME</span><span class="o">=</span><span class="m">5</span>
 </span></code></pre></div>
 <h3 id="development-tools">Development Tools<a class="headerlink" href="#development-tools" title="Permanent link">&para;</a></h3>
 <p>For development work, install additional tools:</p>
