@@ -1,9 +1,10 @@
 """Performance tests for bank statement processing."""
 
-import pytest
 import time
 from datetime import datetime, timedelta
 from pathlib import Path
+
+import pytest
 
 
 @pytest.mark.integration
@@ -119,8 +120,9 @@ class TestPerformanceScenarios:
     def test_memory_usage_large_files(self, statement_generator, workflow_instance):
         """Test memory usage with large files (requires psutil for full testing)."""
         try:
-            import psutil
             import os
+
+            import psutil
 
             process = psutil.Process(os.getpid())
             initial_memory = process.memory_info().rss / 1024 / 1024  # MB

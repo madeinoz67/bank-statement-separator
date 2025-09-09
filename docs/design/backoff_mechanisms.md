@@ -96,13 +96,13 @@ def calculate_backoff_delay(attempt: int, base_delay: float = 1.0) -> float:
 ### Example Delay Progression
 
 | Attempt | Base Delay | Exponential | With Jitter (range) | Capped Result |
-|---------|------------|-------------|-------------------|---------------|
-| 0 | 1.0s | 1.0s | 0.1s - 1.0s | 0.1s - 1.0s |
-| 1 | 1.0s | 2.0s | 0.2s - 2.0s | 0.2s - 2.0s |
-| 2 | 1.0s | 4.0s | 0.4s - 4.0s | 0.4s - 4.0s |
-| 3 | 1.0s | 8.0s | 0.8s - 8.0s | 0.8s - 8.0s |
-| 4 | 1.0s | 16.0s | 1.6s - 16.0s | 1.6s - 16.0s |
-| 5 | 1.0s | 32.0s | 3.2s - 32.0s | 3.2s - 32.0s |
+| ------- | ---------- | ----------- | ------------------- | ------------- |
+| 0       | 1.0s       | 1.0s        | 0.1s - 1.0s         | 0.1s - 1.0s   |
+| 1       | 1.0s       | 2.0s        | 0.2s - 2.0s         | 0.2s - 2.0s   |
+| 2       | 1.0s       | 4.0s        | 0.4s - 4.0s         | 0.4s - 4.0s   |
+| 3       | 1.0s       | 8.0s        | 0.8s - 8.0s         | 0.8s - 8.0s   |
+| 4       | 1.0s       | 16.0s       | 1.6s - 16.0s        | 1.6s - 16.0s  |
+| 5       | 1.0s       | 32.0s       | 3.2s - 32.0s        | 3.2s - 32.0s  |
 
 ## Integration with OpenAI Provider
 
@@ -160,14 +160,14 @@ def _execute_with_rate_limiting(self, func, *args, **kwargs):
 
 ### Environment Variables
 
-| Variable | Default | Description |
-|----------|---------|-------------|
-| `OPENAI_REQUESTS_PER_MINUTE` | 50 | Maximum requests per minute |
-| `OPENAI_REQUESTS_PER_HOUR` | 1000 | Maximum requests per hour |
-| `OPENAI_BURST_LIMIT` | 10 | Burst capacity for immediate requests |
-| `OPENAI_BACKOFF_MIN` | 1.0 | Minimum backoff delay (seconds) |
-| `OPENAI_BACKOFF_MAX` | 60.0 | Maximum backoff delay (seconds) |
-| `OPENAI_BACKOFF_MULTIPLIER` | 2.0 | Exponential backoff multiplier |
+| Variable                     | Default | Description                           |
+| ---------------------------- | ------- | ------------------------------------- |
+| `OPENAI_REQUESTS_PER_MINUTE` | 50      | Maximum requests per minute           |
+| `OPENAI_REQUESTS_PER_HOUR`   | 1000    | Maximum requests per hour             |
+| `OPENAI_BURST_LIMIT`         | 10      | Burst capacity for immediate requests |
+| `OPENAI_BACKOFF_MIN`         | 1.0     | Minimum backoff delay (seconds)       |
+| `OPENAI_BACKOFF_MAX`         | 60.0    | Maximum backoff delay (seconds)       |
+| `OPENAI_BACKOFF_MULTIPLIER`  | 2.0     | Exponential backoff multiplier        |
 
 ### Provider Configuration
 
@@ -314,41 +314,51 @@ stats = rate_limiter.get_stats()
 ### Common Issues and Solutions
 
 #### High Rate Limit Frequency
+
 **Symptoms**: Frequent backoff warnings in logs
+
 ```
 WARNING - Rate limit hit (attempt 1/2), backing off for 1.2s
 ```
 
 **Solutions**:
+
 - Reduce `OPENAI_REQUESTS_PER_MINUTE` in environment variables
 - Increase `OPENAI_BURST_LIMIT` to handle traffic spikes
 - Implement request batching or queuing
 - Check for concurrent processes hitting the same API key
 
 #### Persistent Rate Limit Errors
+
 **Symptoms**: All retry attempts exhausted
+
 ```
 ERROR - Rate limit error persisted after 2 attempts
 ```
 
 **Solutions**:
+
 - Verify API key limits with OpenAI dashboard
 - Implement fallback processing (`ENABLE_FALLBACK_PROCESSING=true`)
 - Add circuit breaker pattern to temporarily disable API calls
 - Check for API key sharing across multiple applications
 
 #### Excessive Memory Usage
+
 **Symptoms**: Growing memory consumption over time
 
 **Solutions**:
+
 - The rate limiter automatically cleans old timestamps (60-second window)
 - Monitor `total_requests_tracked` in statistics
 - Consider reducing `requests_per_minute` if tracking too many requests
 
 #### Thundering Herd Problems
+
 **Symptoms**: Multiple instances hitting rate limits simultaneously
 
 **Solutions**:
+
 - Stagger application startup times
 - Use different API keys for different instances
 - Implement randomized delays in addition to jitter
@@ -394,6 +404,7 @@ assert config.burst_limit >= 1
 ### OpenAI API Versions
 
 The backoff mechanism is designed to work with:
+
 - **OpenAI Python Client**: `openai>=1.0.0`
 - **RateLimitError**: Standard exception from OpenAI client
 - **APIError**: General API errors (non-retryable)
@@ -407,6 +418,7 @@ The backoff mechanism is designed to work with:
 ### Migration Notes
 
 When upgrading OpenAI client versions:
+
 1. Verify `RateLimitError` exception handling remains compatible
 2. Test backoff behavior with new API version
 3. Update rate limits based on new API quotas

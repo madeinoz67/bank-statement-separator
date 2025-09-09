@@ -2,10 +2,7 @@
 
 Get the Workflow Bank Statement Separator running in just 5 minutes!
 
-!!! info "Prerequisites"
-    - Python 3.11+
-    - [UV package manager](https://docs.astral.sh/uv/) (recommended)
-    - OpenAI API key (optional for testing)
+!!! info "Prerequisites" - Python 3.11+ - [UV package manager](https://docs.astral.sh/uv/) (recommended) - OpenAI API key (optional for testing)
 
 ## 1. Installation (2 minutes)
 
@@ -15,7 +12,7 @@ Get the Workflow Bank Statement Separator running in just 5 minutes!
     # Clone the repository
     git clone <repository-url>
     cd bank-statement-separator
-    
+
     # Install dependencies
     uv sync
     ```
@@ -26,11 +23,11 @@ Get the Workflow Bank Statement Separator running in just 5 minutes!
     # Clone the repository
     git clone <repository-url>
     cd bank-statement-separator
-    
+
     # Create virtual environment
     python -m venv venv
     source venv/bin/activate  # On Windows: venv\Scripts\activate
-    
+
     # Install dependencies
     pip install -e .
     ```
@@ -46,7 +43,7 @@ echo "OPENAI_API_KEY=sk-your-api-key-here" >> .env
 ```
 
 !!! tip "No API Key? No Problem!"
-    The system works without an OpenAI API key using pattern-matching fallback. AI analysis provides better accuracy, but fallback mode is perfect for testing.
+The system works without an OpenAI API key using pattern-matching fallback. AI analysis provides better accuracy, but fallback mode is perfect for testing.
 
 ## 3. Test Run (2 minutes)
 
@@ -55,7 +52,7 @@ echo "OPENAI_API_KEY=sk-your-api-key-here" >> .env
     ```bash
     # Generate test PDF (optional)
     uv run python scripts/generate_test_statements.py
-    
+
     # Test with generated data
     uv run python -m src.bank_statement_separator.main \
       process test/input/generated/single_statement_minimal_test_statements.pdf \
@@ -68,7 +65,7 @@ echo "OPENAI_API_KEY=sk-your-api-key-here" >> .env
     # Dry-run analysis (no files created)
     uv run python -m src.bank_statement_separator.main \
       process your-statements.pdf --dry-run --yes
-    
+
     # Process and create separated statements
     uv run python -m src.bank_statement_separator.main \
       process your-statements.pdf -o ./output --yes
@@ -171,6 +168,7 @@ make test-edge
 ```
 
 Expected output:
+
 ```
 ===== 37 passed in 2.34s =====
 ```
@@ -189,14 +187,14 @@ Now that you have the system running:
 If something goes wrong:
 
 === "Installation Issues"
-    
+
     ```bash
     # Verify Python version
     python --version  # Should be 3.11+
-    
+
     # Check UV installation
     uv --version
-    
+
     # Reinstall dependencies
     rm -rf .venv uv.lock
     uv sync
@@ -207,10 +205,10 @@ If something goes wrong:
     ```bash
     # Check configuration
     cat .env
-    
+
     # Verify imports work
     uv run python -c "import src.bank_statement_separator"
-    
+
     # Check logs
     tail -f test/logs/statement_processing.log
     ```
@@ -221,7 +219,7 @@ If something goes wrong:
     # Test without API key (fallback mode)
     OPENAI_API_KEY="" uv run python -m src.bank_statement_separator.main \
       process input.pdf --dry-run --yes
-    
+
     # Check quarantine for failed documents
     uv run python -m src.bank_statement_separator.main quarantine-status
     ```

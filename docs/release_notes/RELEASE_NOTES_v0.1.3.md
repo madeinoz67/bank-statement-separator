@@ -1,6 +1,6 @@
 # Release Notes v0.1.3
 
-**Release Date**: September 7, 2025  
+**Release Date**: September 7, 2025
 **Version**: 0.1.3
 
 ## Overview
@@ -51,24 +51,28 @@ This release focuses on CI/CD improvements, configuration validation enhancement
 ## 📋 Technical Details
 
 ### Changes
+
 - **Commit**: [e399ff0](https://github.com/madeinoz67/bank-statement-separator/commit/e399ff0256abafc725a7a7d551991a8dacc8612b) - Allow test API keys in configuration validation
 - **Commit**: [461a61c](https://github.com/madeinoz67/bank-statement-separator/commit/461a61c93787cb1665de52ae800427852323d6ec) - Improve release workflow configuration and API key validation
 - **Commit**: [0062535](https://github.com/madeinoz67/bank-statement-separator/commit/0062535eabb1e63ecf91898cde9527e55817bcd9) - Add changelog to mkdocs navigation
 - **Commit**: [2bb76da](https://github.com/madeinoz67/bank-statement-separator/commit/2bb76daca5a457fa85ade054362b2dd22fe1ed92) - Apply ruff formatting to config.py
 
 ### Configuration Validation Enhancements
+
 - Test environment detection with multiple indicators
 - Support for pytest execution context detection
 - Backward compatible validation for production environments
 - Enhanced error messages for better debugging
 
 ### Release Infrastructure
+
 - Complete GitHub Actions workflow for automated releases
 - PyPI publishing automation (requires workflow trigger)
 - Comprehensive release notes generation
 - Better integration with semantic versioning
 
 ### Compatibility
+
 - No breaking changes to existing APIs
 - Enhanced configuration validation maintains backward compatibility
 - Improved CI/CD pipeline reliability

@@ -1,11 +1,11 @@
 """Factory for creating LLM providers."""
 
-from typing import Optional, Dict, Any
 import logging
+from typing import Any, Dict, Optional
 
 from .base import LLMProvider, LLMProviderError
-from .openai_provider import OpenAIProvider
 from .ollama_provider import OllamaProvider
+from .openai_provider import OpenAIProvider
 
 logger = logging.getLogger(__name__)
 

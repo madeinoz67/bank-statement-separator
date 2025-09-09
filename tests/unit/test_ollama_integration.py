@@ -1,8 +1,9 @@
 """Integration tests for Ollama provider with factory and workflow."""
 
-import pytest
-from unittest.mock import Mock, patch
 import json
+from unittest.mock import Mock, patch
+
+import pytest
 
 from src.bank_statement_separator.llm import LLMProviderFactory, OllamaProvider
 from src.bank_statement_separator.llm.base import LLMProviderError

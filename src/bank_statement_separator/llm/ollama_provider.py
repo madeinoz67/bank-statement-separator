@@ -2,13 +2,13 @@
 
 import json
 import logging
-from typing import Dict, Any
+from typing import Any, Dict
 
 from langchain_core.messages import HumanMessage
 from langchain_ollama import ChatOllama
 
-from .base import LLMProvider, BoundaryResult, MetadataResult, LLMProviderError
 from ..utils.hallucination_detector import HallucinationDetector
+from .base import BoundaryResult, LLMProvider, LLMProviderError, MetadataResult
 
 logger = logging.getLogger(__name__)
 

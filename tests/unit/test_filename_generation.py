@@ -1,15 +1,16 @@
 """Tests for filename generation functionality."""
 
-import pytest
-import sys
 import os
+import sys
+
+import pytest
 
 # Add src to path for imports
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "src"))
 
 try:
-    from bank_statement_separator.workflow import BankStatementWorkflow
     from bank_statement_separator.config import Config
+    from bank_statement_separator.workflow import BankStatementWorkflow
 except ImportError:
     # Fallback for testing individual methods
     pytest.skip("Dependencies not available", allow_module_level=True)

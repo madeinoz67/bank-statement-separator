@@ -1,26 +1,26 @@
 """Pytest configuration and shared fixtures."""
 
 import os
-from datetime import datetime, timedelta
-from pathlib import Path
-from typing import List, Dict, Optional
-import pytest
-
-from faker import Faker
-from reportlab.lib.pagesizes import letter
-from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle
-from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
-from reportlab.lib.units import inch
-from reportlab.lib import colors
-from reportlab.lib.enums import TA_CENTER
 
 # Import the workflow components
 import sys
+from datetime import datetime, timedelta
+from pathlib import Path
+from typing import Dict, List, Optional
+
+import pytest
+from faker import Faker
+from reportlab.lib import colors
+from reportlab.lib.enums import TA_CENTER
+from reportlab.lib.pagesizes import letter
+from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
+from reportlab.lib.units import inch
+from reportlab.platypus import Paragraph, SimpleDocTemplate, Spacer, Table, TableStyle
 
 sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
 
-from bank_statement_separator.workflow import BankStatementWorkflow
 from bank_statement_separator.config import load_config
+from bank_statement_separator.workflow import BankStatementWorkflow
 
 
 @pytest.fixture

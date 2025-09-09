@@ -2,9 +2,9 @@
 
 import logging
 import re
-from typing import Dict, Any, List, Tuple
 from dataclasses import dataclass
 from enum import Enum
+from typing import Any, Dict, List, Tuple
 
 logger = logging.getLogger(__name__)
 

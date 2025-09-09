@@ -1,13 +1,13 @@
 """Comprehensive error handling utilities for document processing failures."""
 
 import json
+import logging
 import shutil
 import sys
 from datetime import datetime, timedelta
 from enum import Enum
 from pathlib import Path
-from typing import Dict, Any, List, Optional
-import logging
+from typing import Any, Dict, List, Optional
 
 logger = logging.getLogger(__name__)
 

@@ -65,15 +65,15 @@ def test_boundary_analysis(provider):
     CHASE BANK STATEMENT
     Account: ****1234
     Statement Period: January 1-31, 2023
-    
+
     [Statement content for Chase account...]
-    
+
     ---
-    
-    WELLS FARGO STATEMENT  
+
+    WELLS FARGO STATEMENT
     Account: ****5678
     Statement Period: January 1-31, 2023
-    
+
     [Statement content for Wells Fargo account...]
     """
 
@@ -110,14 +110,14 @@ def test_metadata_extraction(provider):
     statement_text = """
     CHASE BANK
     Credit Card Statement
-    
+
     John Smith
     123 Main Street
     Anytown, ST 12345
-    
+
     Account Number: ****1234
     Statement Period: January 1, 2023 - January 31, 2023
-    
+
     Previous Balance: $1,234.56
     Payments: -$500.00
     New Purchases: $234.67

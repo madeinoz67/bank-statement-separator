@@ -7,10 +7,12 @@ This guide explains the comprehensive pytest marks system implemented in the ban
 ### Core Test Categories
 
 #### `@pytest.mark.unit`
+
 - **Description**: Fast, isolated tests for individual components
 - **Characteristics**: No external dependencies, typically run in < 1 second
 - **Usage**: Applied to all unit test classes and functions
 - **Example**:
+
 ```python
 @pytest.mark.unit
 class TestFilenameGeneration:
@@ -18,10 +20,12 @@ class TestFilenameGeneration:
 ```
 
 #### `@pytest.mark.integration`
+
 - **Description**: Tests that verify component interactions
 - **Characteristics**: May involve multiple components, file I/O, or mocked external services
 - **Usage**: Applied to integration test scenarios
 - **Example**:
+
 ```python
 @pytest.mark.integration
 @pytest.mark.edge_case
@@ -32,10 +36,12 @@ class TestEdgeCaseScenarios:
 ### Performance Marks
 
 #### `@pytest.mark.slow`
+
 - **Description**: Tests that take more than 5 seconds to execute
 - **Characteristics**: Long-running tests, performance benchmarks
 - **Usage**: Applied to performance and scalability tests
 - **Example**:
+
 ```python
 @pytest.mark.integration
 @pytest.mark.slow
@@ -44,6 +50,7 @@ class TestPerformanceScenarios:
 ```
 
 #### `@pytest.mark.performance`
+
 - **Description**: Performance and scalability tests
 - **Characteristics**: Memory usage monitoring, concurrent processing tests
 - **Usage**: Applied to tests that measure performance metrics
@@ -51,17 +58,20 @@ class TestPerformanceScenarios:
 ### External Dependency Marks
 
 #### `@pytest.mark.requires_api`
+
 - **Description**: Tests that require OpenAI API keys
 - **Characteristics**: Makes actual API calls, requires valid API credentials
 - **Usage**: Applied to tests using OpenAI services
 - **CI Behavior**: Only runs on main branch or with [api-test] commit message
 
 #### `@pytest.mark.requires_ollama`
+
 - **Description**: Tests that require Ollama to be running
 - **Characteristics**: Requires local Ollama server at localhost:11434
 - **Usage**: Applied to Ollama provider tests
 
 #### `@pytest.mark.requires_paperless`
+
 - **Description**: Tests that require Paperless-ngx to be running
 - **Characteristics**: Requires Paperless-ngx instance with valid API token
 - **Usage**: Applied to Paperless integration tests
@@ -69,36 +79,43 @@ class TestPerformanceScenarios:
 ### Test Type Marks
 
 #### `@pytest.mark.edge_case`
+
 - **Description**: Edge case scenario tests
 - **Characteristics**: Tests unusual or boundary conditions
 - **Usage**: Applied to tests covering edge cases
 
 #### `@pytest.mark.smoke`
+
 - **Description**: Critical functionality that should always work
 - **Characteristics**: Core features, basic sanity checks
 - **Usage**: Applied to essential tests for quick validation
 
 #### `@pytest.mark.validation`
+
 - **Description**: Tests for validation and error handling
 - **Characteristics**: Input validation, error recovery, data integrity
 - **Usage**: Applied to validation system tests
 
 #### `@pytest.mark.mock_heavy`
+
 - **Description**: Tests that use extensive mocking
 - **Characteristics**: Heavy use of unittest.mock or pytest-mock
 - **Usage**: Applied to tests with complex mocking scenarios
 
 #### `@pytest.mark.pdf_processing`
+
 - **Description**: Tests involving PDF file operations
 - **Characteristics**: PDF creation, manipulation, or parsing
 - **Usage**: Applied to PDF-related tests
 
 #### `@pytest.mark.llm`
+
 - **Description**: Tests involving LLM providers and operations
 - **Characteristics**: LLM provider tests, prompt generation, response parsing
 - **Usage**: Applied to LLM-related functionality
 
 #### `@pytest.mark.manual`
+
 - **Description**: Manual execution tests (excluded from automated runs)
 - **Characteristics**: Requires manual verification or setup
 - **Usage**: Applied to tests in tests/manual/ directory
@@ -234,6 +251,7 @@ uv run pytest -m requires_api
 To add a new mark:
 
 1. **Register in pyproject.toml**:
+
 ```toml
 [tool.pytest.ini_options]
 markers = [
@@ -243,6 +261,7 @@ markers = [
 ```
 
 2. **Apply to tests**:
+
 ```python
 @pytest.mark.new_mark
 def test_something():
@@ -251,6 +270,7 @@ def test_something():
 ```
 
 3. **Update CI/CD if needed**:
+
 ```yaml
 - name: Run new mark tests
   run: uv run pytest -m new_mark
@@ -321,13 +341,13 @@ uv run pytest -m pdf_processing
 # GitHub Actions example
 - name: Quick validation
   run: uv run pytest -m "smoke"
-  
+
 - name: Unit tests
   run: uv run pytest -m "unit"
-  
+
 - name: Integration tests
   run: uv run pytest -m "integration and not slow"
-  
+
 - name: Full test suite
   if: github.ref == 'refs/heads/main'
   run: uv run pytest -m "not manual"

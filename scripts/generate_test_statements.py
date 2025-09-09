@@ -5,22 +5,22 @@ This script creates PDF files with various bank statement formats and edge cases
 to thoroughly test the bank statement separator workflow.
 """
 
+import random
 import sys
 from datetime import datetime, timedelta
 from pathlib import Path
-from typing import List, Dict, Any
-import random
+from typing import Any, Dict, List
 
 # Add src to path for imports
 sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
 
 from faker import Faker
-from reportlab.lib.pagesizes import letter
-from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle
-from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
-from reportlab.lib.units import inch
 from reportlab.lib import colors
 from reportlab.lib.enums import TA_CENTER
+from reportlab.lib.pagesizes import letter
+from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
+from reportlab.lib.units import inch
+from reportlab.platypus import Paragraph, SimpleDocTemplate, Spacer, Table, TableStyle
 
 # Initialize Faker
 fake = Faker("en_AU")  # Use Australian locale for bank statements

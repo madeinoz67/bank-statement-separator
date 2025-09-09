@@ -1,22 +1,23 @@
 """OpenAI LLM provider implementation."""
 
-import os
-from typing import List, Dict, Any, Optional
 import logging
-from pydantic import BaseModel
-from langchain_openai import ChatOpenAI
+import os
+from typing import Any, Dict, List, Optional
+
 from langchain_core.messages import HumanMessage, SystemMessage
 from langchain_core.output_parsers import PydanticOutputParser
-from openai import RateLimitError, APIError
+from langchain_openai import ChatOpenAI
+from openai import APIError, RateLimitError
+from pydantic import BaseModel
 
-from .base import LLMProvider, LLMProviderError, BoundaryResult, MetadataResult
 from ..utils.hallucination_detector import HallucinationDetector
 from ..utils.rate_limiter import (
-    RateLimiter,
     BackoffStrategy,
     RateLimitConfig,
+    RateLimiter,
     load_rate_limit_config_from_env,
 )
+from .base import BoundaryResult, LLMProvider, LLMProviderError, MetadataResult
 
 logger = logging.getLogger(__name__)
 
@@ -188,14 +189,14 @@ DOCUMENT TEXT:
 TASK: Find where each separate bank statement begins and ends.
 
 Look for these boundary indicators:
-- Bank headers and letterheads 
+- Bank headers and letterheads
 - Different account numbers
 - New statement periods (From/To dates)
 - Page numbering resets (Page 1 of X)
 - Changes in customer names or addresses
 - Different bank branding/formatting
 
-CRITICAL: 
+CRITICAL:
 - Each statement must be complete (no overlapping pages)
 - Account for all {total_pages} pages in the document
 - If similar account numbers, look carefully at dates and statement periods

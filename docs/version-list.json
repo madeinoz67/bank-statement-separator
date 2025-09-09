@@ -1,8 +1,6 @@
 {
-    "versions": [
-        "latest"
-    ],
-    "latest": "latest",
-    "last_updated": "2025-09-07T13:20:00Z",
-    "note": "Version selector managed automatically by mike. Versioned deployments will be added when releases are published."
+  "versions": ["latest"],
+  "latest": "latest",
+  "last_updated": "2025-09-07T13:20:00Z",
+  "note": "Version selector managed automatically by mike. Versioned deployments will be added when releases are published."
 }

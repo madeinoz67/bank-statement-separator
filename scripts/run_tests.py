@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """Test runner script for bank statement separator."""
 
-import sys
-import subprocess
-from pathlib import Path
 import argparse
+import subprocess
+import sys
+from pathlib import Path
 
 
 def run_pytest(test_type: str = "all", verbose: bool = False, coverage: bool = False):

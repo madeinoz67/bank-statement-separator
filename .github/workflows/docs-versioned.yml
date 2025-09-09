@@ -11,7 +11,7 @@ on:
     branches: [main]
     paths:
       - "docs/**/*.md"
-      - "docs/**/*.yml" 
+      - "docs/**/*.yml"
       - "docs/**/*.yaml"
       - "mkdocs.yml"
       - ".github/workflows/docs-versioned.yml"
@@ -46,35 +46,35 @@ jobs:
           DEPLOY_VERSION="false"
           SHOULD_DEPLOY="false"
           VERSION="unknown"
-          
+
           echo "🔍 Event: ${{ github.event_name }}"
           echo "🔍 Ref: ${{ github.ref }}"
-          
+
           if [ "${{ github.event_name }}" = "push" ] && [ "${{ github.ref }}" = "refs/heads/main" ]; then
             echo "📝 Push to main branch detected"
             DEPLOY_LATEST="true"
             VERSION="latest"
             SHOULD_DEPLOY="true"
-            
+
           elif [ "${{ github.event_name }}" = "release" ]; then
             echo "🚀 Release event detected"
             DEPLOY_VERSION="true"
             VERSION=$(echo ${{ github.event.release.tag_name }} | sed 's/^v//')
             SHOULD_DEPLOY="true"
             echo "📋 Release version: $VERSION"
-            
+
           elif [ "${{ github.event_name }}" = "repository_dispatch" ]; then
             echo "📡 Repository dispatch detected"
             DEPLOY_VERSION="true"
             VERSION=$(echo ${{ github.event.client_payload.tag }} | sed 's/^v//')
             SHOULD_DEPLOY="true"
             echo "📋 Dispatch version: $VERSION"
-            
+
           elif [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
             echo "🔄 Manual workflow dispatch detected"
             INPUT_VERSION="${{ github.event.inputs.version }}"
             echo "📋 Input version: $INPUT_VERSION"
-            
+
             if [ "$INPUT_VERSION" = "latest" ] || [ -z "$INPUT_VERSION" ]; then
               echo "📝 Deploying to latest"
               DEPLOY_LATEST="true"
@@ -85,22 +85,22 @@ jobs:
               VERSION=$(echo "$INPUT_VERSION" | sed 's/^v//')
             fi
             SHOULD_DEPLOY="true"
-            
+
           else
             echo "❌ Unhandled event type: ${{ github.event_name }}"
             # Don't deploy anything for unhandled events
           fi
-          
+
           # Output results
           echo "deploy_latest=$DEPLOY_LATEST" >> $GITHUB_OUTPUT
           echo "deploy_version=$DEPLOY_VERSION" >> $GITHUB_OUTPUT
           echo "version=$VERSION" >> $GITHUB_OUTPUT
           echo "should_deploy=$SHOULD_DEPLOY" >> $GITHUB_OUTPUT
-          
+
           # Log final decision
           echo "📊 Final decision:"
           echo "  - Deploy Latest: $DEPLOY_LATEST"
-          echo "  - Deploy Version: $DEPLOY_VERSION"  
+          echo "  - Deploy Version: $DEPLOY_VERSION"
           echo "  - Version: $VERSION"
           echo "  - Should Deploy: $SHOULD_DEPLOY"
 
@@ -146,55 +146,55 @@ jobs:
       - name: Deploy latest documentation with mike
         run: |
           echo "📚 Deploying LATEST documentation..."
-          
+
           # Robust deployment strategy with retry logic and conflict resolution
-          
+
           # Step 1: Fetch and prepare gh-pages branch
           echo "📡 Fetching latest gh-pages state..."
           git fetch origin gh-pages:gh-pages || git checkout --orphan gh-pages || true
-          
+
           # Step 2: Deploy locally (no push)
           echo "🔧 Building and deploying locally..."
           uv run mike deploy --update-aliases latest
           uv run mike set-default latest
-          
+
           # Step 3: Push with retry logic and conflict resolution
           echo "🚀 Pushing to gh-pages with retry logic..."
           max_attempts=3
           attempt=1
-          
+
           while [ $attempt -le $max_attempts ]; do
             echo "📤 Deployment attempt $attempt of $max_attempts"
-            
+
             # Fetch latest changes before push attempt
             git fetch origin gh-pages:gh-pages || true
-            
+
             if git push origin gh-pages; then
               echo "✅ Successfully deployed LATEST on attempt $attempt"
               break
             else
               echo "⚠️ Push failed on attempt $attempt"
-              
+
               if [ $attempt -eq $max_attempts ]; then
                 echo "❌ All attempts failed. Manual intervention required."
                 exit 1
               fi
-              
+
               # Exponential backoff
               sleep_time=$((2 ** attempt))
               echo "⏳ Waiting ${sleep_time} seconds before retry..."
               sleep $sleep_time
-              
+
               # Resolve conflicts and retry
               echo "🔄 Resolving conflicts and re-deploying..."
               git checkout gh-pages || true
               git pull --rebase origin gh-pages || git reset --hard origin/gh-pages
-              
+
               # Re-deploy locally after conflict resolution
               uv run mike deploy --update-aliases latest
               uv run mike set-default latest
             fi
-            
+
             attempt=$((attempt + 1))
           done
 
@@ -231,60 +231,60 @@ jobs:
         run: |
           VERSION="${{ needs.determine-deployment-type.outputs.version }}"
           echo "📋 Deploying VERSIONED documentation: v$VERSION"
-          
+
           # Validate version format
           if ! echo "$VERSION" | grep -E '^[0-9]+\.[0-9]+(\.[0-9]+)?(-[a-zA-Z0-9]+)?$'; then
             echo "❌ Invalid version format: $VERSION"
             echo "Expected format: X.Y.Z or X.Y.Z-suffix"
             exit 1
           fi
-          
+
           # Robust deployment strategy with retry logic and conflict resolution
-          
+
           # Step 1: Fetch and prepare gh-pages branch
           echo "📡 Fetching latest gh-pages state..."
           git fetch origin gh-pages:gh-pages || git checkout --orphan gh-pages || true
-          
+
           # Step 2: Deploy locally (no push)
           echo "🔧 Building and deploying v$VERSION locally..."
           uv run mike deploy --update-aliases "v$VERSION" "$VERSION"
-          
+
           # Step 3: Push with retry logic and conflict resolution
           echo "🚀 Pushing to gh-pages with retry logic..."
           max_attempts=3
           attempt=1
-          
+
           while [ $attempt -le $max_attempts ]; do
             echo "📤 Deployment attempt $attempt of $max_attempts for version v$VERSION"
-            
+
             # Fetch latest changes before push attempt
             git fetch origin gh-pages:gh-pages || true
-            
+
             if git push origin gh-pages; then
               echo "✅ Successfully deployed version v$VERSION on attempt $attempt"
               break
             else
               echo "⚠️ Push failed on attempt $attempt for version v$VERSION"
-              
+
               if [ $attempt -eq $max_attempts ]; then
                 echo "❌ All attempts failed for version v$VERSION. Manual intervention required."
                 exit 1
               fi
-              
+
               # Exponential backoff
               sleep_time=$((2 ** attempt))
               echo "⏳ Waiting ${sleep_time} seconds before retry..."
               sleep $sleep_time
-              
+
               # Resolve conflicts and retry
               echo "🔄 Resolving conflicts and re-deploying version v$VERSION..."
               git checkout gh-pages || true
               git pull --rebase origin gh-pages || git reset --hard origin/gh-pages
-              
+
               # Re-deploy locally after conflict resolution
               uv run mike deploy --update-aliases "v$VERSION" "$VERSION"
             fi
-            
+
             attempt=$((attempt + 1))
           done
 

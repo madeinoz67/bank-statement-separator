@@ -20,7 +20,7 @@ Before you begin, ensure you have:
 - **Basic command-line knowledge**
 
 !!! tip "UV Package Manager"
-    We highly recommend using [UV](https://docs.astral.sh/uv/) for package management. It's faster and more reliable than pip, especially for this project's complex dependencies.
+We highly recommend using [UV](https://docs.astral.sh/uv/) for package management. It's faster and more reliable than pip, especially for this project's complex dependencies.
 
 ## System Overview
 
@@ -38,18 +38,21 @@ The Workflow Bank Statement Separator uses an 8-node LangGraph workflow to proce
 ## Key Capabilities
 
 ### Processing Features
+
 - **Multi-Statement PDFs**: Automatically separate combined statements
 - **Intelligent Detection**: AI-powered boundary identification
 - **Metadata Extraction**: Account numbers, dates, bank names
 - **Format Preservation**: Maintains original PDF formatting
 
 ### Error Handling
+
 - **Smart Quarantine**: Failed documents moved to quarantine with error reports
 - **Validation Levels**: Configurable strictness (strict/normal/lenient)
 - **Recovery Suggestions**: Actionable guidance for resolving issues
 - **Retry Logic**: Automatic retry for transient failures
 
 ### Integration Features
+
 - **Paperless-ngx**: Automatic upload to document management
 - **Audit Logging**: Complete processing trails
 - **CLI Management**: Multi-command interface for all operations
@@ -60,18 +63,18 @@ The Workflow Bank Statement Separator uses an 8-node LangGraph workflow to proce
 Choose your path:
 
 === "Quick Start"
-    **For immediate testing** - Get running in 5 minutes
-    
+**For immediate testing** - Get running in 5 minutes
+
     → [Quick Start Guide](quick-start.md)
 
 === "Full Installation"
-    **For production setup** - Complete installation and configuration
-    
+**For production setup** - Complete installation and configuration
+
     → [Installation Guide](installation.md)
 
 === "Configuration"
-    **For customization** - Detailed configuration options
-    
+**For customization** - Detailed configuration options
+
     → [Configuration Guide](configuration.md)
 
 ## Support

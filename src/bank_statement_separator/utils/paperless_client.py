@@ -1,10 +1,12 @@
 """Paperless-ngx API client for document upload integration."""
 
 import logging
-from pathlib import Path
-from typing import Optional, Dict, Any, List
 from datetime import date
+from pathlib import Path
+from typing import Any, Dict, List, Optional
+
 import httpx
+
 from ..config import Config
 
 logger = logging.getLogger(__name__)
@@ -229,6 +231,308 @@ class PaperlessClient:
             error_msg = f"Paperless upload failed with status {e.response.status_code}: {e.response.text}"
             logger.error(error_msg)
             raise PaperlessUploadError(error_msg) from e
+
+    def apply_tags_to_document(
+        self, document_id: int, tags: List[str], wait_time: Optional[int] = None
+    ) -> Dict[str, Any]:
+        """Apply additional tags to a document using bulk_edit API to preserve existing tags.
+
+        This method uses the bulk_edit endpoint to ADD tags to a document without replacing
+        existing system-applied tags. This is crucial for preserving paperless-ngx system
+        rule tags while still applying our custom output tags.
+
+        Args:
+            document_id: ID of the document to apply tags to
+            tags: List of tag names to apply
+            wait_time: Wait time in seconds before applying tags (uses config default if None)
+
+        Returns:
+            Dict containing operation results
+
+        Raises:
+            PaperlessUploadError: If tag application fails
+        """
+        if not self.is_enabled():
+            raise PaperlessUploadError(
+                "Paperless integration not enabled or configured"
+            )
+
+        if not tags:
+            logger.debug(f"No tags to apply to document {document_id}")
+            return {"success": True, "tags_applied": 0}
+
+        # Wait for document processing to complete before applying tags
+        actual_wait_time = (
+            wait_time if wait_time is not None else self.config.paperless_tag_wait_time
+        )
+        if actual_wait_time > 0:
+            logger.debug(
+                f"Waiting {actual_wait_time} seconds for document {document_id} processing to complete before applying tags"
+            )
+            import time
+
+            time.sleep(actual_wait_time)
+
+        try:
+            # Resolve tag names to IDs
+            tag_ids = self._resolve_tags(tags)
+            if not tag_ids:
+                logger.warning(f"No valid tag IDs resolved from tags: {tags}")
+                return {"success": False, "error": "No valid tags resolved"}
+
+            successful_applications = []
+            failed_applications = []
+
+            # Apply each tag individually using bulk_edit add_tag method
+            # This preserves existing tags while adding new ones
+            for i, tag_id in enumerate(tag_ids):
+                try:
+                    with httpx.Client(timeout=30.0) as client:
+                        response = client.post(
+                            f"{self.base_url}/api/documents/bulk_edit/",
+                            headers=self.headers,
+                            json={
+                                "documents": [document_id],
+                                "method": "add_tag",
+                                "parameters": {"tag": tag_id},
+                            },
+                        )
+                        response.raise_for_status()
+
+                        successful_applications.append(
+                            {
+                                "tag_name": tags[i],
+                                "tag_id": tag_id,
+                                "response": response.json(),
+                            }
+                        )
+
+                        logger.debug(
+                            f"Successfully applied tag '{tags[i]}' (ID: {tag_id}) to document {document_id}"
+                        )
+
+                except (httpx.RequestError, httpx.HTTPStatusError) as e:
+                    error_msg = f"Failed to apply tag '{tags[i]}' (ID: {tag_id}) to document {document_id}: {str(e)}"
+                    logger.warning(error_msg)
+                    failed_applications.append(
+                        {"tag_name": tags[i], "tag_id": tag_id, "error": error_msg}
+                    )
+
+            # Return comprehensive results
+            result = {
+                "success": len(failed_applications) == 0,
+                "document_id": document_id,
+                "tags_applied": len(successful_applications),
+                "tags_failed": len(failed_applications),
+                "successful_applications": successful_applications,
+                "failed_applications": failed_applications,
+            }
+
+            if result["success"]:
+                logger.info(
+                    f"Successfully applied {len(successful_applications)} tags to document {document_id}"
+                )
+            else:
+                logger.warning(
+                    f"Applied {len(successful_applications)}/{len(tag_ids)} tags to document {document_id}, {len(failed_applications)} failed"
+                )
+
+            return result
+
+        except Exception as e:
+            error_msg = f"Failed to apply tags to document {document_id}: {str(e)}"
+            logger.error(error_msg)
+            raise PaperlessUploadError(error_msg) from e
+
+    def poll_task_completion(
+        self, task_id: str, timeout_seconds: int = 300, poll_interval: int = 5
+    ) -> Dict[str, Any]:
+        """Poll a paperless-ngx task until completion or timeout.
+
+        Args:
+            task_id: Task ID to monitor
+            timeout_seconds: Maximum time to wait for completion
+            poll_interval: Seconds between polling attempts
+
+        Returns:
+            Dict containing task status and document_id if successful
+
+        Raises:
+            PaperlessUploadError: If polling fails or times out
+        """
+        if not self.is_enabled():
+            raise PaperlessUploadError(
+                "Paperless integration not enabled or configured"
+            )
+
+        import time
+
+        start_time = time.time()
+        logger.info(f"Starting task polling for {task_id}, timeout={timeout_seconds}s")
+
+        try:
+            while True:
+                # Check if we've exceeded timeout
+                elapsed = time.time() - start_time
+                if elapsed > timeout_seconds:
+                    raise PaperlessUploadError(
+                        f"Task {task_id} polling timed out after {timeout_seconds}s"
+                    )
+
+                # Query task status
+                with httpx.Client(timeout=30.0) as client:
+                    response = client.get(
+                        f"{self.base_url}/api/tasks/",
+                        headers=self.headers,
+                        params={"task_id": task_id},
+                    )
+                    response.raise_for_status()
+
+                    response_data = response.json()
+                    logger.debug(f"Tasks API response: {response_data}")
+
+                    # Handle both paginated and direct list responses
+                    if isinstance(response_data, dict) and "results" in response_data:
+                        tasks = response_data["results"]
+                    elif isinstance(response_data, list):
+                        tasks = response_data
+                    else:
+                        logger.warning(
+                            f"Unexpected tasks API response format: {type(response_data)}"
+                        )
+                        tasks = []
+
+                    task = None
+
+                    # Find our specific task
+                    for t in tasks:
+                        if isinstance(t, dict) and t.get("task_id") == task_id:
+                            task = t
+                            break
+
+                    if not task:
+                        # Task not found in active tasks - might be completed and cleaned up
+                        # Try to find recently created documents that might match
+                        logger.warning(
+                            f"Task {task_id} not found in task list, checking recent documents"
+                        )
+                        return {
+                            "success": False,
+                            "status": "task_not_found",
+                            "document_id": None,
+                        }
+
+                    status = task.get("status")
+                    logger.debug(f"Task {task_id} status: {status}")
+
+                    if status == "SUCCESS":
+                        # Task completed successfully
+                        # The result might contain document information
+                        result_data = task.get("result", {})
+                        document_id = (
+                            result_data.get("document_id")
+                            if isinstance(result_data, dict)
+                            else None
+                        )
+
+                        logger.info(
+                            f"Task {task_id} completed successfully, document_id: {document_id}"
+                        )
+                        return {
+                            "success": True,
+                            "status": "completed",
+                            "document_id": document_id,
+                            "task_data": task,
+                        }
+
+                    elif status == "FAILURE":
+                        # Task failed
+                        error_info = task.get("result", "Unknown error")
+                        logger.error(f"Task {task_id} failed: {error_info}")
+                        return {
+                            "success": False,
+                            "status": "failed",
+                            "error": error_info,
+                            "task_data": task,
+                        }
+
+                    elif status in ["PENDING", "STARTED", "PROGRESS"]:
+                        # Task still running, continue polling
+                        logger.debug(
+                            f"Task {task_id} still running ({status}), polling again in {poll_interval}s"
+                        )
+                        time.sleep(poll_interval)
+                        continue
+
+                    else:
+                        # Unknown status
+                        logger.warning(f"Task {task_id} has unknown status: {status}")
+                        time.sleep(poll_interval)
+                        continue
+
+        except (httpx.RequestError, httpx.HTTPStatusError) as e:
+            error_msg = f"Failed to poll task {task_id}: {str(e)}"
+            logger.error(error_msg)
+            raise PaperlessUploadError(error_msg) from e
+        except Exception as e:
+            error_msg = f"Task polling failed with unexpected error: {str(e)}"
+            logger.error(error_msg)
+            raise PaperlessUploadError(error_msg) from e
+
+    def find_document_by_title_pattern(
+        self, title_pattern: str, created_after: Optional[str] = None
+    ) -> Optional[Dict[str, Any]]:
+        """Find a document by title pattern, optionally filtered by creation date.
+
+        This is useful for finding documents that were just uploaded when we only have a task_id.
+
+        Args:
+            title_pattern: Pattern to search for in document titles
+            created_after: ISO datetime string to filter documents created after this time
+
+        Returns:
+            Document dict if found, None otherwise
+        """
+        if not self.is_enabled():
+            return None
+
+        try:
+            with httpx.Client(timeout=30.0) as client:
+                params = {
+                    "page_size": 20,
+                    "ordering": "-created",  # Most recent first
+                }
+
+                if created_after:
+                    params["created__gte"] = created_after
+
+                response = client.get(
+                    f"{self.base_url}/api/documents/",
+                    headers=self.headers,
+                    params=params,
+                )
+                response.raise_for_status()
+
+                documents = response.json().get("results", [])
+
+                # Search for document with matching title pattern
+                for doc in documents:
+                    if title_pattern.lower() in doc.get("title", "").lower():
+                        logger.info(
+                            f"Found document by title pattern '{title_pattern}': ID={doc['id']}, Title='{doc['title']}'"
+                        )
+                        return doc
+
+                logger.warning(
+                    f"No document found matching title pattern: {title_pattern}"
+                )
+                return None
+
+        except (httpx.RequestError, httpx.HTTPStatusError) as e:
+            logger.warning(
+                f"Failed to search for document by title pattern '{title_pattern}': {e}"
+            )
+            return None
 
     def upload_multiple_documents(
         self,
@@ -507,10 +811,7 @@ class PaperlessClient:
         Raises:
             PaperlessUploadError: If query fails
         """
-        return self.query_documents(
-            tags=tags,
-            page_size=page_size
-        )
+        return self.query_documents(tags=tags, page_size=page_size)
 
     def query_documents_by_correspondent(
         self,
@@ -529,10 +830,7 @@ class PaperlessClient:
         Raises:
             PaperlessUploadError: If query fails
         """
-        return self.query_documents(
-            correspondent=correspondent,
-            page_size=page_size
-        )
+        return self.query_documents(correspondent=correspondent, page_size=page_size)
 
     def query_documents_by_document_type(
         self,
@@ -551,10 +849,7 @@ class PaperlessClient:
         Raises:
             PaperlessUploadError: If query fails
         """
-        return self.query_documents(
-            document_type=document_type,
-            page_size=page_size
-        )
+        return self.query_documents(document_type=document_type, page_size=page_size)
 
     def query_documents(
         self,
@@ -596,7 +891,9 @@ class PaperlessClient:
         if tags:
             resolved_tags = self._resolve_tags(tags)
             if resolved_tags:
-                params["tags__id__in"] = ",".join(str(tag_id) for tag_id in resolved_tags)
+                params["tags__id__in"] = ",".join(
+                    str(tag_id) for tag_id in resolved_tags
+                )
 
         if correspondent:
             resolved_correspondent = self._resolve_correspondent(correspondent)
@@ -615,7 +912,9 @@ class PaperlessClient:
             params["created__date__lte"] = created_before.isoformat()
 
         try:
-            with httpx.Client(timeout=float(self.config.paperless_query_timeout)) as client:
+            with httpx.Client(
+                timeout=float(self.config.paperless_query_timeout)
+            ) as client:
                 response = client.get(
                     f"{self.base_url}/api/documents/",
                     headers=self.headers,
@@ -679,7 +978,9 @@ class PaperlessClient:
             )
 
         try:
-            with httpx.Client(timeout=float(self.config.paperless_query_timeout)) as client:
+            with httpx.Client(
+                timeout=float(self.config.paperless_query_timeout)
+            ) as client:
                 response = client.get(
                     f"{self.base_url}/api/documents/{document_id}/download/",
                     headers=self.headers,
@@ -749,8 +1050,7 @@ class PaperlessClient:
         for doc_id in document_ids:
             try:
                 download_result = self.download_document(
-                    document_id=doc_id,
-                    output_directory=output_directory
+                    document_id=doc_id, output_directory=output_directory
                 )
                 results["downloads"].append(download_result)
                 logger.info(f"Successfully downloaded document {doc_id}")

@@ -133,4 +133,3 @@ docs-clean: ## Clean documentation build
 	rm -rf site/
 
 .DEFAULT_GOAL := help
-

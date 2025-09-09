@@ -1,8 +1,9 @@
 """Unit tests for LLM provider abstraction."""
 
-import pytest
-from unittest.mock import Mock, patch
 import time
+from unittest.mock import Mock, patch
+
+import pytest
 
 from src.bank_statement_separator.llm import (
     LLMProvider,
@@ -15,9 +16,9 @@ from src.bank_statement_separator.llm.base import (
     MetadataResult,
 )
 from src.bank_statement_separator.utils.rate_limiter import (
-    RateLimiter,
     BackoffStrategy,
     RateLimitConfig,
+    RateLimiter,
     load_rate_limit_config_from_env,
 )
 

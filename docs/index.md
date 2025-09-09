@@ -14,7 +14,7 @@ An AI-powered tool for automatically separating multi-statement PDF files using 
 The Bank Statement Separator is designed for people who need to process single PDF files containing multiple bank statements. It uses advanced AI models to intelligently identify statement boundaries, extract metadata, and create separate PDF files for each statement.
 
 !!! tip "Production Ready"
-    This system is production-ready with comprehensive error handling, document management integration, and robust testing. All 37 unit tests are passing with full feature coverage.
+This system is production-ready with comprehensive error handling, document management integration, and robust testing. All 37 unit tests are passing with full feature coverage.
 
 ## Key Features
 
@@ -68,11 +68,11 @@ graph TD
     F --> G[File Organization]
     G --> H[Output Validation]
     H --> I[Paperless Upload]
-    
+
     B --> J[Quarantine System]
     H --> J
     J --> K[Error Reports]
-    
+
     style A fill:#e1f5fe
     style I fill:#e8f5e8
     style J fill:#fff3e0
@@ -80,21 +80,24 @@ graph TD
 ```
 
 !!! info "Detailed Architecture"
-    For comprehensive workflow diagrams including error handling flows, retry logic, and configuration impacts, see the complete [Workflow Architecture Overview](architecture/workflow-overview.md).
+For comprehensive workflow diagrams including error handling flows, retry logic, and configuration impacts, see the complete [Workflow Architecture Overview](architecture/workflow-overview.md).
 
 ## Use Cases
 
 ### Financial Analysis
+
 - **Multi-Bank Processing**: Handle statements from multiple banks in a single document
 - **Period Separation**: Automatically separate statements by time periods
 - **Compliance Reporting**: Maintain audit trails for regulatory requirements
 
 ### Document Management
+
 - **Paperless Integration**: Auto-upload to document management systems
 - **Metadata Extraction**: Automatically tag and categorize documents
 - **Error Recovery**: Smart handling of processing failures with recovery suggestions
 
 ### Cybersecurity
+
 - **Secure Processing**: Protected credential management and access controls
 - **Audit Logging**: Complete activity trails for security compliance
 - **Input Validation**: Comprehensive document validation before processing
@@ -109,7 +112,7 @@ Get started in just a few minutes:
     # Clone the repository
     git clone <repository-url>
     cd bank-statement-separator
-    
+
     # Install dependencies
     uv sync
     ```
@@ -119,7 +122,7 @@ Get started in just a few minutes:
     ```bash
     # Copy configuration template
     cp .env.example .env
-    
+
     # Edit with your settings
     nano .env
     ```
@@ -150,23 +153,25 @@ Get started in just a few minutes:
 
 ## Performance Metrics
 
-| Metric | Value |
-|--------|-------|
+| Metric               | Value                      |
+| -------------------- | -------------------------- |
 | **Processing Speed** | ~2-5 seconds per statement |
-| **Accuracy Rate** | 95%+ with AI analysis |
-| **Fallback Success** | 85%+ without API key |
-| **Memory Usage** | <500MB per document |
-| **Test Coverage** | 37/37 unit tests passing |
+| **Accuracy Rate**    | 95%+ with AI analysis      |
+| **Fallback Success** | 85%+ without API key       |
+| **Memory Usage**     | <500MB per document        |
+| **Test Coverage**    | 37/37 unit tests passing   |
 
 ## Roadmap
 
 ### ✅ Phase 1 - Core Features (Complete)
+
 - [x] LangGraph workflow implementation
 - [x] AI-powered boundary detection
 - [x] Metadata extraction
 - [x] CLI interface
 
 ### ✅ Phase 2 - Enhanced Features (Complete)
+
 - [x] Error handling & quarantine system
 - [x] Paperless-ngx integration
 - [x] Multi-command CLI
@@ -174,12 +179,14 @@ Get started in just a few minutes:
 - [x] Comprehensive testing
 
 ### 🚧 Phase 3 - Production Deployment (In Progress)
+
 - [ ] Docker containerization
 - [ ] Cloud storage integration
 - [ ] Web dashboard
 - [ ] Batch processing
 
 ### 📋 Phase 4 - Enterprise Features (Planned)
+
 - [ ] Multi-tenant support
 - [ ] REST API
 - [ ] Custom workflows
@@ -192,18 +199,17 @@ This documentation is versioned to match software releases. Use the version sele
 - **Latest**: Always points to the most recent release documentation
 - **Versioned**: Access documentation for specific releases
 
-!!! info "Version URLs"
-    - Latest: `https://madeinoz67.github.io/bank-statement-separator/`
-    - Version 0.1.0: `https://madeinoz67.github.io/bank-statement-separator/v0.1.0/`
+!!! info "Version URLs" - Latest: `https://madeinoz67.github.io/bank-statement-separator/` - Version 0.1.0: `https://madeinoz67.github.io/bank-statement-separator/v0.1.0/`
 
 !!! tip "Finding Your Version"
-    Check your installed version with: `uv run bank-statement-separator --version`
+Check your installed version with: `uv run bank-statement-separator --version`
 
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](https://github.com/madeinoz67/bank-statement-separator/blob/main/LICENSE) file for details.
 
 The MIT License is a permissive open-source license that allows you to:
+
 - ✅ Use the software for commercial and private purposes
 - ✅ Modify and distribute the software
 - ✅ Include in proprietary software
@@ -218,14 +224,8 @@ The MIT License is a permissive open-source license that allows you to:
 
 ## What's New
 
-!!! success "Latest Release: [Version 0.1.4](release_notes/RELEASE_NOTES_v0.1.4.md)"
-    - **Release Workflow Enhancement**: Comprehensive debugging and improved PyPI publishing automation
-    - **Advanced Error Diagnostics**: Detailed workflow context output for troubleshooting release issues
-    - **Package Verification**: Enhanced validation with twine check before PyPI upload
-    - **Simplified Job Conditions**: Clear workflow trigger logic using startsWith() checks
-    - **Production-Ready Automation**: Complete release infrastructure for future automated releases
-    - **Backward Compatibility**: No breaking changes, seamless upgrade from previous versions
-    
+!!! success "Latest Release: [Version 0.1.4](release_notes/RELEASE_NOTES_v0.1.4.md)" - **Release Workflow Enhancement**: Comprehensive debugging and improved PyPI publishing automation - **Advanced Error Diagnostics**: Detailed workflow context output for troubleshooting release issues - **Package Verification**: Enhanced validation with twine check before PyPI upload - **Simplified Job Conditions**: Clear workflow trigger logic using startsWith() checks - **Production-Ready Automation**: Complete release infrastructure for future automated releases - **Backward Compatibility**: No breaking changes, seamless upgrade from previous versions
+
     See full [Release Notes](release_notes/RELEASE_NOTES_v0.1.4.md) for detailed changes and [Changelog](release_notes/CHANGELOG.md) for complete version history.
 
 ---

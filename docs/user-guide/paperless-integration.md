@@ -12,7 +12,7 @@ Paperless-ngx integration enables automatic upload and organization of separated
 - **Error Handling**: Robust handling of upload failures with retry logic
 
 !!! tip "Production Ready"
-    The Paperless integration has been live-tested with actual paperless-ngx instances and includes comprehensive error handling with 27 unit tests covering all functionality.
+The Paperless integration has been live-tested with actual paperless-ngx instances and includes comprehensive error handling with 27 unit tests covering all functionality.
 
 ## Prerequisites
 
@@ -67,7 +67,17 @@ PAPERLESS_DOCUMENT_TYPE=Bank Statement
 
 # Storage path for organization
 PAPERLESS_STORAGE_PATH=Bank Statements
+
+# Tag application timing (seconds)
+PAPERLESS_TAG_WAIT_TIME=5
 ```
+
+!!! info "Tag Wait Time"
+`PAPERLESS_TAG_WAIT_TIME` controls how long the system waits (in seconds) before applying tags to uploaded documents. Paperless-ngx needs time to process documents before tags can be successfully applied. Adjust this value based on your Paperless instance speed:
+
+    - **Fast instances**: 3-5 seconds (default: 5)
+    - **Slower instances**: 8-10 seconds
+    - **Testing/immediate**: 0 seconds (may cause tag failures)
 
 ### Advanced Options
 
@@ -89,20 +99,24 @@ PAPERLESS_MAX_RETRIES=3                      # Maximum retry attempts
 The system automatically creates missing entities in Paperless-ngx:
 
 ### Tags
+
 - Creates tags from `PAPERLESS_TAGS` if they don't exist
 - Applies bank-specific tags based on detected bank names
 - Adds processing timestamp tags
 
 ### Correspondents
+
 - Creates default correspondent from `PAPERLESS_CORRESPONDENT`
 - Creates bank-specific correspondents (e.g., "Westpac", "ANZ")
 - Uses exact name matching to avoid duplicates
 
 ### Document Types
+
 - Creates document type from `PAPERLESS_DOCUMENT_TYPE`
 - Handles different statement types (checking, savings, credit card)
 
 ### Storage Paths
+
 - Creates storage path hierarchy from `PAPERLESS_STORAGE_PATH`
 - Organizes by bank and year automatically
 - Example: `Bank Statements/Westpac/2024/`
@@ -118,6 +132,7 @@ uv run python -m src.bank_statement_separator.main \
 ```
 
 With Paperless enabled, this will:
+
 1. Process the PDF and create separated statements
 2. Upload each separated statement to Paperless-ngx
 3. Apply configured tags, correspondent, and document type
@@ -139,9 +154,9 @@ uv run python -m src.bank_statement_separator.main \
 
 The Paperless upload occurs as the final step in the 8-node workflow:
 
-1. PDF Ingestion → 2. Document Analysis → 3. Statement Detection → 
-4. Metadata Extraction → 5. PDF Generation → 6. File Organization → 
-7. Output Validation → **8. Paperless Upload**
+1. PDF Ingestion → 2. Document Analysis → 3. Statement Detection →
+2. Metadata Extraction → 5. PDF Generation → 6. File Organization →
+3. Output Validation → **8. Paperless Upload**
 
 ### Upload Process
 
@@ -157,13 +172,13 @@ For each separated statement:
 
 ### Automatic Metadata Extraction
 
-| Statement Data | Paperless Field | Example |
-|----------------|-----------------|---------|
-| Bank Name | Correspondent | "Westpac Bank" |
-| Account Number | Tags | "account-2819" |
-| Statement Date | Date | 2024-08-31 |
-| Statement Period | Tags | "2024-08" |
-| Document Type | Document Type | "Bank Statement" |
+| Statement Data   | Paperless Field | Example          |
+| ---------------- | --------------- | ---------------- |
+| Bank Name        | Correspondent   | "Westpac Bank"   |
+| Account Number   | Tags            | "account-2819"   |
+| Statement Date   | Date            | 2024-08-31       |
+| Statement Period | Tags            | "2024-08"        |
+| Document Type    | Document Type   | "Bank Statement" |
 
 ### Smart Tagging
 
@@ -172,7 +187,7 @@ The system applies intelligent tags:
 ```bash
 # Example tags for a Westpac statement
 bank-statement          # From PAPERLESS_TAGS
-automated              # From PAPERLESS_TAGS  
+automated              # From PAPERLESS_TAGS
 westpac                # From detected bank name
 account-2819           # From account number
 2024-08               # From statement period
@@ -184,21 +199,11 @@ account-2819           # From account number
 
 The system handles various upload scenarios:
 
-=== "Network Errors"
-    - Automatically retries with [exponential backoff and jitter](../design/backoff_mechanisms.md)
-    - Logs detailed error information including backoff delays
-    - Continues processing other documents
-    - Configurable retry limits and delay parameters
-    
-=== "Authentication Errors"
-    - Validates API token before processing
-    - Provides clear error messages
-    - Fails fast to prevent wasted processing
+=== "Network Errors" - Automatically retries with [exponential backoff and jitter](../design/backoff_mechanisms.md) - Logs detailed error information including backoff delays - Continues processing other documents - Configurable retry limits and delay parameters
 
-=== "Server Errors"
-    - Distinguishes between temporary and permanent failures
-    - Retries temporary failures (5xx errors)
-    - Reports permanent failures (4xx errors) immediately
+=== "Authentication Errors" - Validates API token before processing - Provides clear error messages - Fails fast to prevent wasted processing
+
+=== "Server Errors" - Distinguishes between temporary and permanent failures - Retries temporary failures (5xx errors) - Reports permanent failures (4xx errors) immediately
 
 ### Error Recovery
 
@@ -269,15 +274,15 @@ else:
 === "Connection Refused"
 
     **Problem**: Cannot connect to Paperless-ngx server
-    
+
     **Solutions**:
     ```bash
     # Check server URL and port
     curl -I http://localhost:8000/api/
-    
+
     # Verify network connectivity
     ping paperless-server
-    
+
     # Check if Paperless is running
     docker ps | grep paperless  # If using Docker
     ```
@@ -285,13 +290,13 @@ else:
 === "Authentication Failed"
 
     **Problem**: API token invalid or expired
-    
+
     **Solutions**:
     ```bash
     # Test API token manually
     curl -H "Authorization: Token your-token-here" \
          http://localhost:8000/api/documents/
-    
+
     # Generate new token in Paperless admin
     # Update PAPERLESS_TOKEN in .env
     ```
@@ -299,12 +304,12 @@ else:
 === "Upload Timeouts"
 
     **Problem**: Large files timing out during upload
-    
+
     **Solutions**:
     ```bash
     # Increase timeout
     PAPERLESS_TIMEOUT_SECONDS=120
-    
+
     # Process smaller batches
     PAPERLESS_BATCH_SIZE=1
     ```
@@ -312,15 +317,15 @@ else:
 === "Metadata Issues"
 
     **Problem**: Tags or correspondents not created properly
-    
+
     **Solutions**:
     ```bash
     # Enable verbose logging
     LOG_LEVEL=DEBUG
-    
+
     # Check API responses
     grep "paperless.*response" logs/statement_processing.log
-    
+
     # Verify entity resolution
     grep "_resolve_" logs/statement_processing.log
     ```

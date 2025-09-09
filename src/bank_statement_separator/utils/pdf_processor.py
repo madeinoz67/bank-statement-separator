@@ -1,10 +1,11 @@
 """PDF processing utilities using PyMuPDF."""
 
-import fitz  # PyMuPDF
-from pathlib import Path
-from typing import List, Dict, Tuple, Optional
 import logging
 from dataclasses import dataclass
+from pathlib import Path
+from typing import Dict, List, Optional, Tuple
+
+import fitz  # PyMuPDF
 
 logger = logging.getLogger(__name__)
 

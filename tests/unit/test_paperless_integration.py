@@ -1,9 +1,11 @@
 """Comprehensive tests for paperless-ngx integration with mocked API calls."""
 
-import pytest
-from unittest.mock import Mock, patch
 from pathlib import Path
+from unittest.mock import Mock, patch
+
 import httpx
+import pytest
+
 from src.bank_statement_separator.config import Config
 from src.bank_statement_separator.utils.paperless_client import (
     PaperlessClient,

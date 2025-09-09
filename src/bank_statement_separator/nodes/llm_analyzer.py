@@ -1,10 +1,10 @@
 """LLM-based document analysis with provider abstraction."""
 
-from typing import List, Dict, Any, Optional
-from dataclasses import dataclass
 import logging
+from dataclasses import dataclass
+from typing import Any, Dict, List, Optional
 
-from ..llm import LLMProvider, LLMProviderFactory, LLMProviderError
+from ..llm import LLMProvider, LLMProviderError, LLMProviderFactory
 
 logger = logging.getLogger(__name__)
 

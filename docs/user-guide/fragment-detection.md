@@ -18,17 +18,21 @@ Fragments are incomplete document sections that may appear in multi-statement PD
 The system automatically identifies fragments using multiple criteria:
 
 #### Content Analysis
+
 - **Text Length**: Very short text sections (< 200 characters)
 - **Missing Elements**: Lack of critical statement components
 - **Pattern Matching**: Recognition of fragment-specific patterns
 
 #### Critical Element Validation
+
 For each section, the system checks for:
+
 - **Bank Name**: Major bank identifiers (Westpac, ANZ, NAB, etc.)
 - **Account Information**: Account numbers, BSB codes, account types
 - **Period Information**: Statement dates, period ranges
 
 #### Confidence Scoring
+
 - **High Confidence (> 0.7)**: Complete statements with all elements
 - **Medium Confidence (0.3-0.7)**: Acceptable statements with some missing info
 - **Low Confidence (< 0.3)**: Fragments automatically filtered out
@@ -46,19 +50,19 @@ flowchart TD
     C -->|Valid Patterns| D{Critical Elements}
     D -->|< 2 Elements| F
     D -->|≥ 2 Elements| E[Valid Statement]
-    
+
     F --> G[Confidence = 0.2]
     E --> H[Calculate Confidence]
-    
+
     G --> I{Confidence < 0.3?}
     H --> I
     I -->|Yes| J[Skip in PDF Generation]
     I -->|No| K[Include in Output]
-    
+
     classDef fragmentStyle fill:#ffebee,stroke:#c62828,stroke-width:2px
     classDef validStyle fill:#e8f5e8,stroke:#2e7d32,stroke-width:2px
     classDef decisionStyle fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px
-    
+
     class F,G,J fragmentStyle
     class E,K validStyle
     class B,C,D,I decisionStyle
@@ -78,35 +82,31 @@ The system applies the following filtering rules:
 ### Common Fragment Patterns
 
 === "Transaction Fragment"
-    ```
-    10/02/2023 ATM WITHDRAWAL Livingston-Miller -$32.00 $25,397.00
+`     10/02/2023 ATM WITHDRAWAL Livingston-Miller -$32.00 $25,397.00
     This statement was generated for testing purposes on 31/08/2025
-    ```
-    **Detection**: Single transaction without statement context
+    `
+**Detection**: Single transaction without statement context
 
 === "Test Footer"
-    ```
-    This statement was generated for testing purposes on 31/08/2025
-    ```
-    **Detection**: Test text without banking content
+`     This statement was generated for testing purposes on 31/08/2025
+    `
+**Detection**: Test text without banking content
 
 === "Page Number Only"
-    ```
-    Page 3
-    ```
-    **Detection**: Minimal content, no banking information
+`     Page 3
+    `
+**Detection**: Minimal content, no banking information
 
 ### Valid Statement Headers
 
 === "Complete Header"
-    ```
-    NAB Banking Corporation
+`     NAB Banking Corporation
     Statement Period: 16 January 2023 to 15 February 2023
     Account Type: Classic Banking Account
     Account Number: 084234560267
     BSB: 084-419
-    ```
-    **Detection**: Full statement header with all elements
+    `
+**Detection**: Full statement header with all elements
 
 ## Configuration Options
 
@@ -121,7 +121,7 @@ FRAGMENT_CONFIDENCE_THRESHOLD=0.3
 # More aggressive filtering (fewer fragments allowed)
 FRAGMENT_CONFIDENCE_THRESHOLD=0.5
 
-# Less aggressive filtering (more fragments allowed) 
+# Less aggressive filtering (more fragments allowed)
 FRAGMENT_CONFIDENCE_THRESHOLD=0.1
 ```
 
@@ -206,7 +206,7 @@ When using the API, confidence scores are available in results:
       "status": "included"
     },
     {
-      "pages": "4-6", 
+      "pages": "4-6",
       "confidence": 0.15,
       "status": "filtered_fragment"
     }

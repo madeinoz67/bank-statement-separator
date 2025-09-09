@@ -52,6 +52,7 @@ cp .env.example .env
 ```
 
 Edit `.env` to set your OpenAI API key:
+
 ```bash
 OPENAI_API_KEY=your_api_key_here
 ```
@@ -167,11 +168,13 @@ We welcome contributions! Please follow these guidelines:
 ### Commit Guidelines
 
 For commits fixing bugs or adding features based on user reports:
+
 ```bash
 git commit --trailer "Reported-by:<name>"
 ```
 
 For commits related to a GitHub issue:
+
 ```bash
 git commit --trailer "Github-Issue:#<number>"
 ```
@@ -189,6 +192,7 @@ Complete documentation is available in the `docs/` directory:
 - [Architecture](docs/architecture/)
 
 Build documentation locally:
+
 ```bash
 uv run mkdocs serve
 ```

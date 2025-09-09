@@ -1,6 +1,6 @@
 # Release Notes v0.1.4
 
-**Release Date**: September 7, 2025  
+**Release Date**: September 7, 2025
 **Version**: 0.1.4
 
 ## Overview
@@ -11,7 +11,7 @@ This release focuses on enhancing the release workflow infrastructure with compr
 
 - **Release Workflow Enhancement**: Comprehensive improvements to GitHub Actions release workflow
   - Added detailed debugging output for workflow context analysis
-  - Simplified job conditions from complex boolean logic to clear `startsWith()` checks  
+  - Simplified job conditions from complex boolean logic to clear `startsWith()` checks
   - Enhanced error handling with explicit checks for missing PYPI_API_TOKEN secret
   - Improved package verification with `twine check` validation before upload
   - Added verbose upload logging for better error diagnostics
@@ -76,7 +76,7 @@ This release focuses on enhancing the release workflow infrastructure with compr
 With this release, the complete automated release infrastructure is now in place:
 
 1. **Automated PyPI Publishing**: Future releases will automatically publish to PyPI
-2. **Enhanced Error Handling**: Better diagnostics for troubleshooting release issues  
+2. **Enhanced Error Handling**: Better diagnostics for troubleshooting release issues
 3. **Complete Workflow**: Full GitHub Actions integration for releases, testing, and publishing
 
 ---

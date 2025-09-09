@@ -146,6 +146,7 @@ VALIDATION_STRICTNESS=lenient
 **Error**: Document requires password for access
 
 **Recovery Steps**:
+
 1. Remove password protection using PDF tools
 2. Request unprotected version from source
 3. Use PDF utilities like `qpdf` or Adobe Acrobat
@@ -160,6 +161,7 @@ qpdf --password=PASSWORD --decrypt input.pdf output.pdf
 **Error**: PDF structure is damaged or incomplete
 
 **Recovery Steps**:
+
 1. Re-download or re-scan the original document
 2. Use PDF repair tools
 3. Convert to different format and back to PDF
@@ -174,6 +176,7 @@ gs -o repaired.pdf -sDEVICE=pdfwrite -dPDFSETTINGS=/prepress input.pdf
 **Error**: OpenAI API quota or rate limits exceeded
 
 **Recovery Steps**:
+
 1. Wait for quota reset (usually monthly)
 2. Upgrade OpenAI plan for higher limits
 3. Use fallback processing mode
@@ -188,6 +191,7 @@ OPENAI_API_KEY="" uv run python -m src.bank_statement_separator.main process inp
 **Error**: Document appears to be image-only or has minimal text
 
 **Recovery Steps**:
+
 1. Check if document is scanned image
 2. Apply OCR processing before separation
 3. Adjust minimum text content ratio
@@ -203,6 +207,7 @@ REQUIRE_TEXT_CONTENT=false   # Disable requirement
 **Error**: File exceeds size limits or causes memory issues
 
 **Recovery Steps**:
+
 1. Increase file size limits in configuration
 2. Process on machine with more memory
 3. Split large documents before processing
@@ -317,11 +322,11 @@ RECOVERED_DIR="./recovered"
 
 for pdf in "$QUARANTINE_DIR"/failed_*.pdf; do
     echo "Attempting to recover: $pdf"
-    
+
     # Try processing with lenient validation
     VALIDATION_STRICTNESS=lenient uv run python -m src.bank_statement_separator.main \
         process "$pdf" --output "$RECOVERED_DIR" --yes
-    
+
     if [[ $? -eq 0 ]]; then
         echo "✅ Successfully recovered: $pdf"
     else
@@ -474,7 +479,7 @@ For detailed technical configuration, implementation details, and advanced error
 This technical guide includes:
 
 - Complete environment variable configurations
-- Production deployment best practices  
+- Production deployment best practices
 - Advanced monitoring and maintenance procedures
 - Detailed cron job setups for automation
 - Low-level implementation details

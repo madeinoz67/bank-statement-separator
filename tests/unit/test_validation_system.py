@@ -1,7 +1,8 @@
 """Unit tests for the output validation system."""
 
-import pytest
 from unittest.mock import Mock, patch
+
+import pytest
 
 
 @pytest.mark.unit

@@ -4,8 +4,9 @@ import os
 import sys
 from pathlib import Path
 from typing import List, Optional
-from pydantic import BaseModel, Field, field_validator, ConfigDict
+
 from dotenv import load_dotenv
+from pydantic import BaseModel, ConfigDict, Field, field_validator
 
 
 class Config(BaseModel):
@@ -110,10 +111,11 @@ class Config(BaseModel):
     paperless_storage_path: Optional[str] = Field(
         default=None, description="Storage path name for uploaded documents"
     )
-    
+
     # Paperless-ngx Input Configuration (for document retrieval)
     paperless_input_tags: Optional[List[str]] = Field(
-        default=None, description="Tags to identify documents for processing from paperless-ngx"
+        default=None,
+        description="Tags to identify documents for processing from paperless-ngx",
     )
     paperless_input_correspondent: Optional[str] = Field(
         default=None, description="Filter input documents by correspondent name"
@@ -122,10 +124,22 @@ class Config(BaseModel):
         default=None, description="Filter input documents by document type"
     )
     paperless_max_documents: int = Field(
-        default=50, gt=0, le=1000, description="Maximum number of documents to retrieve per query"
+        default=50,
+        gt=0,
+        le=1000,
+        description="Maximum number of documents to retrieve per query",
     )
     paperless_query_timeout: int = Field(
-        default=30, gt=0, le=300, description="Timeout for paperless API queries in seconds"
+        default=30,
+        gt=0,
+        le=300,
+        description="Timeout for paperless API queries in seconds",
+    )
+    paperless_tag_wait_time: int = Field(
+        default=5,
+        ge=0,
+        le=60,
+        description="Wait time in seconds before applying tags to uploaded documents",
     )
 
     # Error Handling Configuration
@@ -361,6 +375,7 @@ def load_config(env_file: Optional[str] = None) -> Config:
         "PAPERLESS_INPUT_DOCUMENT_TYPE": "paperless_input_document_type",
         "PAPERLESS_MAX_DOCUMENTS": "paperless_max_documents",
         "PAPERLESS_QUERY_TIMEOUT": "paperless_query_timeout",
+        "PAPERLESS_TAG_WAIT_TIME": "paperless_tag_wait_time",
         # Error Handling
         "QUARANTINE_DIRECTORY": "quarantine_directory",
         "MAX_RETRY_ATTEMPTS": "max_retry_attempts",
@@ -384,7 +399,7 @@ def load_config(env_file: Optional[str] = None) -> Config:
             # Handle special cases for type conversion
             if config_key in [
                 "allowed_input_dirs",
-                "allowed_output_dirs", 
+                "allowed_output_dirs",
                 "paperless_tags",
                 "paperless_input_tags",
                 "allowed_file_extensions",
@@ -414,6 +429,7 @@ def load_config(env_file: Optional[str] = None) -> Config:
                 "max_total_pages",
                 "paperless_max_documents",
                 "paperless_query_timeout",
+                "paperless_tag_wait_time",
             ]:
                 # Convert to int
                 config_data[config_key] = int(value)

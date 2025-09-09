@@ -1,12 +1,13 @@
 """Unit tests for the hallucination detection system."""
 
 from datetime import datetime
+
 import pytest
 
 from src.bank_statement_separator.utils.hallucination_detector import (
+    HallucinationAlert,
     HallucinationDetector,
     HallucinationType,
-    HallucinationAlert,
 )
 
 

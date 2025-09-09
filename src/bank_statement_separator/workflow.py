@@ -1,11 +1,12 @@
 """LangGraph workflow definition for bank statement separation."""
 
-from typing import Dict, Any, List, Optional, TypedDict
-from dataclasses import dataclass
-from langgraph.graph import StateGraph, END
 import logging
 import shutil
+from dataclasses import dataclass
 from pathlib import Path
+from typing import Any, Dict, List, Optional, TypedDict
+
+from langgraph.graph import END, StateGraph
 
 logger = logging.getLogger(__name__)
 
@@ -759,6 +760,7 @@ class BankStatementWorkflow:
             Dict containing validation results and details
         """
         import os
+
         import fitz
 
         validation_results = {
@@ -1032,15 +1034,144 @@ class BankStatementWorkflow:
                     ).stem  # Gets filename without .pdf extension
                     title = file_name  # Use exact filename: "westpac-2440-2023-01-31"
 
-                    # Upload the file
+                    # Upload the file WITHOUT tags first to avoid system rule conflicts
+                    # Tags will be applied separately using bulk_edit after upload
                     upload_result = paperless_client.upload_document(
                         file_path=Path(file_path),
                         title=title,
-                        tags=self.config.paperless_tags,
+                        tags=None,  # Upload without tags first
                         correspondent=self.config.paperless_correspondent,
                         document_type=self.config.paperless_document_type,
                         storage_path=self.config.paperless_storage_path,
                     )
+
+                    # Apply configured output tags using bulk_edit approach
+                    # This preserves system-applied tags while adding our custom tags
+                    if self.config.paperless_tags and upload_result.get("success"):
+                        document_id = upload_result.get("document_id")
+                        task_id = upload_result.get("task_id")
+
+                        if document_id:
+                            # Document processed immediately, apply tags now
+                            try:
+                                tag_result = paperless_client.apply_tags_to_document(
+                                    document_id, self.config.paperless_tags
+                                )
+                                upload_result["tag_application"] = tag_result
+                                logger.info(
+                                    f"Applied {tag_result.get('tags_applied', 0)} output tags to document {document_id}"
+                                )
+                            except Exception as tag_error:
+                                logger.warning(
+                                    f"Failed to apply tags to document {document_id}: {tag_error}"
+                                )
+                                upload_result["tag_application"] = {
+                                    "success": False,
+                                    "error": str(tag_error),
+                                }
+
+                        elif task_id:
+                            # Document is queued for processing, poll for completion and then apply tags
+                            logger.info(
+                                f"Document queued for processing (task {task_id}), polling for completion..."
+                            )
+                            try:
+                                # Poll task completion with reasonable timeout (2 minutes for CLI use)
+                                poll_result = paperless_client.poll_task_completion(
+                                    task_id, timeout_seconds=120, poll_interval=3
+                                )
+
+                                if poll_result.get("success") and poll_result.get(
+                                    "document_id"
+                                ):
+                                    # Task completed, apply tags to the processed document
+                                    final_document_id = poll_result["document_id"]
+                                    try:
+                                        tag_result = (
+                                            paperless_client.apply_tags_to_document(
+                                                final_document_id,
+                                                self.config.paperless_tags,
+                                            )
+                                        )
+                                        upload_result["tag_application"] = tag_result
+                                        upload_result["document_id"] = (
+                                            final_document_id  # Update with final document ID
+                                        )
+                                        logger.info(
+                                            f"Applied {tag_result.get('tags_applied', 0)} output tags to document {final_document_id} after polling"
+                                        )
+                                    except Exception as tag_error:
+                                        logger.warning(
+                                            f"Failed to apply tags to document {final_document_id} after polling: {tag_error}"
+                                        )
+                                        upload_result["tag_application"] = {
+                                            "success": False,
+                                            "error": str(tag_error),
+                                        }
+
+                                elif poll_result.get("status") == "task_not_found":
+                                    # Task not found, try to find document by title pattern as fallback
+                                    logger.warning(
+                                        f"Task {task_id} not found, searching for document by title pattern"
+                                    )
+                                    document = (
+                                        paperless_client.find_document_by_title_pattern(
+                                            title
+                                        )
+                                    )
+                                    if document:
+                                        fallback_document_id = document["id"]
+                                        try:
+                                            tag_result = (
+                                                paperless_client.apply_tags_to_document(
+                                                    fallback_document_id,
+                                                    self.config.paperless_tags,
+                                                )
+                                            )
+                                            upload_result["tag_application"] = (
+                                                tag_result
+                                            )
+                                            upload_result["document_id"] = (
+                                                fallback_document_id
+                                            )
+                                            logger.info(
+                                                f"Applied {tag_result.get('tags_applied', 0)} output tags to document {fallback_document_id} found by title"
+                                            )
+                                        except Exception as tag_error:
+                                            logger.warning(
+                                                f"Failed to apply tags to fallback document {fallback_document_id}: {tag_error}"
+                                            )
+                                            upload_result["tag_application"] = {
+                                                "success": False,
+                                                "error": str(tag_error),
+                                            }
+                                    else:
+                                        upload_result["tag_application"] = {
+                                            "success": False,
+                                            "error": "Task not found and document not found by title",
+                                        }
+                                else:
+                                    # Task failed or other error
+                                    error_msg = poll_result.get(
+                                        "error",
+                                        f"Task polling failed with status: {poll_result.get('status')}",
+                                    )
+                                    logger.warning(
+                                        f"Task {task_id} polling failed: {error_msg}"
+                                    )
+                                    upload_result["tag_application"] = {
+                                        "success": False,
+                                        "error": error_msg,
+                                    }
+
+                            except Exception as poll_error:
+                                logger.warning(
+                                    f"Failed to poll task {task_id}: {poll_error}"
+                                )
+                                upload_result["tag_application"] = {
+                                    "success": False,
+                                    "error": f"Polling failed: {str(poll_error)}",
+                                }
 
                     successful_uploads.append(upload_result)
                     logger.info(f"Successfully uploaded: {Path(file_path).name}")

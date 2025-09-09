@@ -134,7 +134,7 @@ LLM_MODEL=gpt-4o-mini
 LLM_TEMPERATURE=0
 LLM_MAX_TOKENS=4000
 
-# Processing Configuration  
+# Processing Configuration
 CHUNK_SIZE=6000
 CHUNK_OVERLAP=800
 MAX_FILENAME_LENGTH=240

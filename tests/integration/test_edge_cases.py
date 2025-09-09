@@ -1,7 +1,8 @@
 """Integration tests for edge case scenarios using generated test data."""
 
-import pytest
 from pathlib import Path
+
+import pytest
 
 from bank_statement_separator.workflow import BankStatementWorkflow
 

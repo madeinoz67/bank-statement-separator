@@ -51,11 +51,13 @@ The system detects 8 distinct categories of hallucinations, each targeting speci
 **Description**: Detection of more statement boundaries than physically possible in the document.
 
 **Examples**:
+
 - LLM reports 5 statements in a 3-page document
 - Boundaries reference pages that don't exist (e.g., page 25 in a 12-page document)
 - More statements detected than reasonable based on document structure
 
 **Detection Logic**:
+
 ```python
 if len(boundaries) > total_pages:
     # Critical: More statements than pages
@@ -71,11 +73,13 @@ if len(boundaries) > total_pages:
 **Description**: Logically impossible or invalid page number ranges in boundary detection.
 
 **Examples**:
+
 - start_page > end_page (e.g., pages 5-2)
 - Negative page numbers (e.g., page -1)
 - Pages exceeding document length
 
 **Detection Logic**:
+
 ```python
 if start_page > end_page:
     alert = HallucinationAlert(
@@ -90,11 +94,13 @@ if start_page > end_page:
 **Description**: Temporal inconsistencies in statement periods and dates.
 
 **Examples**:
+
 - Future dates (statements from 2035)
 - Historically impossible dates (bank statements from 1850)
 - Dates that exceed reasonable business ranges
 
 **Detection Logic**:
+
 ```python
 current_year = datetime.now().year
 if year > current_year + 1:  # Allow 1 year buffer
@@ -116,12 +122,14 @@ elif year < 1950:  # Banks didn't issue modern statements before 1950
 **Description**: Account numbers that follow obviously fake or impossible patterns.
 
 **Examples**:
+
 - Placeholder patterns: "123456789", "000000000"
-- Masked patterns: "***1234***"
+- Masked patterns: "**_1234_**"
 - Extremely long or short account numbers
 - Non-numeric characters in inappropriate positions
 
 **Detection Logic**:
+
 ```python
 fake_patterns = ['123456789', '000000000', '111111111', '***1234***']
 if account_number in fake_patterns:
@@ -144,22 +152,24 @@ if len(account_number) > 20 or len(account_number) < 4:
 **Description**: Bank names that don't exist in known banking institutions or don't appear in the document text.
 
 **Examples**:
+
 - "Fictional Credit Institution of Dreams"
 - "Bank of Atlantis"
 - Real bank names not found in the processed document text
 
 **Detection Logic**:
+
 ```python
 # Check if bank name appears in document
 if bank_name not in document_text.lower():
     # Check against known bank list with substantial word matching
-    substantial_words = [word for word in bank_name.split() 
+    substantial_words = [word for word in bank_name.split()
                         if len(word) > 3 and word not in ['bank', 'banking', 'corporation']]
-    
-    found_match = any(word in substantial_words 
-                     for known_bank in self.valid_banks 
+
+    found_match = any(word in substantial_words
+                     for known_bank in self.valid_banks
                      for word in known_bank.split() if len(word) > 3)
-    
+
     if not found_match:
         alert = HallucinationAlert(
             type=HallucinationType.FABRICATED_BANK,
@@ -173,10 +183,12 @@ if bank_name not in document_text.lower():
 **Description**: Identical or overlapping statement boundaries that indicate processing errors.
 
 **Examples**:
+
 - Two statements with identical page ranges (1-5, 1-5)
 - Overlapping boundaries that don't make logical sense
 
 **Detection Logic**:
+
 ```python
 seen_ranges = set()
 for boundary in boundaries:
@@ -194,10 +206,12 @@ for boundary in boundaries:
 **Description**: Boundaries detected in documents with insufficient textual content.
 
 **Examples**:
+
 - Multiple statements detected in a document with <50 characters
 - Complex boundary structures in documents that are mostly blank
 
 **Detection Logic**:
+
 ```python
 if not document_text or len(document_text.strip()) < 50:
     for boundary in boundaries:
@@ -213,6 +227,7 @@ if not document_text or len(document_text.strip()) < 50:
 **Description**: Internal contradictions within extracted metadata.
 
 **Examples**:
+
 - Credit union with direct Visa account type
 - Checking account with credit card features
 - Mismatched institution types and account characteristics
@@ -222,21 +237,25 @@ if not document_text or len(document_text.strip()) < 50:
 The system uses a four-tier severity system to prioritize responses:
 
 ### Critical Severity
+
 - **Phantom Statements**: Immediate rejection, potential security risk
 - **Threshold**: Any critical alert triggers rejection
 
-### High Severity  
+### High Severity
+
 - **Invalid Page Ranges**: Data integrity issues
 - **Fabricated Banks**: Accuracy concerns
 - **Nonsensical Accounts**: Financial data reliability
 - **Threshold**: 3 or more high alerts trigger rejection
 
 ### Medium Severity
+
 - **Duplicate Boundaries**: Processing inefficiency
 - **Historical Date Issues**: Minor temporal inconsistencies
 - **Threshold**: Used for logging and monitoring, no automatic rejection
 
 ### Low Severity
+
 - **Minor Inconsistencies**: Edge cases and ambiguous data
 - **Threshold**: Monitoring only
 
@@ -249,16 +268,16 @@ The primary detection mechanism uses deterministic rules based on business logic
 ```python
 def _check_phantom_statements(self, boundaries, total_pages, document_text):
     alerts = []
-    
+
     # Rule 1: Cannot have more statements than pages
     if len(boundaries) > total_pages:
         alerts.append(self._create_critical_alert("phantom_statement"))
-    
+
     # Rule 2: Boundaries cannot exceed document length
     for boundary in boundaries:
         if boundary.get('start_page', 1) > total_pages:
             alerts.append(self._create_high_alert("phantom_statement"))
-    
+
     return alerts
 ```
 
@@ -294,7 +313,7 @@ Date validation ensures statements fall within reasonable business timeframes:
 def _check_impossible_dates(self, metadata):
     current_year = datetime.now().year
     years = re.findall(r'\b(1[89]\d{2}|20\d{2})\b', statement_period)
-    
+
     for year in years:
         if int(year) > current_year + 1:
             # Future dates are highly suspicious
@@ -348,7 +367,7 @@ The system uses configurable thresholds to determine when to reject LLM response
 def should_reject_response(self, alerts: List[HallucinationAlert]) -> bool:
     critical_count = sum(1 for a in alerts if a.severity == "critical")
     high_count = sum(1 for a in alerts if a.severity == "high")
-    
+
     # Rejection conditions:
     # 1. Any critical hallucination
     # 2. Three or more high-severity hallucinations
@@ -365,6 +384,7 @@ When rejection occurs:
 4. **Generate audit trail entry**
 
 Example rejection scenario:
+
 ```python
 if self.hallucination_detector.should_reject_response(alerts):
     logger.error("🚨 CRITICAL HALLUCINATION: Rejecting response due to severe hallucinations")
@@ -419,16 +439,16 @@ class HallucinationDetector:
         self.alerts = []
         self.valid_banks = {...}  # Known bank list
         self.suspicious_patterns = [...]  # Regex patterns
-    
+
     def validate_boundary_response(self, boundaries, total_pages, document_text):
         """Primary boundary validation entry point"""
-        
+
     def validate_metadata_response(self, metadata, document_text, page_range):
         """Primary metadata validation entry point"""
-        
+
     def should_reject_response(self, alerts):
         """Determine if response should be rejected"""
-        
+
     def log_hallucination_alerts(self, alerts, context):
         """Centralized logging for all alerts"""
 ```
@@ -457,7 +477,7 @@ Each hallucination type has a dedicated detection method following consistent pa
 def _check_phantom_statements(self, boundaries, total_pages, document_text):
     """Template method for detection logic"""
     alerts = []
-    
+
     # Apply specific validation rules
     if validation_condition:
         alerts.append(HallucinationAlert(
@@ -469,7 +489,7 @@ def _check_phantom_statements(self, boundaries, total_pages, document_text):
             confidence=confidence_score,
             source="validation_source"
         ))
-    
+
     return alerts
 ```
 
@@ -484,14 +504,14 @@ class HallucinationDetectorConfig:
     # Rejection thresholds
     CRITICAL_THRESHOLD = 0      # Any critical alert triggers rejection
     HIGH_SEVERITY_THRESHOLD = 3 # Number of high alerts for rejection
-    
+
     # Date validation ranges
     MIN_STATEMENT_YEAR = 1950   # Earliest reasonable statement year
     MAX_FUTURE_YEARS = 1        # Buffer for future dates
-    
+
     # Content validation
     MIN_CONTENT_LENGTH = 50     # Minimum document content for boundaries
-    
+
     # Account number validation
     MIN_ACCOUNT_LENGTH = 4      # Minimum account number length
     MAX_ACCOUNT_LENGTH = 20     # Maximum account number length
@@ -523,7 +543,7 @@ WESTPAC_PATTERNS = [
     r'page\s+1\s+of\s+\d+'
 ]
 
-# Generic banking patterns  
+# Generic banking patterns
 GENERIC_PATTERNS = [
     r'statement\s+period',
     r'account\s+number',
@@ -571,7 +591,7 @@ def get_hallucination_summary(self):
         "total_alerts": len(self.alerts),
         "by_severity": {
             "critical": count_by_severity["critical"],
-            "high": count_by_severity["high"], 
+            "high": count_by_severity["high"],
             "medium": count_by_severity["medium"],
             "low": count_by_severity["low"]
         },
@@ -595,7 +615,7 @@ def get_hallucination_summary(self):
 ### Attack Prevention
 
 1. **Injection Prevention**: Pattern matching uses safe regex compilation
-2. **Resource Limits**: Detection methods include timeout and complexity limits  
+2. **Resource Limits**: Detection methods include timeout and complexity limits
 3. **Fail-Safe Design**: System defaults to rejection when in doubt
 
 ### Compliance

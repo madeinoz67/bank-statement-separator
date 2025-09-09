@@ -5,20 +5,24 @@ This directory contains environment configuration files used for comprehensive L
 ## Files Overview
 
 ### Provider Configurations
+
 - **`.env.openai`** - OpenAI GPT-4o-mini configuration (gold standard)
-- **`.env.ollama`** - Base Ollama configuration 
+- **`.env.ollama`** - Base Ollama configuration
 - **`.env.fallback`** - Pattern-matching fallback configuration (no LLM)
 
 ### Ollama Model Configurations
+
 All Ollama configurations use server at `http://10.0.0.150:11434`
 
 #### Top Performing Models
+
 - **`.env.ollama_gemma2`** - Gemma2:9B (6.65s) - Fastest model ⚡
 - **`.env.ollama_mistral`** - Mistral:Instruct (7.63s) - Best segmentation
 - **`.env.ollama_qwen25_coder`** - Qwen2.5-Coder (8.59s) - Code processing
 - **`.env.ollama_openhermes`** - OpenHermes (8.66s) - Quality control
 
 #### Other Tested Models
+
 - **`.env.ollama_qwen25`** - Qwen2.5:latest (8.53s) - Most granular
 - **`.env.ollama_deepseek_coder_v2_retest`** - DeepSeek-Coder-v2 (9.33s)
 - **`.env.ollama_llama31`** - Llama3.1 (11.10s)
@@ -27,7 +31,8 @@ All Ollama configurations use server at `http://10.0.0.150:11434`
 - **`.env.ollama_phi4`** / **`.env.ollama_phi4_fixed`** - Phi4:latest (20.08s)
 - **`.env.ollama_qwen3`** - Qwen3:latest (30.90s)
 
-#### Poor Performing / Broken Models  
+#### Poor Performing / Broken Models
+
 - **`.env.ollama_qwen`** - Original Qwen configuration (testing)
 - **`.env.ollama_deepseek`** - Original DeepSeek configuration (testing)
 - **`.env.ollama_phi3_medium`** - Phi3:medium (broken - garbled output)
@@ -35,13 +40,13 @@ All Ollama configurations use server at `http://10.0.0.150:11434`
 
 ## Testing Results Summary
 
-| Model | Time (s) | Quality | Status | Use Case |
-|-------|----------|---------|--------|-----------|
-| **OpenAI GPT-4o-mini** | 10.85 | ⭐⭐⭐⭐⭐ | ✅ Gold Standard | Production accuracy |
-| **Gemma2:9B** | 6.65 | ⭐⭐⭐⭐⭐ | ✅ Best Speed | Fast processing |
-| **Mistral:Instruct** | 7.63 | ⭐⭐⭐⭐⭐ | ✅ Best Segmentation | Boundary detection |
-| **Qwen2.5-Coder** | 8.59 | ⭐⭐⭐⭐⭐ | ✅ Code Optimized | Document processing |
-| **Pattern Fallback** | 1.0 | ⭐⭐ | ❌ Emergency Only | Over-segmentation |
+| Model                  | Time (s) | Quality    | Status               | Use Case            |
+| ---------------------- | -------- | ---------- | -------------------- | ------------------- |
+| **OpenAI GPT-4o-mini** | 10.85    | ⭐⭐⭐⭐⭐ | ✅ Gold Standard     | Production accuracy |
+| **Gemma2:9B**          | 6.65     | ⭐⭐⭐⭐⭐ | ✅ Best Speed        | Fast processing     |
+| **Mistral:Instruct**   | 7.63     | ⭐⭐⭐⭐⭐ | ✅ Best Segmentation | Boundary detection  |
+| **Qwen2.5-Coder**      | 8.59     | ⭐⭐⭐⭐⭐ | ✅ Code Optimized    | Document processing |
+| **Pattern Fallback**   | 1.0      | ⭐⭐       | ❌ Emergency Only    | Over-segmentation   |
 
 ## Security Note
 
@@ -54,6 +59,7 @@ All Ollama configurations use server at `http://10.0.0.150:11434`
 ## Usage
 
 These configurations were used for comprehensive model testing documented in:
+
 - `docs/reference/llm_model_testing.md` - Complete testing results
 - `docs/reference/model_comparison_tables.md` - Performance comparisons
 - `docs/user-guide/model-selection-guide.md` - Selection guidance
@@ -80,14 +86,16 @@ done
 ## Test Document
 
 All configurations tested with:
+
 - **Document**: `westpac_12_page_test.pdf` (12 pages, 2,691 words)
-- **Expected Output**: 3 separate bank statements  
+- **Expected Output**: 3 separate bank statements
 - **Test Environment**: Standardized testing for consistent comparison
 - **Validation**: Page count, file integrity, PRD compliance checks
 
 ## Archive Purpose
 
 These files are maintained for:
+
 1. **Reproducible Testing** - Recreate exact testing conditions used in model evaluation
 2. **Regression Testing** - Validate performance after code changes
 3. **Benchmarking** - Compare new models against established baselines
