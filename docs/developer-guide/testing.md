@@ -17,7 +17,7 @@ This guide covers setting up and running tests for the Bank Statement Separator 
 The test suite is organized into three main categories:
 
 - **Unit Tests** (`tests/unit/`) - Fast, isolated tests for individual components
-- **Integration Tests** (`tests/integration/`) - Tests that verify component interactions  
+- **Integration Tests** (`tests/integration/`) - Tests that verify component interactions
 - **Manual Tests** (`tests/manual/`) - Scripts for testing external integrations that require manual verification
 
 ## Prerequisites
@@ -31,6 +31,7 @@ uv sync --group dev
 ```
 
 This installs:
+
 - `pytest` - Test framework
 - `pytest-cov` - Coverage reporting
 - `pytest-mock` - Mocking utilities
@@ -41,19 +42,21 @@ This installs:
 ### Environment Setup
 
 1. **Copy the example environment file:**
-    ```bash
-    cp .env.example .env
-    ```
+
+   ```bash
+   cp .env.example .env
+   ```
 
 2. **Configure test-specific settings:**
-    ```bash
-    # Optional: Set for integration tests
-    export OPENAI_API_KEY="your-test-key"
 
-    # Optional: Set for Paperless integration tests
-    export PAPERLESS_URL="http://localhost:8000"
-    export PAPERLESS_TOKEN="your-test-token"
-    ```
+   ```bash
+   # Optional: Set for integration tests
+   export OPENAI_API_KEY="your-test-key"
+
+   # Optional: Set for Paperless integration tests
+   export PAPERLESS_URL="http://localhost:8000"
+   export PAPERLESS_TOKEN="your-test-token"
+   ```
 
 ### Test Environment Configurations
 
@@ -111,6 +114,7 @@ Tests now use dedicated temporary directories within the project structure:
 ### Quick Start
 
 Run all automated tests:
+
 ```bash
 uv run pytest
 ```
@@ -118,21 +122,25 @@ uv run pytest
 ### Test Categories
 
 #### Unit Tests Only
+
 ```bash
 uv run pytest tests/unit/
 ```
 
 #### Integration Tests Only
+
 ```bash
 uv run pytest tests/integration/
 ```
 
 #### Specific Test File
+
 ```bash
 uv run pytest tests/unit/test_validation_system.py
 ```
 
 #### Specific Test Function
+
 ```bash
 uv run pytest tests/unit/test_validation_system.py::TestValidationSystem::test_validate_pdf_success
 ```
@@ -140,26 +148,31 @@ uv run pytest tests/unit/test_validation_system.py::TestValidationSystem::test_v
 ### Test Options
 
 #### Verbose Output
+
 ```bash
 uv run pytest -v
 ```
 
 #### Show Print Statements
+
 ```bash
 uv run pytest -s
 ```
 
 #### Stop on First Failure
+
 ```bash
 uv run pytest -x
 ```
 
 #### Run Tests Matching Pattern
+
 ```bash
 uv run pytest -k "test_boundary"
 ```
 
 #### Run Tests with Specific Marker
+
 ```bash
 # Run only unit tests
 uv run pytest -m unit
@@ -177,17 +190,20 @@ uv run pytest -m edge_case
 ### Coverage Reports
 
 #### Generate Coverage Report
+
 ```bash
 uv run pytest --cov=src/bank_statement_separator
 ```
 
 #### HTML Coverage Report
+
 ```bash
 uv run pytest --cov=src/bank_statement_separator --cov-report=html
 # Open htmlcov/index.html in browser
 ```
 
 #### Terminal Coverage Report with Missing Lines
+
 ```bash
 uv run pytest --cov=src/bank_statement_separator --cov-report=term-missing
 ```
@@ -221,11 +237,13 @@ uv run python tests/manual/test_ollama.py
 ### Manual Test Prerequisites
 
 **For Ollama Tests (`test_ollama.py`):**
+
 - Install and start Ollama server: `https://ollama.ai/`
 - Pull compatible model: `ollama pull llama3.2`
 - Configure Ollama server URL in test environment
 
 **For Paperless Tests:**
+
 - Configured Paperless-ngx instance
 - Valid `PAPERLESS_URL` and `PAPERLESS_TOKEN` in `.env`
 - May create actual entities in your Paperless instance
@@ -241,11 +259,13 @@ uv run python tests/manual/test_ollama.py
 The project includes utilities for generating test PDFs:
 
 ### Generate Test Statements
+
 ```bash
 uv run python scripts/generate_test_statements.py
 ```
 
 This creates various test scenarios in `test/input/generated/`:
+
 - Single statements
 - Multiple statements in one PDF
 - Overlapping date periods
@@ -261,24 +281,24 @@ from pathlib import Path
 
 class TestMyFeature:
     """Test suite for MyFeature."""
-    
+
     @pytest.fixture
     def sample_data(self):
         """Fixture providing sample test data."""
         return {"key": "value"}
-    
+
     def test_feature_success(self, sample_data):
         """Test successful feature execution."""
         # Arrange
         input_data = sample_data
-        
+
         # Act
         result = my_feature(input_data)
-        
+
         # Assert
         assert result is not None
         assert result["status"] == "success"
-    
+
     def test_feature_error_handling(self):
         """Test error handling."""
         with pytest.raises(ValueError, match="Invalid input"):
@@ -295,7 +315,7 @@ def test_with_fixtures(temp_pdf, mock_config, sample_metadata):
     # temp_pdf - Path to temporary test PDF
     # mock_config - Mock configuration object
     # sample_metadata - Sample statement metadata
-    
+
     result = process_pdf(temp_pdf, mock_config)
     assert result.metadata == sample_metadata
 ```
@@ -311,7 +331,7 @@ def test_with_mock_openai():
         mock_create.return_value = MagicMock(
             choices=[MagicMock(message={"content": "mocked response"})]
         )
-        
+
         result = analyze_with_llm("test input")
         assert result == "mocked response"
 ```
@@ -341,6 +361,7 @@ Available pytest markers (defined in `pytest.ini`):
 - `@pytest.mark.manual` - Manual execution tests (not automated)
 
 Example usage:
+
 ```python
 @pytest.mark.unit
 def test_fast_unit():
@@ -357,11 +378,13 @@ def test_with_openai():
 ## Continuous Integration
 
 Tests are automatically run on:
+
 - Every push to main branch
 - Every pull request
 - Can be triggered manually via GitHub Actions
 
 ### CI Test Command
+
 ```bash
 # Same as CI pipeline
 uv run pytest tests/unit/ tests/integration/ -v --tb=short
@@ -370,6 +393,7 @@ uv run pytest tests/unit/ tests/integration/ -v --tb=short
 ## Debugging Tests
 
 ### Run Tests in Debug Mode
+
 ```bash
 # With pytest debugging
 uv run pytest --pdb
@@ -379,12 +403,14 @@ uv run pytest --pdb --pdbcls=IPython.terminal.debugger:TerminalPdb
 ```
 
 ### View Test Collection
+
 ```bash
 # See which tests would run without executing
 uv run pytest --collect-only
 ```
 
 ### Run Last Failed Tests
+
 ```bash
 # Run only tests that failed in the last run
 uv run pytest --lf
@@ -396,12 +422,14 @@ uv run pytest --ff
 ## Performance Testing
 
 ### Benchmark Tests
+
 ```bash
 # Run performance tests
 uv run pytest tests/integration/test_performance.py -v
 ```
 
 ### Profile Test Execution
+
 ```bash
 # Show slowest tests
 uv run pytest --durations=10
@@ -412,62 +440,69 @@ uv run pytest --durations=10
 ### Common Issues
 
 1. **Import Errors**
+
    ```bash
    # Ensure you're in project root
    cd /path/to/bank-statement-separator
-   
+
    # Reinstall dependencies
    uv sync --group dev
    ```
 
 2. **Test Discovery Issues**
+
    ```bash
    # Check test discovery
    uv run pytest --collect-only
-   
+
    # Verify pytest.ini configuration
    cat pytest.ini
    ```
 
 3. **Manual Tests Running Automatically**
-    - Manual tests should be in `tests/manual/`
-    - Check `pyproject.toml` includes `addopts = "--ignore=tests/manual"`
+
+   - Manual tests should be in `tests/manual/`
+   - Check `pyproject.toml` includes `addopts = "--ignore=tests/manual"`
 
 4. **Temporary Directory Issues**
-    ```bash
-    # Check temp directory creation
-    ls -la tests/temp_test_data/
 
-    # Clean up temp directories manually if needed
-    rm -rf tests/temp_test_data/
-    ```
+   ```bash
+   # Check temp directory creation
+   ls -la tests/temp_test_data/
+
+   # Clean up temp directories manually if needed
+   rm -rf tests/temp_test_data/
+   ```
 
 5. **Test Environment Configuration Issues**
-    ```bash
-    # Check available test environments
-    ls tests/env/
 
-    # Use specific test environment
-    uv run python -m src.bank_statement_separator.main process \
-      test/input/sample.pdf \
-      --env-file tests/env/.env.fallback
-    ```
+   ```bash
+   # Check available test environments
+   ls tests/env/
 
-4. **Missing Test Dependencies**
+   # Use specific test environment
+   uv run python -m src.bank_statement_separator.main process \
+     test/input/sample.pdf \
+     --env-file tests/env/.env.fallback
+   ```
+
+6. **Missing Test Dependencies**
+
    ```bash
    # Install all dev dependencies
    uv sync --group dev
-   
+
    # Check installed packages
    uv pip list
    ```
 
-5. **Environment Variable Issues**
+7. **Environment Variable Issues**
+
    ```bash
    # Check current environment
    env | grep OPENAI
    env | grep PAPERLESS
-   
+
    # Source .env file
    source .env
    ```
@@ -475,45 +510,52 @@ uv run pytest --durations=10
 ## Best Practices
 
 1. **Test Naming**
-    - Use descriptive names: `test_boundary_detection_with_multiple_statements`
-    - Group related tests in classes
-    - Prefix test files with `test_`
+
+   - Use descriptive names: `test_boundary_detection_with_multiple_statements`
+   - Group related tests in classes
+   - Prefix test files with `test_`
 
 2. **Test Independence**
-    - Each test should be independent
-    - Use fixtures for setup/teardown
-    - Don't rely on test execution order
+
+   - Each test should be independent
+   - Use fixtures for setup/teardown
+   - Don't rely on test execution order
 
 3. **Assertions**
-    - Use specific assertions with clear messages
-    - Test both success and failure cases
-    - Verify edge cases and boundaries
+
+   - Use specific assertions with clear messages
+   - Test both success and failure cases
+   - Verify edge cases and boundaries
 
 4. **Performance**
-    - Keep unit tests fast (< 1 second)
-    - Mock external services in unit tests
-    - Use integration tests for end-to-end validation
+
+   - Keep unit tests fast (< 1 second)
+   - Mock external services in unit tests
+   - Use integration tests for end-to-end validation
 
 5. **Documentation**
-    - Add docstrings to test functions
-    - Document complex test scenarios
-    - Include examples in comments
+
+   - Add docstrings to test functions
+   - Document complex test scenarios
+   - Include examples in comments
 
 6. **Test Environment Management**
-    - Use appropriate test environments from `tests/env/` for different scenarios
-    - Test with multiple LLM providers when possible
-    - Include fallback testing without API keys
-    - Document specific environment requirements in test docstrings
+
+   - Use appropriate test environments from `tests/env/` for different scenarios
+   - Test with multiple LLM providers when possible
+   - Include fallback testing without API keys
+   - Document specific environment requirements in test docstrings
 
 7. **Temporary File Management**
-    - Use provided fixtures for temp directory management
-    - Don't create temp files in project root
-    - Let fixtures handle cleanup automatically
-    - Use descriptive names for temp files and directories
+   - Use provided fixtures for temp directory management
+   - Don't create temp files in project root
+   - Let fixtures handle cleanup automatically
+   - Use descriptive names for temp files and directories
 
 ## Test Categories and Coverage
 
 ### Unit Tests (tests/unit/)
+
 - **test_llm_providers.py** - 19 tests covering OpenAI provider, backoff strategy, and rate limiting
 - **test_ollama_provider.py** - 27 tests covering Ollama provider functionality
 - **test_ollama_integration.py** - 13 tests covering Ollama factory integration
@@ -524,6 +566,7 @@ uv run pytest --durations=10
 - **test_filename_generation.py** - 12 tests covering PRD-compliant filename generation
 
 ### Integration Tests (tests/integration/)
+
 - **test_edge_cases.py** - 11 tests covering various edge scenarios:
   - Single and multi-statement processing
   - Fallback processing without API key
@@ -541,13 +584,17 @@ uv run pytest --durations=10
 ### Key Test Features
 
 #### Fragment Detection Testing
+
 The test suite includes comprehensive testing for the fragment detection feature that filters out low-confidence document fragments:
+
 - Tests adapt to varying numbers of detected statements due to fragment filtering
 - Validation accounts for intentionally skipped pages
 - Performance tests verify fragment filtering doesn't impact processing speed
 
 #### Fallback Processing
+
 Tests verify the system works without OpenAI API key:
+
 - Pattern-based boundary detection
 - Regex-based metadata extraction
 - Graceful degradation of features
@@ -555,6 +602,7 @@ Tests verify the system works without OpenAI API key:
 ## Common Test Patterns
 
 ### Testing with Fragment Filtering
+
 When testing document processing, account for fragment filtering:
 
 ```python
@@ -567,6 +615,7 @@ assert len(result["generated_files"]) == result["total_statements_found"]
 ```
 
 ### Mocking PDF Operations
+
 Many tests mock PyMuPDF (fitz) operations:
 
 ```python
@@ -582,6 +631,7 @@ with patch('fitz.open') as mock_fitz:
 ## Recent Test Updates
 
 ### Test Suite Improvements (September 6, 2025)
+
 - **Updated test counts:** 164 tests (up from 56) with comprehensive LLM provider coverage
 - **Manual test exclusion:** Added `--ignore=tests/manual` to pytest configuration
 - **Temporary directory management:** All temp files now contained within `tests/` directory
@@ -591,24 +641,28 @@ with patch('fitz.open') as mock_fitz:
 ### Test Fixes and Enhancements (September 6, 2025)
 
 #### Fixed Failing Tests
+
 1. **Metadata Extraction Accuracy Test** - Added `force_account` values for predictable account numbers
 2. **Boundary Detection Performance Test** - Adjusted expectations for realistic boundary detection
 3. **Backoff Strategy Timing Test** - Updated timing expectations to account for jitter
 4. **Ollama Provider Fixture Issues** - Configured proper exclusion of manual tests
 
 #### Test Infrastructure Improvements
+
 - **Enhanced conftest.py:** Updated `temp_test_dir` fixture for project-contained temp files
 - **Script updates:** Modified validation scripts to use project temp directories
 - **Pytest configuration:** Added manual test exclusion and improved test discovery
 - **Environment management:** Comprehensive test environment configurations
 
 ### Fragment Detection Compatibility (2025-08-31)
+
 - Updated test assertions to account for fragment filtering reducing statement counts
 - Made validation checks handle None values properly
 - Added directory creation in PDF generation to prevent path errors
 - Synchronized `total_statements_found` with actual generated files
 
 ### Test Infrastructure Improvements (Previous)
+
 - Reorganized test files into proper directories
 - Excluded manual tests from automated discovery
 - Enhanced test data generation with realistic PDF structures

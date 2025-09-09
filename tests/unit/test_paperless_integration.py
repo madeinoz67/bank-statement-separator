@@ -1011,9 +1011,9 @@ class TestPaperlessFilenameConsistency:
         expected_title = "single-statement-acct-1234-2023-12-31"
         actual_title = upload_call["title"]
 
-        assert actual_title == expected_title, (
-            f"Single file title mismatch: expected '{expected_title}', got '{actual_title}'"
-        )
+        assert (
+            actual_title == expected_title
+        ), f"Single file title mismatch: expected '{expected_title}', got '{actual_title}'"
 
         # Also verify in upload results
         assert (

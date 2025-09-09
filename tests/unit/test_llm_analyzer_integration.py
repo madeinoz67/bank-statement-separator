@@ -137,8 +137,8 @@ class TestLLMAnalyzerIntegration:
         mock_llm = Mock()
         mock_response = Mock()
         mock_response.content = """{
-            "bank_name": "Test Bank", 
-            "account_number": "123456", 
+            "bank_name": "Test Bank",
+            "account_number": "123456",
             "account_type": "Checking",
             "confidence": 0.9
         }"""

@@ -30,9 +30,9 @@ class TestEdgeCaseScenarios:
         )
 
         # Validate results
-        assert not result.get("error_message"), (
-            f"Processing failed: {result.get('error_message')}"
-        )
+        assert not result.get(
+            "error_message"
+        ), f"Processing failed: {result.get('error_message')}"
         assert result["processing_complete"] is True
         assert result["total_statements_found"] == scenario["expected_statements"]
         assert len(result["generated_files"]) == scenario["expected_statements"]
@@ -76,25 +76,25 @@ class TestEdgeCaseScenarios:
         )
 
         # Validate core processing results
-        assert not result.get("error_message"), (
-            f"Processing failed: {result.get('error_message')}"
-        )
+        assert not result.get(
+            "error_message"
+        ), f"Processing failed: {result.get('error_message')}"
         assert result["processing_complete"] is True
         # Fragment filtering may reduce the number of statements found
-        assert result["total_statements_found"] >= 1, (
-            "Should find at least one statement"
-        )
-        assert result["total_statements_found"] <= scenario["expected_statements"], (
-            f"Found more statements than expected: {result['total_statements_found']} > {scenario['expected_statements']}"
-        )
+        assert (
+            result["total_statements_found"] >= 1
+        ), "Should find at least one statement"
+        assert (
+            result["total_statements_found"] <= scenario["expected_statements"]
+        ), f"Found more statements than expected: {result['total_statements_found']} > {scenario['expected_statements']}"
         assert len(result["generated_files"]) == result["total_statements_found"]
 
         # Validate output validation
         if "validation_results" in result and result["validation_results"] is not None:
             validation = result["validation_results"]
-            assert validation["is_valid"] is True, (
-                f"Validation failed: {validation.get('summary', 'Unknown error')}"
-            )
+            assert (
+                validation["is_valid"] is True
+            ), f"Validation failed: {validation.get('summary', 'Unknown error')}"
 
         # Check all files were generated
         for file_path in result["generated_files"]:
@@ -110,20 +110,20 @@ class TestEdgeCaseScenarios:
                 expected = expected_metadata[i]
 
                 # Validate bank name is extracted
-                assert metadata.get("bank_name"), (
-                    f"Bank name not extracted for statement {i + 1}"
-                )
+                assert metadata.get(
+                    "bank_name"
+                ), f"Bank name not extracted for statement {i + 1}"
 
                 # Validate account information is present
-                assert metadata.get("account_number") or metadata.get("account_type"), (
-                    f"Account information missing for statement {i + 1}"
-                )
+                assert metadata.get("account_number") or metadata.get(
+                    "account_type"
+                ), f"Account information missing for statement {i + 1}"
 
                 # Check file naming convention
                 filename = Path(result["generated_files"][i]).name
-                assert filename.endswith(".pdf"), (
-                    f"Generated file should be PDF: {filename}"
-                )
+                assert filename.endswith(
+                    ".pdf"
+                ), f"Generated file should be PDF: {filename}"
                 # Bank name check is more lenient due to various naming conventions
                 if expected["bank"]:
                     bank_check = (
@@ -160,9 +160,9 @@ class TestEdgeCaseScenarios:
         result = workflow.run(pdf_path, str(Path(pdf_path).parent.parent / "output"))
 
         # Should still process successfully with fallback
-        assert not result.get("error_message"), (
-            f"Fallback processing failed: {result.get('error_message')}"
-        )
+        assert not result.get(
+            "error_message"
+        ), f"Fallback processing failed: {result.get('error_message')}"
         assert result["processing_complete"] is True
         assert (
             result["total_statements_found"] >= 1
@@ -308,9 +308,9 @@ class TestEdgeCaseScenarios:
             for i, metadata in enumerate(extracted):
                 # Bank name might be "unknown" for test PDFs that don't match real bank patterns
                 bank_name = metadata.get("bank_name")
-                assert bank_name or metadata.get("filename"), (
-                    f"Missing bank name in {scenario['name']} statement {i + 1}"
-                )
+                assert bank_name or metadata.get(
+                    "filename"
+                ), f"Missing bank name in {scenario['name']} statement {i + 1}"
 
                 # Should have some form of account identifier
                 has_account_info = any(
@@ -320,9 +320,9 @@ class TestEdgeCaseScenarios:
                         metadata.get("card_number"),
                     ]
                 )
-                assert has_account_info, (
-                    f"Missing account info in {scenario['name']} statement {i + 1}"
-                )
+                assert (
+                    has_account_info
+                ), f"Missing account info in {scenario['name']} statement {i + 1}"
 
 
 @pytest.mark.integration
@@ -374,16 +374,16 @@ class TestSpecificEdgeCases:
         )
 
         # Should detect statements (may be fewer due to fragment filtering)
-        assert not result.get("error_message"), (
-            f"Processing failed: {result.get('error_message')}"
-        )
+        assert not result.get(
+            "error_message"
+        ), f"Processing failed: {result.get('error_message')}"
         # Fragment filtering may reduce statement count, but should find at least 1
-        assert result["total_statements_found"] >= 1, (
-            "Should find at least one statement"
-        )
-        assert result["total_statements_found"] <= 3, (
-            f"Found too many statements: {result['total_statements_found']}"
-        )
+        assert (
+            result["total_statements_found"] >= 1
+        ), "Should find at least one statement"
+        assert (
+            result["total_statements_found"] <= 3
+        ), f"Found too many statements: {result['total_statements_found']}"
         assert len(result["generated_files"]) == result["total_statements_found"]
 
         # Check that different account types were detected (if multiple statements found)
@@ -393,9 +393,9 @@ class TestSpecificEdgeCases:
 
             # Should have different account numbers/identifiers
             unique_accounts = set(filter(None, account_numbers))
-            assert len(unique_accounts) >= 1, (
-                f"Should detect at least one account, got: {unique_accounts}"
-            )
+            assert (
+                len(unique_accounts) >= 1
+            ), f"Should detect at least one account, got: {unique_accounts}"
 
     def test_page_continuation_merger(self, statement_generator, workflow_instance):
         """Test that continuation pages are properly merged."""
@@ -427,9 +427,9 @@ class TestSpecificEdgeCases:
 
         # Should detect as single statement, not multiple
         assert not result.get("error_message")
-        assert result["total_statements_found"] == 1, (
-            f"Expected 1 statement but got {result['total_statements_found']} - continuation pages may not be merged"
-        )
+        assert (
+            result["total_statements_found"] == 1
+        ), f"Expected 1 statement but got {result['total_statements_found']} - continuation pages may not be merged"
         assert len(result["generated_files"]) == 1
 
 

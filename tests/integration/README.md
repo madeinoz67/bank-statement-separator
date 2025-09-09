@@ -7,41 +7,55 @@ This directory contains comprehensive integration tests for the paperless-ngx AP
 ### Test Categories
 
 1. **API Connection Tests** (`TestPaperlessAPIConnection`)
+
    - Connection validation and authentication
    - Configuration validation
    - Error handling for connection issues
 
 2. **Document Query Tests** (`TestPaperlessAPIDocumentQuery`)
+
    - Document querying by tags, correspondent, document type
    - Date range filtering and pagination
    - PDF-only document filtering
    - Empty result handling
 
 3. **Document Download Tests** (`TestPaperlessAPIDocumentDownload`)
+
    - Single document downloads with PDF validation
    - Auto-generated filename handling
    - Batch document downloads
    - Error handling for nonexistent documents
 
 4. **Tag Management Tests** (`TestPaperlessAPITagManagement`)
+
    - Tag resolution and creation
    - Multiple tag handling
    - Tag ID validation
 
 5. **Correspondent Management Tests** (`TestPaperlessAPICorrespondentManagement`)
+
    - Correspondent resolution and creation
    - Bank name handling
 
 6. **Document Type Management Tests** (`TestPaperlessAPIDocumentTypeManagement`)
+
    - Document type resolution and creation
    - Type validation
 
 7. **Error Handling Tests** (`TestPaperlessAPIErrorHandling`)
+
    - API timeout handling
    - Invalid parameter handling
    - PDF validation with real documents
 
-8. **Complete Workflow Tests** (`TestPaperlessAPIFullWorkflow`)
+8. **Test Document Setup** (`TestPaperlessTestDocumentSetup`)
+
+   - Creates realistic multi-page bank statement test documents
+   - Uploads test documents with unique identifiers to prevent duplicates
+   - Validates test document creation and availability
+   - Uses `test:` prefixed tags to avoid system rule conflicts
+
+9. **Complete Workflow Tests** (`TestPaperlessAPIFullWorkflow`)
    - End-to-end query → download → validate workflows
    - Configuration-based testing
    - Batch processing workflows
@@ -58,22 +72,25 @@ This directory contains comprehensive integration tests for the paperless-ngx AP
 ### Quick Start
 
 1. **Configure Test Environment**:
+
    ```bash
    # Copy and edit the integration environment file
    cp tests/env/paperless_integration.env.example tests/env/paperless_integration.env
-   
+
    # Edit with your real credentials
    vim tests/env/paperless_integration.env
    ```
 
 2. **Set Required Variables**:
+
    ```bash
    export PAPERLESS_URL="http://localhost:8000"
-   export PAPERLESS_TOKEN="your-api-token-here" 
+   export PAPERLESS_TOKEN="your-api-token-here"
    export PAPERLESS_API_INTEGRATION_TEST="true"
    ```
 
 3. **Run Setup and Validation**:
+
    ```bash
    python tests/manual/test_paperless_api_integration.py --setup --validate
    ```
@@ -84,6 +101,28 @@ This directory contains comprehensive integration tests for the paperless-ngx AP
    export PAPERLESS_API_INTEGRATION_TEST=true
    uv run pytest tests/integration/test_paperless_api.py -m api_integration -v
    ```
+
+### Creating Test Documents for Processing
+
+The test suite includes a fixture that creates realistic bank statement test documents in paperless-ngx. This is useful for testing the complete workflow from document upload to processing:
+
+```bash
+# Create test documents in paperless-ngx (with real API credentials)
+PAPERLESS_API_INTEGRATION_TEST=true \
+PAPERLESS_ENABLED=true \
+PAPERLESS_URL=https://your-paperless-instance.com \
+PAPERLESS_TOKEN=your-api-token \
+uv run pytest tests/integration/test_paperless_api.py::TestPaperlessTestDocumentSetup::test_fixture_creates_test_documents -v -s
+```
+
+This will create 5 realistic multi-page bank statement PDFs with:
+
+- **Unique identifiers** to prevent duplicate detection
+- **Test-prefixed tags** (`test:automation`, `test:multi-statement`, `test:unprocessed`) to avoid system rule conflicts
+- **Varying page counts** (6-15 pages each) to simulate real multi-statement documents
+- **Realistic content** including bank names, account numbers, transactions, and proper PDF structure
+
+**Note**: Test documents use timestamp-based unique identifiers to prevent paperless-ngx from rejecting them as duplicates. Each run creates new documents with fresh timestamps.
 
 ### Using the Helper Script
 
@@ -117,14 +156,14 @@ python tests/manual/test_paperless_api_integration.py --help-detailed
 
 ### Environment Variables
 
-| Variable | Required | Description |
-|----------|----------|-------------|
-| `PAPERLESS_URL` | Yes | Paperless-ngx server URL (e.g., `http://localhost:8000`) |
-| `PAPERLESS_TOKEN` | Yes | API authentication token |
-| `PAPERLESS_API_INTEGRATION_TEST` | Yes | Must be `"true"` to enable API tests |
-| `PAPERLESS_INPUT_TAGS` | No | Default tags for testing (comma-separated) |
-| `PAPERLESS_MAX_DOCUMENTS` | No | Document query limit (default: 10) |
-| `PAPERLESS_QUERY_TIMEOUT` | No | API request timeout in seconds (default: 30) |
+| Variable                         | Required | Description                                              |
+| -------------------------------- | -------- | -------------------------------------------------------- |
+| `PAPERLESS_URL`                  | Yes      | Paperless-ngx server URL (e.g., `http://localhost:8000`) |
+| `PAPERLESS_TOKEN`                | Yes      | API authentication token                                 |
+| `PAPERLESS_API_INTEGRATION_TEST` | Yes      | Must be `"true"` to enable API tests                     |
+| `PAPERLESS_INPUT_TAGS`           | No       | Default tags for testing (comma-separated)               |
+| `PAPERLESS_MAX_DOCUMENTS`        | No       | Document query limit (default: 10)                       |
+| `PAPERLESS_QUERY_TIMEOUT`        | No       | API request timeout in seconds (default: 30)             |
 
 ### Test Environment File
 
@@ -137,7 +176,7 @@ PAPERLESS_URL=http://localhost:8000
 PAPERLESS_TOKEN=your-real-api-token-here
 PAPERLESS_API_INTEGRATION_TEST=true
 
-# Test-specific settings  
+# Test-specific settings
 PAPERLESS_INPUT_TAGS=test-integration,bank-statement
 PAPERLESS_MAX_DOCUMENTS=10
 PAPERLESS_QUERY_TIMEOUT=30
@@ -159,6 +198,7 @@ PAPERLESS_QUERY_TIMEOUT=30
 ### Test Data Impact
 
 These tests will create the following entities in your paperless-ngx instance:
+
 - **Tags**: For filtering and categorization testing
 - **Correspondents**: For bank/organization testing
 - **Document Types**: For statement categorization testing
@@ -175,7 +215,7 @@ uv run pytest tests/integration/test_paperless_api.py::TestPaperlessAPIConnectio
 # Document query functionality
 uv run pytest tests/integration/test_paperless_api.py::TestPaperlessAPIDocumentQuery -v
 
-# Document download functionality  
+# Document download functionality
 uv run pytest tests/integration/test_paperless_api.py::TestPaperlessAPIDocumentDownload -v
 
 # Complete workflow testing
@@ -211,6 +251,41 @@ uv run pytest -m "api_integration and slow" -v
 uv run pytest -m "integration and not api_integration" -v
 ```
 
+### 4. Testing Complete Paperless Workflow
+
+After creating test documents, you can test the complete workflow from paperless-ngx document retrieval to statement processing:
+
+```bash
+# Test the complete paperless workflow with dry-run (safe to test)
+PAPERLESS_ENABLED=true \
+PAPERLESS_URL=https://your-paperless-instance.com \
+PAPERLESS_TOKEN=your-api-token \
+PAPERLESS_INPUT_TAGS=test:automation,test:multi-statement,test:unprocessed \
+ALLOWED_OUTPUT_DIRS=./ \
+uv run python -m src.bank_statement_separator.main process-paperless \
+  --tags test:automation,test:multi-statement,test:unprocessed \
+  --max-documents 5 \
+  --dry-run -v -y
+
+# Test with actual processing (will create output files)
+PAPERLESS_ENABLED=true \
+PAPERLESS_URL=https://your-paperless-instance.com \
+PAPERLESS_TOKEN=your-api-token \
+ALLOWED_OUTPUT_DIRS=./ \
+uv run python -m src.bank_statement_separator.main process-paperless \
+  --tags test:automation,test:multi-statement,test:unprocessed \
+  --max-documents 3 \
+  -o ./test/output/paperless_processing_test \
+  -v -y
+```
+
+**Important Notes:**
+
+- Use `--dry-run` first to verify document detection without processing
+- The `ALLOWED_OUTPUT_DIRS` environment variable is required for security
+- Test documents may have different tags due to paperless-ngx system rules overriding custom tags
+- This is expected behavior and demonstrates proper tag-based filtering
+
 ## 📊 Expected Test Results
 
 ### Successful Test Run
@@ -218,12 +293,32 @@ uv run pytest -m "integration and not api_integration" -v
 ```
 tests/integration/test_paperless_api.py::TestPaperlessAPIConnection::test_api_connection_success PASSED
 tests/integration/test_paperless_api.py::TestPaperlessAPIConnection::test_api_authentication_valid PASSED
+tests/integration/test_paperless_api.py::TestPaperlessAPIConnection::test_api_configuration_validation PASSED
 tests/integration/test_paperless_api.py::TestPaperlessAPIDocumentQuery::test_query_all_documents PASSED
+tests/integration/test_paperless_api.py::TestPaperlessTestDocumentSetup::test_fixture_creates_test_documents PASSED
 tests/integration/test_paperless_api.py::TestPaperlessAPIDocumentDownload::test_download_single_document PASSED
+tests/integration/test_paperless_api.py::TestPaperlessAPITagManagement::test_resolve_existing_tags PASSED
 tests/integration/test_paperless_api.py::TestPaperlessAPIFullWorkflow::test_complete_query_and_download_workflow PASSED
 
-========================= 45 passed in 12.34s =========================
+========================= 26 passed, 3 skipped in 5.14s =========================
 ```
+
+### Test Document Creation Results
+
+When running the test document creation fixture, you should see output like:
+
+```
+✅ Created 5 realistic bank statement test documents in paperless-ngx
+📊 Document types: ['Chase Bank Multi-Statement Bundle - January 2024 [1757330218001]',
+                   'Wells Fargo Statement Collection - Q1 2024 [1757330218002]',
+                   'Bank of America Combined Statements - Feb-Mar 2024 [1757330218003]',
+                   'Citibank Business Account Statements - 2024 [1757330218004]',
+                   'Credit Union Mixed Statement Bundle [1757330218005]']
+PASSED
+🧹 Cleaning up 5 test documents...
+```
+
+The unique identifiers (e.g., `[1757330218001]`) prevent duplicate detection and ensure each test run creates fresh documents.
 
 ### Common Skip Reasons
 
@@ -247,10 +342,42 @@ echo "Your token should be 40+ characters: ${#PAPERLESS_TOKEN}"
 ### Common Errors
 
 1. **401 Unauthorized**: Invalid or missing API token
-2. **403 Forbidden**: Valid token but insufficient permissions  
+2. **403 Forbidden**: Valid token but insufficient permissions
 3. **404 Not Found**: Incorrect paperless-ngx URL or endpoint
 4. **Connection refused**: paperless-ngx not running or wrong port
 5. **Timeout errors**: paperless-ngx overloaded or network issues
+
+### Test-Specific Issues
+
+#### Duplicate Document Detection
+
+If you see errors like `"Not consuming tmp059qtinl.pdf: It is a duplicate of Test Multi-Statement Bank Document 1"`:
+
+- **Expected behavior**: Paperless-ngx prevents duplicate documents by content hash
+- **Solution**: Test fixtures use timestamp-based unique identifiers to prevent duplicates
+- **Manual fix**: Delete existing test documents or wait for timestamp to change
+
+#### Tag Application Issues
+
+If test documents don't have the expected tags (`test:automation`, etc.):
+
+- **Expected behavior**: Paperless-ngx system rules may override custom tags
+- **Result**: Documents get different system-assigned tags (e.g., [66, 568, 1, 582])
+- **Impact**: Workflow tests won't find documents with `test:` prefixed tags
+- **Solution**: Use the actual tags assigned by the system or configure paperless-ngx rules
+
+#### No Documents Found for Processing
+
+If `process-paperless` shows "No PDF documents found matching the criteria":
+
+- **Check default tags**: System uses `unprocessed,bank-statement-raw` by default
+- **Tag mismatch**: Test documents may have different tags due to system rules
+- **Solution**: Query actual document tags and adjust filter criteria accordingly
+
+```bash
+# Check what tags your test documents actually have
+uv run python test_paperless_documents.py
+```
 
 ### Debug Mode
 

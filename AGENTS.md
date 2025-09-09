@@ -5,6 +5,7 @@ This document contains critical information about working with this codebase. Fo
 ## Core Development Rules
 
 1. Package Management
+
    - ONLY use uv, NEVER pip
    - Installation: `uv add package`
    - Running tools: `uv run tool`
@@ -12,6 +13,7 @@ This document contains critical information about working with this codebase. Fo
    - FORBIDDEN: `uv pip install`, `@latest` syntax
 
 2. Code Quality
+
    - Type hints required for all code
    - Public APIs must have docstrings
    - Functions must be focused and small
@@ -19,6 +21,7 @@ This document contains critical information about working with this codebase. Fo
    - Line length: 88 chars maximum
 
 3. Testing Requirements
+
    - Framework: `uv run pytest`
    - Async testing: use anyio, not asyncio
    - Coverage: test edge cases and errors
@@ -26,16 +29,18 @@ This document contains critical information about working with this codebase. Fo
    - Bug fixes require regression tests
 
 4. Code Style
-    - PEP 8 naming (snake_case for functions/variables)
-    - Class names in PascalCase
-    - Constants in UPPER_SNAKE_CASE
-    - Document with docstrings
-    - Use f-strings for formatting
+   - PEP 8 naming (snake_case for functions/variables)
+   - Class names in PascalCase
+   - Constants in UPPER_SNAKE_CASE
+   - Document with docstrings
+   - Use f-strings for formatting
 
 - For commits fixing bugs or adding features based on user reports add:
+
   ```bash
   git commit --trailer "Reported-by:<name>"
   ```
+
   Where `<name>` is the name of the user.
 
 - For commits related to a Github issue, add
@@ -91,11 +96,12 @@ This document contains critical information about working with this codebase. Fo
 - **Avoid Premature Optimization**: Focus on writing clear and correct code first, optimize later if necessary
 - **Avoid Commits to Main**: Do not commit directly to the `main` branch
 
-
 # Bank Statement Separator
+
 ## Key Commands
 
 ### Development
+
 ```bash
 # Install dependencies
 uv sync
@@ -114,11 +120,13 @@ uv run pytest
 ```
 
 ### Configuration
+
 - Copy `.env.example` to `.env` and configure API keys
 - Set `OPENAI_API_KEY` for LLM functionality
 - Adjust processing limits and security settings as needed
 
 ## Important Notes
+
 - Requires OpenAI API key for AI analysis
 - Falls back to pattern matching if LLM fails
 - Includes comprehensive logging and audit trails
@@ -126,6 +134,7 @@ uv run pytest
 - Supports dry-run mode for testing
 
 ## Documentation Guidelines
+
 - **CRITICAL**: All documentation must be created in the `docs/` directory
 - Use appropriate subdirectories: `docs/user-guide/`, `docs/reference/`, `docs/architecture/`, `docs/design/`, `docs/release_notes/`, `docs/known_issues/`
 - Never create documentation files in the project root directory
@@ -134,20 +143,14 @@ uv run pytest
   - Use format: `RELEASE_NOTES_vX.Y.md` (e.g., `RELEASE_NOTES_v2.1.md`)
   - Most recent release should be linked on the front page (`docs/index.md`) as "Latest Release"
   - Add each release to mkdocs.yml navigation under "Release Notes" section
-   
 
 ## Test Organization
+
 - **Manual Test Scripts**: All manual test scripts must be created in `tests/manual/` directory
 - Manual tests are excluded from automated pytest discovery via `--ignore=tests/manual` in pytest.ini
 - Use `tests/unit/` for unit tests and `tests/integration/` for integration tests
 - Manual tests should include clear documentation on their purpose and usage requirements
 
-## Recent Bug Fixes & Improvements
-
-### Metadata Extraction Enhancement (2025-08-31)
-**Problem**: Pattern-matching fallback incorrectly identified Westpac bank statements as "Chase" due to loose regex matching "Chase" within "BusinessChoice".
-
-  
 ## Pull Requests
 
 - Create a detailed message of what changed. Focus on the high level description of
@@ -164,6 +167,7 @@ uv run pytest
 ## Code Formatting
 
 1. Ruff
+
    - Format: `uv run ruff format .`
    - Check: `uv run ruff check .`
    - Fix: `uv run ruff check . --fix`
@@ -177,6 +181,7 @@ uv run pytest
      - Imports: split into multiple lines
 
 2. Type Checking
+
    - Tool: `uv run pyright`
    - Requirements:
      - Explicit None checks for Optional
@@ -195,6 +200,7 @@ uv run pytest
 ## Error Resolution
 
 1. CI Failures
+
    - Fix order:
      1. Formatting
      2. Type errors
@@ -206,6 +212,7 @@ uv run pytest
      - Verify function signatures
 
 2. Common Issues
+
    - Line length:
      - Break strings with parentheses
      - Multi-line function calls
@@ -223,10 +230,10 @@ uv run pytest
    - Document public APIs
    - Test thoroughly
 
-
 when creating, deleting or updating documentation always update mkdocs.md with the changes
 
 Only use Emojis in docs to:
+
 - highlight important things
 - pass/fail test results
 
@@ -235,6 +242,7 @@ DO NOT edit files in .venv, delete and regenerate
 DO NOT edit files in .uv-cache, delete and regenerate
 
 ## Debugging and Testing
+
 DO use the test directory for generating any temporary testing inputs and outputs, test logs etc while troubleshooting
 DO put any manual test scripts in the tests/manual directory
 DO use the tests/env/ for any test environment files, if ones need to be created for specific test do so in here
@@ -242,6 +250,7 @@ DO use the tests/env/ for any test environment files, if ones need to be created
 DO NOT commit any temporary testing inputs and outputs, test logs etc to git
 
 ## Release Process
+
 - Releases are automated using release-please and a GitHub workflow
 - Release notes are generated automatically from commit messages
 - Release notes are saved in `docs/release_notes/` directory
@@ -260,6 +269,7 @@ DO NOT commit any temporary testing inputs and outputs, test logs etc to git
 - Verify release on PyPI and GitHub after Publishing
 
 ## git guidelines
+
 - Use feature branches for new work or bug fixes
 - Branch names should be descriptive, e.g. `feature/add-user-auth`, `bugfix/fix-login-error`
 - Use conventional commit messages
@@ -273,4 +283,3 @@ DO NOT commit any temporary testing inputs and outputs, test logs etc to git
 - Review code thoroughly before merging to `main`
 - Always run tests and linters before committing. including RUFF
 - Use `git rebase` to maintain a linear history when updating branches
-

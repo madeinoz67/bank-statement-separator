@@ -24,6 +24,35 @@ Thank you for your interest in contributing to the Bank Statement Separator proj
 - Ensure all tests pass before submitting PR
 - Add regression tests for bug fixes
 
+## Security
+
+### Secret Detection
+
+This project uses [detect-secrets](https://github.com/Yelp/detect-secrets) to prevent accidental commits of sensitive information:
+
+- **Pre-commit hook**: Automatically scans for potential secrets before commits
+- **Baseline file**: `.secrets.baseline` contains known false positives
+- **Exclusions**: Test environment files and documentation are excluded
+
+#### Working with detect-secrets
+
+```bash
+# Scan for new secrets
+uv run detect-secrets scan
+
+# Update baseline with new legitimate secrets
+uv run detect-secrets scan --baseline .secrets.baseline
+
+# Audit findings interactively
+uv run detect-secrets audit .secrets.baseline
+```
+
+#### Common Issues
+
+- **False positives**: Add to baseline or use `# pragma: allowlist secret` comments
+- **Test files**: Use placeholder values like `sk-test-key` or `your-api-key-here`
+- **Documentation**: Real examples should use obviously fake credentials
+
 ## Conventional Commits
 
 This project uses [Conventional Commits](https://conventionalcommits.org/) for automated semantic versioning. Please follow these guidelines:
@@ -102,6 +131,7 @@ Releases are automated using semantic versioning:
 - **Major releases** (1.0.0 → 2.0.0): Breaking changes (`BREAKING CHANGE:` footer)
 
 The release process is fully automated:
+
 1. Conventional commits are analyzed on push to main
 2. Release PR is created/updated with changelog
 3. When merged, version is bumped and release is published

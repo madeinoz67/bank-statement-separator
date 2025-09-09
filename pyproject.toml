@@ -105,6 +105,8 @@ dev = [
     "pip-licenses>=4.0.0",
     "twine>=5.0.0",
     "build>=1.0.0",
+    "pre-commit>=4.3.0",
+    "detect-secrets>=1.5.0",
 ]
 
 [tool.pytest.ini_options]

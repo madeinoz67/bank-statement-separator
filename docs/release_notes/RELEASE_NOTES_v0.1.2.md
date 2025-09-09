@@ -1,6 +1,6 @@
 # Release Notes v0.1.2
 
-**Release Date**: September 7, 2025  
+**Release Date**: September 7, 2025
 **Version**: 0.1.2
 
 ## Overview
@@ -42,6 +42,7 @@ This patch release continues the code quality improvements from v0.1.1 with addi
 - Better integration with GitHub release workflows
 
 ### Compatibility
+
 - All existing functionality preserved
 - No API changes or breaking modifications
 - Seamless upgrade from v0.1.1

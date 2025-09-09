@@ -66,6 +66,7 @@ graph TD
 ### Workflow Components
 
 #### 🔄 CI Workflow (`ci.yml`)
+
 - **Trigger**: Push to main/develop branches, PRs
 - **Purpose**: Continuous integration and quality checks
 - **Actions**:
@@ -75,6 +76,7 @@ graph TD
   - Coverage reporting
 
 #### 🔄 Release-Please Workflow (`release-please.yml`)
+
 - **Trigger**: Push to main branch
 - **Purpose**: Automated semantic versioning
 - **Actions**:
@@ -85,6 +87,7 @@ graph TD
   - Trigger downstream workflows via repository dispatch
 
 #### 🚀 Release Workflow (`release.yml`)
+
 - **Trigger**: Tag push or repository dispatch
 - **Purpose**: Package building and publishing
 - **Jobs**:
@@ -92,6 +95,7 @@ graph TD
   - **publish**: Publish to PyPI
 
 #### 📚 Docs-Versioned Workflow (`docs-versioned.yml`)
+
 - **Trigger**: Push to main, releases, repository dispatch
 - **Purpose**: Documentation deployment and versioning
 - **Jobs**:
@@ -100,6 +104,7 @@ graph TD
   - **update-version-selector**: Update version dropdown
 
 #### 🔗 Workflow Integration
+
 - **Repository Dispatch**: Reliable cross-workflow communication
 - **Job Dependencies**: Proper sequencing of build/test/deploy
 - **Conditional Execution**: Smart triggering based on event types
@@ -114,17 +119,20 @@ The automated release process uses [release-please](https://github.com/googleapi
 #### Workflow Steps
 
 1. **Developer commits** with conventional format:
+
    ```bash
    git commit -m "feat: add new PDF processing feature"
    git push origin main
    ```
 
 2. **Release-please analyzes commits** and determines version bump:
+
    - `feat:` commits → Minor version (1.0.0 → 1.1.0)
    - `fix:` commits → Patch version (1.0.0 → 1.0.1)
    - `BREAKING CHANGE:` → Major version (1.0.0 → 2.0.0)
 
 3. **Release PR created** with:
+
    - Updated `pyproject.toml` version
    - Generated changelog
    - Release notes
@@ -137,6 +145,7 @@ The automated release process uses [release-please](https://github.com/googleapi
 ### Configuration Files
 
 #### release-please-config.json
+
 ```json
 {
   "packages": {
@@ -152,6 +161,7 @@ The automated release process uses [release-please](https://github.com/googleapi
 ```
 
 #### .release-please-manifest.json
+
 ```json
 {
   ".": "1.0.0"
@@ -171,6 +181,7 @@ All commits must follow the conventional commit format:
 ```
 
 #### Types
+
 - `feat`: New feature
 - `fix`: Bug fix
 - `docs`: Documentation changes
@@ -180,6 +191,7 @@ All commits must follow the conventional commit format:
 - `chore`: Maintenance changes
 
 #### Examples
+
 ```bash
 git commit -m "feat: add PDF boundary detection"
 git commit -m "fix: resolve account number extraction bug"
@@ -191,6 +203,7 @@ git commit -m "docs: update installation guide"
 ### When to Use Manual Releases
 
 Manual releases are appropriate for:
+
 - Urgent security fixes
 - Special versioning requirements
 - Testing workflow changes
@@ -199,6 +212,7 @@ Manual releases are appropriate for:
 ### Step-by-Step Manual Release
 
 #### 1. Update Version
+
 ```bash
 # Edit pyproject.toml
 version = "2.0.2"
@@ -210,6 +224,7 @@ git push origin main
 ```
 
 #### 2. Create Release Tag
+
 ```bash
 # Create annotated tag
 git tag -a v2.0.2 -m "Release v2.0.2
@@ -226,6 +241,7 @@ git push origin v2.0.2
 ```
 
 #### 3. Trigger Release Workflow
+
 1. Go to GitHub → Actions tab
 2. Select "Release" workflow
 3. Click "Run workflow"
@@ -233,6 +249,7 @@ git push origin v2.0.2
 5. Click "Run workflow"
 
 #### 4. Monitor and Verify
+
 - Check workflow progress in Actions tab
 - Verify GitHub release creation
 - Confirm PyPI package upload
@@ -243,16 +260,19 @@ git push origin v2.0.2
 ### Jobs and Responsibilities
 
 #### Release Job
+
 - Runs tests and builds package
 - Creates GitHub release with assets
 - Generates release notes
 
 #### Publish Job
+
 - Publishes package to PyPI
 - Requires `PYPI_API_TOKEN` secret
 - Only runs on tag pushes or manual triggers
 
 #### Docs-Version Job
+
 - Builds versioned documentation
 - Deploys to GitHub Pages subdirectory
 - Updates version selector
@@ -260,6 +280,7 @@ git push origin v2.0.2
 ### Workflow Triggers
 
 #### Automatic Triggers
+
 ```yaml
 on:
   push:
@@ -268,6 +289,7 @@ on:
 ```
 
 #### Manual Triggers
+
 ```yaml
 on:
   workflow_dispatch:
@@ -291,6 +313,7 @@ The project follows [Semantic Versioning](https://semver.org/):
 ### Version File Updates
 
 Release-please automatically updates:
+
 - `pyproject.toml` version field
 - `.release-please-manifest.json` version tracking
 - Creates versioned changelog
@@ -298,6 +321,7 @@ Release-please automatically updates:
 ### Manual Version Updates
 
 For manual releases, update:
+
 - `pyproject.toml` version field
 - Ensure version matches tag name
 
@@ -306,12 +330,14 @@ For manual releases, update:
 ### Pre-Release Checks
 
 #### Automated Checks
+
 - Unit tests pass
 - Integration tests pass
 - Code formatting validated
 - Security scans pass
 
 #### Manual Checks
+
 - Test package installation
 - Verify documentation builds
 - Check release notes accuracy
@@ -319,16 +345,19 @@ For manual releases, update:
 ### Post-Release Verification
 
 #### GitHub Release
+
 - ✅ Correct tag and version
 - ✅ Release notes generated
 - ✅ Assets attached (.whl, .tar.gz)
 
 #### PyPI Package
+
 - ✅ Package uploaded successfully
 - ✅ Metadata displays correctly
 - ✅ Installation works
 
 #### Documentation
+
 - ✅ Versioned docs deployed
 - ✅ Navigation functional
 - ✅ Links work correctly
@@ -338,18 +367,22 @@ For manual releases, update:
 ### Common Issues
 
 #### "File already exists" on PyPI
+
 - **Cause**: Version already exists on PyPI
 - **Solution**: Increment version number
 
 #### Workflow doesn't trigger
+
 - **Cause**: Tag format doesn't match pattern
 - **Solution**: Ensure tag follows `v*` format
 
 #### Build failures
+
 - **Cause**: pyproject.toml syntax errors
 - **Solution**: Validate TOML syntax
 
 #### PyPI upload failures
+
 - **Cause**: Missing or invalid API token
 - **Solution**: Check repository secrets
 
@@ -404,16 +437,19 @@ pip install --dry-run bank-statement-separator==2.0.2
 ### Repository Setup
 
 Required secrets:
+
 - `PYPI_API_TOKEN`: For PyPI publishing
 - `OPENAI_API_KEY`: For CI testing (optional)
 
 Required permissions:
+
 - Contents: write (for releases)
 - Pull requests: write (for release-please)
 
 ## Support
 
 For release management issues:
+
 1. Check this documentation
 2. Review GitHub Actions logs
 3. Create issue in repository
@@ -422,6 +458,7 @@ For release management issues:
 ## Quick Reference
 
 ### Automated Release
+
 ```bash
 git commit -m "feat: add new feature"
 git push origin main
@@ -429,6 +466,7 @@ git push origin main
 ```
 
 ### Manual Release
+
 ```bash
 # Update version
 vim pyproject.toml
@@ -442,6 +480,7 @@ git push origin v2.0.2
 ```
 
 ### Check Status
+
 ```bash
 # Check tags
 git tag -l
@@ -451,3 +490,4 @@ gh release list
 
 # Check PyPI
 pip index versions bank-statement-separator
+```

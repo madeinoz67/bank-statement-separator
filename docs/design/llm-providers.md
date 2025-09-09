@@ -17,15 +17,15 @@ class LLMProvider(ABC):
     @abstractmethod
     def analyze_boundaries(self, text: str, **kwargs) -> BoundaryResult:
         """Analyze document text to detect statement boundaries."""
-        
+
     @abstractmethod
     def extract_metadata(self, text: str, start_page: int, end_page: int, **kwargs) -> MetadataResult:
         """Extract metadata from a statement section."""
-        
+
     @abstractmethod
     def get_info(self) -> Dict[str, Any]:
         """Get provider information and status."""
-        
+
     @abstractmethod
     def is_available(self) -> bool:
         """Check if provider is available and configured."""
@@ -40,7 +40,7 @@ class LLMProviderFactory:
     @classmethod
     def create_from_config(cls, app_config: Any) -> LLMProvider:
         """Create provider instance from application configuration."""
-        
+
     @classmethod
     def get_available_providers(cls) -> List[str]:
         """Get list of available provider types."""
@@ -49,6 +49,7 @@ class LLMProviderFactory:
 ### Data Structures
 
 **BoundaryResult**: Structured response for boundary detection
+
 ```python
 @dataclass
 class BoundaryResult:
@@ -58,6 +59,7 @@ class BoundaryResult:
 ```
 
 **MetadataResult**: Structured response for metadata extraction
+
 ```python
 @dataclass
 class MetadataResult:
@@ -149,21 +151,25 @@ The system implements graceful error handling:
 ## Benefits
 
 ### Cost Optimization
+
 - Use local models (Ollama) for development
 - Switch to cloud models (OpenAI) for production
 - Reduce API costs through intelligent provider selection
 
 ### Privacy & Security
+
 - Local processing keeps documents private
 - No data sent to external services when using Ollama
 - Configurable for different security requirements
 
 ### Reliability
+
 - Automatic fallback to pattern matching
 - Multiple provider options reduce single points of failure
 - Graceful degradation maintains functionality
 
 ### Flexibility
+
 - Easy to add new providers
 - Runtime provider switching
 - Environment-specific configurations
@@ -180,16 +186,19 @@ The provider architecture includes comprehensive test coverage:
 ## Performance Considerations
 
 ### Provider Selection Strategy
+
 - **Auto Mode**: Automatically selects best available provider
 - **Explicit Mode**: Use specific provider for predictable behavior
 - **Fallback Chain**: OpenAI → Ollama → Pattern Matching
 
 ### Caching
+
 - Response caching for repeated document processing
 - Provider availability caching to avoid repeated checks
 - Configuration caching for performance
 
 ### Resource Management
+
 - Connection pooling for API providers
 - Memory management for local models
 - Request rate limiting and throttling
@@ -197,16 +206,19 @@ The provider architecture includes comprehensive test coverage:
 ## Future Enhancements
 
 ### Multi-Provider Processing
+
 - Consensus-based analysis using multiple providers
 - Quality scoring and provider ranking
 - Load balancing across providers
 
 ### Advanced Fallback Logic
+
 - Provider health monitoring
 - Automatic provider switching based on performance
 - Custom fallback chains per document type
 
 ### Provider Plugins
+
 - Dynamic provider loading
 - Third-party provider support
 - Custom provider development framework

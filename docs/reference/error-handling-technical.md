@@ -7,6 +7,7 @@ This document describes the comprehensive error handling system implemented for 
 The system now includes extensive error handling configuration in `.env` files:
 
 ### Error Handling Configuration
+
 ```bash
 # Directory for failed/invalid documents (uses output_dir/quarantine if None)
 QUARANTINE_DIRECTORY=./quarantine
@@ -34,6 +35,7 @@ VALIDATION_STRICTNESS=normal
 ```
 
 ### Document Validation Configuration
+
 ```bash
 # Minimum pages required per statement
 MIN_PAGES_PER_STATEMENT=1
@@ -64,6 +66,7 @@ The system implements three severity levels:
 ### 2. Document Format Pre-Validation
 
 Before processing begins, documents are validated for:
+
 - File existence and accessibility
 - Allowed file extensions
 - File age (if configured)
@@ -78,12 +81,14 @@ Before processing begins, documents are validated for:
 Invalid or critically failed documents are automatically moved to quarantine:
 
 **Features:**
+
 - Automatic quarantine for critical failures
 - Timestamped filenames to prevent conflicts
 - Detailed error reports with recovery suggestions
 - Management commands for cleanup
 
 **Quarantine Directory Structure:**
+
 ```
 quarantine/
 ├── failed_20241201_143022_statement.pdf
@@ -96,18 +101,21 @@ quarantine/
 ### 4. Validation Strictness Levels
 
 #### Strict Mode
+
 - File age limits enforced as errors
 - File size issues treated as critical
 - Page count mismatches cause failure
 - Text content requirements strictly enforced
 
 #### Normal Mode (Default)
+
 - File age limits generate warnings
 - File size issues generate warnings
 - Page count validated normally
 - Balanced error handling
 
 #### Lenient Mode
+
 - Most validation issues generate warnings only
 - Page count mismatches allowed
 - Minimal blocking of documents
@@ -116,6 +124,7 @@ quarantine/
 ### 5. Retry Mechanism
 
 Transient failures are automatically retried:
+
 - Network-related errors
 - Temporary file access issues
 - Recoverable processing errors
@@ -124,6 +133,7 @@ Transient failures are automatically retried:
 ### 6. Enhanced Error Reporting
 
 Detailed error reports include:
+
 - Timestamp and file information
 - Error reason and context
 - Processing step where failure occurred
@@ -131,6 +141,7 @@ Detailed error reports include:
 - Actionable recovery suggestions
 
 **Example Error Report:**
+
 ```json
 {
   "timestamp": "2024-12-01T14:30:22",
@@ -149,6 +160,7 @@ Detailed error reports include:
 ## CLI Commands
 
 ### Process Documents (Enhanced)
+
 ```bash
 # Process with error handling
 python -m src.bank_statement_separator.main process input.pdf --output ./output
@@ -158,6 +170,7 @@ VALIDATION_STRICTNESS=strict python -m src.bank_statement_separator.main process
 ```
 
 ### Quarantine Management
+
 ```bash
 # Check quarantine status
 python -m src.bank_statement_separator.main quarantine-status
@@ -177,32 +190,38 @@ python -m src.bank_statement_separator.main quarantine-clean --days 14 --yes
 The system provides specific recovery suggestions based on error types:
 
 ### Password Protection Errors
+
 - Remove password protection from the PDF
 - Use a PDF tool to unlock the document
 - Contact the document source for an unlocked version
 
 ### Page Count/Integrity Errors
+
 - Verify the PDF is not corrupted
 - Check if pages are missing from the original document
 - Try re-downloading or re-scanning the document
 
 ### API/Processing Errors
+
 - Verify OPENAI_API_KEY is set correctly
 - Check API quota and billing status
 - Ensure network connectivity to OpenAI services
 - Try using fallback processing if enabled
 
 ### File Size/Compression Errors
+
 - Check for PDF corruption or compression issues
 - Verify the file was completely downloaded/transferred
 - Try processing with a PDF repair tool
 
 ### Text Content Errors
+
 - Run OCR on the document to extract text
 - Verify document is not purely image-based
 - Check if document was scanned at sufficient resolution
 
 ### Validation Errors
+
 - Review validation strictness settings
 - Check if document meets minimum requirements
 - Consider processing in lenient mode
@@ -212,21 +231,24 @@ The system provides specific recovery suggestions based on error types:
 ### For Production Deployment
 
 1. **Configure Quarantine Directory**
+
    ```bash
    QUARANTINE_DIRECTORY=/secure/quarantine
    ERROR_REPORT_DIRECTORY=/secure/error_reports
    ```
 
 2. **Set Appropriate Strictness**
+
    ```bash
    # For high-accuracy requirements
    VALIDATION_STRICTNESS=strict
-   
+
    # For maximum throughput
    VALIDATION_STRICTNESS=lenient
    ```
 
 3. **Enable Comprehensive Reporting**
+
    ```bash
    ENABLE_ERROR_REPORTING=true
    ENABLE_AUDIT_LOGGING=true
@@ -242,12 +264,14 @@ The system provides specific recovery suggestions based on error types:
 ### For Development/Testing
 
 1. **Use Lenient Validation**
+
    ```bash
    VALIDATION_STRICTNESS=lenient
    CONTINUE_ON_VALIDATION_WARNINGS=true
    ```
 
 2. **Preserve Debug Information**
+
    ```bash
    PRESERVE_FAILED_OUTPUTS=true
    LOG_LEVEL=DEBUG
@@ -262,6 +286,7 @@ The system provides specific recovery suggestions based on error types:
 ## Monitoring and Maintenance
 
 ### Regular Health Checks
+
 ```bash
 # Check quarantine status
 python -m bank_separator quarantine-status
@@ -271,6 +296,7 @@ ls -la /path/to/error_reports/ | head -10
 ```
 
 ### Log Analysis
+
 ```bash
 # Check recent errors
 tail -100 /path/to/logs/statement_processing.log | grep ERROR
@@ -280,6 +306,7 @@ tail -f /path/to/logs/statement_processing.log | grep "quarantined"
 ```
 
 ### Cleanup Procedures
+
 ```bash
 # Weekly cleanup of old quarantine files
 python -m bank_separator quarantine-clean --days 30 --yes

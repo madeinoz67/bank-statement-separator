@@ -1,10 +1,8 @@
 """Test suite for paperless-ngx input functionality (document query and download)."""
 
 import pytest
-from unittest.mock import Mock, patch, MagicMock
-from pathlib import Path
+from unittest.mock import Mock, patch
 import httpx
-from datetime import datetime
 from src.bank_statement_separator.config import Config
 from src.bank_statement_separator.utils.paperless_client import (
     PaperlessClient,
@@ -80,7 +78,7 @@ class TestPaperlessDocumentQuery:
                     "storage_path": 30,
                     "download_url": "/api/documents/103/download/",
                 },
-            ]
+            ],
         }
 
     @patch("httpx.Client")
@@ -98,12 +96,14 @@ class TestPaperlessDocumentQuery:
 
         # Mock tag resolution
         with patch.object(paperless_client, "_resolve_tags", return_value=[1, 2]):
-            result = paperless_client.query_documents_by_tags(["unprocessed", "bank-statement-raw"])
+            result = paperless_client.query_documents_by_tags(
+                ["unprocessed", "bank-statement-raw"]
+            )
 
         assert result["success"] is True
         assert result["count"] == 3
         assert len(result["documents"]) == 3
-        
+
         # Verify first document structure
         doc = result["documents"][0]
         assert doc["id"] == 101
@@ -132,17 +132,16 @@ class TestPaperlessDocumentQuery:
 
         with patch.object(paperless_client, "_resolve_tags", return_value=[1]):
             result = paperless_client.query_documents_by_tags(
-                tags=["unprocessed"], 
-                page_size=25
+                tags=["unprocessed"], page_size=25
             )
 
         assert result["success"] is True
-        
+
         # Verify page_size parameter was passed
         call_args = mock_client.get.call_args
         assert call_args[1]["params"]["page_size"] == 25
 
-    @patch("httpx.Client") 
+    @patch("httpx.Client")
     def test_query_documents_by_tags_empty_result(
         self, mock_httpx_client, paperless_client
     ):
@@ -190,7 +189,9 @@ class TestPaperlessDocumentQuery:
         mock_httpx_client.return_value.__enter__.return_value = mock_client
 
         with patch.object(paperless_client, "_resolve_tags", return_value=[1]):
-            with pytest.raises(PaperlessUploadError, match="Document query failed with status 401"):
+            with pytest.raises(
+                PaperlessUploadError, match="Document query failed with status 401"
+            ):
                 paperless_client.query_documents_by_tags(["unprocessed"])
 
     def test_query_documents_disabled(self):
@@ -198,7 +199,9 @@ class TestPaperlessDocumentQuery:
         config = Config(openai_api_key="test-key", paperless_enabled=False)
         client = PaperlessClient(config)
 
-        with pytest.raises(PaperlessUploadError, match="Paperless integration not enabled"):
+        with pytest.raises(
+            PaperlessUploadError, match="Paperless integration not enabled"
+        ):
             client.query_documents_by_tags(["any-tag"])
 
     @patch("httpx.Client")
@@ -267,7 +270,7 @@ class TestPaperlessDocumentQuery:
                 tags=["unprocessed", "bank-statement"],
                 correspondent="Test Bank",
                 document_type="Bank Statement",
-                page_size=10
+                page_size=10,
             )
 
         assert result["success"] is True
@@ -294,14 +297,13 @@ class TestPaperlessDocumentQuery:
         mock_httpx_client.return_value.__enter__.return_value = mock_client
 
         from datetime import date
+
         start_date = date(2024, 1, 1)
         end_date = date(2024, 3, 31)
 
         with patch.object(paperless_client, "_resolve_tags", return_value=[1]):
             result = paperless_client.query_documents(
-                tags=["unprocessed"],
-                created_after=start_date,
-                created_before=end_date
+                tags=["unprocessed"], created_after=start_date, created_before=end_date
             )
 
         assert result["success"] is True
@@ -357,10 +359,9 @@ class TestPaperlessDocumentDownload:
         # Download document
         document_id = 101
         output_file = tmp_path / "downloaded_statement.pdf"
-        
+
         result = paperless_client.download_document(
-            document_id=document_id,
-            output_path=output_file
+            document_id=document_id, output_path=output_file
         )
 
         assert result["success"] is True
@@ -389,14 +390,13 @@ class TestPaperlessDocumentDownload:
         mock_response.content = mock_pdf_content
         mock_response.headers = {
             "content-type": "application/pdf",
-            "content-disposition": "attachment; filename=\"bank_statement_jan.pdf\""
+            "content-disposition": 'attachment; filename="bank_statement_jan.pdf"',
         }
         mock_client.get.return_value = mock_response
         mock_httpx_client.return_value.__enter__.return_value = mock_client
 
         result = paperless_client.download_document(
-            document_id=101,
-            output_directory=tmp_path
+            document_id=101, output_directory=tmp_path
         )
 
         assert result["success"] is True
@@ -415,11 +415,10 @@ class TestPaperlessDocumentDownload:
 
         output_file = tmp_path / "test.pdf"
 
-        with pytest.raises(PaperlessUploadError, match="Failed to download document 101"):
-            paperless_client.download_document(
-                document_id=101,
-                output_path=output_file
-            )
+        with pytest.raises(
+            PaperlessUploadError, match="Failed to download document 101"
+        ):
+            paperless_client.download_document(document_id=101, output_path=output_file)
 
     @patch("httpx.Client")
     def test_download_document_http_error(
@@ -438,11 +437,10 @@ class TestPaperlessDocumentDownload:
 
         output_file = tmp_path / "test.pdf"
 
-        with pytest.raises(PaperlessUploadError, match="Document download failed with status 404"):
-            paperless_client.download_document(
-                document_id=101,
-                output_path=output_file
-            )
+        with pytest.raises(
+            PaperlessUploadError, match="Document download failed with status 404"
+        ):
+            paperless_client.download_document(document_id=101, output_path=output_file)
 
     def test_download_document_disabled(self, tmp_path):
         """Test document download when paperless is disabled."""
@@ -451,7 +449,9 @@ class TestPaperlessDocumentDownload:
 
         output_file = tmp_path / "test.pdf"
 
-        with pytest.raises(PaperlessUploadError, match="Paperless integration not enabled"):
+        with pytest.raises(
+            PaperlessUploadError, match="Paperless integration not enabled"
+        ):
             client.download_document(document_id=101, output_path=output_file)
 
     @patch("httpx.Client")
@@ -469,8 +469,7 @@ class TestPaperlessDocumentDownload:
 
         document_ids = [101, 102, 103]
         result = paperless_client.download_multiple_documents(
-            document_ids=document_ids,
-            output_directory=tmp_path
+            document_ids=document_ids, output_directory=tmp_path
         )
 
         assert result["success"] is True
@@ -497,7 +496,7 @@ class TestPaperlessDocumentDownload:
         def side_effect(url, **kwargs):
             if "102" in url:  # Second document fails
                 raise httpx.RequestError("Network error")
-            
+
             mock_response = Mock()
             mock_response.raise_for_status.return_value = None
             mock_response.content = mock_pdf_content
@@ -509,8 +508,7 @@ class TestPaperlessDocumentDownload:
 
         document_ids = [101, 102, 103]
         result = paperless_client.download_multiple_documents(
-            document_ids=document_ids,
-            output_directory=tmp_path
+            document_ids=document_ids, output_directory=tmp_path
         )
 
         assert result["success"] is False  # At least one failure
@@ -530,8 +528,7 @@ class TestPaperlessDocumentDownload:
     def test_download_multiple_documents_empty_list(self, paperless_client, tmp_path):
         """Test download of empty document list."""
         result = paperless_client.download_multiple_documents(
-            document_ids=[],
-            output_directory=tmp_path
+            document_ids=[], output_directory=tmp_path
         )
 
         assert result["success"] is True
@@ -554,11 +551,10 @@ class TestPaperlessDocumentDownload:
         output_file = tmp_path / "test.pdf"
 
         # Should fail for non-PDF content types
-        with pytest.raises(PaperlessUploadError, match="Document 101 is not a PDF file"):
-            paperless_client.download_document(
-                document_id=101,
-                output_path=output_file
-            )
+        with pytest.raises(
+            PaperlessUploadError, match="Document 101 is not a PDF file"
+        ):
+            paperless_client.download_document(document_id=101, output_path=output_file)
 
         # File should not be created
         assert not output_file.exists()
@@ -624,7 +620,7 @@ class TestPaperlessDocumentValidation:
                     "tags": [1, 2],
                     "download_url": "/api/documents/104/download/",
                 },
-            ]
+            ],
         }
 
     @patch("httpx.Client")
@@ -640,18 +636,20 @@ class TestPaperlessDocumentValidation:
         mock_httpx_client.return_value.__enter__.return_value = mock_client
 
         with patch.object(paperless_client, "_resolve_tags", return_value=[1, 2]):
-            result = paperless_client.query_documents_by_tags(["unprocessed", "bank-statement-raw"])
+            result = paperless_client.query_documents_by_tags(
+                ["unprocessed", "bank-statement-raw"]
+            )
 
         assert result["success"] is True
         # Should only return 2 PDF documents out of 4 total
         assert result["count"] == 2
         assert len(result["documents"]) == 2
-        
+
         # Verify only PDF documents are included
         for doc in result["documents"]:
             assert doc["content_type"] == "application/pdf"
             assert doc["original_file_name"].endswith(".pdf")
-        
+
         # Verify specific PDF documents are included
         doc_ids = [doc["id"] for doc in result["documents"]]
         assert 101 in doc_ids  # PDF document
@@ -673,7 +671,7 @@ class TestPaperlessDocumentValidation:
             {"mime_type": "application/pdf", "original_file_name": "statement.pdf"},
             {"content_type": "application/pdf", "original_file_name": "STATEMENT.PDF"},
         ]
-        
+
         for doc in valid_docs:
             assert paperless_client._is_pdf_document(doc) is True
 
@@ -684,11 +682,14 @@ class TestPaperlessDocumentValidation:
             {"content_type": "application/msword", "original_file_name": "doc.doc"},
             {"content_type": "image/jpeg", "original_file_name": "image.jpg"},
             {"content_type": "text/plain", "original_file_name": "text.txt"},
-            {"mime_type": "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "original_file_name": "doc.docx"},
+            {
+                "mime_type": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                "original_file_name": "doc.docx",
+            },
             {"content_type": "image/png", "original_file_name": "screenshot.png"},
             {"content_type": "application/zip", "original_file_name": "archive.zip"},
         ]
-        
+
         for doc in invalid_docs:
             assert paperless_client._is_pdf_document(doc) is False
 
@@ -700,10 +701,10 @@ class TestPaperlessDocumentValidation:
             {},  # Missing both fields
             {"title": "Some Document"},  # Different fields entirely
         ]
-        
+
         for doc in incomplete_docs:
             assert paperless_client._is_pdf_document(doc) is False
-            
+
         # Document with valid content type should still pass even without filename
         valid_doc = {"content_type": "application/pdf"}
         assert paperless_client._is_pdf_document(valid_doc) is True
@@ -715,12 +716,15 @@ class TestPaperlessDocumentValidation:
             # Case insensitive content type
             {"content_type": "APPLICATION/PDF", "original_file_name": "doc.pdf"},
             # PDF with additional parameters
-            {"content_type": "application/pdf; charset=utf-8", "original_file_name": "doc.pdf"},
+            {
+                "content_type": "application/pdf; charset=utf-8",
+                "original_file_name": "doc.pdf",
+            },
             # Mixed case filename extension
             {"content_type": "application/pdf", "original_file_name": "doc.PDF"},
             {"content_type": "application/pdf", "original_file_name": "doc.Pdf"},
         ]
-        
+
         for doc in edge_cases:
             assert paperless_client._is_pdf_document(doc) is True
 
@@ -730,22 +734,34 @@ class TestPaperlessDocumentValidation:
     ):
         """Test that document download validates PDF content type in response headers."""
         mock_client = Mock()
-        
+
         # Test various content types
         test_cases = [
             ("application/pdf", True, "Valid PDF content type should succeed"),
-            ("APPLICATION/PDF", True, "Case insensitive PDF content type should succeed"),
-            ("application/pdf; charset=utf-8", True, "PDF with parameters should succeed"),
+            (
+                "APPLICATION/PDF",
+                True,
+                "Case insensitive PDF content type should succeed",
+            ),
+            (
+                "application/pdf; charset=utf-8",
+                True,
+                "PDF with parameters should succeed",
+            ),
             ("text/html", False, "HTML content type should fail"),
             ("image/jpeg", False, "JPEG content type should fail"),
             ("application/msword", False, "Word document content type should fail"),
             ("application/json", False, "JSON content type should fail"),
         ]
-        
+
         for content_type, should_succeed, description in test_cases:
             mock_response = Mock()
             mock_response.raise_for_status.return_value = None
-            mock_response.content = b"%PDF-1.4\ntest content\n%%EOF" if should_succeed else b"not pdf content"
+            mock_response.content = (
+                b"%PDF-1.4\ntest content\n%%EOF"
+                if should_succeed
+                else b"not pdf content"
+            )
             mock_response.headers = {"content-type": content_type}
             mock_client.get.return_value = mock_response
             mock_httpx_client.return_value.__enter__.return_value = mock_client
@@ -754,18 +770,20 @@ class TestPaperlessDocumentValidation:
 
             if should_succeed:
                 result = paperless_client.download_document(
-                    document_id=101,
-                    output_path=output_file
+                    document_id=101, output_path=output_file
                 )
                 assert result["success"] is True, description
                 assert output_file.exists(), f"File should be created: {description}"
             else:
-                with pytest.raises(PaperlessUploadError, match="Document 101 is not a PDF file"):
+                with pytest.raises(
+                    PaperlessUploadError, match="Document 101 is not a PDF file"
+                ):
                     paperless_client.download_document(
-                        document_id=101,
-                        output_path=output_file
+                        document_id=101, output_path=output_file
                     )
-                assert not output_file.exists(), f"File should not be created: {description}"
+                assert (
+                    not output_file.exists()
+                ), f"File should not be created: {description}"
 
     @patch("httpx.Client")
     def test_filter_pdf_documents_from_query_results(
@@ -776,12 +794,32 @@ class TestPaperlessDocumentValidation:
         mixed_response = {
             "count": 5,
             "results": [
-                {"id": 1, "content_type": "application/pdf", "original_file_name": "doc1.pdf"},
-                {"id": 2, "content_type": "image/jpeg", "original_file_name": "img1.jpg"},
-                {"id": 3, "content_type": "application/pdf", "original_file_name": "doc2.pdf"},
-                {"id": 4, "content_type": "text/plain", "original_file_name": "text1.txt"},
-                {"id": 5, "content_type": "application/pdf", "original_file_name": "doc3.pdf"},
-            ]
+                {
+                    "id": 1,
+                    "content_type": "application/pdf",
+                    "original_file_name": "doc1.pdf",
+                },
+                {
+                    "id": 2,
+                    "content_type": "image/jpeg",
+                    "original_file_name": "img1.jpg",
+                },
+                {
+                    "id": 3,
+                    "content_type": "application/pdf",
+                    "original_file_name": "doc2.pdf",
+                },
+                {
+                    "id": 4,
+                    "content_type": "text/plain",
+                    "original_file_name": "text1.txt",
+                },
+                {
+                    "id": 5,
+                    "content_type": "application/pdf",
+                    "original_file_name": "doc3.pdf",
+                },
+            ],
         }
 
         mock_client = Mock()
@@ -797,6 +835,6 @@ class TestPaperlessDocumentValidation:
         # Should filter to only PDF documents
         assert result["success"] is True
         assert result["count"] == 3  # Only 3 PDF documents
-        
+
         pdf_ids = [doc["id"] for doc in result["documents"]]
         assert pdf_ids == [1, 3, 5]  # Only PDF document IDs

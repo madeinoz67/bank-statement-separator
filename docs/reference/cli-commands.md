@@ -29,29 +29,29 @@ uv run bank-statement-separator process [INPUT_FILE] [OPTIONS]
 
 ### Arguments
 
-| Argument | Description | Required |
-|----------|-------------|----------|
-| `INPUT_FILE` | Path to PDF file to process | Yes |
+| Argument     | Description                 | Required |
+| ------------ | --------------------------- | -------- |
+| `INPUT_FILE` | Path to PDF file to process | Yes      |
 
 ### Options
 
-| Option | Short | Type | Default | Description |
-|--------|-------|------|---------|-------------|
-| `--output` | `-o` | PATH | `./separated_statements` | Output directory for separated statements |
-| `--env-file` | | PATH | `.env` | Path to .env configuration file |
-| `--model` | | CHOICE | `gpt-4o-mini` | LLM model to use |
-| `--verbose` | `-v` | FLAG | | Enable verbose logging |
-| `--dry-run` | | FLAG | | Analyze document without creating output files |
-| `--yes` | `-y` | FLAG | | Skip confirmation prompts |
-| `--help` | | FLAG | | Show help message |
+| Option       | Short | Type   | Default                  | Description                                    |
+| ------------ | ----- | ------ | ------------------------ | ---------------------------------------------- |
+| `--output`   | `-o`  | PATH   | `./separated_statements` | Output directory for separated statements      |
+| `--env-file` |       | PATH   | `.env`                   | Path to .env configuration file                |
+| `--model`    |       | CHOICE | `gpt-4o-mini`            | LLM model to use                               |
+| `--verbose`  | `-v`  | FLAG   |                          | Enable verbose logging                         |
+| `--dry-run`  |       | FLAG   |                          | Analyze document without creating output files |
+| `--yes`      | `-y`  | FLAG   |                          | Skip confirmation prompts                      |
+| `--help`     |       | FLAG   |                          | Show help message                              |
 
 ### Model Choices
 
-| Model | Speed | Accuracy | Cost | Best For |
-|-------|-------|----------|------|----------|
-| `gpt-4o-mini` | Fast | High | Low | General use (recommended) |
-| `gpt-4o` | Medium | Highest | High | Maximum accuracy |
-| `gpt-3.5-turbo` | Fastest | Medium | Lowest | High-volume processing |
+| Model           | Speed   | Accuracy | Cost   | Best For                  |
+| --------------- | ------- | -------- | ------ | ------------------------- |
+| `gpt-4o-mini`   | Fast    | High     | Low    | General use (recommended) |
+| `gpt-4o`        | Medium  | Highest  | High   | Maximum accuracy          |
+| `gpt-3.5-turbo` | Fastest | Medium   | Lowest | High-volume processing    |
 
 ### Examples
 
@@ -61,11 +61,11 @@ uv run bank-statement-separator process [INPUT_FILE] [OPTIONS]
     # Process with defaults
     uv run python -m src.bank_statement_separator.main \
       process statements.pdf
-    
+
     # Custom output directory
     uv run python -m src.bank_statement_separator.main \
       process statements.pdf --output ./my-statements
-    
+
     # Skip confirmations (useful for automation)
     uv run python -m src.bank_statement_separator.main \
       process statements.pdf --yes
@@ -77,11 +77,11 @@ uv run bank-statement-separator process [INPUT_FILE] [OPTIONS]
     # Use specific model with verbose output
     uv run python -m src.bank_statement_separator.main \
       process statements.pdf --model gpt-4o --verbose
-    
+
     # Dry-run analysis (no files created)
     uv run python -m src.bank_statement_separator.main \
       process statements.pdf --dry-run --yes
-    
+
     # Custom configuration file
     uv run python -m src.bank_statement_separator.main \
       process statements.pdf --env-file /path/to/custom.env
@@ -166,24 +166,24 @@ uv run bank-statement-separator batch-process [INPUT_DIRECTORY] [OPTIONS]
 
 ### Arguments
 
-| Argument | Description | Required |
-|----------|-------------|----------|
-| `INPUT_DIRECTORY` | Directory containing PDF files to process | Yes |
+| Argument          | Description                               | Required |
+| ----------------- | ----------------------------------------- | -------- |
+| `INPUT_DIRECTORY` | Directory containing PDF files to process | Yes      |
 
 ### Options
 
-| Option | Short | Type | Default | Description |
-|--------|-------|------|---------|-------------|
-| `--output` | `-o` | PATH | `./separated_statements` | Output directory for separated statements |
-| `--pattern` | | STRING | `*.pdf` | File pattern to match (glob syntax) |
-| `--exclude` | | STRING | | Pattern to exclude from processing |
-| `--max-files` | | INTEGER | | Maximum number of files to process |
-| `--env-file` | | PATH | `.env` | Path to .env configuration file |
-| `--model` | | CHOICE | `gpt-4o-mini` | LLM model to use |
-| `--verbose` | `-v` | FLAG | | Enable verbose logging |
-| `--dry-run` | | FLAG | | Analyze documents without creating output files |
-| `--yes` | `-y` | FLAG | | Skip confirmation prompts |
-| `--help` | | FLAG | | Show help message |
+| Option        | Short | Type    | Default                  | Description                                     |
+| ------------- | ----- | ------- | ------------------------ | ----------------------------------------------- |
+| `--output`    | `-o`  | PATH    | `./separated_statements` | Output directory for separated statements       |
+| `--pattern`   |       | STRING  | `*.pdf`                  | File pattern to match (glob syntax)             |
+| `--exclude`   |       | STRING  |                          | Pattern to exclude from processing              |
+| `--max-files` |       | INTEGER |                          | Maximum number of files to process              |
+| `--env-file`  |       | PATH    | `.env`                   | Path to .env configuration file                 |
+| `--model`     |       | CHOICE  | `gpt-4o-mini`            | LLM model to use                                |
+| `--verbose`   | `-v`  | FLAG    |                          | Enable verbose logging                          |
+| `--dry-run`   |       | FLAG    |                          | Analyze documents without creating output files |
+| `--yes`       | `-y`  | FLAG    |                          | Skip confirmation prompts                       |
+| `--help`      |       | FLAG    |                          | Show help message                               |
 
 ### Key Features
 
@@ -201,11 +201,11 @@ uv run bank-statement-separator batch-process [INPUT_DIRECTORY] [OPTIONS]
     # Process all PDFs in a directory
     uv run python -m src.bank_statement_separator.main \
       batch-process /path/to/pdfs
-    
+
     # Custom output directory
     uv run python -m src.bank_statement_separator.main \
       batch-process /path/to/pdfs --output ./batch-output
-    
+
     # Skip confirmations for automation
     uv run python -m src.bank_statement_separator.main \
       batch-process /path/to/pdfs --yes
@@ -217,11 +217,11 @@ uv run bank-statement-separator batch-process [INPUT_DIRECTORY] [OPTIONS]
     # Process only files matching pattern
     uv run python -m src.bank_statement_separator.main \
       batch-process /path/to/pdfs --pattern "*2024*.pdf"
-    
+
     # Exclude specific patterns
     uv run python -m src.bank_statement_separator.main \
       batch-process /path/to/pdfs --exclude "*draft*"
-    
+
     # Limit number of files
     uv run python -m src.bank_statement_separator.main \
       batch-process /path/to/pdfs --max-files 10
@@ -240,7 +240,7 @@ uv run bank-statement-separator batch-process [INPUT_DIRECTORY] [OPTIONS]
       --verbose \
       --yes \
       2>&1 | tee /var/log/batch-processing.log
-    
+
     # Dry-run to preview batch
     uv run python -m src.bank_statement_separator.main \
       batch-process /secure/input \
@@ -296,10 +296,10 @@ uv run bank-statement-separator batch-process [INPUT_DIRECTORY] [OPTIONS]
 
   Processing corrupted.pdf (1/3)
   ⚠️ Error processing corrupted.pdf - moved to quarantine
-  
+
   Processing valid.pdf (2/3)
   ✅ Successfully processed valid.pdf
-  
+
   Processing protected.pdf (3/3)
   ⚠️ Error processing protected.pdf - password protected
 
@@ -345,11 +345,11 @@ uv run bank-statement-separator quarantine-status [OPTIONS]
 
 ### Options
 
-| Option | Short | Type | Default | Description |
-|--------|-------|------|---------|-------------|
-| `--env-file` | | PATH | `.env` | Path to .env configuration file |
-| `--verbose` | `-v` | FLAG | | Enable verbose logging |
-| `--help` | | FLAG | | Show help message |
+| Option       | Short | Type | Default | Description                     |
+| ------------ | ----- | ---- | ------- | ------------------------------- |
+| `--env-file` |       | PATH | `.env`  | Path to .env configuration file |
+| `--verbose`  | `-v`  | FLAG |         | Enable verbose logging          |
+| `--help`     |       | FLAG |         | Show help message               |
 
 ### Examples
 
@@ -411,14 +411,14 @@ uv run bank-statement-separator quarantine-clean [OPTIONS]
 
 ### Options
 
-| Option | Short | Type | Default | Description |
-|--------|-------|------|---------|-------------|
-| `--days` | | INTEGER | `30` | Clean files older than N days |
-| `--env-file` | | PATH | `.env` | Path to .env configuration file |
-| `--dry-run` | | FLAG | | Preview what would be cleaned |
-| `--yes` | `-y` | FLAG | | Skip confirmation prompts |
-| `--verbose` | `-v` | FLAG | | Enable verbose logging |
-| `--help` | | FLAG | | Show help message |
+| Option       | Short | Type    | Default | Description                     |
+| ------------ | ----- | ------- | ------- | ------------------------------- |
+| `--days`     |       | INTEGER | `30`    | Clean files older than N days   |
+| `--env-file` |       | PATH    | `.env`  | Path to .env configuration file |
+| `--dry-run`  |       | FLAG    |         | Preview what would be cleaned   |
+| `--yes`      | `-y`  | FLAG    |         | Skip confirmation prompts       |
+| `--verbose`  | `-v`  | FLAG    |         | Enable verbose logging          |
+| `--help`     |       | FLAG    |         | Show help message               |
 
 ### Examples
 
@@ -428,11 +428,11 @@ uv run bank-statement-separator quarantine-clean [OPTIONS]
     # Preview cleanup (no files deleted)
     uv run python -m src.bank_statement_separator.main \
       quarantine-clean --dry-run
-    
+
     # Clean files older than 30 days (default)
     uv run python -m src.bank_statement_separator.main \
       quarantine-clean
-    
+
     # Clean files older than 7 days with confirmation
     uv run python -m src.bank_statement_separator.main \
       quarantine-clean --days 7
@@ -444,7 +444,7 @@ uv run bank-statement-separator quarantine-clean [OPTIONS]
     # Automated cleanup (skip confirmations)
     uv run python -m src.bank_statement_separator.main \
       quarantine-clean --days 30 --yes
-    
+
     # Weekly cleanup script
     uv run python -m src.bank_statement_separator.main \
       quarantine-clean --days 7 --yes --verbose
@@ -529,15 +529,15 @@ LLM_MODEL=gpt-4o uv run python -m src.bank_statement_separator.main process inpu
 
 ### Exit Codes
 
-| Code | Description |
-|------|-------------|
-| `0` | Success |
-| `1` | General error |
-| `2` | Invalid arguments |
-| `3` | File not found |
-| `4` | Permission denied |
-| `5` | Processing failed |
-| `6` | API error |
+| Code | Description       |
+| ---- | ----------------- |
+| `0`  | Success           |
+| `1`  | General error     |
+| `2`  | Invalid arguments |
+| `3`  | File not found    |
+| `4`  | Permission denied |
+| `5`  | Processing failed |
+| `6`  | API error         |
 
 ### Common Error Messages
 
@@ -546,10 +546,10 @@ LLM_MODEL=gpt-4o uv run python -m src.bank_statement_separator.main process inpu
     ```bash
     # File not found
     Error: Input file 'missing.pdf' not found
-    
+
     # Permission denied
     Error: Permission denied accessing '/restricted/file.pdf'
-    
+
     # Invalid file format
     Error: File 'document.txt' is not a valid PDF
     ```
@@ -559,10 +559,10 @@ LLM_MODEL=gpt-4o uv run python -m src.bank_statement_separator.main process inpu
     ```bash
     # Invalid API key
     Error: Invalid OpenAI API key. Check your OPENAI_API_KEY setting
-    
+
     # API quota exceeded
     Error: OpenAI API quota exceeded. Check your billing
-    
+
     # Network error
     Warning: API request failed, falling back to pattern matching
     ```
@@ -572,10 +572,10 @@ LLM_MODEL=gpt-4o uv run python -m src.bank_statement_separator.main process inpu
     ```bash
     # Document validation failed
     Error: Document validation failed - file is password protected
-    
+
     # Output directory error
     Error: Cannot create output directory '/invalid/path'
-    
+
     # Quarantine full
     Warning: Quarantine directory size limit reached
     ```
@@ -589,7 +589,7 @@ LLM_MODEL=gpt-4o uv run python -m src.bank_statement_separator.main process inpu
 # process_statements.sh
 
 INPUT_DIR="/secure/input"
-OUTPUT_DIR="/secure/output" 
+OUTPUT_DIR="/secure/output"
 LOG_FILE="/var/log/bank-separator.log"
 
 # Use the new batch-process command for efficiency

@@ -109,7 +109,7 @@ customModes:
       You are a technical writing expert specializing in clear, comprehensive documentation. You excel at explaining complex concepts simply and creating well-structured docs.
     whenToUse: when creating, reviewing or updating documentation
     customInstructions: |-
-      Focus on clarity, proper formatting, and comprehensive examples. Always check for broken links and ensure consistency in tone and style.  
+      Focus on clarity, proper formatting, and comprehensive examples. Always check for broken links and ensure consistency in tone and style.
       do not overly use Emojis in headers
     groups:
       - read

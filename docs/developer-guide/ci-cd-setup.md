@@ -16,76 +16,76 @@ flowchart TD
     Dev[👨‍💻 Developer] --> Code[📝 Code Changes]
     Code --> Branch[🌿 Feature Branch]
     Branch --> PR[🔄 Pull Request]
-    
+
     %% Pull Request Triggers
     PR --> CI_PR[🚀 CI Workflow<br/>PR Checks]
     PR --> DepReview[🔍 Dependency Review<br/>Security Scan]
-    
+
     CI_PR --> TestMatrix[🧪 Test Matrix<br/>Python 3.11 & 3.12]
     TestMatrix --> UnitTests[⚡ Unit Tests]
     TestMatrix --> IntegrationTests[🔗 Integration Tests]
     TestMatrix --> SecurityScan[🛡️ Security Scan<br/>Safety & Bandit]
-    
+
     DepReview --> VulnScan[🚨 Vulnerability Scan]
     DepReview --> LicenseCheck[📄 License Check]
-    
+
     %% PR Approval and Merge
     UnitTests --> PRReview{📋 PR Review}
     IntegrationTests --> PRReview
     SecurityScan --> PRReview
     VulnScan --> PRReview
     LicenseCheck --> PRReview
-    
+
     PRReview -->|✅ Approved| Merge[🎯 Merge to Main]
     PRReview -->|❌ Changes Needed| Code
-    
+
     %% Main Branch Triggers
     Merge --> CI_Main[🚀 CI Workflow<br/>Main Branch]
     Merge --> ReleasePlease[🎁 Release Please<br/>Check Commits]
     Merge --> DocsTrigger{📚 Docs Changes?}
-    
+
     CI_Main --> MainTests[🧪 Full Test Suite]
     CI_Main --> APITests[🌐 API Tests<br/>with OpenAI]
     MainTests --> TestSuccess{✅ Tests Pass?}
     APITests --> TestSuccess
-    
+
     TestSuccess -->|❌ Failed| Notification[📧 Failure Notification]
     TestSuccess -->|✅ Passed| Success[✅ CI Success]
-    
+
     %% Release Please Logic
     ReleasePlease --> ConventionalCheck{📝 Conventional<br/>Commits?}
     ConventionalCheck -->|❌ No| NoRelease[❌ No Release]
     ConventionalCheck -->|✅ Yes| ReleasePR[📋 Release PR Created]
-    
+
     ReleasePR --> PRMerge{🔄 Release PR<br/>Merged?}
     PRMerge -->|❌ Not Yet| Wait[⏳ Wait for Merge]
     PRMerge -->|✅ Merged| CreateTag[🏷️ Create Git Tag]
-    
+
     %% Release Workflow
     CreateTag --> ReleaseWorkflow[🚢 Release Workflow<br/>Tag Triggered]
     ReleaseWorkflow --> ReleaseBuild[🏗️ Build Package]
     ReleaseWorkflow --> ReleaseTest[🧪 Release Tests]
-    
+
     ReleaseBuild --> BuildSuccess{✅ Build OK?}
     ReleaseTest --> BuildSuccess
-    
+
     BuildSuccess -->|❌ Failed| BuildFail[❌ Release Failed]
     BuildSuccess -->|✅ Success| PyPIPublish[📦 Publish to PyPI]
-    
+
     PyPIPublish --> GitHubRelease[📋 GitHub Release]
     GitHubRelease --> ReleaseSuccess[✅ Release Complete]
-    
+
     %% Documentation Workflow
     DocsTrigger -->|✅ Yes| DocsWorkflow[📚 Docs Versioned<br/>Workflow]
     DocsTrigger -->|❌ No| Success
-    
+
     DocsWorkflow --> DocsType{📋 Docs Type}
     DocsType -->|Latest| DeployLatest[🌐 Deploy Latest<br/>to GitHub Pages]
     DocsType -->|Version| DeployVersioned[🏷️ Deploy Versioned<br/>Documentation]
-    
+
     DeployLatest --> DocsSuccess[✅ Docs Deployed]
     DeployVersioned --> DocsSuccess
-    
+
     %% Styling
     classDef devStyle fill:#e3f2fd,stroke:#1565c0,stroke-width:2px
     classDef ciStyle fill:#e8f5e8,stroke:#2e7d32,stroke-width:2px
@@ -93,7 +93,7 @@ flowchart TD
     classDef docsStyle fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px
     classDef errorStyle fill:#ffebee,stroke:#c62828,stroke-width:2px
     classDef successStyle fill:#e0f2f1,stroke:#00695c,stroke-width:2px
-    
+
     class Dev,Code,Branch devStyle
     class CI_PR,CI_Main,TestMatrix,UnitTests,IntegrationTests,SecurityScan,MainTests,APITests ciStyle
     class ReleasePlease,ReleasePR,CreateTag,ReleaseWorkflow,ReleaseBuild,PyPIPublish,GitHubRelease releaseStyle
@@ -105,16 +105,19 @@ flowchart TD
 ### 1. CI Workflow (`.github/workflows/ci.yml`)
 
 **Triggers:**
+
 - Push to `main` branch
 - Pull requests to `main` or `develop` branches
 - Manual workflow dispatch
 
 **Jobs:**
+
 - **test**: Runs comprehensive test suite across Python 3.11 and 3.12
 - **test-with-api**: Runs API-dependent tests (requires OpenAI API key)
 - **security**: Performs security scanning with Safety and Bandit
 
 **Enhanced Features:**
+
 - Matrix testing across multiple Python versions
 - Code formatting and linting with Ruff
 - Intelligent API test detection with environment validation
@@ -124,12 +127,14 @@ flowchart TD
 ### 2. Release Please Workflow (`.github/workflows/release-please.yml`)
 
 **Triggers:**
+
 - Push to `main` branch (with conventional commits)
 - Automated based on commit message analysis
 
 **Features:**
+
 - Automated version bumping based on conventional commits
-- Changelog generation from commit messages  
+- Changelog generation from commit messages
 - Release PR creation and management
 - Git tag creation when release PR is merged
 - Integration with release workflow
@@ -137,10 +142,12 @@ flowchart TD
 ### 3. Release Workflow (`.github/workflows/release.yml`)
 
 **Triggers:**
+
 - Git tag push (created by release-please)
 - Manual workflow dispatch with version input
 
 **Enhanced Features:**
+
 - Comprehensive debugging and logging
 - Package building with uv
 - Package verification with twine check
@@ -151,12 +158,14 @@ flowchart TD
 ### 4. Documentation Versioned Workflow (`.github/workflows/docs-versioned.yml`)
 
 **Triggers:**
+
 - Push to `main` branch (for latest docs)
 - Release creation (for versioned docs)
 - Repository dispatch events
 - Manual workflow dispatch
 
 **Recently Enhanced Features:**
+
 - **Enhanced Trigger Logic**: Comprehensive event type handling for all deployment scenarios
 - **Version Validation**: Semantic version format validation (X.Y.Z) before deployment
 - **Safety Checks**: Explicit no-deployment warnings prevent workflow no-ops
@@ -166,17 +175,20 @@ flowchart TD
 - **Robust Error Handling**: Automatic conflict resolution and retry mechanisms
 
 **Key Improvements Made:**
+
 - **Fixed Version Selector Bug**: Removed conflicting custom JavaScript that prevented version dropdown from working
-- **Enhanced Workflow Logic**: Comprehensive trigger handling for push, release, dispatch, and manual events  
+- **Enhanced Workflow Logic**: Comprehensive trigger handling for push, release, dispatch, and manual events
 - **Version Validation**: Prevents deployment of invalid version formats
 - **Concurrency Control**: Exclusive concurrency group prevents gh-pages conflicts
 
 ### 5. Dependency Review (`.github/workflows/dependency-review.yml`)
 
 **Triggers:**
+
 - Pull requests to `main` or `develop` branches
 
 **Features:**
+
 - Automated dependency vulnerability scanning
 - License compliance checking
 - Security advisory integration
@@ -185,6 +197,7 @@ flowchart TD
 ## Configuration Files
 
 ### Dependency Review Config (`.github/dependency-review-config.yml`)
+
 ```yaml
 fail_on_severity: moderate
 allow_licenses:
@@ -202,7 +215,7 @@ license_check: true
 ```
 
 !!! info "License Compatibility"
-    The project uses MIT License, which is fully compatible with the CI/CD pipeline's license checking. The dependency review workflow ensures all dependencies also use approved open-source licenses.
+The project uses MIT License, which is fully compatible with the CI/CD pipeline's license checking. The dependency review workflow ensures all dependencies also use approved open-source licenses.
 
 ## Documentation Versioning
 
@@ -234,25 +247,31 @@ https://madeinoz67.github.io/bank-statement-separator/
 ### Version Selector
 
 The documentation includes a version selector in the header that allows users to:
-- Switch between documentation versions  
+
+- Switch between documentation versions
 - See all available versions
 - Access version-specific content
 
 **Recent Fix (Issue #18)**:
 The version selector was previously showing only "latest" due to conflicting custom JavaScript implementation. This has been resolved by:
+
 - Removing conflicting custom JavaScript (`docs/javascripts/version-selector.js`)
-- Removing conflicting custom CSS (`docs/stylesheets/version-selector.css`) 
+- Removing conflicting custom CSS (`docs/stylesheets/version-selector.css`)
 - Activating Mike's built-in version selector with `extra.version.provider: mike`
 - The version selector now properly displays all available versions (latest, v0.1.4, v0.2.0, etc.)
 
 ### Pull Request Template (`.github/PULL_REQUEST_TEMPLATE.md`)
+
 Standardized PR template with:
+
 - Change type classification
 - Testing checklist
 - Code review requirements
 
 ### Code Owners (`.github/CODEOWNERS`)
+
 Automatic review assignment for:
+
 - CI/CD changes
 - Documentation updates
 - Core application code
@@ -288,11 +307,13 @@ Recommended branch protection rules for `main` branch:
 ## Local Development
 
 ### Prerequisites
+
 - Python 3.11 or 3.12
 - uv package manager
 - Git
 
 ### Setup
+
 ```bash
 # Install uv
 curl -LsSf https://astral.sh/uv/install.sh | sh
@@ -315,6 +336,7 @@ uv run ruff check .
 ```
 
 ### Pre-commit Checks
+
 ```bash
 # Run all pre-commit checks
 make pre-commit
@@ -328,12 +350,14 @@ make test-fast
 ## Testing Strategy
 
 ### Test Categories
+
 - **Unit Tests**: Fast, isolated tests for individual functions
 - **Integration Tests**: Tests for component interactions
 - **API Tests**: Tests requiring external API access (OpenAI)
 - **Edge Case Tests**: Tests for boundary conditions and error scenarios
 
 ### Test Execution
+
 ```bash
 # Run all tests
 make test
@@ -351,13 +375,16 @@ make test-coverage
 ## Deployment
 
 ### Documentation
+
 Documentation is automatically deployed to GitHub Pages on pushes to `main`:
+
 - Build command: `uv run mkdocs build`
 - Deploy command: `uv run mkdocs gh-deploy`
 
 ### Releases
 
 #### Automated Release Process (Recommended)
+
 1. **Make changes** using conventional commit messages:
    ```bash
    git commit -m "feat: add new statement detection algorithm"
@@ -379,12 +406,14 @@ Documentation is automatically deployed to GitHub Pages on pushes to `main`:
    - Documentation versioning
 
 #### Manual Release Process (Legacy)
+
 1. Update version in `pyproject.toml`
 2. Create a git tag: `git tag v1.0.0`
 3. Push the tag: `git push origin v1.0.0`
 4. GitHub Actions will automatically handle the rest
 
 #### Release Workflow Features
+
 - **Enhanced Debugging**: Comprehensive logging for troubleshooting
 - **Package Verification**: Validation with twine before publishing
 - **Error Recovery**: Detailed error reporting and recovery suggestions
@@ -393,16 +422,19 @@ Documentation is automatically deployed to GitHub Pages on pushes to `main`:
 ## Monitoring and Maintenance
 
 ### Workflow Monitoring
+
 - Check GitHub Actions tab for workflow status
 - Review failed jobs for error details
 - Monitor coverage trends on Codecov
 
 ### Dependency Updates
+
 - Dependencies are managed via `uv`
 - Security updates are scanned automatically
 - Use `uv lock --upgrade` to update dependencies
 
 ### Performance Monitoring
+
 - Test execution times are tracked
 - Coverage reports show code coverage trends
 - Security scans identify vulnerabilities
@@ -412,11 +444,13 @@ Documentation is automatically deployed to GitHub Pages on pushes to `main`:
 ### Common Issues
 
 1. **Test Failures**
+
    - Check Python version compatibility
    - Verify dependencies are installed
    - Review test output for specific errors
 
 2. **CI Pipeline Failures**
+
    - Check GitHub Actions logs
    - Verify secrets are configured
    - Ensure branch protection rules aren't blocking merges
@@ -427,6 +461,7 @@ Documentation is automatically deployed to GitHub Pages on pushes to `main`:
    - Review build logs for errors
 
 ### Getting Help
+
 - Check existing issues on GitHub
 - Review workflow logs in GitHub Actions
 - Consult the project's documentation
@@ -450,6 +485,7 @@ uv run python -m src.bank_statement_separator.main version
 ```
 
 This is useful for:
+
 - **Scripting**: Clean output for automated scripts
 - **Integration**: Better integration with other tools
 - **CI/CD**: Reduced noise in automated pipelines
@@ -458,6 +494,7 @@ This is useful for:
 ## Future Enhancements
 
 Potential improvements to the CI/CD pipeline:
+
 - Docker container builds and testing
 - Performance regression testing
 - Automated dependency updates (Dependabot)

@@ -23,7 +23,7 @@ class BoundaryResult:
     confidence: float
     analysis_notes: Optional[str] = None
 
-@dataclass  
+@dataclass
 class MetadataResult:
     metadata: Dict[str, Any]
     confidence: float
@@ -33,17 +33,17 @@ class LLMProvider(ABC):
     def analyze_boundaries(self, text: str, **kwargs) -> BoundaryResult:
         """Analyze document text to detect statement boundaries."""
         pass
-        
+
     @abstractmethod
     def extract_metadata(self, text: str, start_page: int, end_page: int, **kwargs) -> MetadataResult:
         """Extract metadata from a statement section."""
         pass
-        
+
     @abstractmethod
     def get_info(self) -> Dict[str, Any]:
         """Get provider information and status."""
         pass
-        
+
     @abstractmethod
     def is_available(self) -> bool:
         """Check if provider is available and configured."""
@@ -66,7 +66,7 @@ logger = logging.getLogger(__name__)
 
 class MyProvider(LLMProvider):
     """Custom LLM provider implementation."""
-    
+
     def __init__(self, api_key: Optional[str] = None, model: str = "default-model", **kwargs):
         """Initialize provider with configuration."""
         self.api_key = api_key
@@ -74,25 +74,25 @@ class MyProvider(LLMProvider):
         self.base_url = kwargs.get('base_url', 'https://api.myprovider.com')
         self.temperature = kwargs.get('temperature', 0.1)
         self.max_tokens = kwargs.get('max_tokens', 4000)
-        
+
         # Initialize provider client
         try:
             self.client = self._create_client()
         except Exception as e:
             raise LLMProviderError(f"Failed to initialize MyProvider: {e}")
-    
+
     def _create_client(self):
         """Create and configure the provider client."""
         # Implementation specific to your provider
         # e.g., return MyProviderClient(api_key=self.api_key, base_url=self.base_url)
         pass
-    
+
     def analyze_boundaries(self, text: str, **kwargs) -> BoundaryResult:
         """Analyze document text to detect statement boundaries."""
         try:
             # Prepare the prompt for boundary analysis
             prompt = self._create_boundary_prompt(text, **kwargs)
-            
+
             # Call your provider's API
             response = self.client.chat.completions.create(
                 model=self.model,
@@ -100,20 +100,20 @@ class MyProvider(LLMProvider):
                 temperature=self.temperature,
                 max_tokens=self.max_tokens
             )
-            
+
             # Parse response
             return self._parse_boundary_response(response)
-            
+
         except Exception as e:
             logger.error(f"MyProvider boundary analysis failed: {e}")
             raise LLMProviderError(f"Boundary analysis failed: {e}")
-    
+
     def extract_metadata(self, text: str, start_page: int, end_page: int, **kwargs) -> MetadataResult:
         """Extract metadata from a statement section."""
         try:
             # Prepare the prompt for metadata extraction
             prompt = self._create_metadata_prompt(text, start_page, end_page, **kwargs)
-            
+
             # Call your provider's API
             response = self.client.chat.completions.create(
                 model=self.model,
@@ -121,14 +121,14 @@ class MyProvider(LLMProvider):
                 temperature=self.temperature,
                 max_tokens=self.max_tokens
             )
-            
+
             # Parse response
             return self._parse_metadata_response(response)
-            
+
         except Exception as e:
             logger.error(f"MyProvider metadata extraction failed: {e}")
             raise LLMProviderError(f"Metadata extraction failed: {e}")
-    
+
     def get_info(self) -> Dict[str, Any]:
         """Get provider information and status."""
         return {
@@ -140,7 +140,7 @@ class MyProvider(LLMProvider):
             "features": ["boundary_analysis", "metadata_extraction"],
             "version": "1.0.0"
         }
-    
+
     def is_available(self) -> bool:
         """Check if provider is available and configured."""
         try:
@@ -148,34 +148,34 @@ class MyProvider(LLMProvider):
             return bool(self.api_key and self.client)
         except:
             return False
-    
+
     def _create_boundary_prompt(self, text: str, **kwargs) -> str:
         """Create prompt for boundary analysis."""
         total_pages = kwargs.get('total_pages', len(text.split('\\n---\\n')))
-        
+
         return f"""
         Analyze this bank statement document and identify individual statement boundaries.
-        
+
         Document text ({total_pages} pages):
         {text}
-        
+
         Return JSON with:
         - total_statements: number of statements found
         - boundaries: array of {{"start_page": X, "end_page": Y, "account_number": "..."}}
-        
+
         Look for:
         - Statement periods and dates
         - Account numbers and bank names
         - Page breaks and new statement headers
         """
-    
+
     def _create_metadata_prompt(self, text: str, start_page: int, end_page: int, **kwargs) -> str:
         """Create prompt for metadata extraction."""
         return f"""
         Extract metadata from this bank statement (pages {start_page}-{end_page}):
-        
+
         {text}
-        
+
         Return JSON with:
         - bank_name: string
         - account_number: string
@@ -184,14 +184,14 @@ class MyProvider(LLMProvider):
         - customer_name: string (if available)
         - confidence: float (0.0-1.0)
         """
-    
+
     def _parse_boundary_response(self, response) -> BoundaryResult:
         """Parse boundary analysis response."""
         try:
             import json
             content = response.choices[0].message.content
             data = json.loads(content)
-            
+
             return BoundaryResult(
                 boundaries=data.get('boundaries', []),
                 confidence=data.get('confidence', 0.8),
@@ -199,14 +199,14 @@ class MyProvider(LLMProvider):
             )
         except Exception as e:
             raise LLMProviderError(f"Failed to parse boundary response: {e}")
-    
+
     def _parse_metadata_response(self, response) -> MetadataResult:
         """Parse metadata extraction response."""
         try:
             import json
             content = response.choices[0].message.content
             data = json.loads(content)
-            
+
             return MetadataResult(
                 metadata={
                     "bank_name": data.get('bank_name', 'Unknown'),
@@ -235,16 +235,16 @@ class LLMProviderFactory:
         "myprovider": MyProvider,  # Add your provider
         # ... other providers
     }
-    
+
     @classmethod
     def create_from_config(cls, app_config: Any) -> LLMProvider:
         """Create provider instance from configuration."""
         provider_type = getattr(app_config, "llm_provider", "openai").lower()
-        
+
         if provider_type == "myprovider":
             return cls._create_my_provider(app_config)
         # ... existing provider creation logic
-    
+
     @classmethod
     def _create_my_provider(cls, config: Any) -> MyProvider:
         """Create MyProvider instance."""
@@ -265,7 +265,7 @@ Add configuration fields for your provider:
 # src/bank_statement_separator/config.py
 class ProcessingConfig(BaseModel):
     # ... existing fields
-    
+
     # MyProvider Configuration
     myprovider_api_key: Optional[str] = Field(
         default=None, description="MyProvider API key"
@@ -311,14 +311,14 @@ class TestMyProvider:
         provider = MyProvider(api_key="test-key", model="test-model")
         assert provider.api_key == "test-key"
         assert provider.model == "test-model"
-    
+
     def test_initialization_failure(self):
         with patch.object(MyProvider, '_create_client') as mock_create:
             mock_create.side_effect = Exception("Connection failed")
-            
+
             with pytest.raises(LLMProviderError):
                 MyProvider(api_key="test-key")
-    
+
     @patch('src.bank_statement_separator.llm.my_provider.MyProviderClient')
     def test_analyze_boundaries_success(self, mock_client_class, provider):
         # Mock response
@@ -335,23 +335,23 @@ class TestMyProvider:
         '''
         mock_client.chat.completions.create.return_value = mock_response
         provider.client = mock_client
-        
+
         # Test boundary analysis
         result = provider.analyze_boundaries("Test document text", total_pages=6)
-        
+
         # Assertions
         assert isinstance(result, BoundaryResult)
         assert len(result.boundaries) == 2
         assert result.boundaries[0]["start_page"] == 1
         assert result.boundaries[0]["end_page"] == 3
-    
+
     def test_analyze_boundaries_failure(self, provider):
         provider.client = Mock()
         provider.client.chat.completions.create.side_effect = Exception("API Error")
-        
+
         with pytest.raises(LLMProviderError):
             provider.analyze_boundaries("Test text")
-    
+
     @patch('src.bank_statement_separator.llm.my_provider.MyProviderClient')
     def test_extract_metadata_success(self, mock_client_class, provider):
         # Mock response
@@ -368,29 +368,29 @@ class TestMyProvider:
         '''
         mock_client.chat.completions.create.return_value = mock_response
         provider.client = mock_client
-        
+
         # Test metadata extraction
         result = provider.extract_metadata("Statement text", 1, 3)
-        
+
         # Assertions
         assert isinstance(result, MetadataResult)
         assert result.metadata["bank_name"] == "Test Bank"
         assert result.metadata["account_number"] == "123456789"
         assert result.confidence == 0.9
-    
+
     def test_get_info(self, provider):
         info = provider.get_info()
-        
+
         assert info["name"] == "myprovider"
         assert info["type"] == "MyProvider"
         assert info["model"] == "test-model"
         assert "available" in info
         assert "features" in info
-    
+
     def test_is_available_true(self, provider):
         provider.client = Mock()
         assert provider.is_available() is True
-    
+
     def test_is_available_false(self):
         provider = MyProvider(api_key=None)
         assert provider.is_available() is False
@@ -420,9 +420,9 @@ class TestMyProviderIntegration:
         with patch('src.bank_statement_separator.llm.factory.MyProvider') as mock_provider_class:
             mock_provider = Mock(spec=MyProvider)
             mock_provider_class.return_value = mock_provider
-            
+
             analyzer = LLMAnalyzerNew(mock_config)
-            
+
             assert analyzer.provider is not None
             assert isinstance(analyzer.provider, Mock)  # Mock of MyProvider
 ```
@@ -469,7 +469,7 @@ logger = logging.getLogger(__name__)
 class MyProvider(LLMProvider):
     def analyze_boundaries(self, text: str, **kwargs) -> BoundaryResult:
         logger.debug(f"MyProvider analyzing {len(text)} characters")
-        
+
         try:
             result = self._perform_analysis(text, **kwargs)
             logger.info(f"MyProvider found {len(result.boundaries)} boundaries")
@@ -511,7 +511,7 @@ class LocalProvider(LLMProvider):
             base_url=base_url,
             model=model
         )
-        
+
     def is_available(self) -> bool:
         try:
             # Test model availability
@@ -550,18 +550,18 @@ class MyProvider(LLMProvider):
 def _make_request(self, data):
     # Never log API keys
     logger.debug("Making request to provider (API key redacted)")
-    
+
     # Validate inputs
     if not isinstance(data, dict):
         raise ValueError("Invalid request data")
-    
+
     # SSL verification
     response = self.session.post(
         self.base_url,
         json=data,
         verify=True  # SSL verification
     )
-    
+
     return response
 ```
 
@@ -593,23 +593,23 @@ Document your provider's capabilities:
 class MyProvider(LLMProvider):
     """
     MyProvider LLM integration for bank statement analysis.
-    
+
     Features:
     - High accuracy boundary detection
     - Comprehensive metadata extraction
     - Multi-language support
-    
+
     Configuration:
     - MYPROVIDER_API_KEY: Required API key
     - MYPROVIDER_MODEL: Model name (default: default-model)
     - MYPROVIDER_BASE_URL: API endpoint
-    
+
     Example:
         provider = MyProvider(
             api_key="your-key",
             model="advanced-model"
         )
-        
+
         boundaries = provider.analyze_boundaries(document_text)
         metadata = provider.extract_metadata(statement_text, 1, 5)
     """
@@ -619,7 +619,7 @@ class MyProvider(LLMProvider):
 
 Provide clear usage examples in documentation:
 
-```markdown
+````markdown
 ## MyProvider Usage
 
 ### Configuration
@@ -629,6 +629,7 @@ LLM_PROVIDER=myprovider
 MYPROVIDER_API_KEY=your-api-key
 MYPROVIDER_MODEL=advanced-model
 ```
+````
 
 ### Features
 
@@ -636,7 +637,8 @@ MYPROVIDER_MODEL=advanced-model
 - Speed: ~2s per document
 - Languages: English, Spanish, French
 - Models: basic-model, advanced-model, premium-model
-```
+
+````
 
 ## Testing and Validation
 
@@ -650,7 +652,7 @@ Add your provider to CI tests:
   env:
     MYPROVIDER_API_KEY: ${{ secrets.MYPROVIDER_TEST_KEY }}
   run: uv run pytest tests/unit/test_my_provider.py -v
-```
+````
 
 ### Performance Testing
 
@@ -659,10 +661,10 @@ Include performance benchmarks:
 ```python
 def test_my_provider_performance(benchmark):
     provider = MyProvider(api_key="test-key")
-    
+
     def analyze_document():
         return provider.analyze_boundaries(SAMPLE_DOCUMENT)
-    
+
     result = benchmark(analyze_document)
     assert len(result.boundaries) > 0
 ```

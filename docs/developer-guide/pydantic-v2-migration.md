@@ -5,6 +5,7 @@ This document describes the migration from Pydantic V1 to V2 syntax completed in
 ## Overview
 
 Pydantic V2 introduced significant changes to improve performance and developer experience. The main deprecations addressed were:
+
 - Migration from `@validator` decorators to `@field_validator`
 - Replacement of class-based `Config` with `ConfigDict`
 - Updates to validator method signatures
@@ -14,6 +15,7 @@ Pydantic V2 introduced significant changes to improve performance and developer 
 ### 1. Validator Migration
 
 #### Before (Pydantic V1):
+
 ```python
 from pydantic import BaseModel, validator
 
@@ -28,6 +30,7 @@ class Config(BaseModel):
 ```
 
 #### After (Pydantic V2):
+
 ```python
 from pydantic import BaseModel, field_validator
 
@@ -45,22 +48,24 @@ class Config(BaseModel):
 ### 2. Config Class Migration
 
 #### Before (Pydantic V1):
+
 ```python
 class Config(BaseModel):
     # ... fields ...
-    
+
     class Config:
         env_file = ".env"
         env_file_encoding = "utf-8"
 ```
 
 #### After (Pydantic V2):
+
 ```python
 from pydantic import ConfigDict
 
 class Config(BaseModel):
     # ... fields ...
-    
+
     model_config = ConfigDict(
         env_file=".env",
         env_file_encoding="utf-8",
@@ -74,6 +79,7 @@ class Config(BaseModel):
 When validators need access to other field values:
 
 #### Before (Pydantic V1):
+
 ```python
 @validator("chunk_overlap")
 def validate_chunk_overlap(cls, v, values):
@@ -84,6 +90,7 @@ def validate_chunk_overlap(cls, v, values):
 ```
 
 #### After (Pydantic V2):
+
 ```python
 @field_validator("chunk_overlap")
 @classmethod
@@ -97,19 +104,23 @@ def validate_chunk_overlap(cls, v: int, info) -> int:
 ## Key Differences
 
 ### 1. Decorator Changes
+
 - `@validator` → `@field_validator`
 - All field validators must be class methods with `@classmethod` decorator
 - Type hints are now recommended for clarity
 
 ### 2. Accessing Other Fields
+
 - V1: `values` parameter contains validated fields
 - V2: `info` parameter with `info.data` containing validated fields
 
 ### 3. Configuration
+
 - V1: Nested `Config` class
 - V2: `model_config` attribute with `ConfigDict`
 
 ### 4. New ConfigDict Options
+
 - `validate_default=True`: Validates default values
 - `extra="forbid"`: Raises error for extra fields not defined in model
 - `use_enum_values=True`: Uses enum values instead of enum instances
@@ -118,11 +129,13 @@ def validate_chunk_overlap(cls, v: int, info) -> int:
 ## Import Changes
 
 ### Before:
+
 ```python
 from pydantic import BaseModel, Field, validator
 ```
 
 ### After:
+
 ```python
 from pydantic import BaseModel, Field, field_validator, ConfigDict
 from typing import Any, Dict  # Additional imports for type hints
@@ -131,6 +144,7 @@ from typing import Any, Dict  # Additional imports for type hints
 ## Backward Compatibility
 
 The migration maintains full backward compatibility:
+
 - All existing functionality is preserved
 - API remains unchanged for consumers
 - Configuration loading and validation work identically
@@ -149,16 +163,19 @@ The migration maintains full backward compatibility:
 After migration, verify:
 
 1. **Run Tests**: All existing tests should pass
+
 ```bash
 uv run pytest tests/unit/
 ```
 
 2. **Check for Warnings**: No Pydantic deprecation warnings
+
 ```bash
 uv run python -W default::DeprecationWarning -m pytest
 ```
 
 3. **Validate Config Loading**: Configuration loads correctly
+
 ```python
 from src.bank_statement_separator.config import Config
 config = Config(openai_api_key="test-key")
@@ -167,14 +184,17 @@ config = Config(openai_api_key="test-key")
 ## Common Migration Issues
 
 ### Issue 1: Missing @classmethod
+
 **Error**: `TypeError: field_validator() missing 1 required positional argument`
 **Solution**: Add `@classmethod` decorator to all field validators
 
 ### Issue 2: Values vs Info
+
 **Error**: `validate_chunk_overlap() got an unexpected keyword argument 'values'`
 **Solution**: Replace `values` parameter with `info` and access data via `info.data`
 
 ### Issue 3: Config Class
+
 **Error**: `PydanticDeprecatedSince20: Support for class-based config is deprecated`
 **Solution**: Replace nested `Config` class with `model_config = ConfigDict(...)`
 
@@ -188,6 +208,7 @@ config = Config(openai_api_key="test-key")
 ## Summary
 
 The migration from Pydantic V1 to V2 was completed successfully with:
+
 - ✅ All validators updated to V2 syntax
 - ✅ Config class replaced with ConfigDict
 - ✅ Type hints added for better IDE support

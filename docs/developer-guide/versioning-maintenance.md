@@ -138,9 +138,9 @@ If a version needs to be redeployed:
 
 ```javascript
 // Track version usage
-gtag('event', 'version_view', {
+gtag("event", "version_view", {
   version: getCurrentVersion(),
-  page_path: window.location.pathname
+  page_path: window.location.pathname,
 });
 ```
 

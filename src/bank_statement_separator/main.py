@@ -702,7 +702,9 @@ cli = process  # Alias the main process command
 )
 @click.option("--verbose", "-v", is_flag=True, help="Enable verbose logging")
 @click.option(
-    "--dry-run", is_flag=True, help="Query and analyze documents without processing them"
+    "--dry-run",
+    is_flag=True,
+    help="Query and analyze documents without processing them",
 )
 @click.option("--yes", "-y", is_flag=True, help="Skip confirmation prompts")
 @click.option(
@@ -710,7 +712,7 @@ cli = process  # Alias the main process command
 )
 def process_paperless(
     tags: Optional[str],
-    correspondent: Optional[str], 
+    correspondent: Optional[str],
     document_type: Optional[str],
     output_dir: Optional[Path],
     max_documents: Optional[int],
@@ -723,7 +725,7 @@ def process_paperless(
 ):
     """
     Process documents from paperless-ngx repository.
-    
+
     Query paperless-ngx for documents matching the specified criteria,
     download them, and process them through the bank statement separation workflow.
     Only PDF documents will be retrieved and processed.
@@ -731,38 +733,40 @@ def process_paperless(
     try:
         # Load configuration
         config = load_config(str(env_file) if env_file else None)
-        
+
         # Override model if specified
         if model:
             config.openai_model = model
-            
+
         # Override max documents if specified
         if max_documents:
             config.paperless_max_documents = max_documents
-        
+
         # Set output directory
         if not output_dir:
             output_dir = Path(config.default_output_dir)
-            
+
         # Setup logging
         log_level = "DEBUG" if verbose else config.log_level
         setup_logging(config.log_file, log_level)
         logger = logging.getLogger(__name__)
-        
+
         # Ensure directories exist
         ensure_directories(config)
         output_dir.mkdir(parents=True, exist_ok=True)
-        
+
         # Display banner unless suppressed
         if not no_header:
             display_banner()
-            
+
         # Check paperless configuration
         if not config.paperless_enabled:
             console.print("[red]❌ Paperless-ngx integration is not enabled[/red]")
-            console.print("[yellow]💡 Enable it by setting PAPERLESS_ENABLED=true in your .env file[/yellow]")
+            console.print(
+                "[yellow]💡 Enable it by setting PAPERLESS_ENABLED=true in your .env file[/yellow]"
+            )
             return
-            
+
         # Validate file access
         if not validate_file_access(str(output_dir), config, "write"):
             console.print(
@@ -771,10 +775,10 @@ def process_paperless(
             return
 
         from .utils.paperless_client import PaperlessClient
-        
+
         # Initialize paperless client
         paperless_client = PaperlessClient(config)
-        
+
         # Test connection
         try:
             console.print("[yellow]🔌 Testing paperless-ngx connection...[/yellow]")
@@ -783,65 +787,77 @@ def process_paperless(
         except Exception as e:
             console.print(f"[red]❌ Failed to connect to paperless-ngx: {e}[/red]")
             return
-            
+
         # Determine query parameters from CLI options or config
         query_tags = None
         if tags:
             query_tags = [tag.strip() for tag in tags.split(",")]
         elif config.paperless_input_tags:
             query_tags = config.paperless_input_tags
-            
+
         query_correspondent = correspondent or config.paperless_input_correspondent
         query_document_type = document_type or config.paperless_input_document_type
-        
+
         if not query_tags and not query_correspondent and not query_document_type:
             console.print("[red]❌ No query criteria specified[/red]")
-            console.print("[yellow]💡 Specify --tags, --correspondent, --document-type, or configure PAPERLESS_INPUT_* variables[/yellow]")
+            console.print(
+                "[yellow]💡 Specify --tags, --correspondent, --document-type, or configure PAPERLESS_INPUT_* variables[/yellow]"
+            )
             return
-        
+
         # Display query configuration
         display_paperless_query_config(
-            query_tags, query_correspondent, query_document_type, 
-            config.paperless_max_documents, dry_run
+            query_tags,
+            query_correspondent,
+            query_document_type,
+            config.paperless_max_documents,
+            dry_run,
         )
-        
+
         if not yes and not click.confirm("Proceed with paperless document query?"):
             console.print("[yellow]Query cancelled by user[/yellow]")
             return
-            
+
         # Query documents
         console.print("[yellow]🔍 Querying paperless-ngx for documents...[/yellow]")
-        
+
         try:
             query_result = paperless_client.query_documents(
                 tags=query_tags,
                 correspondent=query_correspondent,
                 document_type=query_document_type,
-                page_size=config.paperless_max_documents
+                page_size=config.paperless_max_documents,
             )
         except Exception as e:
             console.print(f"[red]❌ Failed to query documents: {e}[/red]")
             return
-            
+
         if query_result["count"] == 0:
-            console.print("[yellow]📄 No PDF documents found matching the criteria[/yellow]")
+            console.print(
+                "[yellow]📄 No PDF documents found matching the criteria[/yellow]"
+            )
             return
-            
+
         console.print(f"[green]📄 Found {query_result['count']} PDF documents[/green]")
-        
+
         # Display found documents
         display_paperless_documents(query_result["documents"][:10])  # Show first 10
-        
+
         if dry_run:
-            console.print(f"[blue]🔍 Dry run complete - {query_result['count']} documents would be processed[/blue]")
+            console.print(
+                f"[blue]🔍 Dry run complete - {query_result['count']} documents would be processed[/blue]"
+            )
             return
-            
-        if not yes and not click.confirm(f"Download and process {query_result['count']} documents?"):
+
+        if not yes and not click.confirm(
+            f"Download and process {query_result['count']} documents?"
+        ):
             console.print("[yellow]Processing cancelled by user[/yellow]")
             return
-            
+
         # Process each document
         from datetime import datetime
+
         batch_start_time = datetime.now()
         batch_results = {
             "total_documents": query_result["count"],
@@ -852,37 +868,40 @@ def process_paperless(
             "processing_errors": 0,
             "errors": [],
         }
-        
+
         # Create temporary download directory
         temp_download_dir = output_dir / "temp_downloads"
         temp_download_dir.mkdir(exist_ok=True)
-        
-        console.print(f"[green]🚀 Starting paperless document processing...[/green]")
-        
+
+        console.print("[green]🚀 Starting paperless document processing...[/green]")
+
         with Progress(
             SpinnerColumn(),
             TextColumn("[progress.description]{task.description}"),
             console=console,
         ) as progress:
-            task = progress.add_task("Processing paperless documents...", total=query_result["count"])
-            
+            task = progress.add_task(
+                "Processing paperless documents...", total=query_result["count"]
+            )
+
             for i, doc in enumerate(query_result["documents"], 1):
                 doc_id = doc["id"]
                 doc_title = doc.get("title", f"Document {doc_id}")
-                
+
                 try:
                     progress.update(
                         task,
-                        description=f"Processing {doc_title} ({i}/{query_result['count']})"
+                        description=f"Processing {doc_title} ({i}/{query_result['count']})",
                     )
-                    
-                    logger.info(f"Processing document {i}/{query_result['count']}: {doc_title} (ID: {doc_id})")
-                    
+
+                    logger.info(
+                        f"Processing document {i}/{query_result['count']}: {doc_title} (ID: {doc_id})"
+                    )
+
                     # Download document
                     try:
                         download_result = paperless_client.download_document(
-                            document_id=doc_id,
-                            output_directory=temp_download_dir
+                            document_id=doc_id, output_directory=temp_download_dir
                         )
                         downloaded_file = Path(download_result["output_path"])
                     except Exception as e:
@@ -891,53 +910,62 @@ def process_paperless(
                         batch_results["download_errors"] += 1
                         logger.error(error_msg)
                         continue
-                    
+
                     batch_results["processed"] += 1
-                    
+
                     # Process through workflow
                     try:
                         workflow = BankStatementWorkflow(config)
-                        result = run_full_workflow(workflow, str(downloaded_file), str(output_dir))
-                        
-                        if result.get("processing_complete") and not result.get("error_message"):
+                        result = run_full_workflow(
+                            workflow, str(downloaded_file), str(output_dir)
+                        )
+
+                        if result.get("processing_complete") and not result.get(
+                            "error_message"
+                        ):
                             batch_results["successful"] += 1
-                        elif result.get("error_message") and "quarantine" in result.get("error_message", "").lower():
+                        elif (
+                            result.get("error_message")
+                            and "quarantine" in result.get("error_message", "").lower()
+                        ):
                             batch_results["quarantined"] += 1
                         else:
                             batch_results["processing_errors"] += 1
-                            
+
                     except Exception as e:
                         error_msg = f"Failed to process {doc_title}: {str(e)}"
                         batch_results["errors"].append(error_msg)
                         batch_results["processing_errors"] += 1
                         logger.error(error_msg, exc_info=True)
-                    
+
                     # Clean up downloaded file
                     try:
                         downloaded_file.unlink()
                     except Exception as e:
-                        logger.warning(f"Failed to cleanup temp file {downloaded_file}: {e}")
-                        
+                        logger.warning(
+                            f"Failed to cleanup temp file {downloaded_file}: {e}"
+                        )
+
                 except Exception as e:
                     # Individual document failure shouldn't stop batch
                     error_msg = f"Unexpected error processing {doc_title}: {str(e)}"
                     batch_results["errors"].append(error_msg)
                     logger.error(error_msg, exc_info=True)
-                    
+
                 progress.advance(task)
-                
+
         # Cleanup temp directory
         try:
             temp_download_dir.rmdir()
         except Exception as e:
             logger.warning(f"Failed to cleanup temp directory {temp_download_dir}: {e}")
-            
+
         # Display batch summary
         batch_end_time = datetime.now()
         processing_time = batch_end_time - batch_start_time
-        
+
         _display_paperless_batch_results(batch_results, processing_time)
-        
+
     except Exception as e:
         logger.error(f"Paperless processing failed: {e}")
         console.print(f"[red]❌ Error: {str(e)}[/red]")
@@ -1197,11 +1225,11 @@ def batch_process(
 
 
 def display_paperless_query_config(
-    tags: Optional[List[str]], 
-    correspondent: Optional[str], 
+    tags: Optional[List[str]],
+    correspondent: Optional[str],
     document_type: Optional[str],
-    max_documents: int, 
-    dry_run: bool
+    max_documents: int,
+    dry_run: bool,
 ):
     """Display paperless query configuration."""
     table = Table(title="📋 Paperless Query Configuration", show_header=False)
@@ -1225,34 +1253,32 @@ def display_paperless_documents(documents: List[Dict[str, Any]]):
     """Display found paperless documents."""
     if not documents:
         return
-        
+
     console.print("\n📄 Found Documents:")
-    
+
     doc_table = Table(show_header=True)
     doc_table.add_column("ID", style="cyan", width=8)
     doc_table.add_column("Title", style="white", width=40)
     doc_table.add_column("Filename", style="yellow", width=30)
     doc_table.add_column("Created", style="green", width=12)
-    
+
     for doc in documents:
         doc_id = str(doc.get("id", "?"))
         title = doc.get("title", "Unknown")[:38]
         filename = doc.get("original_file_name", "Unknown")[:28]
         created = doc.get("created", "")[:10]  # Just the date part
-        
+
         doc_table.add_row(doc_id, title, filename, created)
-    
+
     console.print(doc_table)
-    
+
     if len(documents) == 10:
         console.print("[dim]... (showing first 10 documents)[/dim]")
 
 
 def _display_paperless_batch_results(results: dict, processing_time):
     """Display paperless batch processing results summary."""
-    console.print(
-        f"\n[bold blue]📊 Paperless Processing Results[/bold blue]"
-    )
+    console.print("\n[bold blue]📊 Paperless Processing Results[/bold blue]")
 
     # Create results table
     table = Table(show_header=True, header_style="bold blue")
@@ -1282,7 +1308,7 @@ def _display_paperless_batch_results(results: dict, processing_time):
 
     if results["download_errors"] > 0:
         table.add_row("Download Errors", str(results["download_errors"]), "")
-        
+
     if results["processing_errors"] > 0:
         table.add_row("Processing Errors", str(results["processing_errors"]), "")
 
@@ -1303,7 +1329,9 @@ def _display_paperless_batch_results(results: dict, processing_time):
 
     # Success message
     if results["successful"] == total and not results["errors"]:
-        console.print(f"\n[green]🎉 All {total} documents processed successfully![/green]")
+        console.print(
+            f"\n[green]🎉 All {total} documents processed successfully![/green]"
+        )
     elif results["successful"] > 0:
         console.print(
             f"\n[green]✅ {results['successful']}/{total} documents processed successfully[/green]"

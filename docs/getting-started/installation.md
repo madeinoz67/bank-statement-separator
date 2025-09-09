@@ -5,18 +5,21 @@ Complete installation instructions for the Workflow Bank Statement Separator.
 ## System Requirements
 
 ### Minimum Requirements
+
 - **Python**: 3.11 or higher
 - **Memory**: 4GB RAM
 - **Storage**: 1GB free space
 - **Network**: Internet access for AI API calls
 
 ### Recommended Requirements
+
 - **Python**: 3.12+
 - **Memory**: 8GB+ RAM (for large documents)
 - **Storage**: 5GB+ free space (for quarantine and logs)
 - **CPU**: Multi-core processor for faster processing
 
 ### Operating Systems
+
 - **Linux**: Ubuntu 20.04+, CentOS 8+, any modern distribution
 - **macOS**: macOS 11+ (Big Sur)
 - **Windows**: Windows 10+ with WSL2 recommended
@@ -28,28 +31,28 @@ Complete installation instructions for the Workflow Bank Statement Separator.
     UV is the fastest and most reliable way to install and manage dependencies.
 
     ### Install UV
-    
+
     ```bash
     # Linux/macOS
     curl -LsSf https://astral.sh/uv/install.sh | sh
-    
+
     # Windows (PowerShell)
     powershell -c "irm https://astral.sh/uv/install.ps1 | iex"
-    
+
     # Verify installation
     uv --version
     ```
 
     ### Install Project
-    
+
     ```bash
     # Clone repository
     git clone <repository-url>
     cd bank-statement-separator
-    
+
     # Install all dependencies
     uv sync
-    
+
     # Install development dependencies (optional)
     uv sync --group dev
     ```
@@ -62,22 +65,22 @@ Complete installation instructions for the Workflow Bank Statement Separator.
     # Clone repository
     git clone <repository-url>
     cd bank-statement-separator
-    
+
     # Create virtual environment
     python -m venv .venv
-    
+
     # Activate virtual environment
     # Linux/macOS:
     source .venv/bin/activate
     # Windows:
     .venv\Scripts\activate
-    
+
     # Upgrade pip
     pip install --upgrade pip
-    
+
     # Install project
     pip install -e .
-    
+
     # Install development dependencies (optional)
     pip install -e ".[dev]"
     ```
@@ -117,6 +120,7 @@ python -m src.bank_statement_separator.main --help
 ```
 
 Expected output:
+
 ```
 Usage: main.py [OPTIONS] COMMAND [ARGS]...
 
@@ -139,6 +143,7 @@ pytest tests/unit/ -v
 ```
 
 Expected output:
+
 ```
 ===== 37 passed in 2.34s =====
 ```
@@ -197,6 +202,7 @@ PAPERLESS_ENABLED=true
 PAPERLESS_URL=http://your-paperless-instance:8000
 PAPERLESS_TOKEN=your-api-token
 PAPERLESS_TAGS=bank-statement,automated
+PAPERLESS_TAG_WAIT_TIME=5
 ```
 
 ### Development Tools
@@ -226,15 +232,15 @@ uv run pytest --version
     # Check Python version
     python --version
     python3 --version
-    
+
     # Install Python 3.11+ if needed
     # Ubuntu/Debian:
     sudo apt update
     sudo apt install python3.11 python3.11-venv python3.11-pip
-    
+
     # macOS (using Homebrew):
     brew install python@3.11
-    
+
     # Windows: Download from python.org
     ```
 
@@ -243,10 +249,10 @@ uv run pytest --version
     ```bash
     # Alternative UV installation methods
     pip install uv
-    
+
     # Or use conda
     conda install -c conda-forge uv
-    
+
     # Verify UV can find Python
     uv python list
     ```
@@ -257,7 +263,7 @@ uv run pytest --version
     # Clean installation
     rm -rf .venv uv.lock
     uv sync
-    
+
     # Or force reinstall
     uv sync --refresh
     ```
@@ -267,10 +273,10 @@ uv run pytest --version
     ```bash
     # Check Python path
     uv run python -c "import sys; print('\n'.join(sys.path))"
-    
+
     # Verify package installation
     uv run python -c "import pkg_resources; print(list(pkg_resources.working_set))"
-    
+
     # Reinstall in editable mode
     uv pip install -e .
     ```

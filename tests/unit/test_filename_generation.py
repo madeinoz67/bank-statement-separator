@@ -92,9 +92,9 @@ class TestFilenameGeneration:
 
         for input_name, expected in test_cases:
             result = self.workflow._normalize_bank_name(input_name)
-            assert result == expected, (
-                f"Failed for {input_name}: got {result}, expected {expected}"
-            )
+            assert (
+                result == expected
+            ), f"Failed for {input_name}: got {result}, expected {expected}"
 
     def test_extract_last4_digits(self):
         """Test last 4 digits extraction."""
@@ -110,9 +110,9 @@ class TestFilenameGeneration:
 
         for input_account, expected in test_cases:
             result = self.workflow._extract_last4_digits(input_account)
-            assert result == expected, (
-                f"Failed for {input_account}: got {result}, expected {expected}"
-            )
+            assert (
+                result == expected
+            ), f"Failed for {input_account}: got {result}, expected {expected}"
 
     def test_format_statement_date(self):
         """Test statement date formatting."""
@@ -127,9 +127,9 @@ class TestFilenameGeneration:
 
         for input_period, expected in test_cases:
             result = self.workflow._format_statement_date(input_period)
-            assert result == expected, (
-                f"Failed for {input_period}: got {result}, expected {expected}"
-            )
+            assert (
+                result == expected
+            ), f"Failed for {input_period}: got {result}, expected {expected}"
 
     def test_filename_length_limit(self):
         """Test filename length limiting."""

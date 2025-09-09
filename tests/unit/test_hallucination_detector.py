@@ -324,6 +324,6 @@ class TestHallucinationDetector:
             bank_alerts = [
                 a for a in alerts if a.type == HallucinationType.FABRICATED_BANK
             ]
-            assert len(bank_alerts) == 0, (
-                f"Known bank '{bank}' triggered fabrication alert"
-            )
+            assert (
+                len(bank_alerts) == 0
+            ), f"Known bank '{bank}' triggered fabrication alert"

@@ -44,7 +44,7 @@ attempt=1
 
 while [ $attempt -le $max_attempts ]; do
   git fetch origin gh-pages:gh-pages || true
-  
+
   if git push origin gh-pages; then
     echo "✅ Successfully deployed on attempt $attempt"
     break
@@ -52,16 +52,16 @@ while [ $attempt -le $max_attempts ]; do
     # Handle conflicts and retry
     sleep_time=$((2 ** attempt))
     sleep $sleep_time
-    
+
     # Resolve conflicts
     git checkout gh-pages || true
     git pull --rebase origin gh-pages || git reset --hard origin/gh-pages
-    
+
     # Re-deploy if needed
     uv run mike deploy --update-aliases latest main
     uv run mike set-default latest
   fi
-  
+
   attempt=$((attempt + 1))
 done
 ```
@@ -90,7 +90,7 @@ git fetch origin gh-pages:gh-pages || git checkout --orphan gh-pages || true
 ## Implementation Details
 
 !!! success "Current Implementation Status"
-    The `docs-versioned.yml` workflow has been **updated** to implement this robust deployment strategy as of January 2025. The workflow now uses local deployment followed by retry logic with conflict resolution.
+The `docs-versioned.yml` workflow has been **updated** to implement this robust deployment strategy as of January 2025. The workflow now uses local deployment followed by retry logic with conflict resolution.
 
 ### Latest Documentation Deployment
 
@@ -109,7 +109,7 @@ attempt=1
 while [ $attempt -le $max_attempts ]; do
   # Fetch latest changes before push attempt
   git fetch origin gh-pages:gh-pages || true
-  
+
   if git push origin gh-pages; then
     echo "✅ Successfully deployed on attempt $attempt"
     break
@@ -118,20 +118,20 @@ while [ $attempt -le $max_attempts ]; do
       echo "❌ All attempts failed. Manual intervention required."
       exit 1
     fi
-    
+
     # Exponential backoff
     sleep_time=$((2 ** attempt))
     sleep $sleep_time
-    
+
     # Resolve conflicts and retry
     git checkout gh-pages || true
     git pull --rebase origin gh-pages || git reset --hard origin/gh-pages
-    
+
     # Re-deploy locally after conflict resolution
     uv run mike deploy --update-aliases latest
     uv run mike set-default latest
   fi
-  
+
   attempt=$((attempt + 1))
 done
 ```
@@ -154,7 +154,7 @@ attempt=1
 
 while [ $attempt -le $max_attempts ]; do
   git fetch origin gh-pages:gh-pages || true
-  
+
   if git push origin gh-pages; then
     echo "✅ Successfully deployed version $VERSION on attempt $attempt"
     break
@@ -162,7 +162,7 @@ while [ $attempt -le $max_attempts ]; do
     # Same error handling and retry logic as latest deployment
     # ... (exponential backoff, conflict resolution, re-deployment)
   fi
-  
+
   attempt=$((attempt + 1))
 done
 ```
@@ -179,21 +179,25 @@ The version selector (`versions.json`) is updated separately with its own retry 
 ## Benefits
 
 ### 1. Conflict Resolution
+
 - Automatic handling of Git conflicts during deployment
 - Proper fetching of latest changes before push attempts
 - Fallback to hard reset when rebase fails
 
 ### 2. Reliability
+
 - Exponential backoff retry logic (2, 4, 8 seconds)
 - Multiple deployment attempts (up to 3)
 - Clear success/failure indicators in logs
 
 ### 3. Consistency
+
 - Single concurrency group prevents simultaneous deployments
 - Atomic operations ensure consistent documentation state
 - Proper error handling prevents partial deployments
 
 ### 4. Observability
+
 - Detailed logging of each deployment attempt
 - Clear indication of retry attempts and reasons
 - Success confirmation messages
@@ -201,6 +205,7 @@ The version selector (`versions.json`) is updated separately with its own retry 
 ## Monitoring and Troubleshooting
 
 ### Success Indicators
+
 - `✅ Successfully deployed on attempt X` messages
 - No deployment errors in workflow logs
 - Documentation accessible on GitHub Pages
@@ -208,39 +213,46 @@ The version selector (`versions.json`) is updated separately with its own retry 
 ### Common Issues
 
 #### Issue: "Failed to push some refs"
+
 ```
 error: failed to push some refs to 'https://github.com/user/repo'
 hint: Updates were rejected because the remote contains work that you do not have locally
 ```
 
 **Solution**: The retry logic automatically handles this by:
+
 1. Fetching latest changes
 2. Rebasing or resetting local branch
 3. Re-deploying and retrying push
 
 #### Issue: "All attempts failed"
+
 ```
 ❌ All attempts failed. Manual intervention required.
 ```
 
-**Solution**: 
+**Solution**:
+
 1. Check GitHub Pages settings
 2. Verify repository permissions
 3. Manually reset gh-pages branch if corrupted
 4. Re-run workflow after investigation
 
 #### Issue: "string indices must be integers, not 'str'"
+
 ```
 error: string indices must be integers, not 'str'
 ```
 
 **Root Cause**: Mike's internal metadata in gh-pages branch is corrupted, often caused by:
+
 - Inconsistent version naming schemes
-- Manual gh-pages branch modifications  
+- Manual gh-pages branch modifications
 - Failed previous deployments leaving incomplete state
 - Using conflicting alias names (e.g., "main" as both branch and alias)
 
 **Solution**:
+
 1. **Reset gh-pages branch** in workflow:
    ```bash
    git branch -D gh-pages 2>/dev/null || true
@@ -256,6 +268,7 @@ error: string indices must be integers, not 'str'
    ```
 
 #### Issue: Version selector not updating
+
 - Check main branch push permissions
 - Verify versions.json generation logic
 - Review mike list output for available versions
@@ -263,21 +276,25 @@ error: string indices must be integers, not 'str'
 ## Best Practices
 
 ### 1. Deployment Timing
+
 - Use concurrency controls to prevent overlapping deployments
 - Allow adequate timeout for deployment completion (15-20 minutes)
 - Avoid triggering multiple deployments simultaneously
 
 ### 2. Branch Management
+
 - Keep gh-pages branch clean and automated-only
 - Don't manually modify gh-pages branch
 - Use main branch for versions.json updates
 
 ### 3. Error Handling
+
 - Always include retry logic for push operations
 - Provide clear error messages and troubleshooting steps
 - Set appropriate timeout values for long deployments
 
 ### 4. Testing
+
 - Test deployment workflows in feature branches
 - Use workflow_dispatch for manual testing
 - Verify documentation accessibility after deployment
@@ -296,19 +313,20 @@ If migrating from direct `--push` deployments:
 If encountering `"string indices must be integers, not 'str'"` errors:
 
 1. **Reset Strategy** (Recommended for corrupted state):
+
    ```yaml
    - name: Reset corrupted gh-pages branch state
      run: |
        git branch -D gh-pages 2>/dev/null || true
        git push origin --delete gh-pages 2>/dev/null || true
-   
+
    - name: Deploy with clean state
      run: |
        uv run mike deploy --push latest
        uv run mike set-default --push latest
    ```
 
-2. **Prevention**: 
+2. **Prevention**:
    - Avoid manual gh-pages modifications
    - Use consistent version naming conventions
    - Don't use git branch names as mike aliases
