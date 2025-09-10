@@ -24,6 +24,7 @@ This system is production-ready with comprehensive error handling, document mana
 - **Batch Processing**: Process multiple PDF files from directories with pattern filtering
 - **Paperless-ngx Integration**: Automatic upload to paperless-ngx document management with auto-creation
 - **Comprehensive Error Handling**: Advanced quarantine system with detailed error reports and recovery suggestions
+- **Error Detection & Tagging**: Automatic identification and tagging of processing issues (v0.3.0+)
 - **Document Validation**: Pre-processing validation with configurable strictness levels
 - **Security-First Design**: Secure credential management and file access controls
 - **Rich CLI Interface**: Beautiful multi-command interface with progress indicators and quarantine management
@@ -68,6 +69,7 @@ graph TD
     F --> G[File Organization]
     G --> H[Output Validation]
     H --> I[Paperless Upload]
+    I --> L[Error Detection & Tagging]
 
     B --> J[Quarantine System]
     H --> J
@@ -75,6 +77,7 @@ graph TD
 
     style A fill:#e1f5fe
     style I fill:#e8f5e8
+    style L fill:#fff3e0
     style J fill:#fff3e0
     style K fill:#fff3e0
 ```
@@ -178,14 +181,22 @@ Get started in just a few minutes:
 - [x] Document validation
 - [x] Comprehensive testing
 
-### 🚧 Phase 3 - Production Deployment (In Progress)
+### ✅ Phase 3 - Error Detection & Advanced Features (Complete)
+
+- [x] Error detection & tagging system
+- [x] Enhanced Paperless integration with error flagging
+- [x] Configurable error handling with severity filtering
+- [x] Comprehensive test coverage and manual testing scripts
+- [x] Updated documentation and workflow diagrams
+
+### 🚧 Phase 4 - Production Deployment (In Progress)
 
 - [ ] Docker containerization
 - [ ] Cloud storage integration
 - [ ] Web dashboard
 - [ ] Batch processing
 
-### 📋 Phase 4 - Enterprise Features (Planned)
+### 📋 Phase 5 - Enterprise Features (Planned)
 
 - [ ] Multi-tenant support
 - [ ] REST API
@@ -224,9 +235,9 @@ The MIT License is a permissive open-source license that allows you to:
 
 ## What's New
 
-!!! success "Latest Release: [Version 0.1.4](release_notes/RELEASE_NOTES_v0.1.4.md)" - **Release Workflow Enhancement**: Comprehensive debugging and improved PyPI publishing automation - **Advanced Error Diagnostics**: Detailed workflow context output for troubleshooting release issues - **Package Verification**: Enhanced validation with twine check before PyPI upload - **Simplified Job Conditions**: Clear workflow trigger logic using startsWith() checks - **Production-Ready Automation**: Complete release infrastructure for future automated releases - **Backward Compatibility**: No breaking changes, seamless upgrade from previous versions
+!!! success "Latest Release: [Version 0.3.0](release_notes/RELEASE_NOTES_v0.3.0.md)" - **Error Detection & Tagging System**: Automatic identification and tagging of 6 types of processing errors - **Paperless Integration Enhancement**: Advanced document management with error flagging capabilities - **Configurable Error Handling**: Environment-based configuration with severity filtering and batch tagging - **Comprehensive Testing**: Complete test coverage including unit tests and manual testing scripts - **Enhanced Documentation**: Updated workflow diagrams and user guides for error detection features - **Performance Optimizations**: Improved boundary detection efficiency and code maintainability - **Backward Compatibility**: Full compatibility with existing workflows - error detection is optional
 
-    See full [Release Notes](release_notes/RELEASE_NOTES_v0.1.4.md) for detailed changes and [Changelog](release_notes/CHANGELOG.md) for complete version history.
+    See full [Release Notes](release_notes/RELEASE_NOTES_v0.3.0.md) for detailed changes and [Changelog](release_notes/CHANGELOG.md) for complete version history.
 
 ---
 

@@ -4,6 +4,7 @@
 [![Tests](https://img.shields.io/badge/tests-37%2F37%20passing-brightgreen)](https://github.com/madeinoz67/bank-statement-separator/actions)
 [![PyPI](https://img.shields.io/pypi/v/bank-statement-separator)](https://pypi.org/project/bank-statement-separator/)
 [![Python](https://img.shields.io/pypi/pyversions/bank-statement-separator)](https://pypi.org/project/bank-statement-separator/)
+[![Release](https://img.shields.io/badge/version-v0.3.0-blue)](https://github.com/madeinoz67/bank-statement-separator/releases/tag/v0.3.0)
 
 An AI-powered tool that automatically processes PDF files containing multiple bank statements and separates them into individual files. Built with LangChain and LangGraph for robust stateful AI processing.
 
@@ -15,14 +16,16 @@ An AI-powered tool that automatically processes PDF files containing multiple ba
 - **Metadata Extraction**: Automatically extracts account numbers, dates, and bank information
 - **File Organization**: Generates meaningful filenames following configurable patterns
 - **Error Handling**: Comprehensive logging and audit trails
+- **Error Detection & Tagging**: Automatic identification and tagging of processing issues (v0.3.0+)
 - **Security Controls**: Built-in safeguards for production use
 - **Paperless Integration**: Optional integration with Paperless-ngx for document management
 
 ## 📋 Requirements
 
-- Python 3.9+
+- Python 3.11+
 - OpenAI API key (for LLM functionality)
 - UV package manager
+- Optional: Paperless-ngx instance (for document management and error tagging)
 
 ## 🛠 Installation
 
@@ -98,6 +101,15 @@ The application uses environment variables for configuration. Key settings inclu
 - `MAX_PAGES_PER_STATEMENT`: Processing limits
 - `OUTPUT_DIR`: Default output directory
 
+### Error Detection Configuration (v0.3.0+)
+
+```bash
+# Enable error detection and tagging
+PAPERLESS_ERROR_DETECTION_ENABLED=true
+PAPERLESS_ERROR_TAGS="error:processing,needs:review"
+PAPERLESS_ERROR_SEVERITY_LEVELS="medium,high,critical"
+```
+
 See [Configuration Guide](docs/getting-started/configuration.md) for complete details.
 
 ## 🏗 Architecture
@@ -108,6 +120,7 @@ The system consists of several key components:
 - **LLM Analyzer**: AI-powered boundary detection and metadata extraction
 - **PDF Processor**: Document manipulation and text extraction
 - **Error Handler**: Comprehensive error management and recovery
+- **Error Detection System**: Automatic identification and tagging of processing issues (v0.3.0+)
 - **Rate Limiter**: API usage controls and backoff mechanisms
 
 ### Processing Pipeline
@@ -118,6 +131,8 @@ The system consists of several key components:
 4. **Metadata Extraction**: Account and period information extraction
 5. **PDF Generation**: Create individual statement files
 6. **File Organization**: Apply naming conventions and organization
+7. **Paperless Upload**: Optional document management integration
+8. **Error Detection**: Automatic identification and tagging of processing issues (v0.3.0+)
 
 ## 🧪 Testing
 
@@ -131,6 +146,10 @@ uv run pytest --cov=src
 # Run specific test categories
 uv run pytest tests/unit/
 uv run pytest tests/integration/
+
+# Test error detection and tagging (v0.3.0+)
+uv run pytest tests/unit/test_error_tagging*.py -v
+uv run python tests/manual/test_error_tagging_e2e.py
 ```
 
 ## 🤝 Contributing
@@ -196,6 +215,34 @@ Build documentation locally:
 ```bash
 uv run mkdocs serve
 ```
+
+## 🔍 Error Detection & Tagging (v0.3.0+)
+
+The system includes comprehensive error detection that automatically identifies processing issues and applies configurable tags for manual review:
+
+### Error Categories
+
+- **LLM Analysis Failures**: API errors, model failures, fallback usage
+- **Boundary Detection Issues**: Low confidence boundaries, suspicious patterns
+- **PDF Processing Errors**: File corruption, access issues, format problems
+- **Metadata Extraction Failures**: Missing account data, date parsing issues
+- **Validation Failures**: Content validation, integrity checks
+- **File Output Issues**: Write failures, permissions, disk space
+
+### Error Detection Setup
+
+```bash
+# Basic error detection setup
+PAPERLESS_ERROR_DETECTION_ENABLED=true
+PAPERLESS_ERROR_TAGS="error:processing,needs:review"
+PAPERLESS_ERROR_SEVERITY_LEVELS="medium,high,critical"
+
+# Advanced configuration
+PAPERLESS_ERROR_TAG_THRESHOLD=0.7
+PAPERLESS_ERROR_BATCH_TAGGING=true
+```
+
+See the [Paperless Integration Guide](docs/user-guide/paperless-integration.md) for complete configuration details.
 
 ## 📦 Dependencies
 
