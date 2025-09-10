@@ -94,6 +94,90 @@ PAPERLESS_BACKOFF_MAX=30.0                   # Maximum backoff delay
 PAPERLESS_MAX_RETRIES=3                      # Maximum retry attempts
 ```
 
+## Input Document Processing Tracking
+
+When processing documents that **originate from Paperless-ngx** (using the `source_document_id` parameter), the system can automatically tag the original input documents as "processed" after successful processing. This prevents re-processing of the same documents in future runs.
+
+### Configuration Options
+
+Configure **one** of these input document tagging options:
+
+```bash
+# Option 1: Add a "processed" tag to input documents
+PAPERLESS_INPUT_PROCESSED_TAG=processed
+
+# Option 2: Remove "unprocessed" tag from input documents
+PAPERLESS_INPUT_REMOVE_UNPROCESSED_TAG=true
+
+# Option 3: Use a custom processing tag
+PAPERLESS_INPUT_PROCESSING_TAG=bank-statement-processed
+
+# Global enable/disable (default: true)
+PAPERLESS_INPUT_TAGGING_ENABLED=true
+```
+
+### How It Works
+
+1. **Document Processing**: Process bank statements from Paperless using `source_document_id`
+2. **Output Processing**: Create separated statements and upload them to Paperless
+3. **Input Tagging**: After successful upload, tag the original input document as processed
+4. **Re-processing Prevention**: Tagged documents can be filtered out in future processing runs
+
+### Usage Example
+
+```bash
+# Process a document from Paperless with ID 123
+uv run python -c "
+from src.bank_statement_separator.workflow import BankStatementWorkflow
+from src.bank_statement_separator.config import load_config
+
+config = load_config()
+workflow = BankStatementWorkflow(config)
+
+# source_document_id=123 tells the system this came from Paperless
+result = workflow.run(
+    input_file_path='/path/to/downloaded/statement.pdf',
+    output_directory='/output',
+    source_document_id=123
+)
+
+# After successful processing:
+# - Output documents uploaded to Paperless with configured tags
+# - Input document (ID 123) tagged as processed to prevent re-processing
+"
+```
+
+### Configuration Precedence
+
+Only **one** input tagging option should be configured. The system checks in this order:
+
+1. `PAPERLESS_INPUT_PROCESSED_TAG` (if set, adds this tag)
+2. `PAPERLESS_INPUT_REMOVE_UNPROCESSED_TAG` (if true, removes 'unprocessed' tag)
+3. `PAPERLESS_INPUT_PROCESSING_TAG` (if set, adds this custom tag)
+
+### Error Handling
+
+Input document tagging failures are handled gracefully:
+
+- **Non-blocking**: Tagging failures don't stop the workflow
+- **Detailed Logging**: All tagging attempts and results are logged
+- **Graceful Degradation**: Missing tags or API errors are handled without stopping processing
+
+### Monitoring Input Document Processing
+
+Check input document tagging results in logs:
+
+```bash
+# View input document tagging results
+grep "input document.*processed" logs/statement_processing.log
+
+# Check for tagging failures
+grep "Failed to mark input document" logs/statement_processing.log
+
+# View full workflow results including input tagging
+grep "upload_results.*input_tagging" logs/statement_processing.log
+```
+
 ## Auto-Creation Features
 
 The system automatically creates missing entities in Paperless-ngx:

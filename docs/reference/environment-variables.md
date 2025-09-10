@@ -175,6 +175,26 @@ Always set `ALLOWED_INPUT_DIRS` and `ALLOWED_OUTPUT_DIRS` in production:
 !!! tip "Auto-Creation"
 The system automatically creates missing tags, correspondents, document types, and storage paths in Paperless-ngx.
 
+### Input Document Processing
+
+Configure how input documents from Paperless are tagged after successful processing:
+
+| Variable                                 | Type    | Default | Description                                    |
+| ---------------------------------------- | ------- | ------- | ---------------------------------------------- |
+| `PAPERLESS_INPUT_TAGGING_ENABLED`        | Boolean | `true`  | Enable input document tagging after processing |
+| `PAPERLESS_INPUT_PROCESSED_TAG`          | String  | None    | Tag to add to input documents after processing |
+| `PAPERLESS_INPUT_REMOVE_UNPROCESSED_TAG` | Boolean | `false` | Remove 'unprocessed' tag after processing      |
+| `PAPERLESS_INPUT_PROCESSING_TAG`         | String  | None    | Custom tag to mark documents as processed      |
+
+!!! info "Input Document Tagging Options"
+When processing documents that originate from Paperless (using `source_document_id`), configure **one** of these options:
+
+    1. **Add processed tag**: `PAPERLESS_INPUT_PROCESSED_TAG=processed`
+    2. **Remove unprocessed tag**: `PAPERLESS_INPUT_REMOVE_UNPROCESSED_TAG=true`
+    3. **Use custom tag**: `PAPERLESS_INPUT_PROCESSING_TAG=bank-statement-processed`
+
+    Input document tagging only occurs after successful output document processing and upload. This prevents re-processing of documents that have already been handled.
+
 ### Upload Behavior
 
 | Variable                        | Type    | Default | Description                     |
@@ -327,6 +347,10 @@ QUARANTINE_DIRECTORY=/secure/quarantine
 PAPERLESS_ENABLED=true
 PAPERLESS_URL=https://paperless.company.com
 PAPERLESS_TOKEN=prod-api-token
+
+# Input document processing tracking
+PAPERLESS_INPUT_TAGGING_ENABLED=true
+PAPERLESS_INPUT_PROCESSED_TAG=processed
 ```
 
 ## Configuration Validation
