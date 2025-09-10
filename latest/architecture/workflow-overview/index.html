@@ -409,6 +409,42 @@
       8. Paperless Upload 📤
     </span>
 </a>
+<nav aria-label="8. Paperless Upload 📤" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#error-detection-and-tagging-sub-system">
+<span class="md-ellipsis">
+      Error Detection and Tagging Sub-System
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#error-detection-and-tagging-workflow">
+<span class="md-ellipsis">
+      Error Detection and Tagging Workflow
+    </span>
+</a>
+<nav aria-label="Error Detection and Tagging Workflow" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#error-types-and-tags">
+<span class="md-ellipsis">
+      Error Types and Tags
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#configuration-options">
+<span class="md-ellipsis">
+      Configuration Options
+    </span>
+</a>
 </li>
 </ul>
 </nav>
@@ -704,8 +740,17 @@
     ValidationResult --&gt;|❌ Failed| QuarantineValidation[Quarantine:<br/>Validation Failure]
 
     Node8 --&gt; Node8Error{Upload<br/>Success?}
-    Node8Error --&gt;|✅ Success| InputTagging{Source Document<br/>ID Available?}
+    Node8Error --&gt;|✅ Success| ErrorDetection[Error Detection<br/>🔍 Analyze Processing Issues]
     Node8Error --&gt;|❌ Upload Failed| RetryLogic8{Retry<br/>Logic}
+
+    ErrorDetection --&gt; ErrorsFound{Processing<br/>Errors Detected?}
+    ErrorsFound --&gt;|✅ Errors Found| ErrorTagging[Error Tagging<br/>🏷️ Apply Error Tags]
+    ErrorsFound --&gt;|❌ No Errors| InputTagging{Source Document<br/>ID Available?}
+
+    ErrorTagging --&gt; TaggingResult{Tagging<br/>Success?}
+    TaggingResult --&gt;|✅ Success| InputTagging
+    TaggingResult --&gt;|❌ Failed| TaggingWarning[Log Tagging Warning<br/>⚠️ Continue Processing]
+    TaggingWarning --&gt; InputTagging
 
     InputTagging --&gt;|✅ Yes| TagInput[Tag Input Document<br/>🏷️ Mark as Processed]
     InputTagging --&gt;|❌ No| ProcessedFiles[Move to Processed<br/>📂 Archive Input]
@@ -760,11 +805,11 @@
     classDef successStyle fill:#e8f5e8,stroke:#2e7d32,stroke-width:2px,color:#000
     classDef decisionStyle fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px,color:#000
 
-    class Node1,Node2,Node3,Node4,Node5,Node6,Node7,Node8,TagInput nodeStyle
+    class Node1,Node2,Node3,Node4,Node5,Node6,Node7,Node8,TagInput,ErrorDetection,ErrorTagging nodeStyle
     class Node1Error,Node2Error,Node3Error,Node4Error,Node5Error,Node6Error,Node8Error,ValidationResult decisionStyle
-    class PreValidation,RetryLogic1,RetryLogic2,RetryLogic4,RetryLogic5,RetryLogic6,RetryLogic8,InputTagging,TagResult decisionStyle
+    class PreValidation,RetryLogic1,RetryLogic2,RetryLogic4,RetryLogic5,RetryLogic6,RetryLogic8,InputTagging,TagResult,ErrorsFound,TaggingResult decisionStyle
     class QuarantinePreValidation,QuarantineCritical,QuarantineValidation,ErrorReport1,ErrorReport2,ErrorReport3,QuarantineDir quarantineStyle
-    class FallbackMode,PartialSuccess,PartialReport,TagWarning errorStyle
+    class FallbackMode,PartialSuccess,PartialReport,TagWarning,TaggingWarning errorStyle
     class ProcessedFiles,Success,QuarantineClean,QuarantineAnalysis successStyle
 </code></pre>
 <h2 id="workflow-nodes-detailed">Workflow Nodes Detailed<a class="headerlink" href="#workflow-nodes-detailed" title="Permanent link">¶</a></h2>
@@ -824,9 +869,164 @@
 <ul>
 <li><strong>Purpose</strong>: Upload to document management system</li>
 <li><strong>Processing</strong>: API upload with metadata application</li>
+<li><strong>Error Detection</strong>: Automatic analysis of processing issues and failures 🔍</li>
+<li><strong>Error Tagging</strong>: Apply error tags to documents with processing issues 🏷️</li>
 <li><strong>Input Document Tagging</strong>: Mark source documents as processed (if <code>source_document_id</code> provided)</li>
 <li><strong>Error Handling</strong>: Retry logic for network failures, graceful degradation for tagging failures</li>
 <li><strong>Fallback</strong>: Local storage with upload notification</li>
+</ul>
+<h4 id="error-detection-and-tagging-sub-system">Error Detection and Tagging Sub-System<a class="headerlink" href="#error-detection-and-tagging-sub-system" title="Permanent link">¶</a></h4>
+<p><strong>Error Detection 🔍:</strong></p>
+<ul>
+<li>Analyzes workflow state for processing errors (LLM failures, boundary issues, PDF problems)</li>
+<li>Detects low-confidence boundaries, suspicious patterns, and metadata extraction failures</li>
+<li>Configurable severity thresholds and error type filtering</li>
+<li>Supports 6 error categories: API failures, boundary issues, PDF processing, metadata extraction, validation failures, and file output errors</li>
+</ul>
+<p><strong>Error Tagging 🏷️:</strong></p>
+<ul>
+<li>Automatically applies configurable error tags to documents with detected issues</li>
+<li>Supports both individual and batch tagging modes</li>
+<li>Severity-based tag application (medium, high, critical errors)</li>
+<li>Rollback capability on tagging failures to maintain data integrity</li>
+<li>Comprehensive audit logging for all tagging operations</li>
+</ul>
+<h2 id="error-detection-and-tagging-workflow">Error Detection and Tagging Workflow<a class="headerlink" href="#error-detection-and-tagging-workflow" title="Permanent link">¶</a></h2>
+<p>The error detection and tagging system provides automatic identification and tagging of documents that encountered processing issues during the workflow execution.</p>
+<pre class="mermaid"><code>flowchart TD
+    Upload[Documents Successfully<br/>Uploaded to Paperless] --&gt; ErrorDetection[Error Detection<br/>🔍 Analyze Workflow State]
+
+    ErrorDetection --&gt; AnalyzeState{Analyze<br/>Processing State}
+    AnalyzeState --&gt; LLMCheck[Check LLM Analysis<br/>Failures]
+    AnalyzeState --&gt; BoundaryCheck[Check Boundary<br/>Detection Issues]
+    AnalyzeState --&gt; PDFCheck[Check PDF<br/>Processing Errors]
+    AnalyzeState --&gt; MetadataCheck[Check Metadata<br/>Extraction Problems]
+    AnalyzeState --&gt; ValidationCheck[Check Validation<br/>Failures]
+    AnalyzeState --&gt; OutputCheck[Check File Output<br/>Issues]
+
+    LLMCheck --&gt; ErrorsFound{Errors<br/>Detected?}
+    BoundaryCheck --&gt; ErrorsFound
+    PDFCheck --&gt; ErrorsFound
+    MetadataCheck --&gt; ErrorsFound
+    ValidationCheck --&gt; ErrorsFound
+    OutputCheck --&gt; ErrorsFound
+
+    ErrorsFound --&gt;|❌ No Errors| InputTagging[Continue to Input<br/>Document Tagging]
+    ErrorsFound --&gt;|✅ Errors Found| SeverityFilter{Meets Severity<br/>Threshold?}
+
+    SeverityFilter --&gt;|❌ Below Threshold| InputTagging
+    SeverityFilter --&gt;|✅ Above Threshold| ConfigCheck{Error Detection<br/>Enabled?}
+
+    ConfigCheck --&gt;|❌ Disabled| InputTagging
+    ConfigCheck --&gt;|✅ Enabled| TagsConfigured{Error Tags<br/>Configured?}
+
+    TagsConfigured --&gt;|❌ No Tags| InputTagging
+    TagsConfigured --&gt;|✅ Tags Available| BatchMode{Batch Tagging<br/>Mode?}
+
+    BatchMode --&gt;|✅ Batch Mode| BatchTagging[Apply Error Tags<br/>to All Documents]
+    BatchMode --&gt;|❌ Individual Mode| IndividualTagging[Apply Error Tags<br/>to Each Document]
+
+    BatchTagging --&gt; TaggingResult{All Tagging<br/>Operations Successful?}
+    IndividualTagging --&gt; TaggingResult
+
+    TaggingResult --&gt;|✅ Success| TaggingSuccess[Log Successful<br/>Error Tagging]
+    TaggingResult --&gt;|❌ Partial/Failed| TaggingWarning[Log Tagging Warning<br/>⚠️ Continue Processing]
+
+    TaggingSuccess --&gt; InputTagging
+    TaggingWarning --&gt; RollbackCheck{Rollback<br/>Required?}
+
+    RollbackCheck --&gt;|✅ Yes| RollbackTags[Rollback Failed<br/>Tag Operations]
+    RollbackCheck --&gt;|❌ No| InputTagging
+
+    RollbackTags --&gt; InputTagging
+
+    InputTagging --&gt; Complete[Continue with<br/>Input Document Processing]
+
+    %% Error Type Details
+    LLMCheck --&gt;|API Failures| ErrorType1[error:llm<br/>error:api-failure]
+    BoundaryCheck --&gt;|Low Confidence| ErrorType2[error:confidence<br/>error:boundary]
+    PDFCheck --&gt;|Processing Issues| ErrorType3[error:pdf<br/>error:processing]
+    MetadataCheck --&gt;|Extraction Failures| ErrorType4[error:metadata<br/>error:extraction]
+    ValidationCheck --&gt;|Validation Issues| ErrorType5[error:validation]
+    OutputCheck --&gt;|File Issues| ErrorType6[error:output<br/>error:file-system]
+
+    ErrorType1 --&gt; SeverityFilter
+    ErrorType2 --&gt; SeverityFilter
+    ErrorType3 --&gt; SeverityFilter
+    ErrorType4 --&gt; SeverityFilter
+    ErrorType5 --&gt; SeverityFilter
+    ErrorType6 --&gt; SeverityFilter
+
+    %% Styling
+    classDef detectionStyle fill:#fff3e0,stroke:#e65100,stroke-width:2px,color:#000
+    classDef taggingStyle fill:#e8f5e8,stroke:#2e7d32,stroke-width:2px,color:#000
+    classDef decisionStyle fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px,color:#000
+    classDef errorTypeStyle fill:#ffebee,stroke:#c62828,stroke-width:2px,color:#000
+    classDef warningStyle fill:#fff8e1,stroke:#f57c00,stroke-width:2px,color:#000
+
+    class ErrorDetection,LLMCheck,BoundaryCheck,PDFCheck,MetadataCheck,ValidationCheck,OutputCheck detectionStyle
+    class BatchTagging,IndividualTagging,TaggingSuccess,Complete taggingStyle
+    class AnalyzeState,ErrorsFound,SeverityFilter,ConfigCheck,TagsConfigured,BatchMode,TaggingResult,RollbackCheck decisionStyle
+    class ErrorType1,ErrorType2,ErrorType3,ErrorType4,ErrorType5,ErrorType6 errorTypeStyle
+    class TaggingWarning,RollbackTags warningStyle
+</code></pre>
+<h3 id="error-types-and-tags">Error Types and Tags<a class="headerlink" href="#error-types-and-tags" title="Permanent link">¶</a></h3>
+<table>
+<thead>
+<tr>
+<th>Error Category</th>
+<th>Detection Criteria</th>
+<th>Applied Tags</th>
+<th>Severity</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>LLM Analysis Failure</strong></td>
+<td>API errors, model failures, fallback usage</td>
+<td><code>error:llm</code>, <code>error:api-failure</code></td>
+<td>High</td>
+</tr>
+<tr>
+<td><strong>Boundary Detection Issues</strong></td>
+<td>Low confidence boundaries, suspicious patterns</td>
+<td><code>error:confidence</code>, <code>error:boundary</code></td>
+<td>Medium</td>
+</tr>
+<tr>
+<td><strong>PDF Processing Errors</strong></td>
+<td>File corruption, access issues, format problems</td>
+<td><code>error:pdf</code>, <code>error:processing</code></td>
+<td>High</td>
+</tr>
+<tr>
+<td><strong>Metadata Extraction Failure</strong></td>
+<td>Missing account data, date parsing issues</td>
+<td><code>error:metadata</code>, <code>error:extraction</code></td>
+<td>Medium</td>
+</tr>
+<tr>
+<td><strong>Validation Failures</strong></td>
+<td>Content validation, integrity checks</td>
+<td><code>error:validation</code></td>
+<td>Medium-High</td>
+</tr>
+<tr>
+<td><strong>File Output Issues</strong></td>
+<td>Write failures, permissions, disk space</td>
+<td><code>error:output</code>, <code>error:file-system</code></td>
+<td>Critical</td>
+</tr>
+</tbody>
+</table>
+<h3 id="configuration-options">Configuration Options<a class="headerlink" href="#configuration-options" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong><code>PAPERLESS_ERROR_DETECTION_ENABLED</code></strong>: Enable/disable error detection system</li>
+<li><strong><code>PAPERLESS_ERROR_TAGS</code></strong>: Base error tags to apply to all error documents</li>
+<li><strong><code>PAPERLESS_ERROR_TAG_THRESHOLD</code></strong>: Confidence threshold for boundary error detection</li>
+<li><strong><code>PAPERLESS_ERROR_SEVERITY_LEVELS</code></strong>: Error severity levels that trigger tagging</li>
+<li><strong><code>PAPERLESS_ERROR_BATCH_TAGGING</code></strong>: Use batch mode vs individual document tagging</li>
+<li><strong><code>PAPERLESS_TAG_WAIT_TIME</code></strong>: Wait time between tagging operations</li>
 </ul>
 <h2 id="error-handling-strategies">Error Handling Strategies<a class="headerlink" href="#error-handling-strategies" title="Permanent link">¶</a></h2>
 <h3 id="error-classification">Error Classification<a class="headerlink" href="#error-classification" title="Permanent link">¶</a></h3>
@@ -918,7 +1118,7 @@
     ErrorHandling --&gt; Backoff[OPENAI_REQUESTS_PER_MINUTE<br/>OPENAI_BURST_LIMIT<br/>OPENAI_BACKOFF_MIN<br/>OPENAI_BACKOFF_MAX]
     ErrorHandling --&gt; Reporting[ENABLE_ERROR_REPORTING<br/>ERROR_REPORT_DIRECTORY<br/>PRESERVE_FAILED_OUTPUTS]
 
-    Integration --&gt; Paperless[PAPERLESS_ENABLED<br/>PAPERLESS_URL<br/>PAPERLESS_TOKEN<br/>PAPERLESS_INPUT_TAGGING_ENABLED<br/>PAPERLESS_INPUT_PROCESSED_TAG]
+    Integration --&gt; Paperless[PAPERLESS_ENABLED<br/>PAPERLESS_URL<br/>PAPERLESS_TOKEN<br/>PAPERLESS_INPUT_TAGGING_ENABLED<br/>PAPERLESS_INPUT_PROCESSED_TAG<br/>PAPERLESS_ERROR_DETECTION_ENABLED<br/>PAPERLESS_ERROR_TAGS<br/>PAPERLESS_ERROR_TAG_THRESHOLD<br/>PAPERLESS_ERROR_SEVERITY_LEVELS<br/>PAPERLESS_ERROR_BATCH_TAGGING]
     Integration --&gt; Logging[ENABLE_AUDIT_LOGGING<br/>LOG_LEVEL<br/>LOG_FILE]
 
     classDef configStyle fill:#e3f2fd,stroke:#1565c0,stroke-width:2px

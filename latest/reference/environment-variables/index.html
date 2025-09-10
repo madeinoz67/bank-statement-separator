@@ -661,6 +661,8 @@
       
         
       
+        
+      
     
     
     
@@ -1173,6 +1175,15 @@
   <a href="#input-document-processing" class="md-nav__link">
     <span class="md-ellipsis">
       Input Document Processing
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#error-detection-and-tagging" class="md-nav__link">
+    <span class="md-ellipsis">
+      Error Detection and Tagging
     </span>
   </a>
   
@@ -2332,6 +2343,78 @@
 
 Input document tagging only occurs after successful output document processing and upload. This prevents re-processing of documents that have already been handled.
 </code></pre></div>
+<h3 id="error-detection-and-tagging">Error Detection and Tagging<a class="headerlink" href="#error-detection-and-tagging" title="Permanent link">&para;</a></h3>
+<p>Configure automatic error detection and tagging for documents with processing issues:</p>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>PAPERLESS_ERROR_DETECTION_ENABLED</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>Enable automatic error detection and tagging</td>
+</tr>
+<tr>
+<td><code>PAPERLESS_ERROR_TAGS</code></td>
+<td>List</td>
+<td>None</td>
+<td>Tags to apply to documents with processing errors</td>
+</tr>
+<tr>
+<td><code>PAPERLESS_ERROR_TAG_THRESHOLD</code></td>
+<td>Float</td>
+<td><code>0.5</code></td>
+<td>Error severity threshold (0.0-1.0) for tagging</td>
+</tr>
+<tr>
+<td><code>PAPERLESS_ERROR_SEVERITY_LEVELS</code></td>
+<td>List</td>
+<td><code>medium,high,critical</code></td>
+<td>Severity levels that trigger tagging</td>
+</tr>
+<tr>
+<td><code>PAPERLESS_ERROR_BATCH_TAGGING</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>Use batch tagging (true) vs individual requests</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition info">
+<p class="admonition-title">Error Detection System</p>
+</div>
+<p>The error detection system identifies 6 types of processing errors:</p>
+<div class="language-text highlight"><pre><span></span><code>- **LLM Analysis Failures**: AI model errors or timeouts
+- **Low Confidence Boundaries**: Statement detection with low confidence
+- **PDF Processing Errors**: PDF generation or manipulation failures
+- **Metadata Extraction Issues**: Failed to extract bank names, dates, accounts
+- **File Output Problems**: Generated files missing or corrupted
+- **Validation Failures**: Output validation checks failed
+
+Only errors above the configured threshold and matching severity levels trigger automatic tagging.
+</code></pre></div>
+<div class="admonition example">
+<p class="admonition-title">Error Tagging Configuration</p>
+</div>
+<p>```bash # Basic error tagging setup
+PAPERLESS_ERROR_DETECTION_ENABLED=true
+PAPERLESS_ERROR_TAGS=processing:needs-review,error:automated-detection
+PAPERLESS_ERROR_TAG_THRESHOLD=0.7
+PAPERLESS_ERROR_SEVERITY_LEVELS=high,critical</p>
+<div class="language-text highlight"><pre><span></span><code># Development/testing with comprehensive error detection
+PAPERLESS_ERROR_DETECTION_ENABLED=true
+PAPERLESS_ERROR_TAGS=test:error-detection,test:automated-tagging
+PAPERLESS_ERROR_TAG_THRESHOLD=0.0
+PAPERLESS_ERROR_SEVERITY_LEVELS=low,medium,high,critical
+```
+</code></pre></div>
 <h3 id="upload-behavior">Upload Behavior<a class="headerlink" href="#upload-behavior" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
@@ -2654,6 +2737,12 @@ Input document tagging only occurs after successful output document processing a
 </span><span id="__span-2-18"><a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a><span class="c1"># Input document processing tracking</span>
 </span><span id="__span-2-19"><a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a><span class="nv">PAPERLESS_INPUT_TAGGING_ENABLED</span><span class="o">=</span><span class="nb">true</span>
 </span><span id="__span-2-20"><a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a><span class="nv">PAPERLESS_INPUT_PROCESSED_TAG</span><span class="o">=</span>processed
+</span><span id="__span-2-21"><a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a>
+</span><span id="__span-2-22"><a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a><span class="c1"># Error detection and tagging</span>
+</span><span id="__span-2-23"><a id="__codelineno-2-23" name="__codelineno-2-23" href="#__codelineno-2-23"></a><span class="nv">PAPERLESS_ERROR_DETECTION_ENABLED</span><span class="o">=</span><span class="nb">true</span>
+</span><span id="__span-2-24"><a id="__codelineno-2-24" name="__codelineno-2-24" href="#__codelineno-2-24"></a><span class="nv">PAPERLESS_ERROR_TAGS</span><span class="o">=</span>processing:needs-review,error:automated-detection
+</span><span id="__span-2-25"><a id="__codelineno-2-25" name="__codelineno-2-25" href="#__codelineno-2-25"></a><span class="nv">PAPERLESS_ERROR_TAG_THRESHOLD</span><span class="o">=</span><span class="m">0</span>.7
+</span><span id="__span-2-26"><a id="__codelineno-2-26" name="__codelineno-2-26" href="#__codelineno-2-26"></a><span class="nv">PAPERLESS_ERROR_SEVERITY_LEVELS</span><span class="o">=</span>high,critical
 </span></code></pre></div>
 <h2 id="configuration-validation_1">Configuration Validation<a class="headerlink" href="#configuration-validation_1" title="Permanent link">&para;</a></h2>
 <p>Test your configuration:</p>
