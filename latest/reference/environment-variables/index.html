@@ -1170,6 +1170,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#input-document-processing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Input Document Processing
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#upload-behavior" class="md-nav__link">
     <span class="md-ellipsis">
       Upload Behavior
@@ -2275,6 +2284,54 @@
 <p class="admonition-title">Auto-Creation</p>
 </div>
 <p>The system automatically creates missing tags, correspondents, document types, and storage paths in Paperless-ngx.</p>
+<h3 id="input-document-processing">Input Document Processing<a class="headerlink" href="#input-document-processing" title="Permanent link">&para;</a></h3>
+<p>Configure how input documents from Paperless are tagged after successful processing:</p>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>PAPERLESS_INPUT_TAGGING_ENABLED</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>Enable input document tagging after processing</td>
+</tr>
+<tr>
+<td><code>PAPERLESS_INPUT_PROCESSED_TAG</code></td>
+<td>String</td>
+<td>None</td>
+<td>Tag to add to input documents after processing</td>
+</tr>
+<tr>
+<td><code>PAPERLESS_INPUT_REMOVE_UNPROCESSED_TAG</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>Remove 'unprocessed' tag after processing</td>
+</tr>
+<tr>
+<td><code>PAPERLESS_INPUT_PROCESSING_TAG</code></td>
+<td>String</td>
+<td>None</td>
+<td>Custom tag to mark documents as processed</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition info">
+<p class="admonition-title">Input Document Tagging Options</p>
+</div>
+<p>When processing documents that originate from Paperless (using <code>source_document_id</code>), configure <strong>one</strong> of these options:</p>
+<div class="language-text highlight"><pre><span></span><code>1. **Add processed tag**: `PAPERLESS_INPUT_PROCESSED_TAG=processed`
+2. **Remove unprocessed tag**: `PAPERLESS_INPUT_REMOVE_UNPROCESSED_TAG=true`
+3. **Use custom tag**: `PAPERLESS_INPUT_PROCESSING_TAG=bank-statement-processed`
+
+Input document tagging only occurs after successful output document processing and upload. This prevents re-processing of documents that have already been handled.
+</code></pre></div>
 <h3 id="upload-behavior">Upload Behavior<a class="headerlink" href="#upload-behavior" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
@@ -2593,6 +2650,10 @@
 </span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="nv">PAPERLESS_ENABLED</span><span class="o">=</span><span class="nb">true</span>
 </span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="nv">PAPERLESS_URL</span><span class="o">=</span>https://paperless.company.com
 </span><span id="__span-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="nv">PAPERLESS_TOKEN</span><span class="o">=</span>prod-api-token
+</span><span id="__span-2-17"><a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a>
+</span><span id="__span-2-18"><a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a><span class="c1"># Input document processing tracking</span>
+</span><span id="__span-2-19"><a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a><span class="nv">PAPERLESS_INPUT_TAGGING_ENABLED</span><span class="o">=</span><span class="nb">true</span>
+</span><span id="__span-2-20"><a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a><span class="nv">PAPERLESS_INPUT_PROCESSED_TAG</span><span class="o">=</span>processed
 </span></code></pre></div>
 <h2 id="configuration-validation_1">Configuration Validation<a class="headerlink" href="#configuration-validation_1" title="Permanent link">&para;</a></h2>
 <p>Test your configuration:</p>

@@ -704,8 +704,16 @@
     ValidationResult --&gt;|❌ Failed| QuarantineValidation[Quarantine:<br/>Validation Failure]
 
     Node8 --&gt; Node8Error{Upload<br/>Success?}
-    Node8Error --&gt;|✅ Success| ProcessedFiles[Move to Processed<br/>📂 Archive Input]
+    Node8Error --&gt;|✅ Success| InputTagging{Source Document<br/>ID Available?}
     Node8Error --&gt;|❌ Upload Failed| RetryLogic8{Retry<br/>Logic}
+
+    InputTagging --&gt;|✅ Yes| TagInput[Tag Input Document<br/>🏷️ Mark as Processed]
+    InputTagging --&gt;|❌ No| ProcessedFiles[Move to Processed<br/>📂 Archive Input]
+
+    TagInput --&gt; TagResult{Tagging<br/>Success?}
+    TagResult --&gt;|✅ Success| ProcessedFiles
+    TagResult --&gt;|❌ Failed| TagWarning[Log Warning<br/>⚠️ Continue Processing]
+    TagWarning --&gt; ProcessedFiles
 
     ProcessedFiles --&gt; Success([✅ Processing Complete<br/>📊 Generate Report])
 
@@ -752,11 +760,11 @@
     classDef successStyle fill:#e8f5e8,stroke:#2e7d32,stroke-width:2px,color:#000
     classDef decisionStyle fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px,color:#000
 
-    class Node1,Node2,Node3,Node4,Node5,Node6,Node7,Node8 nodeStyle
+    class Node1,Node2,Node3,Node4,Node5,Node6,Node7,Node8,TagInput nodeStyle
     class Node1Error,Node2Error,Node3Error,Node4Error,Node5Error,Node6Error,Node8Error,ValidationResult decisionStyle
-    class PreValidation,RetryLogic1,RetryLogic2,RetryLogic4,RetryLogic5,RetryLogic6,RetryLogic8 decisionStyle
+    class PreValidation,RetryLogic1,RetryLogic2,RetryLogic4,RetryLogic5,RetryLogic6,RetryLogic8,InputTagging,TagResult decisionStyle
     class QuarantinePreValidation,QuarantineCritical,QuarantineValidation,ErrorReport1,ErrorReport2,ErrorReport3,QuarantineDir quarantineStyle
-    class FallbackMode,PartialSuccess,PartialReport errorStyle
+    class FallbackMode,PartialSuccess,PartialReport,TagWarning errorStyle
     class ProcessedFiles,Success,QuarantineClean,QuarantineAnalysis successStyle
 </code></pre>
 <h2 id="workflow-nodes-detailed">Workflow Nodes Detailed<a class="headerlink" href="#workflow-nodes-detailed" title="Permanent link">¶</a></h2>
@@ -816,7 +824,8 @@
 <ul>
 <li><strong>Purpose</strong>: Upload to document management system</li>
 <li><strong>Processing</strong>: API upload with metadata application</li>
-<li><strong>Error Handling</strong>: Retry logic for network failures</li>
+<li><strong>Input Document Tagging</strong>: Mark source documents as processed (if <code>source_document_id</code> provided)</li>
+<li><strong>Error Handling</strong>: Retry logic for network failures, graceful degradation for tagging failures</li>
 <li><strong>Fallback</strong>: Local storage with upload notification</li>
 </ul>
 <h2 id="error-handling-strategies">Error Handling Strategies<a class="headerlink" href="#error-handling-strategies" title="Permanent link">¶</a></h2>
@@ -909,7 +918,7 @@
     ErrorHandling --&gt; Backoff[OPENAI_REQUESTS_PER_MINUTE<br/>OPENAI_BURST_LIMIT<br/>OPENAI_BACKOFF_MIN<br/>OPENAI_BACKOFF_MAX]
     ErrorHandling --&gt; Reporting[ENABLE_ERROR_REPORTING<br/>ERROR_REPORT_DIRECTORY<br/>PRESERVE_FAILED_OUTPUTS]
 
-    Integration --&gt; Paperless[PAPERLESS_ENABLED<br/>PAPERLESS_URL<br/>PAPERLESS_TOKEN]
+    Integration --&gt; Paperless[PAPERLESS_ENABLED<br/>PAPERLESS_URL<br/>PAPERLESS_TOKEN<br/>PAPERLESS_INPUT_TAGGING_ENABLED<br/>PAPERLESS_INPUT_PROCESSED_TAG]
     Integration --&gt; Logging[ENABLE_AUDIT_LOGGING<br/>LOG_LEVEL<br/>LOG_FILE]
 
     classDef configStyle fill:#e3f2fd,stroke:#1565c0,stroke-width:2px

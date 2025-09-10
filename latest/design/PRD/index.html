@@ -1210,6 +1210,30 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#epic-9-input-document-processing-tracking-completed" class="md-nav__link">
+    <span class="md-ellipsis">
+      Epic 9: Input Document Processing Tracking ✅ COMPLETED
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Epic 9: Input Document Processing Tracking ✅ COMPLETED">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#user-stories_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      User Stories
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1302,6 +1326,15 @@
   <a href="#f6-llm-model-selection-performance-optimization" class="md-nav__link">
     <span class="md-ellipsis">
       F6: LLM Model Selection &amp; Performance Optimization
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#f7-input-document-processing-tracking" class="md-nav__link">
+    <span class="md-ellipsis">
+      F7: Input Document Processing Tracking
     </span>
   </a>
   
@@ -1994,6 +2027,15 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#version-25-september-10-2025" class="md-nav__link">
+    <span class="md-ellipsis">
+      Version 2.5 (September 10, 2025)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#version-24-september-6-2025" class="md-nav__link">
     <span class="md-ellipsis">
       Version 2.4 (September 6, 2025)
@@ -2355,10 +2397,10 @@
 <h1 id="product-requirements-document-prd">Product Requirements Document (PRD)<a class="headerlink" href="#product-requirements-document-prd" title="Permanent link">&para;</a></h1>
 <h2 id="bank-statement-separator-langgraph-ai-workflow">Bank Statement Separator - LangGraph AI Workflow<a class="headerlink" href="#bank-statement-separator-langgraph-ai-workflow" title="Permanent link">&para;</a></h2>
 <hr />
-<p><strong>Document Version:</strong> 2.4
-<strong>Date:</strong> September 6, 2025
+<p><strong>Document Version:</strong> 2.5
+<strong>Date:</strong> September 10, 2025
 <strong>Author:</strong> Stephen Eaton
-<strong>Status:</strong> Production Ready with Multi-Provider LLM Support &amp; Natural Boundary Detection</p>
+<strong>Status:</strong> Production Ready with Multi-Provider LLM Support &amp; Input Document Processing Tracking</p>
 <hr />
 <h2 id="executive-summary">Executive Summary<a class="headerlink" href="#executive-summary" title="Permanent link">&para;</a></h2>
 <p>The Bank Statement Separator is an AI-powered document processing solution that automatically identifies, extracts, and separates individual bank statements from multi-statement PDF files. Built using LangGraph and designed for cybersecurity professionals, it provides intelligent document analysis with enterprise-grade security controls and audit capabilities.</p>
@@ -2567,6 +2609,19 @@
 <li><strong>US8.6</strong>: As a user, I want decision trees and configuration examples for easy model selection</li>
 <li><strong>US8.7</strong>: As a user, I want performance benchmarking data to predict processing times for my workload</li>
 </ul>
+<h3 id="epic-9-input-document-processing-tracking-completed">Epic 9: Input Document Processing Tracking ✅ COMPLETED<a class="headerlink" href="#epic-9-input-document-processing-tracking-completed" title="Permanent link">&para;</a></h3>
+<p><strong>As a</strong> document management user
+<strong>I want</strong> automatic tracking of processed input documents from Paperless
+<strong>So that</strong> I can prevent re-processing of documents that have already been handled and maintain clean processing workflows</p>
+<h4 id="user-stories_8">User Stories<a class="headerlink" href="#user-stories_8" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>US9.1</strong>: As a user, I want input documents from Paperless automatically tagged as "processed" after successful statement separation</li>
+<li><strong>US9.2</strong>: As a user, I want flexible configuration options for marking documents (add tag, remove tag, custom tag)</li>
+<li><strong>US9.3</strong>: As a user, I want input document tagging failures to be handled gracefully without stopping the workflow</li>
+<li><strong>US9.4</strong>: As a system administrator, I want comprehensive logging of all input document tagging operations for audit trails</li>
+<li><strong>US9.5</strong>: As a user, I want the system to only attempt tagging when processing documents that originated from Paperless</li>
+<li><strong>US9.6</strong>: As a user, I want input document tagging to occur only after successful output document processing and upload</li>
+</ul>
 <hr />
 <h2 id="functional-requirements">Functional Requirements<a class="headerlink" href="#functional-requirements" title="Permanent link">&para;</a></h2>
 <h3 id="core-features">Core Features<a class="headerlink" href="#core-features" title="Permanent link">&para;</a></h3>
@@ -2744,6 +2799,46 @@ The system SHALL provide comprehensive model documentation:</p>
 <li><strong>Performance Results</strong>: Detailed results for all tested models with comparative analysis</li>
 <li><strong>Selection Guides</strong>: User-friendly documentation for choosing optimal models</li>
 <li><strong>Best Practices</strong>: Deployment recommendations and optimization strategies</li>
+</ul>
+<h4 id="f7-input-document-processing-tracking">F7: Input Document Processing Tracking<a class="headerlink" href="#f7-input-document-processing-tracking" title="Permanent link">&para;</a></h4>
+<p>The system SHALL provide comprehensive input document processing tracking capabilities to prevent re-processing and maintain clean document workflows.</p>
+<p><strong>F7.1: Source Document Identification</strong>
+The system SHALL identify when documents originate from Paperless-ngx:</p>
+<ul>
+<li><strong>Source Document ID</strong>: Accept <code>source_document_id</code> parameter to identify Paperless input documents</li>
+<li><strong>Conditional Processing</strong>: Only perform input document tagging when <code>source_document_id</code> is provided</li>
+<li><strong>Workflow Integration</strong>: Integrate input document tagging into the Paperless upload workflow step</li>
+</ul>
+<p><strong>F7.2: Input Document Tagging Configuration</strong>
+The system SHALL provide flexible configuration options for input document marking:</p>
+<ul>
+<li><strong>Option 1 - Add Processed Tag</strong>: <code>PAPERLESS_INPUT_PROCESSED_TAG</code> to add a specific tag after processing</li>
+<li><strong>Option 2 - Remove Unprocessed Tag</strong>: <code>PAPERLESS_INPUT_REMOVE_UNPROCESSED_TAG</code> to remove existing "unprocessed" tags</li>
+<li><strong>Option 3 - Custom Processing Tag</strong>: <code>PAPERLESS_INPUT_PROCESSING_TAG</code> to add a custom processing tag</li>
+<li><strong>Global Control</strong>: <code>PAPERLESS_INPUT_TAGGING_ENABLED</code> to enable/disable the entire feature</li>
+</ul>
+<p><strong>F7.3: Processing Sequence Requirements</strong>
+The system SHALL perform input document tagging with strict sequence controls:</p>
+<ul>
+<li><strong>Post-Processing Only</strong>: Input document tagging SHALL only occur after successful output document processing</li>
+<li><strong>Upload Success Dependency</strong>: Input document tagging SHALL only occur after successful Paperless upload</li>
+<li><strong>Sequential Execution</strong>: Input document tagging SHALL execute as part of the Paperless upload workflow node</li>
+<li><strong>Graceful Degradation</strong>: Failed input document tagging SHALL NOT prevent workflow completion</li>
+</ul>
+<p><strong>F7.4: Configuration Precedence</strong>
+The system SHALL enforce configuration precedence rules:</p>
+<ul>
+<li><strong>Mutual Exclusivity</strong>: Only one input tagging option SHALL be active at a time</li>
+<li><strong>Precedence Order</strong>: Check <code>PAPERLESS_INPUT_PROCESSED_TAG</code>, then <code>PAPERLESS_INPUT_REMOVE_UNPROCESSED_TAG</code>, then <code>PAPERLESS_INPUT_PROCESSING_TAG</code></li>
+<li><strong>Configuration Validation</strong>: System SHALL validate that only one tagging option is configured</li>
+</ul>
+<p><strong>F7.5: Error Handling and Logging</strong>
+The system SHALL provide comprehensive error handling for input document tagging:</p>
+<ul>
+<li><strong>Non-Blocking Failures</strong>: Input document tagging failures SHALL NOT stop the workflow</li>
+<li><strong>Detailed Logging</strong>: All tagging attempts, successes, and failures SHALL be logged with full context</li>
+<li><strong>Result Tracking</strong>: Tagging results SHALL be included in workflow output for monitoring</li>
+<li><strong>Graceful Degradation</strong>: Missing tags or API errors SHALL be handled without workflow interruption</li>
 </ul>
 <h3 id="security-features">Security Features<a class="headerlink" href="#security-features" title="Permanent link">&para;</a></h3>
 <h4 id="s1-credential-management">S1: Credential Management<a class="headerlink" href="#s1-credential-management" title="Permanent link">&para;</a></h4>
@@ -3177,6 +3272,7 @@ The system SHALL provide comprehensive model documentation:</p>
 <li><strong>Natural Boundary Detection</strong>: Content-based analysis using statement headers, transaction boundaries, account transitions</li>
 <li><strong>Batch Processing</strong>: Directory-based processing with pattern filtering and error isolation</li>
 <li><strong>Hallucination Detection</strong>: Enterprise-grade AI validation with 8 detection types and automatic rejection</li>
+<li><strong>Input Document Tracking</strong>: Automatic tagging of processed input documents from Paperless to prevent re-processing</li>
 </ul>
 <h4 id="user-interface-experience">User Interface &amp; Experience<a class="headerlink" href="#user-interface-experience" title="Permanent link">&para;</a></h4>
 <ul>
@@ -3261,6 +3357,11 @@ The system SHALL provide comprehensive model documentation:</p>
 </tr>
 <tr>
 <td>Performance Optimization</td>
+<td>✅ Complete</td>
+<td>100%</td>
+</tr>
+<tr>
+<td>Input Document Processing</td>
 <td>✅ Complete</td>
 <td>100%</td>
 </tr>
@@ -3399,6 +3500,37 @@ The system SHALL provide comprehensive model documentation:</p>
 </ol>
 <hr />
 <h2 id="document-change-log">Document Change Log<a class="headerlink" href="#document-change-log" title="Permanent link">&para;</a></h2>
+<h3 id="version-25-september-10-2025">Version 2.5 (September 10, 2025)<a class="headerlink" href="#version-25-september-10-2025" title="Permanent link">&para;</a></h3>
+<p><strong>Major Enhancement: Input Document Processing Tracking</strong></p>
+<p><strong>Changes Made:</strong></p>
+<ul>
+<li><strong>Added Epic 9</strong>: Input Document Processing Tracking user stories with 6 comprehensive requirements</li>
+<li><strong>Added F7</strong>: Complete Input Document Processing Tracking functional requirements section</li>
+<li><strong>Enhanced Workflow Integration</strong>: Input document tagging integrated into Paperless upload workflow</li>
+<li><strong>Flexible Configuration</strong>: Three configuration approaches (add tag, remove tag, custom tag) with precedence rules</li>
+<li><strong>Comprehensive Error Handling</strong>: Non-blocking failures with detailed logging and graceful degradation</li>
+<li><strong>Updated Success Metrics</strong>: Added Input Document Processing to MVP delivery metrics at 100% completion</li>
+</ul>
+<p><strong>F7 Input Document Processing Features:</strong></p>
+<ul>
+<li><strong>Source Document Identification</strong>: Accept <code>source_document_id</code> parameter for Paperless input documents</li>
+<li><strong>Flexible Tagging Configuration</strong>: Multiple options with mutual exclusivity and precedence validation</li>
+<li><strong>Processing Sequence Control</strong>: Strict ordering ensuring tagging only after successful output processing</li>
+<li><strong>Error Handling</strong>: Non-blocking failures with comprehensive logging and result tracking</li>
+<li><strong>Workflow Integration</strong>: Seamless integration into existing Paperless upload workflow step</li>
+</ul>
+<p><strong>New User Stories:</strong></p>
+<ul>
+<li><strong>US9.1-US9.6</strong>: Complete user story coverage for automatic processing tracking, flexible configuration, error handling, audit logging, conditional processing, and sequence control</li>
+</ul>
+<p><strong>Impact:</strong></p>
+<ul>
+<li><strong>Prevention of Re-processing</strong>: Automatic tagging prevents duplicate processing of the same input documents</li>
+<li><strong>Workflow Efficiency</strong>: Clean document management workflows with proper processing state tracking</li>
+<li><strong>Production Reliability</strong>: Graceful error handling ensures workflow completion despite tagging failures</li>
+<li><strong>Audit Compliance</strong>: Comprehensive logging of all input document tagging operations for regulatory requirements</li>
+<li><strong>Deployment Flexibility</strong>: Configurable tagging approaches to match different organizational workflows</li>
+</ul>
 <h3 id="version-24-september-6-2025">Version 2.4 (September 6, 2025)<a class="headerlink" href="#version-24-september-6-2025" title="Permanent link">&para;</a></h3>
 <p><strong>Major Enhancement: Multi-Provider LLM Support &amp; Natural Boundary Detection</strong></p>
 <p><strong>Changes Made:</strong></p>
@@ -3519,10 +3651,10 @@ The system SHALL provide comprehensive model documentation:</p>
 <hr />
 <p><strong>Document Control</strong></p>
 <ul>
-<li><strong>Next Review Date</strong>: October 6, 2025</li>
+<li><strong>Next Review Date</strong>: December 10, 2025</li>
 <li><strong>Stakeholder Approval Required</strong>: Product Manager, Security Officer, Engineering Lead</li>
 <li><strong>Distribution</strong>: Product team, Engineering team, Security team, Compliance team</li>
-<li><strong>Implementation Status</strong>: ✅ <strong>PRODUCTION READY WITH MULTI-PROVIDER LLM SUPPORT &amp; NATURAL BOUNDARY DETECTION</strong> - Ready for Enterprise Deployment</li>
+<li><strong>Implementation Status</strong>: ✅ <strong>PRODUCTION READY WITH INPUT DOCUMENT PROCESSING TRACKING</strong> - Ready for Enterprise Deployment</li>
 </ul>
 
 
