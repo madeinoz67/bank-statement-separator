@@ -1192,6 +1192,7 @@ class BankStatementWorkflow:
             upload_results["success"] = len(failed_uploads) == 0
 
             # Mark input document as processed if enabled and we have a source document ID
+            # Only tag input documents from Paperless after successful upload to prevent re-processing
             input_tagging_results = {
                 "attempted": False,
                 "success": False,

@@ -155,6 +155,10 @@ class Config(BaseModel):
         default=None,
         description="Custom tag to mark input documents as processed",
     )
+    paperless_input_unprocessed_tag_name: str = Field(
+        default="unprocessed",
+        description="Name of the 'unprocessed' tag to remove from input documents",
+    )
     paperless_input_tagging_enabled: bool = Field(
         default=True,
         description="Enable tagging of input documents after processing",
@@ -397,6 +401,7 @@ def load_config(env_file: Optional[str] = None) -> Config:
         "PAPERLESS_INPUT_PROCESSED_TAG": "paperless_input_processed_tag",
         "PAPERLESS_INPUT_REMOVE_UNPROCESSED_TAG": "paperless_input_remove_unprocessed_tag",
         "PAPERLESS_INPUT_PROCESSING_TAG": "paperless_input_processing_tag",
+        "PAPERLESS_INPUT_UNPROCESSED_TAG_NAME": "paperless_input_unprocessed_tag_name",
         "PAPERLESS_INPUT_TAGGING_ENABLED": "paperless_input_tagging_enabled",
         # Error Handling
         "QUARANTINE_DIRECTORY": "quarantine_directory",

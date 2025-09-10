@@ -22,7 +22,7 @@ class TestPaperlessInputDocumentTagging:
     def paperless_config_add_tag(self) -> Config:
         """Create a test configuration with add processed tag enabled."""
         return Config(
-            openai_api_key="test-key",  # pragma: allowlist secret
+            openai_api_key="fake-test-api-key-not-real",  # pragma: allowlist secret
             paperless_enabled=True,
             paperless_url="http://localhost:8000",
             paperless_token="test-token-123",
@@ -34,7 +34,7 @@ class TestPaperlessInputDocumentTagging:
     def paperless_config_remove_tag(self) -> Config:
         """Create a test configuration with remove unprocessed tag enabled."""
         return Config(
-            openai_api_key="test-key",  # pragma: allowlist secret
+            openai_api_key="fake-test-api-key-not-real",  # pragma: allowlist secret
             paperless_enabled=True,
             paperless_url="http://localhost:8000",
             paperless_token="test-token-123",
@@ -46,7 +46,7 @@ class TestPaperlessInputDocumentTagging:
     def paperless_config_custom_tag(self) -> Config:
         """Create a test configuration with custom processing tag enabled."""
         return Config(
-            openai_api_key="test-key",  # pragma: allowlist secret
+            openai_api_key="fake-test-api-key-not-real",  # pragma: allowlist secret
             paperless_enabled=True,
             paperless_url="http://localhost:8000",
             paperless_token="test-token-123",
@@ -58,7 +58,7 @@ class TestPaperlessInputDocumentTagging:
     def paperless_config_disabled(self) -> Config:
         """Create a test configuration with input tagging disabled."""
         return Config(
-            openai_api_key="test-key",  # pragma: allowlist secret
+            openai_api_key="fake-test-api-key-not-real",  # pragma: allowlist secret
             paperless_enabled=True,
             paperless_url="http://localhost:8000",
             paperless_token="test-token-123",
@@ -284,7 +284,7 @@ class TestPaperlessInputDocumentTagging:
     def test_mark_input_document_processed_no_config(self) -> None:
         """Test that marking fails gracefully when no tagging config is set."""
         config = Config(
-            openai_api_key="test-key",  # pragma: allowlist secret
+            openai_api_key="fake-test-api-key-not-real",  # pragma: allowlist secret
             paperless_enabled=True,
             paperless_url="http://localhost:8000",
             paperless_token="test-token-123",
@@ -361,7 +361,7 @@ class TestPaperlessInputDocumentTagging:
     def test_mark_input_document_processed_paperless_disabled(self) -> None:
         """Test that method fails when paperless integration is disabled."""
         config = Config(
-            openai_api_key="test-key",  # pragma: allowlist secret
+            openai_api_key="fake-test-api-key-not-real",  # pragma: allowlist secret
             paperless_enabled=False,  # Disabled
         )
 
@@ -486,7 +486,7 @@ class TestPaperlessInputDocumentTagging:
     def test_should_mark_input_document_processed_false_no_config(self) -> None:
         """Test helper method returns False when no tagging config is set."""
         config = Config(
-            openai_api_key="test-key",  # pragma: allowlist secret
+            openai_api_key="fake-test-api-key-not-real",  # pragma: allowlist secret
             paperless_enabled=True,
             paperless_url="http://localhost:8000",
             paperless_token="test-token-123",
@@ -521,7 +521,7 @@ class TestPaperlessInputTaggingConfiguration:
 
         # Set test environment variables
         test_env = {
-            "OPENAI_API_KEY": "test-key",  # pragma: allowlist secret
+            "OPENAI_API_KEY": "fake-test-api-key-not-real",  # pragma: allowlist secret
             "PAPERLESS_INPUT_PROCESSED_TAG": "processed-by-separator",
             "PAPERLESS_INPUT_REMOVE_UNPROCESSED_TAG": "true",
             "PAPERLESS_INPUT_PROCESSING_TAG": "separator-processed",
@@ -539,7 +539,7 @@ class TestPaperlessInputTaggingConfiguration:
     def test_config_mutually_exclusive_options(self) -> None:
         """Test that multiple tagging options can coexist (precedence handled in code)."""
         config = Config(
-            openai_api_key="test-key",  # pragma: allowlist secret
+            openai_api_key="fake-test-api-key-not-real",  # pragma: allowlist secret
             paperless_input_processed_tag="processed",
             paperless_input_remove_unprocessed_tag=True,
             paperless_input_processing_tag="custom-processed",

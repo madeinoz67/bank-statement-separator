@@ -1171,7 +1171,9 @@ class PaperlessClient:
                 document_id, self.config.paperless_input_processed_tag
             )
         elif self.config.paperless_input_remove_unprocessed_tag:
-            return self._remove_tag_from_document(document_id, "unprocessed")
+            return self._remove_tag_from_document(
+                document_id, self.config.paperless_input_unprocessed_tag_name
+            )
         elif self.config.paperless_input_processing_tag:
             return self._add_tag_to_document(
                 document_id, self.config.paperless_input_processing_tag
@@ -1227,13 +1229,23 @@ class PaperlessClient:
                     )
                     update_response.raise_for_status()
 
-                return {
-                    "success": True,
-                    "document_id": document_id,
-                    "action": "add_tag",
-                    "tag_name": tag_name,
-                    "tag_id": tag_id,
-                }
+                    return {
+                        "success": True,
+                        "document_id": document_id,
+                        "action": "add_tag",
+                        "tag_name": tag_name,
+                        "tag_id": tag_id,
+                    }
+                else:
+                    # Tag already present, return early with success message
+                    return {
+                        "success": True,
+                        "document_id": document_id,
+                        "action": "add_tag",
+                        "tag_name": tag_name,
+                        "tag_id": tag_id,
+                        "message": f"Tag '{tag_name}' already present on document",
+                    }
 
         except Exception as e:
             return {
@@ -1288,13 +1300,23 @@ class PaperlessClient:
                     )
                     update_response.raise_for_status()
 
-                return {
-                    "success": True,
-                    "document_id": document_id,
-                    "action": "remove_tag",
-                    "tag_name": tag_name,
-                    "tag_id": tag_id,
-                }
+                    return {
+                        "success": True,
+                        "document_id": document_id,
+                        "action": "remove_tag",
+                        "tag_name": tag_name,
+                        "tag_id": tag_id,
+                    }
+                else:
+                    # Tag not present, return early with success message
+                    return {
+                        "success": True,
+                        "document_id": document_id,
+                        "action": "remove_tag",
+                        "tag_name": tag_name,
+                        "tag_id": tag_id,
+                        "message": f"Tag '{tag_name}' not present on document",
+                    }
 
         except Exception as e:
             return {
