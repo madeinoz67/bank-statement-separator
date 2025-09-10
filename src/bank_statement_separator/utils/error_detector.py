@@ -133,12 +133,25 @@ class ErrorDetector:
         if not boundaries:
             return errors
 
-        # Check for low confidence boundaries
-        low_confidence_boundaries = [
-            b
-            for b in boundaries
-            if b.get("confidence", 1.0) < self.config.paperless_error_tag_threshold
-        ]
+        # Check for low confidence boundaries and suspicious patterns in single loop
+        low_confidence_boundaries = []
+        suspicious_boundaries = []
+
+        for boundary in boundaries:
+            # Check confidence
+            if (
+                boundary.get("confidence", 1.0)
+                < self.config.paperless_error_tag_threshold
+            ):
+                low_confidence_boundaries.append(boundary)
+
+            # Check for suspicious patterns (very small or very large segments)
+            start_page = boundary.get("start_page", 1)
+            end_page = boundary.get("end_page", 1)
+            page_count = end_page - start_page + 1
+
+            if page_count < 2 or page_count > 50:
+                suspicious_boundaries.append(boundary)
 
         if low_confidence_boundaries:
             avg_confidence = sum(
@@ -157,17 +170,6 @@ class ErrorDetector:
                     },
                 }
             )
-
-        # Check for suspicious boundary patterns (e.g., very small or very large segments)
-        suspicious_boundaries = []
-        for boundary in boundaries:
-            start_page = boundary.get("start_page", 1)
-            end_page = boundary.get("end_page", 1)
-            page_count = end_page - start_page + 1
-
-            # Flag segments that are too small (< 2 pages) or too large (> 50 pages)
-            if page_count < 2 or page_count > 50:
-                suspicious_boundaries.append(boundary)
 
         if suspicious_boundaries:
             errors.append(

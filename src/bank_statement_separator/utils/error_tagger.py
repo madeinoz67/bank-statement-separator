@@ -290,14 +290,7 @@ class ErrorTagger:
                 tags.append(f"error:severity:{severity}")
 
         # Remove duplicates while preserving order
-        unique_tags = []
-        seen = set()
-        for tag in tags:
-            if tag not in seen:
-                unique_tags.append(tag)
-                seen.add(tag)
-
-        return unique_tags
+        return list(dict.fromkeys(tags))
 
     def create_error_summary(self, errors: List[Dict[str, Any]]) -> str:
         """Create a human-readable summary of detected errors.

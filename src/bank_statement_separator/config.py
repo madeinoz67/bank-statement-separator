@@ -177,7 +177,7 @@ class Config(BaseModel):
         default=0.5,
         ge=0.0,
         le=1.0,
-        description="Confidence threshold below which documents are tagged as having errors",
+        description="Confidence threshold below which boundary detection errors are flagged for tagging",
     )
     paperless_error_severity_levels: List[str] = Field(
         default=["medium", "high", "critical"],
