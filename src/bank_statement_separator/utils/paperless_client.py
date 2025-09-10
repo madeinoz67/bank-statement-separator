@@ -1170,12 +1170,12 @@ class PaperlessClient:
             return self._add_tag_to_document(
                 document_id, self.config.paperless_input_processed_tag
             )
+        elif self.config.paperless_input_remove_unprocessed_tag:
+            return self._remove_tag_from_document(document_id, "unprocessed")
         elif self.config.paperless_input_processing_tag:
             return self._add_tag_to_document(
                 document_id, self.config.paperless_input_processing_tag
             )
-        elif self.config.paperless_input_remove_unprocessed_tag:
-            return self._remove_tag_from_document(document_id, "unprocessed")
         else:
             return {
                 "success": False,

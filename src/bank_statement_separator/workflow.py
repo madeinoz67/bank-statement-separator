@@ -1236,23 +1236,13 @@ class BankStatementWorkflow:
             upload_results["input_tagging"] = input_tagging_results
 
             # Create summary
-            if upload_results["success"]:
-                base_summary = f"Successfully uploaded {len(successful_uploads)} files to paperless-ngx"
-                if input_tagging_results["attempted"]:
-                    if input_tagging_results["success"]:
-                        upload_results["summary"] = (
-                            f"{base_summary}, input document marked as processed"
-                        )
-                    else:
-                        upload_results["summary"] = (
-                            f"{base_summary}, input document tagging failed"
-                        )
-                else:
-                    upload_results["summary"] = base_summary
-            else:
-                upload_results["summary"] = (
-                    f"Uploaded {len(successful_uploads)}/{len(generated_files)} files, {len(failed_uploads)} errors"
-                )
+            upload_results["summary"] = self._create_upload_summary(
+                upload_results["success"],
+                len(successful_uploads),
+                len(generated_files),
+                len(failed_uploads),
+                input_tagging_results,
+            )
 
             state["paperless_upload_results"] = upload_results
             state["current_step"] = "paperless_upload_complete"
@@ -1427,6 +1417,41 @@ class BankStatementWorkflow:
 
         # Handle 'Unknown' or other invalid formats
         return "unknown-date"
+
+    def _create_upload_summary(
+        self,
+        upload_success: bool,
+        successful_count: int,
+        total_files: int,
+        failed_count: int,
+        input_tagging_results: Dict[str, Any],
+    ) -> str:
+        """Create a summary message for upload results.
+
+        Args:
+            upload_success: Whether all uploads succeeded
+            successful_count: Number of successful uploads
+            total_files: Total number of files processed
+            failed_count: Number of failed uploads
+            input_tagging_results: Results from input document tagging
+
+        Returns:
+            Summary message string
+        """
+        if upload_success:
+            base_summary = (
+                f"Successfully uploaded {successful_count} files to paperless-ngx"
+            )
+
+            if input_tagging_results["attempted"]:
+                if input_tagging_results["success"]:
+                    return f"{base_summary}, input document marked as processed"
+                else:
+                    return f"{base_summary}, input document tagging failed"
+            else:
+                return base_summary
+        else:
+            return f"Uploaded {successful_count}/{total_files} files, {failed_count} errors"
 
     def run(
         self,

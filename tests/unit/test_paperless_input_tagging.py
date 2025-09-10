@@ -34,7 +34,7 @@ class TestPaperlessInputDocumentTagging:
     def paperless_config_remove_tag(self) -> Config:
         """Create a test configuration with remove unprocessed tag enabled."""
         return Config(
-            openai_api_key="test-key",  # pragma: allowlist secret  # pragma: allowlist secret
+            openai_api_key="test-key",  # pragma: allowlist secret
             paperless_enabled=True,
             paperless_url="http://localhost:8000",
             paperless_token="test-token-123",
