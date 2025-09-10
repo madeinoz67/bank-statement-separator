@@ -18,7 +18,7 @@ no-build-isolation = false
 
 [project]
 name = "bank-statement-separator"
-version = "0.2.0"
+version = "0.3.0"
 description = "AI-powered tool for separating multi-statement PDF files using LangChain and LangGraph"
 readme = "README.md"
 license = "MIT"
