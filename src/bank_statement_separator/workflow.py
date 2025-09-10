@@ -17,6 +17,9 @@ class WorkflowState(TypedDict):
     # Input data
     input_file_path: str
     output_directory: str
+    source_document_id: Optional[
+        int
+    ]  # Paperless document ID if processing from Paperless
 
     # Processing state
     pdf_document: Optional[Dict[str, Any]]  # PDFDocument as dict
@@ -1188,15 +1191,59 @@ class BankStatementWorkflow:
             upload_results["errors"] = failed_uploads
             upload_results["success"] = len(failed_uploads) == 0
 
+            # Mark input document as processed if enabled and we have a source document ID
+            # Only tag input documents from Paperless after successful upload to prevent re-processing
+            input_tagging_results = {
+                "attempted": False,
+                "success": False,
+                "error": None,
+            }
+
+            if (
+                upload_results["success"]
+                and state.get("source_document_id")
+                and paperless_client.should_mark_input_document_processed()
+            ):
+                try:
+                    logger.info(
+                        f"Marking input document {state['source_document_id']} as processed"
+                    )
+                    input_tagging_results["attempted"] = True
+
+                    tagging_result = paperless_client.mark_input_document_processed(
+                        state["source_document_id"]
+                    )
+
+                    if tagging_result.get("success", False):
+                        input_tagging_results["success"] = True
+                        logger.info(
+                            f"Successfully marked input document {state['source_document_id']} as processed"
+                        )
+                    else:
+                        input_tagging_results["error"] = tagging_result.get(
+                            "error", "Unknown tagging error"
+                        )
+                        logger.warning(
+                            f"Failed to mark input document as processed: {input_tagging_results['error']}"
+                        )
+
+                except Exception as tagging_error:
+                    input_tagging_results["error"] = str(tagging_error)
+                    logger.warning(
+                        f"Exception while marking input document as processed: {tagging_error}"
+                    )
+
+            # Add input tagging results to upload results
+            upload_results["input_tagging"] = input_tagging_results
+
             # Create summary
-            if upload_results["success"]:
-                upload_results["summary"] = (
-                    f"Successfully uploaded {len(successful_uploads)} files to paperless-ngx"
-                )
-            else:
-                upload_results["summary"] = (
-                    f"Uploaded {len(successful_uploads)}/{len(generated_files)} files, {len(failed_uploads)} errors"
-                )
+            upload_results["summary"] = self._create_upload_summary(
+                upload_results["success"],
+                len(successful_uploads),
+                len(generated_files),
+                len(failed_uploads),
+                input_tagging_results,
+            )
 
             state["paperless_upload_results"] = upload_results
             state["current_step"] = "paperless_upload_complete"
@@ -1372,13 +1419,54 @@ class BankStatementWorkflow:
         # Handle 'Unknown' or other invalid formats
         return "unknown-date"
 
-    def run(self, input_file_path: str, output_directory: str) -> Dict[str, Any]:
+    def _create_upload_summary(
+        self,
+        upload_success: bool,
+        successful_count: int,
+        total_files: int,
+        failed_count: int,
+        input_tagging_results: Dict[str, Any],
+    ) -> str:
+        """Create a summary message for upload results.
+
+        Args:
+            upload_success: Whether all uploads succeeded
+            successful_count: Number of successful uploads
+            total_files: Total number of files processed
+            failed_count: Number of failed uploads
+            input_tagging_results: Results from input document tagging
+
+        Returns:
+            Summary message string
+        """
+        if upload_success:
+            base_summary = (
+                f"Successfully uploaded {successful_count} files to paperless-ngx"
+            )
+
+            if input_tagging_results["attempted"]:
+                if input_tagging_results["success"]:
+                    return f"{base_summary}, input document marked as processed"
+                else:
+                    return f"{base_summary}, input document tagging failed"
+            else:
+                return base_summary
+        else:
+            return f"Uploaded {successful_count}/{total_files} files, {failed_count} errors"
+
+    def run(
+        self,
+        input_file_path: str,
+        output_directory: str,
+        source_document_id: Optional[int] = None,
+    ) -> Dict[str, Any]:
         """
         Run the complete workflow.
 
         Args:
             input_file_path: Path to input PDF file
             output_directory: Directory for output files
+            source_document_id: Optional Paperless document ID if processing from Paperless
 
         Returns:
             dict: Workflow results
@@ -1386,6 +1474,7 @@ class BankStatementWorkflow:
         initial_state = WorkflowState(
             input_file_path=input_file_path,
             output_directory=output_directory,
+            source_document_id=source_document_id,
             pdf_document=None,
             text_chunks=None,
             detected_boundaries=None,

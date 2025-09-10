@@ -56,8 +56,16 @@ flowchart TD
     ValidationResult -->|❌ Failed| QuarantineValidation[Quarantine:<br/>Validation Failure]
 
     Node8 --> Node8Error{Upload<br/>Success?}
-    Node8Error -->|✅ Success| ProcessedFiles[Move to Processed<br/>📂 Archive Input]
+    Node8Error -->|✅ Success| InputTagging{Source Document<br/>ID Available?}
     Node8Error -->|❌ Upload Failed| RetryLogic8{Retry<br/>Logic}
+
+    InputTagging -->|✅ Yes| TagInput[Tag Input Document<br/>🏷️ Mark as Processed]
+    InputTagging -->|❌ No| ProcessedFiles[Move to Processed<br/>📂 Archive Input]
+
+    TagInput --> TagResult{Tagging<br/>Success?}
+    TagResult -->|✅ Success| ProcessedFiles
+    TagResult -->|❌ Failed| TagWarning[Log Warning<br/>⚠️ Continue Processing]
+    TagWarning --> ProcessedFiles
 
     ProcessedFiles --> Success([✅ Processing Complete<br/>📊 Generate Report])
 
@@ -104,11 +112,11 @@ flowchart TD
     classDef successStyle fill:#e8f5e8,stroke:#2e7d32,stroke-width:2px,color:#000
     classDef decisionStyle fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px,color:#000
 
-    class Node1,Node2,Node3,Node4,Node5,Node6,Node7,Node8 nodeStyle
+    class Node1,Node2,Node3,Node4,Node5,Node6,Node7,Node8,TagInput nodeStyle
     class Node1Error,Node2Error,Node3Error,Node4Error,Node5Error,Node6Error,Node8Error,ValidationResult decisionStyle
-    class PreValidation,RetryLogic1,RetryLogic2,RetryLogic4,RetryLogic5,RetryLogic6,RetryLogic8 decisionStyle
+    class PreValidation,RetryLogic1,RetryLogic2,RetryLogic4,RetryLogic5,RetryLogic6,RetryLogic8,InputTagging,TagResult decisionStyle
     class QuarantinePreValidation,QuarantineCritical,QuarantineValidation,ErrorReport1,ErrorReport2,ErrorReport3,QuarantineDir quarantineStyle
-    class FallbackMode,PartialSuccess,PartialReport errorStyle
+    class FallbackMode,PartialSuccess,PartialReport,TagWarning errorStyle
     class ProcessedFiles,Success,QuarantineClean,QuarantineAnalysis successStyle
 ```
 
@@ -170,7 +178,8 @@ flowchart TD
 
 - **Purpose**: Upload to document management system
 - **Processing**: API upload with metadata application
-- **Error Handling**: Retry logic for network failures
+- **Input Document Tagging**: Mark source documents as processed (if `source_document_id` provided)
+- **Error Handling**: Retry logic for network failures, graceful degradation for tagging failures
 - **Fallback**: Local storage with upload notification
 
 ## Error Handling Strategies
@@ -247,7 +256,7 @@ graph TD
     ErrorHandling --> Backoff[OPENAI_REQUESTS_PER_MINUTE<br/>OPENAI_BURST_LIMIT<br/>OPENAI_BACKOFF_MIN<br/>OPENAI_BACKOFF_MAX]
     ErrorHandling --> Reporting[ENABLE_ERROR_REPORTING<br/>ERROR_REPORT_DIRECTORY<br/>PRESERVE_FAILED_OUTPUTS]
 
-    Integration --> Paperless[PAPERLESS_ENABLED<br/>PAPERLESS_URL<br/>PAPERLESS_TOKEN]
+    Integration --> Paperless[PAPERLESS_ENABLED<br/>PAPERLESS_URL<br/>PAPERLESS_TOKEN<br/>PAPERLESS_INPUT_TAGGING_ENABLED<br/>PAPERLESS_INPUT_PROCESSED_TAG]
     Integration --> Logging[ENABLE_AUDIT_LOGGING<br/>LOG_LEVEL<br/>LOG_FILE]
 
     classDef configStyle fill:#e3f2fd,stroke:#1565c0,stroke-width:2px

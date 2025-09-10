@@ -4,10 +4,10 @@
 
 ---
 
-**Document Version:** 2.4
-**Date:** September 6, 2025
+**Document Version:** 2.5
+**Date:** September 10, 2025
 **Author:** Stephen Eaton
-**Status:** Production Ready with Multi-Provider LLM Support & Natural Boundary Detection
+**Status:** Production Ready with Multi-Provider LLM Support & Input Document Processing Tracking
 
 ---
 
@@ -207,6 +207,21 @@ The Bank Statement Separator leverages LangGraph's stateful workflow capabilitie
 - **US8.6**: As a user, I want decision trees and configuration examples for easy model selection
 - **US8.7**: As a user, I want performance benchmarking data to predict processing times for my workload
 
+### Epic 9: Input Document Processing Tracking ✅ COMPLETED
+
+**As a** document management user
+**I want** automatic tracking of processed input documents from Paperless
+**So that** I can prevent re-processing of documents that have already been handled and maintain clean processing workflows
+
+#### User Stories
+
+- **US9.1**: As a user, I want input documents from Paperless automatically tagged as "processed" after successful statement separation
+- **US9.2**: As a user, I want flexible configuration options for marking documents (add tag, remove tag, custom tag)
+- **US9.3**: As a user, I want input document tagging failures to be handled gracefully without stopping the workflow
+- **US9.4**: As a system administrator, I want comprehensive logging of all input document tagging operations for audit trails
+- **US9.5**: As a user, I want the system to only attempt tagging when processing documents that originated from Paperless
+- **US9.6**: As a user, I want input document tagging to occur only after successful output document processing and upload
+
 ---
 
 ## Functional Requirements
@@ -397,6 +412,48 @@ The system SHALL provide comprehensive model documentation:
 - **Performance Results**: Detailed results for all tested models with comparative analysis
 - **Selection Guides**: User-friendly documentation for choosing optimal models
 - **Best Practices**: Deployment recommendations and optimization strategies
+
+#### F7: Input Document Processing Tracking
+
+The system SHALL provide comprehensive input document processing tracking capabilities to prevent re-processing and maintain clean document workflows.
+
+**F7.1: Source Document Identification**
+The system SHALL identify when documents originate from Paperless-ngx:
+
+- **Source Document ID**: Accept `source_document_id` parameter to identify Paperless input documents
+- **Conditional Processing**: Only perform input document tagging when `source_document_id` is provided
+- **Workflow Integration**: Integrate input document tagging into the Paperless upload workflow step
+
+**F7.2: Input Document Tagging Configuration**
+The system SHALL provide flexible configuration options for input document marking:
+
+- **Option 1 - Add Processed Tag**: `PAPERLESS_INPUT_PROCESSED_TAG` to add a specific tag after processing
+- **Option 2 - Remove Unprocessed Tag**: `PAPERLESS_INPUT_REMOVE_UNPROCESSED_TAG` to remove existing "unprocessed" tags
+- **Option 3 - Custom Processing Tag**: `PAPERLESS_INPUT_PROCESSING_TAG` to add a custom processing tag
+- **Global Control**: `PAPERLESS_INPUT_TAGGING_ENABLED` to enable/disable the entire feature
+
+**F7.3: Processing Sequence Requirements**
+The system SHALL perform input document tagging with strict sequence controls:
+
+- **Post-Processing Only**: Input document tagging SHALL only occur after successful output document processing
+- **Upload Success Dependency**: Input document tagging SHALL only occur after successful Paperless upload
+- **Sequential Execution**: Input document tagging SHALL execute as part of the Paperless upload workflow node
+- **Graceful Degradation**: Failed input document tagging SHALL NOT prevent workflow completion
+
+**F7.4: Configuration Precedence**
+The system SHALL enforce configuration precedence rules:
+
+- **Mutual Exclusivity**: Only one input tagging option SHALL be active at a time
+- **Precedence Order**: Check `PAPERLESS_INPUT_PROCESSED_TAG`, then `PAPERLESS_INPUT_REMOVE_UNPROCESSED_TAG`, then `PAPERLESS_INPUT_PROCESSING_TAG`
+- **Configuration Validation**: System SHALL validate that only one tagging option is configured
+
+**F7.5: Error Handling and Logging**
+The system SHALL provide comprehensive error handling for input document tagging:
+
+- **Non-Blocking Failures**: Input document tagging failures SHALL NOT stop the workflow
+- **Detailed Logging**: All tagging attempts, successes, and failures SHALL be logged with full context
+- **Result Tracking**: Tagging results SHALL be included in workflow output for monitoring
+- **Graceful Degradation**: Missing tags or API errors SHALL be handled without workflow interruption
 
 ### Security Features
 
@@ -735,6 +792,7 @@ uv run python -m src.bank_statement_separator.main process statements.pdf --env-
 - **Natural Boundary Detection**: Content-based analysis using statement headers, transaction boundaries, account transitions
 - **Batch Processing**: Directory-based processing with pattern filtering and error isolation
 - **Hallucination Detection**: Enterprise-grade AI validation with 8 detection types and automatic rejection
+- **Input Document Tracking**: Automatic tagging of processed input documents from Paperless to prevent re-processing
 
 #### User Interface & Experience
 
@@ -785,6 +843,7 @@ uv run python -m src.bank_statement_separator.main process statements.pdf --env-
 | Documentation              | ✅ Complete     | 100%       |
 | Testing Framework          | ✅ Complete     | 100%       |
 | Performance Optimization   | ✅ Complete     | 100%       |
+| Input Document Processing  | ✅ Complete     | 100%       |
 | **Overall MVP**            | **✅ Complete** | **100%**   |
 
 ---
@@ -906,6 +965,39 @@ The system now includes comprehensive capabilities beyond the original MVP:
 ---
 
 ## Document Change Log
+
+### Version 2.5 (September 10, 2025)
+
+**Major Enhancement: Input Document Processing Tracking**
+
+**Changes Made:**
+
+- **Added Epic 9**: Input Document Processing Tracking user stories with 6 comprehensive requirements
+- **Added F7**: Complete Input Document Processing Tracking functional requirements section
+- **Enhanced Workflow Integration**: Input document tagging integrated into Paperless upload workflow
+- **Flexible Configuration**: Three configuration approaches (add tag, remove tag, custom tag) with precedence rules
+- **Comprehensive Error Handling**: Non-blocking failures with detailed logging and graceful degradation
+- **Updated Success Metrics**: Added Input Document Processing to MVP delivery metrics at 100% completion
+
+**F7 Input Document Processing Features:**
+
+- **Source Document Identification**: Accept `source_document_id` parameter for Paperless input documents
+- **Flexible Tagging Configuration**: Multiple options with mutual exclusivity and precedence validation
+- **Processing Sequence Control**: Strict ordering ensuring tagging only after successful output processing
+- **Error Handling**: Non-blocking failures with comprehensive logging and result tracking
+- **Workflow Integration**: Seamless integration into existing Paperless upload workflow step
+
+**New User Stories:**
+
+- **US9.1-US9.6**: Complete user story coverage for automatic processing tracking, flexible configuration, error handling, audit logging, conditional processing, and sequence control
+
+**Impact:**
+
+- **Prevention of Re-processing**: Automatic tagging prevents duplicate processing of the same input documents
+- **Workflow Efficiency**: Clean document management workflows with proper processing state tracking
+- **Production Reliability**: Graceful error handling ensures workflow completion despite tagging failures
+- **Audit Compliance**: Comprehensive logging of all input document tagging operations for regulatory requirements
+- **Deployment Flexibility**: Configurable tagging approaches to match different organizational workflows
 
 ### Version 2.4 (September 6, 2025)
 
@@ -1036,7 +1128,7 @@ The system now includes comprehensive capabilities beyond the original MVP:
 
 **Document Control**
 
-- **Next Review Date**: October 6, 2025
+- **Next Review Date**: December 10, 2025
 - **Stakeholder Approval Required**: Product Manager, Security Officer, Engineering Lead
 - **Distribution**: Product team, Engineering team, Security team, Compliance team
-- **Implementation Status**: ✅ **PRODUCTION READY WITH MULTI-PROVIDER LLM SUPPORT & NATURAL BOUNDARY DETECTION** - Ready for Enterprise Deployment
+- **Implementation Status**: ✅ **PRODUCTION READY WITH INPUT DOCUMENT PROCESSING TRACKING** - Ready for Enterprise Deployment

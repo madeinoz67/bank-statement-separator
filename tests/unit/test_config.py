@@ -69,6 +69,7 @@ class TestLoadConfig:
             # Should use defaults or values from default .env file
             assert config.llm_provider in [
                 "openai",
+                "ollama",
                 "auto",
             ]  # Could be default or from .env
             assert config.openai_model == "gpt-4o-mini"

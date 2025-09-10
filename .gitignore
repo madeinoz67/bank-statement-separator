@@ -30,3 +30,6 @@ site/
 .coverage
 coverage.xml
 .claude/
+
+# Node.js cache files
+node_modules/.cache/

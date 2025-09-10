@@ -1085,3 +1085,283 @@ class PaperlessClient:
         # File extension alone is not sufficient - we need content type information
         # This ensures we don't process documents that might not actually be PDFs
         return False
+
+    def _resolve_tag(self, tag_name: str) -> Optional[int]:
+        """Resolve a single tag name to its ID.
+
+        Args:
+            tag_name: Tag name to resolve
+
+        Returns:
+            Tag ID if found, None if not found
+
+        Raises:
+            PaperlessUploadError: If API call fails
+        """
+        if not self.is_enabled():
+            raise PaperlessUploadError("Paperless integration not enabled")
+
+        try:
+            with httpx.Client() as client:
+                response = client.get(
+                    f"{self.base_url}/api/tags/",
+                    headers=self.headers,
+                    params={"name": tag_name},
+                )
+                response.raise_for_status()
+                tags_data = response.json()
+
+                if tags_data["results"]:
+                    return tags_data["results"][0]["id"]
+
+                return None
+
+        except httpx.RequestError as e:
+            raise PaperlessUploadError(f"Failed to resolve tag '{tag_name}': {e}")
+        except httpx.HTTPStatusError as e:
+            raise PaperlessUploadError(
+                f"Tag resolution failed with status {e.response.status_code}: {e.response.text}"
+            )
+
+    def should_mark_input_document_processed(self) -> bool:
+        """Check if input document processing marking is enabled and configured.
+
+        Returns:
+            bool: True if input document marking should be performed
+        """
+        if not self.is_enabled():
+            return False
+
+        if not self.config.paperless_input_tagging_enabled:
+            return False
+
+        # Check if at least one tagging option is configured
+        has_add_tag = bool(self.config.paperless_input_processed_tag)
+        has_remove_tag = bool(self.config.paperless_input_remove_unprocessed_tag)
+        has_custom_tag = bool(self.config.paperless_input_processing_tag)
+
+        return has_add_tag or has_remove_tag or has_custom_tag
+
+    def mark_input_document_processed(self, document_id: int) -> Dict[str, Any]:
+        """Mark an input document as processed by applying configured tags.
+
+        Args:
+            document_id: ID of the document to mark as processed
+
+        Returns:
+            dict: Result of the tagging operation with success status and details
+
+        Raises:
+            PaperlessUploadError: If paperless integration is disabled
+        """
+        if not self.is_enabled():
+            raise PaperlessUploadError("Paperless integration not enabled")
+
+        if not self.config.paperless_input_tagging_enabled:
+            return {
+                "success": True,
+                "document_id": document_id,
+                "action": "disabled",
+                "message": "Input document tagging is disabled",
+            }
+
+        # Determine which tagging action to perform (precedence order)
+        if self.config.paperless_input_processed_tag:
+            return self._add_tag_to_document(
+                document_id, self.config.paperless_input_processed_tag
+            )
+        elif self.config.paperless_input_remove_unprocessed_tag:
+            return self._remove_tag_from_document(
+                document_id, self.config.paperless_input_unprocessed_tag_name
+            )
+        elif self.config.paperless_input_processing_tag:
+            return self._add_tag_to_document(
+                document_id, self.config.paperless_input_processing_tag
+            )
+        else:
+            return {
+                "success": False,
+                "document_id": document_id,
+                "error": "No input document tagging configuration specified",
+            }
+
+    def _add_tag_to_document(self, document_id: int, tag_name: str) -> Dict[str, Any]:
+        """Add a tag to a document by updating its tags list.
+
+        Args:
+            document_id: ID of the document
+            tag_name: Name of the tag to add
+
+        Returns:
+            dict: Result of the tagging operation
+        """
+        try:
+            # Resolve tag name to ID
+            tag_id = self._resolve_tag(tag_name)
+            if tag_id is None:
+                return {
+                    "success": False,
+                    "document_id": document_id,
+                    "error": f"Tag '{tag_name}' not found in paperless-ngx",
+                }
+
+            # Get current document to retrieve existing tags
+            with httpx.Client() as client:
+                # Get current document data
+                response = client.get(
+                    f"{self.base_url}/api/documents/{document_id}/",
+                    headers=self.headers,
+                )
+                response.raise_for_status()
+                document_data = response.json()
+
+                current_tags = document_data.get("tags", [])
+
+                # Add tag if not already present
+                if tag_id not in current_tags:
+                    updated_tags = current_tags + [tag_id]
+
+                    # Update document with new tags
+                    update_response = client.patch(
+                        f"{self.base_url}/api/documents/{document_id}/",
+                        headers=self.headers,
+                        json={"tags": updated_tags},
+                    )
+                    update_response.raise_for_status()
+
+                    return {
+                        "success": True,
+                        "document_id": document_id,
+                        "action": "add_tag",
+                        "tag_name": tag_name,
+                        "tag_id": tag_id,
+                    }
+                else:
+                    # Tag already present, return early with success message
+                    return {
+                        "success": True,
+                        "document_id": document_id,
+                        "action": "add_tag",
+                        "tag_name": tag_name,
+                        "tag_id": tag_id,
+                        "message": f"Tag '{tag_name}' already present on document",
+                    }
+
+        except Exception as e:
+            return {
+                "success": False,
+                "document_id": document_id,
+                "error": str(e),
+            }
+
+    def _remove_tag_from_document(
+        self, document_id: int, tag_name: str
+    ) -> Dict[str, Any]:
+        """Remove a tag from a document by updating its tags list.
+
+        Args:
+            document_id: ID of the document
+            tag_name: Name of the tag to remove
+
+        Returns:
+            dict: Result of the tagging operation
+        """
+        try:
+            # Resolve tag name to ID
+            tag_id = self._resolve_tag(tag_name)
+            if tag_id is None:
+                return {
+                    "success": False,
+                    "document_id": document_id,
+                    "error": f"Tag '{tag_name}' not found in paperless-ngx",
+                }
+
+            # Get current document to retrieve existing tags
+            with httpx.Client() as client:
+                # Get current document data
+                response = client.get(
+                    f"{self.base_url}/api/documents/{document_id}/",
+                    headers=self.headers,
+                )
+                response.raise_for_status()
+                document_data = response.json()
+
+                current_tags = document_data.get("tags", [])
+
+                # Remove tag if present
+                if tag_id in current_tags:
+                    updated_tags = [t for t in current_tags if t != tag_id]
+
+                    # Update document with new tags
+                    update_response = client.patch(
+                        f"{self.base_url}/api/documents/{document_id}/",
+                        headers=self.headers,
+                        json={"tags": updated_tags},
+                    )
+                    update_response.raise_for_status()
+
+                    return {
+                        "success": True,
+                        "document_id": document_id,
+                        "action": "remove_tag",
+                        "tag_name": tag_name,
+                        "tag_id": tag_id,
+                    }
+                else:
+                    # Tag not present, return early with success message
+                    return {
+                        "success": True,
+                        "document_id": document_id,
+                        "action": "remove_tag",
+                        "tag_name": tag_name,
+                        "tag_id": tag_id,
+                        "message": f"Tag '{tag_name}' not present on document",
+                    }
+
+        except Exception as e:
+            return {
+                "success": False,
+                "document_id": document_id,
+                "error": str(e),
+            }
+
+    def mark_multiple_input_documents_processed(
+        self, document_ids: List[int]
+    ) -> Dict[str, Any]:
+        """Mark multiple input documents as processed.
+
+        Args:
+            document_ids: List of document IDs to mark as processed
+
+        Returns:
+            dict: Results of the tagging operations with success status and details
+        """
+        if not document_ids:
+            return {
+                "success": True,
+                "processed": [],
+                "errors": [],
+            }
+
+        processed = []
+        errors = []
+
+        for document_id in document_ids:
+            try:
+                result = self.mark_input_document_processed(document_id)
+                if result["success"]:
+                    processed.append(result)
+                else:
+                    errors.append(result)
+            except Exception as e:
+                error_info = {
+                    "document_id": document_id,
+                    "error": str(e),
+                }
+                errors.append(error_info)
+
+        return {
+            "success": len(errors) == 0,
+            "processed": processed,
+            "errors": errors,
+        }

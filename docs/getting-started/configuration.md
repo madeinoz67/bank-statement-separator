@@ -157,8 +157,28 @@ For production deployments, always set `ALLOWED_INPUT_DIRS` and `ALLOWED_OUTPUT_
 | `PAPERLESS_STORAGE_PATH`  | `Bank Statements`          | Storage path                             |
 | `PAPERLESS_TAG_WAIT_TIME` | `5`                        | Wait time (seconds) before applying tags |
 
+### Input Document Processing
+
+Configure how input documents from Paperless are tagged after successful processing:
+
+| Variable                                 | Default | Description                                    |
+| ---------------------------------------- | ------- | ---------------------------------------------- |
+| `PAPERLESS_INPUT_TAGGING_ENABLED`        | `true`  | Enable input document tagging after processing |
+| `PAPERLESS_INPUT_PROCESSED_TAG`          | None    | Tag to add to input documents after processing |
+| `PAPERLESS_INPUT_REMOVE_UNPROCESSED_TAG` | `false` | Remove 'unprocessed' tag after processing      |
+| `PAPERLESS_INPUT_PROCESSING_TAG`         | None    | Custom tag to mark documents as processed      |
+
 !!! tip "Auto-Creation"
 The system automatically creates tags, correspondents, document types, and storage paths in Paperless if they don't exist.
+
+!!! info "Input Document Tagging"
+When processing documents that originate from Paperless (using `source_document_id`), the system can automatically tag the original input documents as "processed" to prevent re-processing:
+
+    - **Option 1**: Add a "processed" tag: `PAPERLESS_INPUT_PROCESSED_TAG=processed`
+    - **Option 2**: Remove "unprocessed" tag: `PAPERLESS_INPUT_REMOVE_UNPROCESSED_TAG=true`
+    - **Option 3**: Use custom tag: `PAPERLESS_INPUT_PROCESSING_TAG=bank-statement-processed`
+
+    Only one option should be configured at a time. Input document tagging only occurs after successful output document processing and upload.
 
 ## Logging Configuration
 
@@ -223,6 +243,10 @@ QUARANTINE_DIRECTORY=/secure/quarantine
 PAPERLESS_ENABLED=true
 PAPERLESS_URL=https://paperless.yourcompany.com
 PAPERLESS_TOKEN=your-production-token
+
+# Input document processing tracking
+PAPERLESS_INPUT_TAGGING_ENABLED=true
+PAPERLESS_INPUT_PROCESSED_TAG=processed
 ```
 
 ## Configuration Validation

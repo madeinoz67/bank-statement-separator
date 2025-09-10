@@ -142,6 +142,28 @@ class Config(BaseModel):
         description="Wait time in seconds before applying tags to uploaded documents",
     )
 
+    # Paperless-ngx Input Processing Configuration
+    paperless_input_processed_tag: Optional[str] = Field(
+        default=None,
+        description="Tag to add to input documents after successful processing",
+    )
+    paperless_input_remove_unprocessed_tag: bool = Field(
+        default=False,
+        description="Remove 'unprocessed' tag from input documents after processing",
+    )
+    paperless_input_processing_tag: Optional[str] = Field(
+        default=None,
+        description="Custom tag to mark input documents as processed",
+    )
+    paperless_input_unprocessed_tag_name: str = Field(
+        default="unprocessed",
+        description="Name of the 'unprocessed' tag to remove from input documents",
+    )
+    paperless_input_tagging_enabled: bool = Field(
+        default=True,
+        description="Enable tagging of input documents after processing",
+    )
+
     # Error Handling Configuration
     quarantine_directory: Optional[str] = Field(
         default=None,
@@ -376,6 +398,11 @@ def load_config(env_file: Optional[str] = None) -> Config:
         "PAPERLESS_MAX_DOCUMENTS": "paperless_max_documents",
         "PAPERLESS_QUERY_TIMEOUT": "paperless_query_timeout",
         "PAPERLESS_TAG_WAIT_TIME": "paperless_tag_wait_time",
+        "PAPERLESS_INPUT_PROCESSED_TAG": "paperless_input_processed_tag",
+        "PAPERLESS_INPUT_REMOVE_UNPROCESSED_TAG": "paperless_input_remove_unprocessed_tag",
+        "PAPERLESS_INPUT_PROCESSING_TAG": "paperless_input_processing_tag",
+        "PAPERLESS_INPUT_UNPROCESSED_TAG_NAME": "paperless_input_unprocessed_tag_name",
+        "PAPERLESS_INPUT_TAGGING_ENABLED": "paperless_input_tagging_enabled",
         # Error Handling
         "QUARANTINE_DIRECTORY": "quarantine_directory",
         "MAX_RETRY_ATTEMPTS": "max_retry_attempts",
@@ -413,6 +440,8 @@ def load_config(env_file: Optional[str] = None) -> Config:
                 "enable_fallback_processing",
                 "include_bank_in_filename",
                 "paperless_enabled",
+                "paperless_input_remove_unprocessed_tag",
+                "paperless_input_tagging_enabled",
             ]:
                 # Convert string to boolean
                 config_data[config_key] = value.lower() in ("true", "1", "yes", "on")
