@@ -177,7 +177,7 @@ flowchart TD
 
     %% Security Job
     SecurityJob --> InstallSecTools[🛡️ Install Security Tools<br/>safety, bandit]
-    InstallSecTools --> VulnScan[🚨 Vulnerability Scan<br/>safety check]
+    InstallSecTools --> VulnScan[🚨 Vulnerability Scan<br/>safety scan]
     VulnScan --> StaticAnalysis[📊 Static Analysis<br/>bandit -r src/]
 
     StaticAnalysis --> SecurityResults{🛡️ Security Results}
@@ -623,16 +623,18 @@ graph TB
     Secrets[🔐 GitHub Secrets] --> OpenAI[OPENAI_API_KEY<br/>🤖 API Tests]
     Secrets --> PyPI[PYPI_API_TOKEN<br/>📦 Package Publishing]
     Secrets --> Analytics[GOOGLE_ANALYTICS_KEY<br/>📊 Docs Analytics]
+    Secrets --> Safety[SAFETY_API_KEY<br/>🛡️ Security Scanning]
 
     OpenAI --> CI[🚀 CI Workflow<br/>API Tests]
     PyPI --> Release[🚢 Release Workflow<br/>PyPI Publishing]
     Analytics --> Docs[📚 Documentation<br/>Usage Tracking]
+    Safety --> CI2[🚀 CI Workflow<br/>Vulnerability Scanning]
 
     classDef secretStyle fill:#fff3e0,stroke:#ef6c00,stroke-width:2px
     classDef workflowStyle fill:#e8f5e8,stroke:#2e7d32,stroke-width:2px
 
     class Secrets secretStyle
-    class CI,Release,Docs workflowStyle
+    class CI,CI2,Release,Docs workflowStyle
 ```
 
 ### Concurrency Control
