@@ -399,16 +399,23 @@
 </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="#phase-3-production-deployment-in-progress">
+<a class="md-nav__link" href="#phase-3-error-detection-advanced-features-complete">
 <span class="md-ellipsis">
-      🚧 Phase 3 - Production Deployment (In Progress)
+      ✅ Phase 3 - Error Detection &amp; Advanced Features (Complete)
     </span>
 </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="#phase-4-enterprise-features-planned">
+<a class="md-nav__link" href="#phase-4-production-deployment-in-progress">
 <span class="md-ellipsis">
-      📋 Phase 4 - Enterprise Features (Planned)
+      🚧 Phase 4 - Production Deployment (In Progress)
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#phase-5-enterprise-features-planned">
+<span class="md-ellipsis">
+      📋 Phase 5 - Enterprise Features (Planned)
     </span>
 </a>
 </li>
@@ -552,6 +559,7 @@
 <li><strong>Batch Processing</strong>: Process multiple PDF files from directories with pattern filtering</li>
 <li><strong>Paperless-ngx Integration</strong>: Automatic upload to paperless-ngx document management with auto-creation</li>
 <li><strong>Comprehensive Error Handling</strong>: Advanced quarantine system with detailed error reports and recovery suggestions</li>
+<li><strong>Error Detection &amp; Tagging</strong>: Automatic identification and tagging of processing issues (v0.3.0+)</li>
 <li><strong>Document Validation</strong>: Pre-processing validation with configurable strictness levels</li>
 <li><strong>Security-First Design</strong>: Secure credential management and file access controls</li>
 <li><strong>Rich CLI Interface</strong>: Beautiful multi-command interface with progress indicators and quarantine management</li>
@@ -591,6 +599,7 @@
     F --&gt; G[File Organization]
     G --&gt; H[Output Validation]
     H --&gt; I[Paperless Upload]
+    I --&gt; L[Error Detection &amp; Tagging]
 
     B --&gt; J[Quarantine System]
     H --&gt; J
@@ -598,6 +607,7 @@
 
     style A fill:#e1f5fe
     style I fill:#e8f5e8
+    style L fill:#fff3e0
     style J fill:#fff3e0
     style K fill:#fff3e0
 </code></pre>
@@ -716,14 +726,22 @@
 <li class="task-list-item"><label class="task-list-control"><input checked="" disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Document validation</li>
 <li class="task-list-item"><label class="task-list-control"><input checked="" disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Comprehensive testing</li>
 </ul>
-<h3 id="phase-3-production-deployment-in-progress">🚧 Phase 3 - Production Deployment (In Progress)<a class="headerlink" href="#phase-3-production-deployment-in-progress" title="Permanent link">¶</a></h3>
+<h3 id="phase-3-error-detection-advanced-features-complete">✅ Phase 3 - Error Detection &amp; Advanced Features (Complete)<a class="headerlink" href="#phase-3-error-detection-advanced-features-complete" title="Permanent link">¶</a></h3>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input checked="" disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Error detection &amp; tagging system</li>
+<li class="task-list-item"><label class="task-list-control"><input checked="" disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Enhanced Paperless integration with error flagging</li>
+<li class="task-list-item"><label class="task-list-control"><input checked="" disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Configurable error handling with severity filtering</li>
+<li class="task-list-item"><label class="task-list-control"><input checked="" disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Comprehensive test coverage and manual testing scripts</li>
+<li class="task-list-item"><label class="task-list-control"><input checked="" disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Updated documentation and workflow diagrams</li>
+</ul>
+<h3 id="phase-4-production-deployment-in-progress">🚧 Phase 4 - Production Deployment (In Progress)<a class="headerlink" href="#phase-4-production-deployment-in-progress" title="Permanent link">¶</a></h3>
 <ul class="task-list">
 <li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Docker containerization</li>
 <li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Cloud storage integration</li>
 <li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Web dashboard</li>
 <li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Batch processing</li>
 </ul>
-<h3 id="phase-4-enterprise-features-planned">📋 Phase 4 - Enterprise Features (Planned)<a class="headerlink" href="#phase-4-enterprise-features-planned" title="Permanent link">¶</a></h3>
+<h3 id="phase-5-enterprise-features-planned">📋 Phase 5 - Enterprise Features (Planned)<a class="headerlink" href="#phase-5-enterprise-features-planned" title="Permanent link">¶</a></h3>
 <ul class="task-list">
 <li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Multi-tenant support</li>
 <li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> REST API</li>
@@ -758,8 +776,8 @@
 <li><strong>Support</strong>: Contact the development team</li>
 </ul>
 <h2 id="whats-new">What's New<a class="headerlink" href="#whats-new" title="Permanent link">¶</a></h2>
-<p>!!! success "Latest Release: <a href="release_notes/RELEASE_NOTES_v0.1.4/">Version 0.1.4</a>" - <strong>Release Workflow Enhancement</strong>: Comprehensive debugging and improved PyPI publishing automation - <strong>Advanced Error Diagnostics</strong>: Detailed workflow context output for troubleshooting release issues - <strong>Package Verification</strong>: Enhanced validation with twine check before PyPI upload - <strong>Simplified Job Conditions</strong>: Clear workflow trigger logic using startsWith() checks - <strong>Production-Ready Automation</strong>: Complete release infrastructure for future automated releases - <strong>Backward Compatibility</strong>: No breaking changes, seamless upgrade from previous versions</p>
-<div class="language-text highlight"><pre><span></span><code>See full [Release Notes](release_notes/RELEASE_NOTES_v0.1.4.md) for detailed changes and [Changelog](release_notes/CHANGELOG.md) for complete version history.
+<p>!!! success "Latest Release: <a href="release_notes/RELEASE_NOTES_v0.3.0/">Version 0.3.0</a>" - <strong>Error Detection &amp; Tagging System</strong>: Automatic identification and tagging of 6 types of processing errors - <strong>Paperless Integration Enhancement</strong>: Advanced document management with error flagging capabilities - <strong>Configurable Error Handling</strong>: Environment-based configuration with severity filtering and batch tagging - <strong>Comprehensive Testing</strong>: Complete test coverage including unit tests and manual testing scripts - <strong>Enhanced Documentation</strong>: Updated workflow diagrams and user guides for error detection features - <strong>Performance Optimizations</strong>: Improved boundary detection efficiency and code maintainability - <strong>Backward Compatibility</strong>: Full compatibility with existing workflows - error detection is optional</p>
+<div class="language-text highlight"><pre><span></span><code>See full [Release Notes](release_notes/RELEASE_NOTES_v0.3.0.md) for detailed changes and [Changelog](release_notes/CHANGELOG.md) for complete version history.
 </code></pre></div>
 <hr/>
 <p>Ready to get started? Check out the <a href="getting-started/quick-start/">Quick Start Guide</a> or dive into the <a href="getting-started/installation/">Installation Instructions</a>.</p>
