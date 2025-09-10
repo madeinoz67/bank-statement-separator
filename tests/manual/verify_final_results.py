@@ -73,7 +73,7 @@ def main():
                             storage_path_name = storage_data.get(
                                 "name", f"ID:{storage_path}"
                             )
-                    except:
+                    except (KeyError, TypeError, AttributeError):
                         storage_path_name = f"ID:{storage_path}"
 
                 # Get document tags
@@ -99,7 +99,7 @@ def main():
                                     tag_names.append(
                                         tag_data.get("name", f"ID:{tag_id}")
                                     )
-                            except:
+                            except (KeyError, TypeError, AttributeError):
                                 tag_names.append(f"ID:{tag_id}")
 
                         print(f"📄 Document {doc_id}: {title}")

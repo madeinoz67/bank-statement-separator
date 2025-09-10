@@ -281,12 +281,16 @@ class ErrorTagger:
                 additional_tags = error_type_mapping[error_type]
                 tags.extend(additional_tags)
 
-        # Add severity-based tags
+        # Add severity-based tags using configured severity levels
         severities = set(
             error.get("severity") for error in errors if error.get("severity")
         )
+        # Use configured severity levels for tagging, defaulting to ["high", "critical"] if not set
+        configured_severities = getattr(
+            self.config, "paperless_error_severity_levels", ["high", "critical"]
+        )
         for severity in severities:
-            if severity in ["high", "critical"]:
+            if severity in configured_severities:
                 tags.append(f"error:severity:{severity}")
 
         # Remove duplicates while preserving order

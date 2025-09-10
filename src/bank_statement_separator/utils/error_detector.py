@@ -8,6 +8,13 @@ from ..config import Config
 
 logger = logging.getLogger(__name__)
 
+# Constants for boundary detection validation
+MIN_PAGES_PER_STATEMENT = 2  # Minimum pages for a valid statement
+MAX_PAGES_PER_STATEMENT = 50  # Maximum pages for a valid statement
+
+# Constants for metadata validation
+FALLBACK_ACCOUNT_PREFIX = "ACCT"  # Prefix used for fallback account numbers
+
 
 @dataclass
 class ProcessingError:
@@ -150,7 +157,10 @@ class ErrorDetector:
             end_page = boundary.get("end_page", 1)
             page_count = end_page - start_page + 1
 
-            if page_count < 2 or page_count > 50:
+            if (
+                page_count < MIN_PAGES_PER_STATEMENT
+                or page_count > MAX_PAGES_PER_STATEMENT
+            ):
                 suspicious_boundaries.append(boundary)
 
         if low_confidence_boundaries:
@@ -274,7 +284,7 @@ class ErrorDetector:
             fallback_metadata = [
                 m
                 for m in extracted_metadata
-                if m.get("account_number", "").startswith("ACCT")
+                if m.get("account_number", "").startswith(FALLBACK_ACCOUNT_PREFIX)
             ]
             if fallback_metadata:
                 errors.append(

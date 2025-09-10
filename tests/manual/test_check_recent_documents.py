@@ -72,7 +72,7 @@ def main():
                             storage_path_name = storage_data.get(
                                 "name", f"ID:{storage_path}"
                             )
-                    except:
+                    except (KeyError, TypeError, AttributeError):
                         storage_path_name = f"ID:{storage_path}"
 
                 print(f"📄 Document {doc_id}: {title}")
@@ -117,7 +117,7 @@ def main():
                                 storage_path_name = storage_data.get(
                                     "name", f"ID:{storage_path}"
                                 )
-                        except:
+                        except (KeyError, TypeError, AttributeError):
                             storage_path_name = f"ID:{storage_path}"
 
                     print(f"📄 Document {doc_id}: {title}")
