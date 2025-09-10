@@ -22,7 +22,7 @@ class TestPaperlessInputDocumentTagging:
     def paperless_config_add_tag(self) -> Config:
         """Create a test configuration with add processed tag enabled."""
         return Config(
-            openai_api_key="test-key",  # pragma: allowlist secret  # pragma: allowlist secret
+            openai_api_key="test-key",  # pragma: allowlist secret
             paperless_enabled=True,
             paperless_url="http://localhost:8000",
             paperless_token="test-token-123",
