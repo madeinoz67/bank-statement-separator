@@ -689,7 +689,7 @@
 
     %% Security Job
     SecurityJob --&gt; InstallSecTools[🛡️ Install Security Tools<br/>safety, bandit]
-    InstallSecTools --&gt; VulnScan[🚨 Vulnerability Scan<br/>safety check]
+    InstallSecTools --&gt; VulnScan[🚨 Vulnerability Scan<br/>safety scan]
     VulnScan --&gt; StaticAnalysis[📊 Static Analysis<br/>bandit -r src/]
 
     StaticAnalysis --&gt; SecurityResults{🛡️ Security Results}
@@ -1116,16 +1116,18 @@
     Secrets[🔐 GitHub Secrets] --&gt; OpenAI[OPENAI_API_KEY<br/>🤖 API Tests]
     Secrets --&gt; PyPI[PYPI_API_TOKEN<br/>📦 Package Publishing]
     Secrets --&gt; Analytics[GOOGLE_ANALYTICS_KEY<br/>📊 Docs Analytics]
+    Secrets --&gt; Safety[SAFETY_API_KEY<br/>🛡️ Security Scanning]
 
     OpenAI --&gt; CI[🚀 CI Workflow<br/>API Tests]
     PyPI --&gt; Release[🚢 Release Workflow<br/>PyPI Publishing]
     Analytics --&gt; Docs[📚 Documentation<br/>Usage Tracking]
+    Safety --&gt; CI2[🚀 CI Workflow<br/>Vulnerability Scanning]
 
     classDef secretStyle fill:#fff3e0,stroke:#ef6c00,stroke-width:2px
     classDef workflowStyle fill:#e8f5e8,stroke:#2e7d32,stroke-width:2px
 
     class Secrets secretStyle
-    class CI,Release,Docs workflowStyle
+    class CI,CI2,Release,Docs workflowStyle
 </code></pre>
 <h3 id="concurrency-control">Concurrency Control<a class="headerlink" href="#concurrency-control" title="Permanent link">¶</a></h3>
 <pre class="mermaid"><code>graph LR
