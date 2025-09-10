@@ -160,6 +160,7 @@ nav:
       - Contributing: developer-guide/contributing.md
       - Release Management: developer-guide/release-management.md
       - Testing: developer-guide/testing.md
+      - Error Tagging Testing: developer-guide/error-tagging-testing.md
       - Pytest Marks Guide: developer-guide/pytest-marks-guide.md
       - Pydantic V2 Migration: developer-guide/pydantic-v2-migration.md
       - CI/CD Setup: developer-guide/ci-cd-setup.md

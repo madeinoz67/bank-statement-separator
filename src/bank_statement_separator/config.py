@@ -164,6 +164,30 @@ class Config(BaseModel):
         description="Enable tagging of input documents after processing",
     )
 
+    # Paperless-ngx Error Detection and Tagging Configuration
+    paperless_error_detection_enabled: bool = Field(
+        default=False,
+        description="Enable automatic error detection and tagging for output documents",
+    )
+    paperless_error_tags: Optional[List[str]] = Field(
+        default=None,
+        description="Tags to apply to output documents that encountered processing errors",
+    )
+    paperless_error_tag_threshold: float = Field(
+        default=0.5,
+        ge=0.0,
+        le=1.0,
+        description="Confidence threshold below which boundary detection errors are flagged for tagging",
+    )
+    paperless_error_severity_levels: List[str] = Field(
+        default=["medium", "high", "critical"],
+        description="Error severity levels that trigger tagging",
+    )
+    paperless_error_batch_tagging: bool = Field(
+        default=False,
+        description="Apply error tags to all documents in batch vs individual tagging",
+    )
+
     # Error Handling Configuration
     quarantine_directory: Optional[str] = Field(
         default=None,
@@ -403,6 +427,11 @@ def load_config(env_file: Optional[str] = None) -> Config:
         "PAPERLESS_INPUT_PROCESSING_TAG": "paperless_input_processing_tag",
         "PAPERLESS_INPUT_UNPROCESSED_TAG_NAME": "paperless_input_unprocessed_tag_name",
         "PAPERLESS_INPUT_TAGGING_ENABLED": "paperless_input_tagging_enabled",
+        "PAPERLESS_ERROR_DETECTION_ENABLED": "paperless_error_detection_enabled",
+        "PAPERLESS_ERROR_TAGS": "paperless_error_tags",
+        "PAPERLESS_ERROR_TAG_THRESHOLD": "paperless_error_tag_threshold",
+        "PAPERLESS_ERROR_SEVERITY_LEVELS": "paperless_error_severity_levels",
+        "PAPERLESS_ERROR_BATCH_TAGGING": "paperless_error_batch_tagging",
         # Error Handling
         "QUARANTINE_DIRECTORY": "quarantine_directory",
         "MAX_RETRY_ATTEMPTS": "max_retry_attempts",
@@ -429,6 +458,8 @@ def load_config(env_file: Optional[str] = None) -> Config:
                 "allowed_output_dirs",
                 "paperless_tags",
                 "paperless_input_tags",
+                "paperless_error_tags",
+                "paperless_error_severity_levels",
                 "allowed_file_extensions",
             ]:
                 # Split comma-separated values into list
@@ -442,10 +473,12 @@ def load_config(env_file: Optional[str] = None) -> Config:
                 "paperless_enabled",
                 "paperless_input_remove_unprocessed_tag",
                 "paperless_input_tagging_enabled",
+                "paperless_error_detection_enabled",
+                "paperless_error_batch_tagging",
             ]:
                 # Convert string to boolean
                 config_data[config_key] = value.lower() in ("true", "1", "yes", "on")
-            elif config_key in ["llm_temperature"]:
+            elif config_key in ["llm_temperature", "paperless_error_tag_threshold"]:
                 # Convert to float
                 config_data[config_key] = float(value)
             elif config_key in [

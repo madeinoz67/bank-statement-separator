@@ -1236,6 +1236,10 @@ class BankStatementWorkflow:
             # Add input tagging results to upload results
             upload_results["input_tagging"] = input_tagging_results
 
+            # Detect processing errors and apply error tags if enabled
+            error_tagging_results = self._detect_and_tag_errors(state, upload_results)
+            upload_results["error_tagging"] = error_tagging_results
+
             # Create summary
             upload_results["summary"] = self._create_upload_summary(
                 upload_results["success"],
@@ -1243,6 +1247,7 @@ class BankStatementWorkflow:
                 len(generated_files),
                 len(failed_uploads),
                 input_tagging_results,
+                error_tagging_results,
             )
 
             state["paperless_upload_results"] = upload_results
@@ -1419,6 +1424,85 @@ class BankStatementWorkflow:
         # Handle 'Unknown' or other invalid formats
         return "unknown-date"
 
+    def _detect_and_tag_errors(
+        self, state: WorkflowState, upload_results: Dict[str, Any]
+    ) -> Dict[str, Any]:
+        """Detect processing errors and apply error tags to uploaded documents.
+
+        Args:
+            state: Current workflow state
+            upload_results: Results from document uploads
+
+        Returns:
+            Dict containing error tagging results
+        """
+        result = {
+            "attempted": False,
+            "errors_detected": 0,
+            "tagged_documents": 0,
+            "success": True,
+            "error_summary": "",
+            "details": [],
+        }
+
+        # Check if error detection is enabled
+        if not self.config.paperless_error_detection_enabled:
+            logger.debug("Error detection disabled, skipping error tagging")
+            return result
+
+        # Check if paperless is enabled
+        if not upload_results.get("enabled", False):
+            logger.debug("Paperless integration disabled, skipping error tagging")
+            return result
+
+        try:
+            # Import error detection utilities
+            from .utils.error_detector import ErrorDetector
+            from .utils.error_tagger import ErrorTagger
+
+            result["attempted"] = True
+
+            # Detect processing errors
+            error_detector = ErrorDetector(self.config)
+            errors = error_detector.detect_errors(state)
+            result["errors_detected"] = len(errors)
+
+            if errors:
+                # Create error summary
+                error_tagger = ErrorTagger(self.config)
+                result["error_summary"] = error_tagger.create_error_summary(errors)
+
+                logger.info(
+                    f"Detected {len(errors)} processing errors: {result['error_summary']}"
+                )
+
+                # Apply error tags to documents
+                tagging_result = error_tagger.apply_error_tags(errors, upload_results)
+
+                result["tagged_documents"] = tagging_result.get("tagged_documents", 0)
+                result["success"] = tagging_result.get("success", False)
+                result["details"] = tagging_result.get("details", [])
+
+                if tagging_result.get("errors"):
+                    result["tagging_errors"] = tagging_result["errors"]
+                    logger.warning(
+                        f"Error tagging encountered {len(tagging_result['errors'])} issues"
+                    )
+
+                if result["tagged_documents"] > 0:
+                    logger.info(
+                        f"Applied error tags to {result['tagged_documents']} documents"
+                    )
+            else:
+                logger.debug("No processing errors detected")
+
+        except Exception as e:
+            result["success"] = False
+            result["error"] = str(e)
+            logger.error(f"Error detection and tagging failed: {e}")
+
+        return result
+
     def _create_upload_summary(
         self,
         upload_success: bool,
@@ -1426,6 +1510,7 @@ class BankStatementWorkflow:
         total_files: int,
         failed_count: int,
         input_tagging_results: Dict[str, Any],
+        error_tagging_results: Optional[Dict[str, Any]] = None,
     ) -> str:
         """Create a summary message for upload results.
 
@@ -1435,6 +1520,7 @@ class BankStatementWorkflow:
             total_files: Total number of files processed
             failed_count: Number of failed uploads
             input_tagging_results: Results from input document tagging
+            error_tagging_results: Results from error tagging (optional)
 
         Returns:
             Summary message string
@@ -1444,15 +1530,42 @@ class BankStatementWorkflow:
                 f"Successfully uploaded {successful_count} files to paperless-ngx"
             )
 
-            if input_tagging_results["attempted"]:
-                if input_tagging_results["success"]:
-                    return f"{base_summary}, input document marked as processed"
+            summary_parts = [base_summary]
+
+            # Add input tagging status
+            if input_tagging_results.get("attempted", False):
+                if input_tagging_results.get("success", False):
+                    summary_parts.append("input document marked as processed")
                 else:
-                    return f"{base_summary}, input document tagging failed"
-            else:
-                return base_summary
+                    summary_parts.append("input document tagging failed")
+
+            # Add error tagging status
+            if error_tagging_results and error_tagging_results.get("attempted", False):
+                if error_tagging_results.get("errors_detected", 0) > 0:
+                    tagged_count = error_tagging_results.get("tagged_documents", 0)
+                    error_count = error_tagging_results.get("errors_detected", 0)
+                    if tagged_count > 0:
+                        summary_parts.append(
+                            f"applied error tags to {tagged_count} documents ({error_count} errors detected)"
+                        )
+                    else:
+                        summary_parts.append(
+                            f"{error_count} errors detected but tagging skipped"
+                        )
+
+            return ", ".join(summary_parts)
         else:
-            return f"Uploaded {successful_count}/{total_files} files, {failed_count} errors"
+            base_summary = f"Uploaded {successful_count}/{total_files} files, {failed_count} errors"
+
+            # Add error detection info even for partial failures
+            if (
+                error_tagging_results
+                and error_tagging_results.get("errors_detected", 0) > 0
+            ):
+                error_count = error_tagging_results.get("errors_detected", 0)
+                base_summary += f", {error_count} processing errors detected"
+
+            return base_summary
 
     def run(
         self,
