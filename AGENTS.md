@@ -120,11 +120,13 @@ uv run pytest
 
 - Copy `.env.example` to `.env` and configure API keys
 - Set `OPENAI_API_KEY` for LLM functionality
+- Set `SAFETY_API_KEY` for security vulnerability scanning in CI/CD (required for Safety CLI 3.x)
 - Adjust processing limits and security settings as needed
 
 ## Important Notes
 
 - Requires OpenAI API key for AI analysis
+- Requires Safety API key for security vulnerability scanning in CI/CD environments
 - Falls back to pattern matching if LLM fails
 - Includes comprehensive logging and audit trails
 - Designed with security controls for production use
