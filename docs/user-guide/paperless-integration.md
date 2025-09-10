@@ -10,6 +10,7 @@ Paperless-ngx integration enables automatic upload and organization of separated
 - **Smart Organization**: Auto-creation of tags, correspondents, and document types
 - **Metadata Management**: Automatic extraction and application of document metadata
 - **Error Handling**: Robust handling of upload failures with retry logic
+- **Error Detection & Tagging**: Automatic tagging of documents with processing errors for manual review
 
 !!! tip "Production Ready"
 The Paperless integration has been live-tested with actual paperless-ngx instances and includes comprehensive error handling with 27 unit tests covering all functionality.
@@ -177,6 +178,326 @@ grep "Failed to mark input document" logs/statement_processing.log
 # View full workflow results including input tagging
 grep "upload_results.*input_tagging" logs/statement_processing.log
 ```
+
+## Error Detection and Tagging
+
+The system automatically detects processing errors during bank statement separation and applies configurable tags to uploaded documents in Paperless-ngx for manual review. This feature helps identify documents that may need human attention or reprocessing.
+
+### Overview
+
+When processing errors occur, the system:
+
+1. **Detects Processing Issues**: Identifies 6 types of processing errors during workflow execution
+2. **Applies Error Tags**: Automatically tags affected documents in Paperless with configurable error tags
+3. **Enables Manual Review**: Tagged documents can be easily filtered for manual review and correction
+4. **Maintains Audit Trail**: Detailed logging of all error detection and tagging activities
+
+### Configuration
+
+Enable error detection and tagging in your `.env` file:
+
+```bash
+# Enable error detection and tagging
+PAPERLESS_ERROR_DETECTION_ENABLED=true
+
+# Tags to apply to documents with processing errors (comma-separated)
+PAPERLESS_ERROR_TAGS=processing:needs-review,error:automated-detection
+
+# Severity threshold (0.0-1.0) - only errors above this threshold trigger tagging
+PAPERLESS_ERROR_TAG_THRESHOLD=0.5
+
+# Severity levels that trigger tagging (comma-separated)
+PAPERLESS_ERROR_SEVERITY_LEVELS=medium,high,critical
+
+# Tagging mode: false=individual requests, true=batch requests
+PAPERLESS_ERROR_BATCH_TAGGING=false
+```
+
+### Error Types Detected
+
+The system detects these processing error categories:
+
+| Error Type                     | Severity    | Description                                          | Example Scenarios                                   |
+| ------------------------------ | ----------- | ---------------------------------------------------- | --------------------------------------------------- |
+| **LLM Analysis Failures**      | High        | AI model fails to analyze document content           | API timeouts, invalid responses, model errors       |
+| **Low Confidence Boundaries**  | Medium-High | Statement boundaries detected with low confidence    | Ambiguous page breaks, unclear statement separators |
+| **PDF Processing Errors**      | High        | PDF generation or manipulation failures              | Memory limits, corruption, format issues            |
+| **Metadata Extraction Issues** | Medium      | Failed to extract bank names, dates, account numbers | Unrecognized formats, OCR failures                  |
+| **File Output Problems**       | Critical    | Generated files missing or corrupted                 | Disk space, permissions, write failures             |
+| **Validation Failures**        | High        | Output validation checks failed                      | Page counts, content sampling, format verification  |
+
+### How It Works
+
+#### 1. Error Detection During Processing
+
+```python
+# Error detection happens automatically during workflow execution
+from bank_statement_separator.workflow import BankStatementWorkflow
+
+workflow = BankStatementWorkflow(config)
+result = workflow.run(
+    input_file_path='statements.pdf',
+    output_directory='./output'
+)
+
+# If errors are detected during processing, they are automatically
+# identified and prepared for tagging
+```
+
+#### 2. Automatic Tagging of Uploaded Documents
+
+When documents are uploaded to Paperless, the system:
+
+1. Checks if any processing errors were detected
+2. Evaluates error severity against the configured threshold
+3. Applies configured error tags to affected documents
+4. Logs detailed tagging results for audit purposes
+
+#### 3. Error Tag Application
+
+```bash
+# Example: Document with PDF processing errors gets these tags applied:
+processing:needs-review        # From PAPERLESS_ERROR_TAGS
+error:automated-detection      # From PAPERLESS_ERROR_TAGS
+error:pdf                     # Specific error type tag
+error:severity:high           # Severity level tag
+```
+
+### Configuration Examples
+
+#### Basic Error Tagging
+
+```bash
+# Simple setup - tag documents needing review
+PAPERLESS_ERROR_DETECTION_ENABLED=true
+PAPERLESS_ERROR_TAGS=needs-review
+PAPERLESS_ERROR_TAG_THRESHOLD=0.7
+PAPERLESS_ERROR_SEVERITY_LEVELS=high,critical
+```
+
+#### Advanced Error Classification
+
+```bash
+# Detailed error classification with multiple tags
+PAPERLESS_ERROR_DETECTION_ENABLED=true
+PAPERLESS_ERROR_TAGS=processing:error,automated:detection,review:required
+PAPERLESS_ERROR_TAG_THRESHOLD=0.5
+PAPERLESS_ERROR_SEVERITY_LEVELS=medium,high,critical
+PAPERLESS_ERROR_BATCH_TAGGING=true
+```
+
+#### Development/Testing Setup
+
+```bash
+# Tag all errors including low-severity ones for development
+PAPERLESS_ERROR_DETECTION_ENABLED=true
+PAPERLESS_ERROR_TAGS=test:error-detection,test:automated-tagging
+PAPERLESS_ERROR_TAG_THRESHOLD=0.0
+PAPERLESS_ERROR_SEVERITY_LEVELS=low,medium,high,critical
+```
+
+### Usage Examples
+
+#### Processing with Error Detection
+
+```bash
+# Process documents with error detection enabled
+PAPERLESS_ERROR_DETECTION_ENABLED=true \
+uv run python -m src.bank_statement_separator.main \
+  process statements.pdf --output ./output --yes
+```
+
+The system will:
+
+1. Process the bank statements normally
+2. Detect any processing errors during workflow execution
+3. Upload separated documents to Paperless
+4. Apply error tags to documents where processing errors occurred
+5. Log detailed error detection and tagging results
+
+#### Reviewing Tagged Documents
+
+In Paperless-ngx, filter documents by error tags:
+
+```bash
+# Search for documents needing review
+# In Paperless web interface: Search for "needs-review" tag
+# Or use API to find tagged documents:
+
+curl -H "Authorization: Token $PAPERLESS_TOKEN" \
+  "$PAPERLESS_URL/api/documents/?tags__name__in=needs-review"
+```
+
+### Monitoring and Verification
+
+#### Check Error Detection Results
+
+```bash
+# View error detection logs
+grep "Detected.*processing errors" logs/statement_processing.log
+
+# Check tagging results
+grep "Error Tagging Results" logs/statement_processing.log
+
+# View specific tagging details
+grep "Document.*tags applied" logs/statement_processing.log
+```
+
+#### Verify in Paperless
+
+1. **Navigate to Documents**: Go to your Paperless-ngx document list
+2. **Filter by Error Tags**: Use tag filters to find documents with error tags
+3. **Review Document Status**: Check which documents need manual review
+4. **Manual Processing**: Reprocess or manually correct flagged documents
+
+### Error Tag Management
+
+#### Creating Error Tags in Paperless
+
+The system assumes error tags exist in your Paperless instance. Create them manually:
+
+1. **Go to Paperless Settings → Tags**
+2. **Create Error Tags** such as:
+   - `processing:needs-review` (orange color)
+   - `error:automated-detection` (red color)
+   - `error:pdf` (dark red)
+   - `error:severity:high` (bright red)
+
+#### Tag Cleanup After Review
+
+After manually reviewing and fixing documents:
+
+```bash
+# Remove error tags from corrected documents
+# Via Paperless web interface or API
+
+# Example API call to remove error tag from document 123:
+curl -X PATCH \
+  -H "Authorization: Token $PAPERLESS_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"tags": [1,2,3]}' \  # List without error tag IDs
+  "$PAPERLESS_URL/api/documents/123/"
+```
+
+### Troubleshooting Error Tagging
+
+#### Common Issues
+
+=== "Tags Not Applied"
+
+    **Problem**: Error tags not appearing on uploaded documents
+
+    **Solutions**:
+    ```bash
+    # Check if error detection is enabled
+    grep "PAPERLESS_ERROR_DETECTION_ENABLED" .env
+
+    # Verify error tags exist in Paperless
+    curl -H "Authorization: Token $PAPERLESS_TOKEN" \
+         "$PAPERLESS_URL/api/tags/" | grep "needs-review"
+
+    # Check threshold settings
+    echo "Threshold: $PAPERLESS_ERROR_TAG_THRESHOLD"
+    ```
+
+=== "Too Many/Few Tags Applied"
+
+    **Problem**: Error tagging too aggressive or not sensitive enough
+
+    **Solutions**:
+    ```bash
+    # Adjust severity threshold
+    PAPERLESS_ERROR_TAG_THRESHOLD=0.7  # More selective (higher threshold)
+    PAPERLESS_ERROR_TAG_THRESHOLD=0.3  # Less selective (lower threshold)
+
+    # Adjust severity levels
+    PAPERLESS_ERROR_SEVERITY_LEVELS=high,critical  # Only major errors
+    PAPERLESS_ERROR_SEVERITY_LEVELS=medium,high,critical  # Include medium errors
+    ```
+
+=== "Tagging Permission Errors"
+
+    **Problem**: API token lacks permission to apply tags
+
+    **Solutions**:
+    ```bash
+    # Test tag creation permission
+    curl -X POST \
+      -H "Authorization: Token $PAPERLESS_TOKEN" \
+      -H "Content-Type: application/json" \
+      -d '{"name": "test-tag"}' \
+      "$PAPERLESS_URL/api/tags/"
+
+    # Ensure API token has admin permissions
+    # Or pre-create all required tags manually
+    ```
+
+#### Debug Error Detection
+
+```bash
+# Enable verbose error detection logging
+LOG_LEVEL=DEBUG
+PAPERLESS_ERROR_DETECTION_ENABLED=true
+
+# Run with detailed output
+uv run python -m src.bank_statement_separator.main \
+  process statements.pdf --verbose
+
+# Check error detection details
+grep "error_detector\|error_tagger" logs/statement_processing.log
+```
+
+### Integration with Workflow
+
+Error detection integrates seamlessly with the standard processing workflow:
+
+```
+1. PDF Ingestion → 2. Document Analysis → 3. Statement Detection →
+4. Metadata Extraction → 5. PDF Generation → 6. File Organization →
+7. Output Validation → 8. Paperless Upload (with Error Tagging)
+```
+
+Error detection occurs throughout steps 2-7, and tagging happens during step 8 when documents are uploaded to Paperless.
+
+### Best Practices
+
+#### Tag Naming Conventions
+
+Use consistent, hierarchical tag naming:
+
+```bash
+# Recommended tag structure
+PAPERLESS_ERROR_TAGS="
+  processing:needs-review,    # Top-level category
+  error:automated,           # Error source identifier
+  review:priority-high       # Action-oriented tag
+"
+```
+
+#### Severity Threshold Tuning
+
+Start with conservative settings and adjust based on results:
+
+```bash
+# Production: Conservative (fewer false positives)
+PAPERLESS_ERROR_TAG_THRESHOLD=0.7
+PAPERLESS_ERROR_SEVERITY_LEVELS=high,critical
+
+# Development: Comprehensive (catch more issues)
+PAPERLESS_ERROR_TAG_THRESHOLD=0.4
+PAPERLESS_ERROR_SEVERITY_LEVELS=medium,high,critical
+```
+
+#### Regular Review Process
+
+Establish a workflow for reviewing tagged documents:
+
+1. **Daily**: Check for new documents with error tags
+2. **Weekly**: Review and process flagged documents
+3. **Monthly**: Analyze error patterns and adjust thresholds
+4. **Quarterly**: Clean up resolved error tags
+
+This error detection and tagging system ensures that processing issues are automatically flagged for human review, improving the reliability and quality of automated bank statement processing.
 
 ## Auto-Creation Features
 

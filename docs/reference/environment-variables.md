@@ -195,6 +195,44 @@ When processing documents that originate from Paperless (using `source_document_
 
     Input document tagging only occurs after successful output document processing and upload. This prevents re-processing of documents that have already been handled.
 
+### Error Detection and Tagging
+
+Configure automatic error detection and tagging for documents with processing issues:
+
+| Variable                            | Type    | Default                | Description                                       |
+| ----------------------------------- | ------- | ---------------------- | ------------------------------------------------- |
+| `PAPERLESS_ERROR_DETECTION_ENABLED` | Boolean | `false`                | Enable automatic error detection and tagging      |
+| `PAPERLESS_ERROR_TAGS`              | List    | None                   | Tags to apply to documents with processing errors |
+| `PAPERLESS_ERROR_TAG_THRESHOLD`     | Float   | `0.5`                  | Error severity threshold (0.0-1.0) for tagging    |
+| `PAPERLESS_ERROR_SEVERITY_LEVELS`   | List    | `medium,high,critical` | Severity levels that trigger tagging              |
+| `PAPERLESS_ERROR_BATCH_TAGGING`     | Boolean | `false`                | Use batch tagging (true) vs individual requests   |
+
+!!! info "Error Detection System"
+The error detection system identifies 6 types of processing errors:
+
+    - **LLM Analysis Failures**: AI model errors or timeouts
+    - **Low Confidence Boundaries**: Statement detection with low confidence
+    - **PDF Processing Errors**: PDF generation or manipulation failures
+    - **Metadata Extraction Issues**: Failed to extract bank names, dates, accounts
+    - **File Output Problems**: Generated files missing or corrupted
+    - **Validation Failures**: Output validation checks failed
+
+    Only errors above the configured threshold and matching severity levels trigger automatic tagging.
+
+!!! example "Error Tagging Configuration"
+```bash # Basic error tagging setup
+PAPERLESS_ERROR_DETECTION_ENABLED=true
+PAPERLESS_ERROR_TAGS=processing:needs-review,error:automated-detection
+PAPERLESS_ERROR_TAG_THRESHOLD=0.7
+PAPERLESS_ERROR_SEVERITY_LEVELS=high,critical
+
+    # Development/testing with comprehensive error detection
+    PAPERLESS_ERROR_DETECTION_ENABLED=true
+    PAPERLESS_ERROR_TAGS=test:error-detection,test:automated-tagging
+    PAPERLESS_ERROR_TAG_THRESHOLD=0.0
+    PAPERLESS_ERROR_SEVERITY_LEVELS=low,medium,high,critical
+    ```
+
 ### Upload Behavior
 
 | Variable                        | Type    | Default | Description                     |
@@ -351,6 +389,12 @@ PAPERLESS_TOKEN=prod-api-token
 # Input document processing tracking
 PAPERLESS_INPUT_TAGGING_ENABLED=true
 PAPERLESS_INPUT_PROCESSED_TAG=processed
+
+# Error detection and tagging
+PAPERLESS_ERROR_DETECTION_ENABLED=true
+PAPERLESS_ERROR_TAGS=processing:needs-review,error:automated-detection
+PAPERLESS_ERROR_TAG_THRESHOLD=0.7
+PAPERLESS_ERROR_SEVERITY_LEVELS=high,critical
 ```
 
 ## Configuration Validation
