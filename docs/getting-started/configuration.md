@@ -635,4 +635,5 @@ After configuring your system:
 1. **Test your setup**: Run the [Quick Start Guide](quick-start.md)
 2. **Learn CLI usage**: Review [CLI Commands](../reference/cli-commands.md)
 3. **Set up integrations**: Configure [Paperless Integration](../user-guide/paperless-integration.md)
-4. **Handle errors**: Understand [Error Handling](../user-guide/error-handling.md)
+4. **Configure error detection**: Set up [Error Detection & Tagging](../user-guide/paperless-integration.md#error-detection-and-tagging) (v0.3.0+)
+5. **Handle errors**: Understand [Error Handling](../user-guide/error-handling.md)
