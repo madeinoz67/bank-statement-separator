@@ -1803,8 +1803,22 @@
 </tr>
 </tbody>
 </table>
-<p>!!! info "Provider Selection" - <strong>openai</strong>: Use OpenAI cloud models (requires API key) - <strong>ollama</strong>: Use local Ollama models (privacy-focused, no API costs) - <strong>auto</strong>: Automatically select best available provider</p>
-<p>!!! tip "Model Selection" - <code>gpt-4o-mini</code>: Best balance of cost and performance (recommended) - <code>gpt-4o</code>: Highest accuracy, higher cost - <code>gpt-3.5-turbo</code>: Fastest, lower accuracy</p>
+<div class="admonition info">
+<p class="admonition-title">Provider Selection</p>
+<ul>
+<li><strong>openai</strong>: Use OpenAI cloud models (requires API key)</li>
+<li><strong>ollama</strong>: Use local Ollama models (privacy-focused, no API costs)</li>
+<li><strong>auto</strong>: Automatically select best available provider</li>
+</ul>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Model Selection</p>
+<ul>
+<li><code>gpt-4o-mini</code>: Best balance of cost and performance (recommended)</li>
+<li><code>gpt-4o</code>: Highest accuracy, higher cost</li>
+<li><code>gpt-3.5-turbo</code>: Fastest, lower accuracy</li>
+</ul>
+</div>
 <h3 id="processing-configuration">Processing Configuration<a class="headerlink" href="#processing-configuration" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
@@ -2012,7 +2026,14 @@
 </tr>
 </tbody>
 </table>
-<p>!!! info "Validation Strictness Levels" - <strong>Strict</strong>: All validation issues are errors (highest accuracy) - <strong>Normal</strong>: Balanced approach with warnings (recommended) - <strong>Lenient</strong>: Most issues are warnings (highest processing success rate)</p>
+<div class="admonition info">
+<p class="admonition-title">Validation Strictness Levels</p>
+<ul>
+<li><strong>Strict</strong>: All validation issues are errors (highest accuracy)</li>
+<li><strong>Normal</strong>: Balanced approach with warnings (recommended)</li>
+<li><strong>Lenient</strong>: Most issues are warnings (highest processing success rate)</li>
+</ul>
+</div>
 <h2 id="paperless-ngx-integration">Paperless-ngx Integration<a class="headerlink" href="#paperless-ngx-integration" title="Permanent link">&para;</a></h2>
 <h3 id="connection-settings">Connection Settings<a class="headerlink" href="#connection-settings" title="Permanent link">&para;</a></h3>
 <table>
@@ -2405,8 +2426,26 @@ Only one option should be configured at a time. Input document tagging only occu
 </div>
 </div>
 </div>
-<p>!!! tip "Environment File Best Practices" - <strong>Never commit</strong> <code>.env</code> files containing secrets to version control - <strong>Use descriptive names</strong> like <code>.env.dev</code>, <code>.env.prod</code> instead of generic names - <strong>Document required variables</strong> in each environment file header - <strong>Test configurations</strong> before deploying to production - <strong>Use relative paths</strong> where possible for portability - <strong>Validate configurations</strong> after changes using the validation script above</p>
-<p>!!! warning "Security Considerations" - Production env files should be stored securely and access-controlled - Use different API keys for different environments - Set appropriate file permissions (644 or 600) - Never expose production credentials in development/test environments</p>
+<div class="admonition tip">
+<p class="admonition-title">Environment File Best Practices</p>
+<ul>
+<li><strong>Never commit</strong> <code>.env</code> files containing secrets to version control</li>
+<li><strong>Use descriptive names</strong> like <code>.env.dev</code>, <code>.env.prod</code> instead of generic names</li>
+<li><strong>Document required variables</strong> in each environment file header</li>
+<li><strong>Test configurations</strong> before deploying to production</li>
+<li><strong>Use relative paths</strong> where possible for portability</li>
+<li><strong>Validate configurations</strong> after changes using the validation script above</li>
+</ul>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Security Considerations</p>
+<ul>
+<li>Production env files should be stored securely and access-controlled</li>
+<li>Use different API keys for different environments</li>
+<li>Set appropriate file permissions (644 or 600)</li>
+<li>Never expose production credentials in development/test environments</li>
+</ul>
+</div>
 <h3 id="environment-variable-precedence">Environment Variable Precedence<a class="headerlink" href="#environment-variable-precedence" title="Permanent link">&para;</a></h3>
 <p>Configuration precedence (highest to lowest):</p>
 <ol>
