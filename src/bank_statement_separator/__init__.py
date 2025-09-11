@@ -6,12 +6,11 @@ AI-powered tool for separating multi-statement PDF files using LangChain and Lan
 
 try:
     from importlib.metadata import version
-
-    __version__ = version("bank-statement-separator")
 except ImportError:
     # Fallback for Python < 3.8
     from importlib_metadata import version
 
+try:
     __version__ = version("bank-statement-separator")
 except Exception:
     # Fallback version if package metadata is not available
