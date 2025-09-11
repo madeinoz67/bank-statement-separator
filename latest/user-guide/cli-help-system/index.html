@@ -12,13 +12,13 @@
         <meta name="author" content="Stephen Eaton">
       
       
-        <link rel="canonical" href="https://madeinoz67.github.io/bank-statement-separator/latest/developer-guide/contributing/">
+        <link rel="canonical" href="https://madeinoz67.github.io/bank-statement-separator/latest/user-guide/cli-help-system/">
       
       
-        <link rel="prev" href="../../user-guide/paperless-integration/">
+        <link rel="prev" href="../../getting-started/configuration/">
       
       
-        <link rel="next" href="../release-management/">
+        <link rel="next" href="../model-selection-guide/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -26,7 +26,7 @@
     
     
       
-        <title>Contributing - Bank Statement Separator</title>
+        <title>CLI Help System - Bank Statement Separator</title>
       
     
     
@@ -90,7 +90,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#contributing-to-bank-statement-separator" class="md-skip">
+        <a href="#cli-help-system" class="md-skip">
           Skip to content
         </a>
       
@@ -130,7 +130,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Contributing
+              CLI Help System
             
           </span>
         </div>
@@ -291,11 +291,13 @@
   
   
   
+    
+  
   
     
     
-      <li class="md-tabs__item">
-        <a href="../../user-guide/cli-help-system/" class="md-tabs__link">
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="./" class="md-tabs__link">
           
   
   
@@ -313,13 +315,11 @@
   
   
   
-    
-  
   
     
     
-      <li class="md-tabs__item md-tabs__item--active">
-        <a href="./" class="md-tabs__link">
+      <li class="md-tabs__item">
+        <a href="../../developer-guide/contributing/" class="md-tabs__link">
           
   
   
@@ -582,10 +582,505 @@
       
   
   
+    
+  
   
   
     
     
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    User Guide
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            User Guide
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    CLI Help System
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    CLI Help System
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      Overview
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#environment-variable-help" class="md-nav__link">
+    <span class="md-ellipsis">
+      Environment Variable Help
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Environment Variable Help">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-env-help-command" class="md-nav__link">
+    <span class="md-ellipsis">
+      The env-help Command
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#available-categories" class="md-nav__link">
+    <span class="md-ellipsis">
+      Available Categories
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-usage" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example Usage
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sample-output" class="md-nav__link">
+    <span class="md-ellipsis">
+      Sample Output
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enhanced-command-help" class="md-nav__link">
+    <span class="md-ellipsis">
+      Enhanced Command Help
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Enhanced Command Help">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#context-specific-environment-variables" class="md-nav__link">
+    <span class="md-ellipsis">
+      Context-Specific Environment Variables
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-process-command-help" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example: Process Command Help
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cross-references" class="md-nav__link">
+    <span class="md-ellipsis">
+      Cross-References
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#version-and-support-information" class="md-nav__link">
+    <span class="md-ellipsis">
+      Version and Support Information
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Version and Support Information">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#enhanced-version-command" class="md-nav__link">
+    <span class="md-ellipsis">
+      Enhanced Version Command
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#version-output" class="md-nav__link">
+    <span class="md-ellipsis">
+      Version Output
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#support-links" class="md-nav__link">
+    <span class="md-ellipsis">
+      Support Links
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#help-system-workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      Help System Workflow
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Help System Workflow">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#for-new-users" class="md-nav__link">
+    <span class="md-ellipsis">
+      For New Users
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#for-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      For Configuration
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#for-troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      For Troubleshooting
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tips-and-best-practices" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tips and Best Practices
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tips and Best Practices">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#discovery-workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      Discovery Workflow
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuration-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuration Strategy
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#integration-with-documentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Integration with Documentation
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#accessibility-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      Accessibility Features
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Accessibility Features">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#multiple-access-methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      Multiple Access Methods
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#consistent-formatting" class="md-nav__link">
+    <span class="md-ellipsis">
+      Consistent Formatting
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../model-selection-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Model Selection Guide
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../error-handling/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Error Handling
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../fragment-detection/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Fragment Detection
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../paperless-integration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Paperless Integration
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
       
         
       
@@ -617,12 +1112,12 @@
   
   
   
-    <a href="../../user-guide/cli-help-system/" class="md-nav__link">
+    <a href="../../developer-guide/contributing/" class="md-nav__link">
       
   
   
   <span class="md-ellipsis">
-    User Guide
+    Developer Guide
     
   </span>
   
@@ -633,494 +1128,6 @@
     </a>
   
 
-      
-    </li>
-  
-
-    
-      
-      
-  
-  
-    
-  
-  
-  
-    
-    
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-    
-    
-    
-      
-        
-        
-      
-      
-        
-      
-    
-    
-      
-    
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
-        
-          
-          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
-            
-  
-  
-  <span class="md-ellipsis">
-    Developer Guide
-    
-  </span>
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_4">
-            <span class="md-nav__icon md-icon"></span>
-            Developer Guide
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-    
-  
-  
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    Contributing
-    
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
-        
-  
-  
-  <span class="md-ellipsis">
-    Contributing
-    
-  </span>
-  
-
-      </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#development-setup" class="md-nav__link">
-    <span class="md-ellipsis">
-      Development Setup
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#code-style" class="md-nav__link">
-    <span class="md-ellipsis">
-      Code Style
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#testing" class="md-nav__link">
-    <span class="md-ellipsis">
-      Testing
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#security" class="md-nav__link">
-    <span class="md-ellipsis">
-      Security
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Security">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#secret-detection" class="md-nav__link">
-    <span class="md-ellipsis">
-      Secret Detection
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Secret Detection">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#working-with-detect-secrets" class="md-nav__link">
-    <span class="md-ellipsis">
-      Working with detect-secrets
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#common-issues" class="md-nav__link">
-    <span class="md-ellipsis">
-      Common Issues
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#conventional-commits" class="md-nav__link">
-    <span class="md-ellipsis">
-      Conventional Commits
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Conventional Commits">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#commit-message-format" class="md-nav__link">
-    <span class="md-ellipsis">
-      Commit Message Format
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#types" class="md-nav__link">
-    <span class="md-ellipsis">
-      Types
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#examples" class="md-nav__link">
-    <span class="md-ellipsis">
-      Examples
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#breaking-changes" class="md-nav__link">
-    <span class="md-ellipsis">
-      Breaking Changes
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#scope-optional" class="md-nav__link">
-    <span class="md-ellipsis">
-      Scope (Optional)
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#pull-request-process" class="md-nav__link">
-    <span class="md-ellipsis">
-      Pull Request Process
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#release-process" class="md-nav__link">
-    <span class="md-ellipsis">
-      Release Process
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#getting-help" class="md-nav__link">
-    <span class="md-ellipsis">
-      Getting Help
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../release-management/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Release Management
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../testing/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Testing
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../error-tagging-testing/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Error Tagging Testing
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../pytest-marks-guide/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Pytest Marks Guide
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../pydantic-v2-migration/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Pydantic V2 Migration
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../ci-cd-setup/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    CI/CD Setup
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../versioning-maintenance/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Documentation Versioning
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../llm-provider-development/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    LLM Provider Development
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
       
     </li>
   
@@ -1440,7 +1447,7 @@
 
 
   
-    <a href="https://github.com/madeinoz67/bank-statement-separator/edit/main/docs/developer-guide/contributing.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+    <a href="https://github.com/madeinoz67/bank-statement-separator/edit/main/docs/user-guide/cli-help-system.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75z"/></svg>
     </a>
@@ -1449,136 +1456,261 @@
     
       
     
-    <a href="https://github.com/madeinoz67/bank-statement-separator/raw/main/docs/developer-guide/contributing.md" title="View source of this page" class="md-content__button md-icon">
+    <a href="https://github.com/madeinoz67/bank-statement-separator/raw/main/docs/user-guide/cli-help-system.md" title="View source of this page" class="md-content__button md-icon">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0 8a5 5 0 0 1-5-5 5 5 0 0 1 5-5 5 5 0 0 1 5 5 5 5 0 0 1-5 5m0-12.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5"/></svg>
     </a>
   
 
 
-<h1 id="contributing-to-bank-statement-separator">Contributing to Bank Statement Separator<a class="headerlink" href="#contributing-to-bank-statement-separator" title="Permanent link">&para;</a></h1>
-<p>Thank you for your interest in contributing to the Bank Statement Separator project! This document provides guidelines for contributing to the project.</p>
-<h2 id="development-setup">Development Setup<a class="headerlink" href="#development-setup" title="Permanent link">&para;</a></h2>
-<ol>
-<li>Fork the repository</li>
-<li>Clone your fork: <code>git clone https://github.com/your-username/bank-statement-separator.git</code></li>
-<li>Install dependencies: <code>uv sync</code></li>
-<li>Create a feature branch: <code>git checkout -b feature/your-feature-name</code></li>
-</ol>
-<h2 id="code-style">Code Style<a class="headerlink" href="#code-style" title="Permanent link">&para;</a></h2>
+<h1 id="cli-help-system">CLI Help System<a class="headerlink" href="#cli-help-system" title="Permanent link">&para;</a></h1>
+<p>The Bank Statement Separator includes a comprehensive help system to guide you through configuration and usage.</p>
+<h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
+<p>The CLI help system provides multiple ways to get assistance:</p>
 <ul>
-<li>Follow PEP 8 conventions</li>
-<li>Use type hints for all functions</li>
-<li>Write docstrings for public APIs</li>
-<li>Keep functions focused and small</li>
-<li>Use f-strings for string formatting</li>
+<li><strong>Built-in help</strong> - Standard <code>--help</code> for each command</li>
+<li><strong>Environment variable help</strong> - Dedicated <code>env-help</code> command for configuration</li>
+<li><strong>Enhanced command help</strong> - Context-specific environment variable information</li>
+<li><strong>Version and support links</strong> - Quick access to documentation and issue tracking</li>
 </ul>
-<h2 id="testing">Testing<a class="headerlink" href="#testing" title="Permanent link">&para;</a></h2>
-<ul>
-<li>Write tests for new features</li>
-<li>Run tests with: <code>uv run pytest</code></li>
-<li>Ensure all tests pass before submitting PR</li>
-<li>Add regression tests for bug fixes</li>
-</ul>
-<h2 id="security">Security<a class="headerlink" href="#security" title="Permanent link">&para;</a></h2>
-<h3 id="secret-detection">Secret Detection<a class="headerlink" href="#secret-detection" title="Permanent link">&para;</a></h3>
-<p>This project uses <a href="https://github.com/Yelp/detect-secrets">detect-secrets</a> to prevent accidental commits of sensitive information:</p>
-<ul>
-<li><strong>Pre-commit hook</strong>: Automatically scans for potential secrets before commits</li>
-<li><strong>Baseline file</strong>: <code>.secrets.baseline</code> contains known false positives</li>
-<li><strong>Exclusions</strong>: Test environment files and documentation are excluded</li>
-</ul>
-<h4 id="working-with-detect-secrets">Working with detect-secrets<a class="headerlink" href="#working-with-detect-secrets" title="Permanent link">&para;</a></h4>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># Scan for new secrets</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>uv<span class="w"> </span>run<span class="w"> </span>detect-secrets<span class="w"> </span>scan
+<h2 id="environment-variable-help">Environment Variable Help<a class="headerlink" href="#environment-variable-help" title="Permanent link">&para;</a></h2>
+<h3 id="the-env-help-command">The <code>env-help</code> Command<a class="headerlink" href="#the-env-help-command" title="Permanent link">&para;</a></h3>
+<p>The <code>env-help</code> command provides comprehensive documentation for all 70+ environment variables:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># Show all environment variables</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>uv<span class="w"> </span>run<span class="w"> </span>bank-statement-separator<span class="w"> </span>env-help
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="c1"># Update baseline with new legitimate secrets</span>
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>uv<span class="w"> </span>run<span class="w"> </span>detect-secrets<span class="w"> </span>scan<span class="w"> </span>--baseline<span class="w"> </span>.secrets.baseline
-</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>
-</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="c1"># Audit findings interactively</span>
-</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>uv<span class="w"> </span>run<span class="w"> </span>detect-secrets<span class="w"> </span>audit<span class="w"> </span>.secrets.baseline
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="c1"># Filter by category</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>uv<span class="w"> </span>run<span class="w"> </span>bank-statement-separator<span class="w"> </span>env-help<span class="w"> </span>--category<span class="w"> </span>llm
 </span></code></pre></div>
-<h4 id="common-issues">Common Issues<a class="headerlink" href="#common-issues" title="Permanent link">&para;</a></h4>
-<ul>
-<li><strong>False positives</strong>: Add to baseline or use <code># pragma: allowlist secret</code> comments</li>
-<li><strong>Test files</strong>: Use placeholder values like <code>sk-test-key</code> or <code>your-api-key-here</code></li>
-<li><strong>Documentation</strong>: Real examples should use obviously fake credentials</li>
-</ul>
-<h2 id="conventional-commits">Conventional Commits<a class="headerlink" href="#conventional-commits" title="Permanent link">&para;</a></h2>
-<p>This project uses <a href="https://conventionalcommits.org/">Conventional Commits</a> for automated semantic versioning. Please follow these guidelines:</p>
-<h3 id="commit-message-format">Commit Message Format<a class="headerlink" href="#commit-message-format" title="Permanent link">&para;</a></h3>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>&lt;type&gt;[optional scope]: &lt;description&gt;
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
-</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>[optional body]
-</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>
-</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>[optional footer(s)]
+<h3 id="available-categories">Available Categories<a class="headerlink" href="#available-categories" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Category</th>
+<th>Description</th>
+<th>Key Variables</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>llm</code></td>
+<td>LLM provider configuration</td>
+<td><code>OPENAI_API_KEY</code>, <code>OLLAMA_MODEL</code></td>
+</tr>
+<tr>
+<td><code>processing</code></td>
+<td>Document processing settings</td>
+<td><code>CHUNK_SIZE</code>, <code>MAX_FILE_SIZE_MB</code></td>
+</tr>
+<tr>
+<td><code>security</code></td>
+<td>Security controls and logging</td>
+<td><code>LOG_LEVEL</code>, <code>ALLOWED_*_DIRS</code></td>
+</tr>
+<tr>
+<td><code>paperless</code></td>
+<td>Paperless-ngx integration</td>
+<td><code>PAPERLESS_*</code> variables</td>
+</tr>
+<tr>
+<td><code>error-handling</code></td>
+<td>Error recovery and quarantine</td>
+<td><code>QUARANTINE_DIRECTORY</code>, <code>MAX_RETRY_ATTEMPTS</code></td>
+</tr>
+<tr>
+<td><code>validation</code></td>
+<td>Document validation and quality checks</td>
+<td><code>MIN_PAGES_PER_STATEMENT</code>, <code>REQUIRE_TEXT_CONTENT</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="example-usage">Example Usage<a class="headerlink" href="#example-usage" title="Permanent link">&para;</a></h3>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:3"><input checked="checked" id="example-usage-all-variables" name="__tabbed_1" type="radio" /><input id="example-usage-specific-category" name="__tabbed_1" type="radio" /><input id="example-usage-quick-reference" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="example-usage-all-variables">All Variables</label><label for="example-usage-specific-category">Specific Category</label><label for="example-usage-quick-reference">Quick Reference</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>uv<span class="w"> </span>run<span class="w"> </span>bank-statement-separator<span class="w"> </span>env-help
 </span></code></pre></div>
-<h3 id="types">Types<a class="headerlink" href="#types" title="Permanent link">&para;</a></h3>
-<ul>
-<li><strong>feat</strong>: A new feature</li>
-<li><strong>fix</strong>: A bug fix</li>
-<li><strong>docs</strong>: Documentation only changes</li>
-<li><strong>style</strong>: Changes that do not affect the meaning of the code (white-space, formatting, etc.)</li>
-<li><strong>refactor</strong>: A code change that neither fixes a bug nor adds a feature</li>
-<li><strong>perf</strong>: A code change that improves performance</li>
-<li><strong>test</strong>: Adding missing tests or correcting existing tests</li>
-<li><strong>build</strong>: Changes that affect the build system or external dependencies</li>
-<li><strong>ci</strong>: Changes to CI configuration files and scripts</li>
-<li><strong>chore</strong>: Other changes that don't modify src or test files</li>
-</ul>
-<h3 id="examples">Examples<a class="headerlink" href="#examples" title="Permanent link">&para;</a></h3>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>feat: add PDF boundary detection for multi-statement files
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
-</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>fix: resolve account number extraction for Westpac statements
-</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>
-</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>docs: update installation instructions for uv package manager
+<p>Shows all environment variables organized by category with:
+- Variable names and descriptions
+- Default values and examples
+- Requirement status (required/optional)
+- Configuration notes and documentation links</p>
+</div>
+<div class="tabbed-block">
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># LLM configuration variables</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>uv<span class="w"> </span>run<span class="w"> </span>bank-statement-separator<span class="w"> </span>env-help<span class="w"> </span>--category<span class="w"> </span>llm
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="c1"># Processing configuration</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>uv<span class="w"> </span>run<span class="w"> </span>bank-statement-separator<span class="w"> </span>env-help<span class="w"> </span>--category<span class="w"> </span>processing
 </span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>
-</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>refactor: simplify LLM analyzer node logic
-</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>
-</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>test: add integration tests for API-dependent features
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="c1"># Paperless integration variables</span>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>uv<span class="w"> </span>run<span class="w"> </span>bank-statement-separator<span class="w"> </span>env-help<span class="w"> </span>--category<span class="w"> </span>paperless
 </span></code></pre></div>
-<h3 id="breaking-changes">Breaking Changes<a class="headerlink" href="#breaking-changes" title="Permanent link">&para;</a></h3>
-<p>For breaking changes, add <code>BREAKING CHANGE:</code> in the footer:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>feat: change API endpoint structure
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
-</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>BREAKING CHANGE: The API now requires authentication headers
+</div>
+<div class="tabbed-block">
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># Get help about the env-help command itself</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>uv<span class="w"> </span>run<span class="w"> </span>bank-statement-separator<span class="w"> </span>env-help<span class="w"> </span>--help
 </span></code></pre></div>
-<h3 id="scope-optional">Scope (Optional)<a class="headerlink" href="#scope-optional" title="Permanent link">&para;</a></h3>
-<p>You can add a scope to provide more context:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>feat(pdf): add support for encrypted PDF files
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>fix(parser): handle edge case in date parsing
+</div>
+</div>
+</div>
+<h3 id="sample-output">Sample Output<a class="headerlink" href="#sample-output" title="Permanent link">&para;</a></h3>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>📚 Environment Variable Documentation
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>============================================================
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>💡 Use --category &lt;name&gt; to filter by specific category
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>Available categories: llm, processing, security, paperless, error-handling, validation
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>🤖 LLM Provider Configuration
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>Configure AI/LLM providers for document analysis
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>┏━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━┓
+</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>┃ Variable          ┃ Description                      ┃ Default        ┃ Required      ┃
+</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>┡━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━┩
+</span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a>│ LLM_PROVIDER      │ LLM provider selection (open... │ openai         │ No            │
+</span><span id="__span-4-14"><a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a>│ OPENAI_API_KEY    │ OpenAI API key for GPT models   │ None           │ If using Open...│
+</span><span id="__span-4-15"><a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a>│ OPENAI_MODEL      │ OpenAI model to use              │ gpt-4o-mini    │ No            │
+</span><span id="__span-4-16"><a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a>└───────────────────┴──────────────────────────────────┴────────────────┴───────────────┘
+</span><span id="__span-4-17"><a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a>
+</span><span id="__span-4-18"><a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a>📋 Configuration Notes
+</span><span id="__span-4-19"><a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a>• Create a .env file from .env.example to configure your environment
+</span><span id="__span-4-20"><a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a>• Use --env-file option with commands to specify custom config file
+</span><span id="__span-4-21"><a id="__codelineno-4-21" name="__codelineno-4-21" href="#__codelineno-4-21"></a>• Most variables have sensible defaults and are optional
 </span></code></pre></div>
-<h2 id="pull-request-process">Pull Request Process<a class="headerlink" href="#pull-request-process" title="Permanent link">&para;</a></h2>
-<ol>
-<li>Ensure your code follows the style guidelines</li>
-<li>Write or update tests as needed</li>
-<li>Update documentation if required</li>
-<li>Ensure all CI checks pass</li>
-<li>Create a pull request with a clear description</li>
-<li>Wait for review and address any feedback</li>
-</ol>
-<h2 id="release-process">Release Process<a class="headerlink" href="#release-process" title="Permanent link">&para;</a></h2>
-<p>Releases are automated using semantic versioning:</p>
+<h2 id="enhanced-command-help">Enhanced Command Help<a class="headerlink" href="#enhanced-command-help" title="Permanent link">&para;</a></h2>
+<h3 id="context-specific-environment-variables">Context-Specific Environment Variables<a class="headerlink" href="#context-specific-environment-variables" title="Permanent link">&para;</a></h3>
+<p>Each command now includes relevant environment variables in its help text:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># Process command shows common variables</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>uv<span class="w"> </span>run<span class="w"> </span>bank-statement-separator<span class="w"> </span>process<span class="w"> </span>--help
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="c1"># Paperless command shows required integration variables</span>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>uv<span class="w"> </span>run<span class="w"> </span>bank-statement-separator<span class="w"> </span>process-paperless<span class="w"> </span>--help
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="c1"># Batch command shows error handling variables</span>
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>uv<span class="w"> </span>run<span class="w"> </span>bank-statement-separator<span class="w"> </span>batch-process<span class="w"> </span>--help
+</span></code></pre></div>
+<h3 id="example-process-command-help">Example: Process Command Help<a class="headerlink" href="#example-process-command-help" title="Permanent link">&para;</a></h3>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>Bank Statement Separator
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>Automatically separate multi-statement PDF files using AI-powered analysis.
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>🔧 COMMON ENVIRONMENT VARIABLES:
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>• OPENAI_API_KEY        - OpenAI API key (required for AI analysis)
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>• OPENAI_MODEL         - Model selection (gpt-4o-mini, gpt-4o)
+</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>• DEFAULT_OUTPUT_DIR   - Default output directory
+</span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>• MAX_FILE_SIZE_MB     - Maximum file size limit (default: 100)
+</span><span id="__span-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a>• LOG_LEVEL           - Logging verbosity (DEBUG, INFO, WARNING)
+</span><span id="__span-6-11"><a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a>• PAPERLESS_ENABLED   - Enable paperless-ngx upload (true/false)
+</span><span id="__span-6-12"><a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a>
+</span><span id="__span-6-13"><a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a>💡 Configuration: Use &#39;env-help&#39; command for complete documentation
+</span><span id="__span-6-14"><a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a>📋 Example: bank-statement-separator env-help --category processing
+</span></code></pre></div>
+<h3 id="cross-references">Cross-References<a class="headerlink" href="#cross-references" title="Permanent link">&para;</a></h3>
+<p>Commands include helpful cross-references to the env-help system:</p>
 <ul>
-<li><strong>Patch releases</strong> (1.0.0 → 1.0.1): Bug fixes (<code>fix:</code> commits)</li>
-<li><strong>Minor releases</strong> (1.0.0 → 1.1.0): New features (<code>feat:</code> commits)</li>
-<li><strong>Major releases</strong> (1.0.0 → 2.0.0): Breaking changes (<code>BREAKING CHANGE:</code> footer)</li>
+<li><code>process</code> → References processing and LLM categories</li>
+<li><code>process-paperless</code> → References paperless category</li>
+<li><code>batch-process</code> → References error-handling category</li>
+<li><code>quarantine-*</code> → References error-handling category</li>
 </ul>
-<p>The release process is fully automated:</p>
-<ol>
-<li>Conventional commits are analyzed on push to main</li>
-<li>Release PR is created/updated with changelog</li>
-<li>When merged, version is bumped and release is published</li>
-<li>PyPI package is automatically published</li>
-<li>Documentation is versioned and deployed</li>
-</ol>
-<h2 id="getting-help">Getting Help<a class="headerlink" href="#getting-help" title="Permanent link">&para;</a></h2>
+<h2 id="version-and-support-information">Version and Support Information<a class="headerlink" href="#version-and-support-information" title="Permanent link">&para;</a></h2>
+<h3 id="enhanced-version-command">Enhanced Version Command<a class="headerlink" href="#enhanced-version-command" title="Permanent link">&para;</a></h3>
+<p>The <code>version</code> command now provides comprehensive support information:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>uv<span class="w"> </span>run<span class="w"> </span>bank-statement-separator<span class="w"> </span>version
+</span></code></pre></div>
+<h3 id="version-output">Version Output<a class="headerlink" href="#version-output" title="Permanent link">&para;</a></h3>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>╔═══════════════════════════════════════════════════════════╗
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>║                   Bank Statement Separator                ║
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>║                        Version Information                 ║
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>╚═══════════════════════════════════════════════════════════╝
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>Version: 0.3.1
+</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>Author: Stephen Eaton
+</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>License: MIT
+</span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a>Repository: https://github.com/madeinoz67/bank-statement-separator
+</span><span id="__span-8-10"><a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a>Documentation: https://madeinoz67.github.io/bank-statement-separator/
+</span><span id="__span-8-11"><a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a>Issues: https://github.com/madeinoz67/bank-statement-separator/issues
+</span><span id="__span-8-12"><a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a>
+</span><span id="__span-8-13"><a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a>An AI-powered tool for automatically separating
+</span><span id="__span-8-14"><a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a>multi-statement PDF files using LangChain and LangGraph.
+</span></code></pre></div>
+<h3 id="support-links">Support Links<a class="headerlink" href="#support-links" title="Permanent link">&para;</a></h3>
+<p>The version command provides direct links to:</p>
 <ul>
-<li>Check existing issues and documentation</li>
-<li>Create an issue for bugs or feature requests</li>
-<li>Join discussions in pull request comments</li>
+<li><strong>Repository</strong>: Source code and releases</li>
+<li><strong>Documentation</strong>: User guides and reference materials</li>
+<li><strong>Issue Tracker</strong>: Bug reports and feature requests</li>
 </ul>
-<p>Thank you for contributing! 🎉</p>
+<h2 id="help-system-workflow">Help System Workflow<a class="headerlink" href="#help-system-workflow" title="Permanent link">&para;</a></h2>
+<h3 id="for-new-users">For New Users<a class="headerlink" href="#for-new-users" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>Start with version</strong>: <code>uv run bank-statement-separator version</code></li>
+<li><strong>Explore environment variables</strong>: <code>uv run bank-statement-separator env-help</code></li>
+<li><strong>Check command-specific help</strong>: <code>uv run bank-statement-separator process --help</code></li>
+<li><strong>Reference documentation</strong>: Follow links from version command</li>
+</ol>
+<h3 id="for-configuration">For Configuration<a class="headerlink" href="#for-configuration" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>Browse all variables</strong>: <code>uv run bank-statement-separator env-help</code></li>
+<li><strong>Focus on category</strong>: <code>uv run bank-statement-separator env-help --category llm</code></li>
+<li><strong>Copy template</strong>: <code>cp .env.example .env</code></li>
+<li><strong>Test configuration</strong>: Use dry-run mode to validate</li>
+</ol>
+<h3 id="for-troubleshooting">For Troubleshooting<a class="headerlink" href="#for-troubleshooting" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>Check environment variables</strong>: <code>uv run bank-statement-separator env-help --category security</code></li>
+<li><strong>Review command help</strong>: Check relevant environment variables for the failing command</li>
+<li><strong>Verify configuration</strong>: Use the links in version command for documentation</li>
+<li><strong>Report issues</strong>: Use the issue tracker link from version command</li>
+</ol>
+<h2 id="tips-and-best-practices">Tips and Best Practices<a class="headerlink" href="#tips-and-best-practices" title="Permanent link">&para;</a></h2>
+<h3 id="discovery-workflow">Discovery Workflow<a class="headerlink" href="#discovery-workflow" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># 1. Get overview of all available help</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>uv<span class="w"> </span>run<span class="w"> </span>bank-statement-separator<span class="w"> </span>--help
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="c1"># 2. Understand environment configuration</span>
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>uv<span class="w"> </span>run<span class="w"> </span>bank-statement-separator<span class="w"> </span>env-help
+</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>
+</span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="c1"># 3. Focus on specific areas</span>
+</span><span id="__span-9-8"><a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>uv<span class="w"> </span>run<span class="w"> </span>bank-statement-separator<span class="w"> </span>env-help<span class="w"> </span>--category<span class="w"> </span>llm
+</span><span id="__span-9-9"><a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a>
+</span><span id="__span-9-10"><a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a><span class="c1"># 4. Get command-specific guidance</span>
+</span><span id="__span-9-11"><a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a>uv<span class="w"> </span>run<span class="w"> </span>bank-statement-separator<span class="w"> </span>process<span class="w"> </span>--help
+</span><span id="__span-9-12"><a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a>
+</span><span id="__span-9-13"><a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a><span class="c1"># 5. Access support resources</span>
+</span><span id="__span-9-14"><a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a>uv<span class="w"> </span>run<span class="w"> </span>bank-statement-separator<span class="w"> </span>version
+</span></code></pre></div>
+<h3 id="configuration-strategy">Configuration Strategy<a class="headerlink" href="#configuration-strategy" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>Start small</strong>: Use default values and <code>.env.example</code> as baseline</li>
+<li><strong>Use categories</strong>: Focus on one configuration area at a time (<code>llm</code>, <code>processing</code>, etc.)</li>
+<li><strong>Test incrementally</strong>: Use dry-run mode to test configuration changes</li>
+<li><strong>Reference frequently</strong>: Keep <code>env-help</code> output handy during configuration</li>
+</ol>
+<h3 id="integration-with-documentation">Integration with Documentation<a class="headerlink" href="#integration-with-documentation" title="Permanent link">&para;</a></h3>
+<p>The CLI help system is designed to complement the online documentation:</p>
+<ul>
+<li><strong>CLI help</strong>: Quick reference and immediate guidance</li>
+<li><strong>Online docs</strong>: Comprehensive guides and examples</li>
+<li><strong>Template files</strong>: Documented default configurations</li>
+<li><strong>Issue tracker</strong>: Community support and bug reporting</li>
+</ul>
+<h2 id="accessibility-features">Accessibility Features<a class="headerlink" href="#accessibility-features" title="Permanent link">&para;</a></h2>
+<h3 id="multiple-access-methods">Multiple Access Methods<a class="headerlink" href="#multiple-access-methods" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Interactive CLI</strong>: Rich formatted output with colors and tables</li>
+<li><strong>Category filtering</strong>: Focus on relevant variables only</li>
+<li><strong>Cross-references</strong>: Commands point to related help sections</li>
+<li><strong>Documentation links</strong>: Direct access to online resources</li>
+</ul>
+<h3 id="consistent-formatting">Consistent Formatting<a class="headerlink" href="#consistent-formatting" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Standardized output</strong>: All help uses consistent Rich formatting</li>
+<li><strong>Clear organization</strong>: Variables grouped logically by function</li>
+<li><strong>Visual hierarchy</strong>: Important information highlighted with colors and emojis</li>
+<li><strong>Practical examples</strong>: Real-world usage patterns shown in command help</li>
+</ul>
+<p>This help system ensures users can quickly find the information they need, whether they're just getting started or configuring advanced features.</p>
 
 
 
@@ -1618,7 +1750,7 @@
       <nav class="md-footer__inner md-grid" aria-label="Footer" >
         
           
-          <a href="../../user-guide/paperless-integration/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Paperless Integration">
+          <a href="../../getting-started/configuration/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Configuration">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
@@ -1628,20 +1760,20 @@
                 Previous
               </span>
               <div class="md-ellipsis">
-                Paperless Integration
+                Configuration
               </div>
             </div>
           </a>
         
         
           
-          <a href="../release-management/" class="md-footer__link md-footer__link--next" aria-label="Next: Release Management">
+          <a href="../model-selection-guide/" class="md-footer__link md-footer__link--next" aria-label="Next: Model Selection Guide">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Next
               </span>
               <div class="md-ellipsis">
-                Release Management
+                Model Selection Guide
               </div>
             </div>
             <div class="md-footer__button md-icon">
