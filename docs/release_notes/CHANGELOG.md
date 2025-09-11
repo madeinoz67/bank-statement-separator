@@ -1,5 +1,23 @@
 # Changelog
 
+## [0.4.0](https://github.com/madeinoz67/bank-statement-separator/compare/v0.3.1...v0.4.0) (2025-09-11)
+
+
+### Features
+
+* implement comprehensive CLI help improvements (issue [#34](https://github.com/madeinoz67/bank-statement-separator/issues/34)) ([22074f3](https://github.com/madeinoz67/bank-statement-separator/commit/22074f306a4c3b999b5e9a224772598f4ca33f86))
+* implement comprehensive CLI help improvements (issue [#34](https://github.com/madeinoz67/bank-statement-separator/issues/34)) ([7a7438b](https://github.com/madeinoz67/bank-statement-separator/commit/7a7438bb5abecbcbbd9f856c1b12dc0a051d92fe))
+* remove borders from version command splash screen ([872ed8c](https://github.com/madeinoz67/bank-statement-separator/commit/872ed8c0ce6a3c1531bd342f1b27dc5776520251)), closes [#34](https://github.com/madeinoz67/bank-statement-separator/issues/34)
+
+
+### Code Refactoring
+
+* address additional Copilot review feedback ([a82574c](https://github.com/madeinoz67/bank-statement-separator/commit/a82574ca8d3703620a0488823d65b752af2379c9)), closes [#34](https://github.com/madeinoz67/bank-statement-separator/issues/34)
+* address Copilot code review feedback ([28acd1b](https://github.com/madeinoz67/bank-statement-separator/commit/28acd1b369a019770f654ef4490526b88bae22ef)), closes [#34](https://github.com/madeinoz67/bank-statement-separator/issues/34)
+* address latest Copilot feedback for code quality improvements ([11d28f2](https://github.com/madeinoz67/bank-statement-separator/commit/11d28f20d394f5334104bfd3abf32d69746b143d)), closes [#34](https://github.com/madeinoz67/bank-statement-separator/issues/34)
+* final polish addressing newest Copilot nitpicks ([5ce34e2](https://github.com/madeinoz67/bank-statement-separator/commit/5ce34e2a2ab6e5097a7bbb39b1a33568a2284ba1)), closes [#34](https://github.com/madeinoz67/bank-statement-separator/issues/34)
+* implement modular architecture for env-help system ([68e1a76](https://github.com/madeinoz67/bank-statement-separator/commit/68e1a7664b455e4e3a1dd6aea9e75531e7fcf3be)), closes [#34](https://github.com/madeinoz67/bank-statement-separator/issues/34)
+
 ## [0.3.1](https://github.com/madeinoz67/bank-statement-separator/compare/v0.3.0...v0.3.1) (2025-09-11)
 
 
