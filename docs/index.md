@@ -11,13 +11,14 @@ An AI-powered tool for automatically separating multi-statement PDF files using 
 
 ## What's New
 
-!!! success "Latest Release: [Version 0.3.1](release_notes/RELEASE_NOTES_v0.3.1.md)"
-    - **Version Loading Improvements**: Enhanced exception handling and dynamic version loading from pyproject.toml for better version consistency
-    - **Documentation Fixes**: Corrected code block syntax and standardized markdown formatting across all documentation
-    - **Bug Fixes**: Improved reliability in version information loading and documentation consistency
-    - **Backwards Compatible**: All changes are backwards compatible with no migration required
+!!! success "Latest Release: [Version 0.4.0](release_notes/RELEASE_NOTES_v0.4.0.md)"
+    - **CLI Help System Improvements**: Comprehensive overhaul of command-line interface help system for better user experience
+    - **Enhanced Version Command**: Cleaner version command display with removed borders for better output
+    - **Code Quality Enhancements**: Extensive code refactoring and quality improvements following best practices
+    - **Modular Architecture**: Improved help system architecture for better maintainability
+    - **Backwards Compatible**: All improvements are backwards compatible with no migration required
 
-    See full [Release Notes](release_notes/RELEASE_NOTES_v0.3.1.md) for detailed changes and [Changelog](release_notes/CHANGELOG.md) for complete version history.
+    See full [Release Notes](release_notes/RELEASE_NOTES_v0.4.0.md) for detailed changes and [Changelog](release_notes/CHANGELOG.md) for complete version history.
 
 ## Overview
 
