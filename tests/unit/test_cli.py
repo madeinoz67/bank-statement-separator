@@ -181,7 +181,7 @@ class TestCliIntegration:
 
         assert result.exit_code == 0
         assert "env-help" in result.output
-        assert "Display comprehensive environment variable" in result.output
+        assert "Display environment variable documentation for the CLI" in result.output
 
     def test_env_help_command_exists_in_main_group(self):
         """Test that env-help command is properly registered."""
@@ -190,7 +190,5 @@ class TestCliIntegration:
         result = runner.invoke(main, ["env-help", "--help"])
 
         assert result.exit_code == 0
-        assert (
-            "Display comprehensive environment variable documentation" in result.output
-        )
+        assert "Display environment variable documentation for the CLI" in result.output
         assert "--category" in result.output

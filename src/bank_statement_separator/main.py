@@ -13,7 +13,12 @@ from rich.table import Table
 
 from . import __version__
 from .config import ensure_directories, load_config, validate_file_access
-from .env_help.env_help_config import ENV_CATEGORIES, ENV_HELP_CATEGORY_CHOICES
+from .env_help.env_help_config import (
+    ENV_CATEGORIES,
+    ENV_HELP_CATEGORY_CHOICES,
+    ENV_HELP_DEFAULT_MAX_LENGTH,
+    ENV_HELP_DESCRIPTION_MAX_LENGTH,
+)
 from .utils.logging_setup import setup_logging
 from .utils.text import truncate_text
 from .workflow import BankStatementWorkflow
@@ -1051,15 +1056,6 @@ def version():
     console.print()
 
 
-# Constants for env-help command
-# Maximum length for environment variable descriptions in CLI table output
-# Chosen to ensure readable display while accommodating typical description lengths
-ENV_HELP_DESCRIPTION_MAX_LENGTH = 40
-# Maximum length for environment variable default values in CLI table output
-# Chosen to ensure concise display while accommodating most default values
-ENV_HELP_DEFAULT_MAX_LENGTH = 20
-
-
 @main.command("env-help")
 @click.option(
     "--category",
@@ -1068,24 +1064,7 @@ ENV_HELP_DEFAULT_MAX_LENGTH = 20
     help="Show environment variables for specific category",
 )
 def env_help(category: str):
-    """Display comprehensive environment variable documentation.
-
-    Parameters:
-        category (str): The environment variable category to display. Must be one of
-            'all' or a specific category from ENV_HELP_CATEGORY_CHOICES.
-            If 'all', documentation for all categories is shown. Otherwise, only the
-            specified category is displayed.
-
-    Behavior:
-        - Prints a formatted table of environment variables to the console.
-        - If a specific category is provided, only variables in that category are shown.
-        - If 'all' is provided (default), all categories are displayed.
-        - If an unknown category is provided, an error message is printed.
-
-    Example:
-        $ bank-statement-separator env-help --category llm
-        $ bank-statement-separator env-help
-    """
+    """Display environment variable documentation for the CLI."""
     console.print("\n[bold blue]📚 Environment Variable Documentation[/bold blue]")
     console.print("=" * 60)
 
@@ -1109,8 +1088,7 @@ def env_help(category: str):
         categories_to_show = ENV_CATEGORIES
 
     # Display environment variables by category
-    category_list = list(categories_to_show.keys())
-    last_category = category_list[-1] if category_list else None
+    last_category = next(reversed(categories_to_show), None)
 
     for cat_name, cat_info in categories_to_show.items():
         if category == "all":

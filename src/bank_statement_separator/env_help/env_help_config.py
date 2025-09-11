@@ -268,3 +268,11 @@ ENV_CATEGORIES = {
 # Pre-computed choices for Click command - avoids recomputation on import
 # Use tuple for immutability and better performance
 ENV_HELP_CATEGORY_CHOICES = tuple(ENV_CATEGORIES.keys()) + ("all",)
+
+# Display constants for env-help command
+# Maximum length for environment variable descriptions in CLI table output
+# Chosen to ensure readable display while accommodating typical description lengths
+ENV_HELP_DESCRIPTION_MAX_LENGTH = 40
+# Maximum length for environment variable default values in CLI table output
+# Chosen to ensure concise display while accommodating most default values
+ENV_HELP_DEFAULT_MAX_LENGTH = 20
