@@ -75,8 +75,8 @@ Repository = "https://github.com/madeinoz67/bank-statement-separator"
 Issues = "https://github.com/madeinoz67/bank-statement-separator/issues"
 Changelog = "https://github.com/madeinoz67/bank-statement-separator/blob/main/docs/release_notes/CHANGELOG.md"
 
-[tool.setuptools]
-packages = ["bank_statement_separator"]
+[tool.setuptools.packages.find]
+where = ["src"]
 
 [tool.setuptools.package-dir]
 "" = "src"

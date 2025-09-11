@@ -11,6 +11,7 @@ from rich.panel import Panel
 from rich.progress import Progress, SpinnerColumn, TextColumn
 from rich.table import Table
 
+from . import __version__
 from .config import ensure_directories, load_config, validate_file_access
 from .utils.logging_setup import setup_logging
 from .workflow import BankStatementWorkflow
@@ -976,13 +977,13 @@ def process_paperless(
 @main.command()
 def version():
     """Display version and author information."""
-    version_info = """
+    version_info = f"""
 ╔═══════════════════════════════════════════════════════════╗
 ║                   Bank Statement Separator                ║
 ║                        Version Information                 ║
 ╚═══════════════════════════════════════════════════════════╝
 
-Version: 0.1.0
+Version: {__version__}
 Author: Stephen Eaton
 License: MIT
 Repository: https://github.com/madeinoz67/bank-statement-separator

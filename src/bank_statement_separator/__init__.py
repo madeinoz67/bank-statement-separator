@@ -4,5 +4,17 @@ Bank Statement Separator
 AI-powered tool for separating multi-statement PDF files using LangChain and LangGraph.
 """
 
-__version__ = "0.3.0"
+try:
+    from importlib.metadata import version
+
+    __version__ = version("bank-statement-separator")
+except ImportError:
+    # Fallback for Python < 3.8
+    from importlib_metadata import version
+
+    __version__ = version("bank-statement-separator")
+except Exception:
+    # Fallback version if package metadata is not available
+    __version__ = "unknown"
+
 __author__ = "Bank Statement Separator Team"
