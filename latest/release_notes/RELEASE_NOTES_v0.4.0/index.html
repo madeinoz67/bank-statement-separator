@@ -12,13 +12,13 @@
         <meta name="author" content="Stephen Eaton">
       
       
-        <link rel="canonical" href="https://madeinoz67.github.io/bank-statement-separator/latest/reference/llm_model_testing/">
+        <link rel="canonical" href="https://madeinoz67.github.io/bank-statement-separator/latest/release_notes/RELEASE_NOTES_v0.4.0/">
       
       
-        <link rel="prev" href="../cli-commands/">
+        <link rel="prev" href="../CHANGELOG/">
       
       
-        <link rel="next" href="../model_comparison_tables/">
+        <link rel="next" href="../RELEASE_NOTES_v0.3.1/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -26,7 +26,7 @@
     
     
       
-        <title>LLM Model Testing - Bank Statement Separator</title>
+        <title>Version 0.4.0 - Bank Statement Separator</title>
       
     
     
@@ -90,7 +90,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#llm-model-testing-results" class="md-skip">
+        <a href="#release-notes-v040" class="md-skip">
           Skip to content
         </a>
       
@@ -130,7 +130,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              LLM Model Testing
+              Version 0.4.0
             
           </span>
         </div>
@@ -379,13 +379,11 @@
   
   
   
-    
-  
   
     
     
-      <li class="md-tabs__item md-tabs__item--active">
-        <a href="../environment-variables/" class="md-tabs__link">
+      <li class="md-tabs__item">
+        <a href="../../reference/environment-variables/" class="md-tabs__link">
           
   
   
@@ -403,11 +401,13 @@
   
   
   
+    
+  
   
     
     
-      <li class="md-tabs__item">
-        <a href="../../release_notes/CHANGELOG/" class="md-tabs__link">
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../CHANGELOG/" class="md-tabs__link">
           
   
   
@@ -826,692 +826,10 @@
       
   
   
-    
-  
   
   
     
     
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-    
-    
-    
-      
-        
-        
-      
-      
-        
-      
-    
-    
-      
-    
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" checked>
-        
-          
-          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
-            
-  
-  
-  <span class="md-ellipsis">
-    Reference
-    
-  </span>
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_7">
-            <span class="md-nav__icon md-icon"></span>
-            Reference
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../environment-variables/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Environment Variables
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../cli-commands/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    CLI Commands
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-    
-  
-  
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    LLM Model Testing
-    
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
-        
-  
-  
-  <span class="md-ellipsis">
-    LLM Model Testing
-    
-  </span>
-  
-
-      </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#overview" class="md-nav__link">
-    <span class="md-ellipsis">
-      Overview
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#test-methodology" class="md-nav__link">
-    <span class="md-ellipsis">
-      Test Methodology
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#openai-results" class="md-nav__link">
-    <span class="md-ellipsis">
-      OpenAI Results
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="OpenAI Results">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#gpt-4o-mini-gold-standard" class="md-nav__link">
-    <span class="md-ellipsis">
-      GPT-4o-mini - Gold Standard ⭐⭐⭐⭐⭐
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#ollama-model-results" class="md-nav__link">
-    <span class="md-ellipsis">
-      Ollama Model Results
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Ollama Model Results">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#top-tier-6-9-seconds" class="md-nav__link">
-    <span class="md-ellipsis">
-      Top Tier (6-9 seconds) ⭐⭐⭐⭐⭐
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Top Tier (6-9 seconds) ⭐⭐⭐⭐⭐">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#1-gemma29b-best-overall-ollama-model" class="md-nav__link">
-    <span class="md-ellipsis">
-      1. Gemma2:9B - Best Overall Ollama Model
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#2-mistralinstruct-best-segmentation-match" class="md-nav__link">
-    <span class="md-ellipsis">
-      2. Mistral:Instruct - Best Segmentation Match
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#3-qwen25latest-most-granular-analysis" class="md-nav__link">
-    <span class="md-ellipsis">
-      3. Qwen2.5:latest - Most Granular Analysis
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#4-qwen25-coderlatest-code-optimized-excellence" class="md-nav__link">
-    <span class="md-ellipsis">
-      4. Qwen2.5-Coder:latest - Code-Optimized Excellence
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#5-openhermeslatest-smart-quality-control" class="md-nav__link">
-    <span class="md-ellipsis">
-      5. OpenHermes:latest - Smart Quality Control
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#6-deepseek-coder-v2latest-major-improvement" class="md-nav__link">
-    <span class="md-ellipsis">
-      6. DeepSeek-Coder-v2:latest - Major Improvement
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#mid-tier-10-20-seconds" class="md-nav__link">
-    <span class="md-ellipsis">
-      Mid Tier (10-20 seconds) ⭐⭐⭐⭐
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Mid Tier (10-20 seconds) ⭐⭐⭐⭐">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#7-llama31latest-speed-improvement" class="md-nav__link">
-    <span class="md-ellipsis">
-      7. Llama3.1:latest - Speed Improvement
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#8-deepseek-r1latest-solid-performer" class="md-nav__link">
-    <span class="md-ellipsis">
-      8. DeepSeek-r1:latest - Solid Performer
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#9-deepseek-r18b-under-segmentation-issues" class="md-nav__link">
-    <span class="md-ellipsis">
-      9. DeepSeek-r1:8b - Under-segmentation Issues
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#10-phi4latest-microsofts-latest" class="md-nav__link">
-    <span class="md-ellipsis">
-      10. Phi4:latest - Microsoft's Latest
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#lower-tier-30-seconds" class="md-nav__link">
-    <span class="md-ellipsis">
-      Lower Tier (30+ seconds) ⭐⭐⭐
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Lower Tier (30+ seconds) ⭐⭐⭐">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#11-qwen3latest-slower-generation" class="md-nav__link">
-    <span class="md-ellipsis">
-      11. Qwen3:latest - Slower Generation
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#poor-performance" class="md-nav__link">
-    <span class="md-ellipsis">
-      Poor Performance ⭐⭐ / ❌
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Poor Performance ⭐⭐ / ❌">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#llama32latest-significant-issues" class="md-nav__link">
-    <span class="md-ellipsis">
-      Llama3.2:latest - Significant Issues
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#phi3-models-critical-failures" class="md-nav__link">
-    <span class="md-ellipsis">
-      Phi3 Models - Critical Failures
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#fallback-pattern-matching-results" class="md-nav__link">
-    <span class="md-ellipsis">
-      Fallback Pattern Matching Results
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Fallback Pattern Matching Results">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#pattern-only-processing" class="md-nav__link">
-    <span class="md-ellipsis">
-      Pattern-Only Processing ⭐⭐
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#performance-summary" class="md-nav__link">
-    <span class="md-ellipsis">
-      Performance Summary
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Performance Summary">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#speed-rankings" class="md-nav__link">
-    <span class="md-ellipsis">
-      Speed Rankings
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#accuracy-rankings-statement-segmentation" class="md-nav__link">
-    <span class="md-ellipsis">
-      Accuracy Rankings (Statement Segmentation)
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#metadata-quality-rankings" class="md-nav__link">
-    <span class="md-ellipsis">
-      Metadata Quality Rankings
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#key-findings" class="md-nav__link">
-    <span class="md-ellipsis">
-      Key Findings
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Key Findings">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#openai-dominance" class="md-nav__link">
-    <span class="md-ellipsis">
-      OpenAI Dominance
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#ollama-top-performers" class="md-nav__link">
-    <span class="md-ellipsis">
-      Ollama Top Performers
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#significant-performance-variations" class="md-nav__link">
-    <span class="md-ellipsis">
-      Significant Performance Variations
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#json-processing-issues" class="md-nav__link">
-    <span class="md-ellipsis">
-      JSON Processing Issues
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#filename-generation-consistency" class="md-nav__link">
-    <span class="md-ellipsis">
-      Filename Generation Consistency
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#recommendations" class="md-nav__link">
-    <span class="md-ellipsis">
-      Recommendations
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Recommendations">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#production-deployments" class="md-nav__link">
-    <span class="md-ellipsis">
-      Production Deployments
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#developmenttesting" class="md-nav__link">
-    <span class="md-ellipsis">
-      Development/Testing
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#avoid-in-production" class="md-nav__link">
-    <span class="md-ellipsis">
-      Avoid in Production
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../model_comparison_tables/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Model Comparison Tables
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../error-handling-technical/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Error Handling Technical
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../troubleshooting/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Troubleshooting
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../working-notes/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Working Notes
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    
-    
-      
-        
-      
-        
       
         
       
@@ -1547,12 +865,12 @@
   
   
   
-    <a href="../../release_notes/CHANGELOG/" class="md-nav__link">
+    <a href="../../reference/environment-variables/" class="md-nav__link">
       
   
   
   <span class="md-ellipsis">
-    Release Notes
+    Reference
     
   </span>
   
@@ -1563,6 +881,416 @@
     </a>
   
 
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Release Notes
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            Release Notes
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../CHANGELOG/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Changelog
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Version 0.4.0
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Version 0.4.0
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#new-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 New Features
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🚀 New Features">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cli-help-system-improvements" class="md-nav__link">
+    <span class="md-ellipsis">
+      CLI Help System Improvements
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#code-refactoring" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔧 Code Refactoring
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔧 Code Refactoring">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#code-quality-enhancements" class="md-nav__link">
+    <span class="md-ellipsis">
+      Code Quality Enhancements
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      📋 Summary
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#migration-notes" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔄 Migration Notes
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#known-issues" class="md-nav__link">
+    <span class="md-ellipsis">
+      🐛 Known Issues
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#feedback" class="md-nav__link">
+    <span class="md-ellipsis">
+      💬 Feedback
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RELEASE_NOTES_v0.3.1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Version 0.3.1
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RELEASE_NOTES_v0.3.0/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Version 0.3.0
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RELEASE_NOTES_v0.1.4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Version 0.1.4
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RELEASE_NOTES_v0.1.3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Version 0.1.3
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RELEASE_NOTES_v0.1.2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Version 0.1.2
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RELEASE_NOTES_v0.1.1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Version 0.1.1
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RELEASE_NOTES_v0.1.0/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Version 0.1.0
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
       
     </li>
   
@@ -1636,7 +1364,7 @@
 
 
   
-    <a href="https://github.com/madeinoz67/bank-statement-separator/edit/main/docs/reference/llm_model_testing.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+    <a href="https://github.com/madeinoz67/bank-statement-separator/edit/main/docs/release_notes/RELEASE_NOTES_v0.4.0.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75z"/></svg>
     </a>
@@ -1645,228 +1373,40 @@
     
       
     
-    <a href="https://github.com/madeinoz67/bank-statement-separator/raw/main/docs/reference/llm_model_testing.md" title="View source of this page" class="md-content__button md-icon">
+    <a href="https://github.com/madeinoz67/bank-statement-separator/raw/main/docs/release_notes/RELEASE_NOTES_v0.4.0.md" title="View source of this page" class="md-content__button md-icon">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0 8a5 5 0 0 1-5-5 5 5 0 0 1 5-5 5 5 0 0 1 5 5 5 5 0 0 1-5 5m0-12.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5"/></svg>
     </a>
   
 
 
-<h1 id="llm-model-testing-results">LLM Model Testing Results<a class="headerlink" href="#llm-model-testing-results" title="Permanent link">&para;</a></h1>
-<h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
-<p>This document contains comprehensive testing results for various LLM providers and models used with the Workflow Bank Statement Separator. All tests were conducted using the same 12-page Westpac bank statement document containing multiple statements to ensure consistent comparison.</p>
-<h2 id="test-methodology">Test Methodology<a class="headerlink" href="#test-methodology" title="Permanent link">&para;</a></h2>
+<h1 id="release-notes-v040">Release Notes v0.4.0<a class="headerlink" href="#release-notes-v040" title="Permanent link">&para;</a></h1>
+<p><strong>Release Date:</strong> September 11, 2025
+<strong>Version:</strong> 0.4.0</p>
+<h2 id="new-features">🚀 New Features<a class="headerlink" href="#new-features" title="Permanent link">&para;</a></h2>
+<h3 id="cli-help-system-improvements">CLI Help System Improvements<a class="headerlink" href="#cli-help-system-improvements" title="Permanent link">&para;</a></h3>
 <ul>
-<li><strong>Test Document</strong>: <code>westpac_12_page_test.pdf</code> (12 pages, 2,691 words)</li>
-<li><strong>Expected Output</strong>: 3 separate bank statements</li>
-<li><strong>Metrics Measured</strong>: Processing time, statement detection accuracy, metadata extraction quality, filename generation compliance</li>
-<li><strong>Test Environment</strong>: Ollama server at 10.0.0.150:11434, OpenAI GPT-4o-mini</li>
-<li><strong>Validation</strong>: All outputs validated for page count, file integrity, and PRD compliance</li>
+<li><strong>Comprehensive CLI help improvements</strong> - Major enhancement to the command-line interface help system, addressing issue <a href="https://github.com/madeinoz67/bank-statement-separator/issues/34">#34</a></li>
+<li><strong>Enhanced version command display</strong> - Removed borders from version command splash screen for cleaner output</li>
+<li><strong>Modular architecture for environment help system</strong> - Implemented a more organized and maintainable help system architecture</li>
 </ul>
-<h2 id="openai-results">OpenAI Results<a class="headerlink" href="#openai-results" title="Permanent link">&para;</a></h2>
-<h3 id="gpt-4o-mini-gold-standard">GPT-4o-mini - Gold Standard ⭐⭐⭐⭐⭐<a class="headerlink" href="#gpt-4o-mini-gold-standard" title="Permanent link">&para;</a></h3>
+<h2 id="code-refactoring">🔧 Code Refactoring<a class="headerlink" href="#code-refactoring" title="Permanent link">&para;</a></h2>
+<h3 id="code-quality-enhancements">Code Quality Enhancements<a class="headerlink" href="#code-quality-enhancements" title="Permanent link">&para;</a></h3>
 <ul>
-<li><strong>Processing Time</strong>: 10.85 seconds</li>
-<li><strong>Statements Detected</strong>: 3 (perfect segmentation)</li>
-<li><strong>Status</strong>: ✅ Success</li>
-<li><strong>Quality</strong>: Highest accuracy with complete metadata extraction</li>
-<li><strong>Output Files</strong>:</li>
-<li><code>westpac-2819-2015-05-21.pdf</code> (1.3MB, pages 1-5)</li>
-<li><code>westpac-8782-2015-05-21.pdf</code> (651KB, pages 6-7)</li>
-<li><code>westpac-5261-2023-05-06.pdf</code> (1.9MB, pages 8-12)</li>
+<li><strong>Multiple rounds of code review improvements</strong> - Addressed extensive feedback from automated code review tools</li>
+<li><strong>Enhanced code structure</strong> - Implemented modular architecture patterns for better maintainability</li>
+<li><strong>Code polish</strong> - Final refinements to address code quality nitpicks and best practices</li>
 </ul>
-<p><strong>Key Strengths</strong>:</p>
-<ul>
-<li>Perfect boundary detection</li>
-<li>Complete metadata extraction (bank, account, dates)</li>
-<li>PRD-compliant filename format</li>
-<li>Fast processing with high reliability</li>
-</ul>
-<h2 id="ollama-model-results">Ollama Model Results<a class="headerlink" href="#ollama-model-results" title="Permanent link">&para;</a></h2>
-<h3 id="top-tier-6-9-seconds">Top Tier (6-9 seconds) ⭐⭐⭐⭐⭐<a class="headerlink" href="#top-tier-6-9-seconds" title="Permanent link">&para;</a></h3>
-<h4 id="1-gemma29b-best-overall-ollama-model">1. Gemma2:9B - Best Overall Ollama Model<a class="headerlink" href="#1-gemma29b-best-overall-ollama-model" title="Permanent link">&para;</a></h4>
-<ul>
-<li><strong>Processing Time</strong>: 6.65 seconds ⚡ (fastest)</li>
-<li><strong>Statements</strong>: 2 (under-segmentation but high quality)</li>
-<li><strong>Quality</strong>: Excellent JSON responses, accurate metadata</li>
-<li><strong>Files</strong>: <code>westpac-2819-2015-05-21.pdf</code>, <code>westpac-5602-2015-05-21.pdf</code></li>
-</ul>
-<h4 id="2-mistralinstruct-best-segmentation-match">2. Mistral:Instruct - Best Segmentation Match<a class="headerlink" href="#2-mistralinstruct-best-segmentation-match" title="Permanent link">&para;</a></h4>
-<ul>
-<li><strong>Processing Time</strong>: 7.63 seconds</li>
-<li><strong>Statements</strong>: 3 (matches OpenAI exactly)</li>
-<li><strong>Quality</strong>: Correct boundaries, good account extraction</li>
-<li><strong>Files</strong>: <code>westpac-2819-unknown-date.pdf</code>, <code>westpac-5261-unknown-date.pdf</code>, <code>westpac-1039-unknown-date.pdf</code></li>
-</ul>
-<h4 id="3-qwen25latest-most-granular-analysis">3. Qwen2.5:latest - Most Granular Analysis<a class="headerlink" href="#3-qwen25latest-most-granular-analysis" title="Permanent link">&para;</a></h4>
-<ul>
-<li><strong>Processing Time</strong>: 8.53 seconds</li>
-<li><strong>Statements</strong>: 4 (most detailed segmentation)</li>
-<li><strong>Quality</strong>: Multiple date extractions, clean responses</li>
-<li><strong>Files</strong>: 4 separate statement files with varying metadata quality</li>
-</ul>
-<h4 id="4-qwen25-coderlatest-code-optimized-excellence">4. Qwen2.5-Coder:latest - Code-Optimized Excellence<a class="headerlink" href="#4-qwen25-coderlatest-code-optimized-excellence" title="Permanent link">&para;</a></h4>
-<ul>
-<li><strong>Processing Time</strong>: 8.59 seconds</li>
-<li><strong>Statements</strong>: 3 (perfect OpenAI match)</li>
-<li><strong>Quality</strong>: Excellent segmentation and metadata</li>
-<li><strong>Files</strong>: <code>westpac-2819-2015-05-21.pdf</code>, <code>westpac-8782-2015-05-21.pdf</code>, <code>businessch-0000-unknown-date-p9.pdf</code></li>
-</ul>
-<h4 id="5-openhermeslatest-smart-quality-control">5. OpenHermes:latest - Smart Quality Control<a class="headerlink" href="#5-openhermeslatest-smart-quality-control" title="Permanent link">&para;</a></h4>
-<ul>
-<li><strong>Processing Time</strong>: 8.66 seconds</li>
-<li><strong>Statements</strong>: 3 (4 detected, 1 filtered for low confidence)</li>
-<li><strong>Quality</strong>: Intelligent confidence-based filtering</li>
-<li><strong>Files</strong>: High-quality outputs with automatic quality control</li>
-</ul>
-<h4 id="6-deepseek-coder-v2latest-major-improvement">6. DeepSeek-Coder-v2:latest - Major Improvement<a class="headerlink" href="#6-deepseek-coder-v2latest-major-improvement" title="Permanent link">&para;</a></h4>
-<ul>
-<li><strong>Processing Time</strong>: 9.33 seconds (retest - 16x faster than original!)</li>
-<li><strong>Statements</strong>: 2</li>
-<li><strong>Quality</strong>: Dramatic speed improvement, good metadata</li>
-<li><strong>Files</strong>: <code>westpac-2819-unknown-date.pdf</code>, <code>unknown-8782-2015-05-21.pdf</code></li>
-</ul>
-<h3 id="mid-tier-10-20-seconds">Mid Tier (10-20 seconds) ⭐⭐⭐⭐<a class="headerlink" href="#mid-tier-10-20-seconds" title="Permanent link">&para;</a></h3>
-<h4 id="7-llama31latest-speed-improvement">7. Llama3.1:latest - Speed Improvement<a class="headerlink" href="#7-llama31latest-speed-improvement" title="Permanent link">&para;</a></h4>
-<ul>
-<li><strong>Processing Time</strong>: 11.10 seconds</li>
-<li><strong>Statements</strong>: 2</li>
-<li><strong>Quality</strong>: Much faster than Llama3.2, some JSON issues</li>
-<li><strong>Files</strong>: <code>westpac-2819-2015-05-21.pdf</code>, <code>unknown-0000-unknown-date-p9.pdf</code></li>
-</ul>
-<h4 id="8-deepseek-r1latest-solid-performer">8. DeepSeek-r1:latest - Solid Performer<a class="headerlink" href="#8-deepseek-r1latest-solid-performer" title="Permanent link">&para;</a></h4>
-<ul>
-<li><strong>Processing Time</strong>: 16.50 seconds</li>
-<li><strong>Statements</strong>: 2</li>
-<li><strong>Quality</strong>: Good date extraction and metadata</li>
-<li><strong>Files</strong>: <code>westpac-1831-2015-05-21.pdf</code>, <code>westpac-8782-2015-05-21.pdf</code></li>
-</ul>
-<h4 id="9-deepseek-r18b-under-segmentation-issues">9. DeepSeek-r1:8b - Under-segmentation Issues<a class="headerlink" href="#9-deepseek-r18b-under-segmentation-issues" title="Permanent link">&para;</a></h4>
-<ul>
-<li><strong>Processing Time</strong>: 18.17 seconds</li>
-<li><strong>Statements</strong>: 1 (treated entire document as single statement)</li>
-<li><strong>Quality</strong>: Hallucination warnings, poor segmentation</li>
-<li><strong>Files</strong>: Single 3.9MB file <code>westpac-2819-2015-05-21.pdf</code></li>
-</ul>
-<h4 id="10-phi4latest-microsofts-latest">10. Phi4:latest - Microsoft's Latest<a class="headerlink" href="#10-phi4latest-microsofts-latest" title="Permanent link">&para;</a></h4>
-<ul>
-<li><strong>Processing Time</strong>: 20.08 seconds</li>
-<li><strong>Statements</strong>: 3 (correct segmentation)</li>
-<li><strong>Quality</strong>: Good metadata extraction, reliable</li>
-<li><strong>Files</strong>: <code>westpac-2819-2015-05-21.pdf</code>, <code>westpac-8782-2015-05-21.pdf</code>, <code>westpac-0000-unknown-date-p8.pdf</code></li>
-</ul>
-<h3 id="lower-tier-30-seconds">Lower Tier (30+ seconds) ⭐⭐⭐<a class="headerlink" href="#lower-tier-30-seconds" title="Permanent link">&para;</a></h3>
-<h4 id="11-qwen3latest-slower-generation">11. Qwen3:latest - Slower Generation<a class="headerlink" href="#11-qwen3latest-slower-generation" title="Permanent link">&para;</a></h4>
-<ul>
-<li><strong>Processing Time</strong>: 30.90 seconds</li>
-<li><strong>Statements</strong>: 2</li>
-<li><strong>Quality</strong>: JSON parsing issues but functional</li>
-<li><strong>Files</strong>: <code>westpac-2819-unknown-date.pdf</code>, <code>unknown-0000-unknown-date-p5.pdf</code></li>
-</ul>
-<h3 id="poor-performance">Poor Performance ⭐⭐ / ❌<a class="headerlink" href="#poor-performance" title="Permanent link">&para;</a></h3>
-<h4 id="llama32latest-significant-issues">Llama3.2:latest - Significant Issues<a class="headerlink" href="#llama32latest-significant-issues" title="Permanent link">&para;</a></h4>
-<ul>
-<li><strong>Processing Time</strong>: 205.42 seconds (very slow)</li>
-<li><strong>Statements</strong>: 3 (with major JSON parsing failures)</li>
-<li><strong>Quality</strong>: Extensive metadata extraction failures</li>
-<li><strong>Issues</strong>: Hallucination warnings, response formatting problems</li>
-</ul>
-<h4 id="phi3-models-critical-failures">Phi3 Models - Critical Failures<a class="headerlink" href="#phi3-models-critical-failures" title="Permanent link">&para;</a></h4>
-<ul>
-<li><strong>Phi3:medium</strong>: Complete LLM breakdown, garbled responses</li>
-<li><strong>Phi3:14b</strong>: Validation failures, missing pages (9 vs 12 expected)</li>
-<li><strong>Status</strong>: ❌ Unsuitable for production use</li>
-</ul>
-<h2 id="fallback-pattern-matching-results">Fallback Pattern Matching Results<a class="headerlink" href="#fallback-pattern-matching-results" title="Permanent link">&para;</a></h2>
-<h3 id="pattern-only-processing">Pattern-Only Processing ⭐⭐<a class="headerlink" href="#pattern-only-processing" title="Permanent link">&para;</a></h3>
-<ul>
-<li><strong>Processing Time</strong>: ~1 second (fastest)</li>
-<li><strong>Statements</strong>: 9 (over-segmentation)</li>
-<li><strong>Status</strong>: ❌ Failed validation (14 output pages vs 12 expected)</li>
-<li><strong>Quality</strong>: No metadata extraction, over-aggressive splitting</li>
-<li><strong>Use Case</strong>: Emergency fallback only</li>
-</ul>
-<h2 id="performance-summary">Performance Summary<a class="headerlink" href="#performance-summary" title="Permanent link">&para;</a></h2>
-<h3 id="speed-rankings">Speed Rankings<a class="headerlink" href="#speed-rankings" title="Permanent link">&para;</a></h3>
-<ol>
-<li><strong>Gemma2:9B</strong> - 6.65s</li>
-<li><strong>Mistral:Instruct</strong> - 7.63s</li>
-<li><strong>Qwen2.5:latest</strong> - 8.53s</li>
-<li><strong>Qwen2.5-Coder</strong> - 8.59s</li>
-<li><strong>OpenHermes</strong> - 8.66s</li>
-<li><strong>DeepSeek-Coder-v2</strong> - 9.33s</li>
-<li><strong>OpenAI GPT-4o-mini</strong> - 10.85s</li>
-</ol>
-<h3 id="accuracy-rankings-statement-segmentation">Accuracy Rankings (Statement Segmentation)<a class="headerlink" href="#accuracy-rankings-statement-segmentation" title="Permanent link">&para;</a></h3>
-<ol>
-<li><strong>OpenAI GPT-4o-mini</strong> - 3/3 perfect</li>
-<li><strong>Mistral:Instruct</strong> - 3/3 perfect match</li>
-<li><strong>Qwen2.5-Coder</strong> - 3/3 perfect match</li>
-<li><strong>Phi4:latest</strong> - 3/3 correct</li>
-<li><strong>OpenHermes</strong> - &frac34; (smart filtering)</li>
-</ol>
-<h3 id="metadata-quality-rankings">Metadata Quality Rankings<a class="headerlink" href="#metadata-quality-rankings" title="Permanent link">&para;</a></h3>
-<ol>
-<li><strong>OpenAI GPT-4o-mini</strong> - Complete extraction</li>
-<li><strong>Gemma2:9B</strong> - Excellent dates/accounts</li>
-<li><strong>Qwen2.5</strong> variants - Very good extraction</li>
-<li><strong>DeepSeek-r1:latest</strong> - Good extraction</li>
-<li><strong>Mistral:Instruct</strong> - Good accounts, missing dates</li>
-</ol>
-<h2 id="key-findings">Key Findings<a class="headerlink" href="#key-findings" title="Permanent link">&para;</a></h2>
-<h3 id="openai-dominance">OpenAI Dominance<a class="headerlink" href="#openai-dominance" title="Permanent link">&para;</a></h3>
-<ul>
-<li><strong>GPT-4o-mini</strong> remains the gold standard for accuracy and completeness</li>
-<li>Consistent performance with comprehensive metadata extraction</li>
-<li>Best choice for production deployments requiring maximum accuracy</li>
-</ul>
-<h3 id="ollama-top-performers">Ollama Top Performers<a class="headerlink" href="#ollama-top-performers" title="Permanent link">&para;</a></h3>
-<ul>
-<li><strong>Gemma2:9B</strong>: Fastest Ollama model with excellent quality</li>
-<li><strong>Mistral:Instruct</strong>: Best segmentation accuracy matching OpenAI</li>
-<li><strong>Qwen2.5-Coder</strong>: Perfect for code-focused document processing</li>
-<li><strong>OpenHermes</strong>: Best for quality control with confidence filtering</li>
-</ul>
-<h3 id="significant-performance-variations">Significant Performance Variations<a class="headerlink" href="#significant-performance-variations" title="Permanent link">&para;</a></h3>
-<ul>
-<li><strong>16x speed difference</strong> between fastest (Gemma2) and slowest (Llama3.2) Ollama models</li>
-<li><strong>DeepSeek-Coder-v2</strong> showed massive improvement on retest (151s → 9s)</li>
-<li><strong>Model size doesn't guarantee performance</strong> (Phi3:14b worse than smaller models)</li>
-</ul>
-<h3 id="json-processing-issues">JSON Processing Issues<a class="headerlink" href="#json-processing-issues" title="Permanent link">&para;</a></h3>
-<ul>
-<li>Most Ollama models suffer from JSON parsing issues due to:</li>
-<li>Comments in JSON responses</li>
-<li>Verbose explanatory text</li>
-<li>Inconsistent response formatting</li>
-<li><strong>Gemma2</strong> and <strong>Qwen2.5</strong> variants handle JSON responses cleanly</li>
-</ul>
-<h3 id="filename-generation-consistency">Filename Generation Consistency<a class="headerlink" href="#filename-generation-consistency" title="Permanent link">&para;</a></h3>
-<ul>
-<li>All successful models generate PRD-compliant filenames</li>
-<li>Format: <code>&lt;bank&gt;-&lt;last4digits&gt;-&lt;statement_date&gt;.pdf</code></li>
-<li>Consistent behavior for paperless integration across all providers</li>
-</ul>
-<h2 id="recommendations">Recommendations<a class="headerlink" href="#recommendations" title="Permanent link">&para;</a></h2>
-<h3 id="production-deployments">Production Deployments<a class="headerlink" href="#production-deployments" title="Permanent link">&para;</a></h3>
-<ul>
-<li><strong>Primary</strong>: OpenAI GPT-4o-mini for maximum accuracy</li>
-<li><strong>Offline/Privacy</strong>: Gemma2:9B for best local performance</li>
-<li><strong>Code Processing</strong>: Qwen2.5-Coder for structured document analysis</li>
-<li><strong>Quality Control</strong>: OpenHermes for confidence-filtered outputs</li>
-</ul>
-<h3 id="developmenttesting">Development/Testing<a class="headerlink" href="#developmenttesting" title="Permanent link">&para;</a></h3>
-<ul>
-<li><strong>Fast Iteration</strong>: Gemma2:9B for quick testing cycles</li>
-<li><strong>Segmentation Testing</strong>: Mistral:Instruct for boundary validation</li>
-<li><strong>Metadata Testing</strong>: Qwen2.5:latest for comprehensive extraction</li>
-</ul>
-<h3 id="avoid-in-production">Avoid in Production<a class="headerlink" href="#avoid-in-production" title="Permanent link">&para;</a></h3>
-<ul>
-<li><strong>Llama3.2</strong>: Too slow with parsing issues</li>
-<li><strong>Phi3 variants</strong>: Critical reliability failures</li>
-<li><strong>Pattern-only fallback</strong>: Over-segmentation issues</li>
-</ul>
+<h2 id="summary">📋 Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
+<p>This minor release focuses on significant improvements to the command-line interface and overall code quality. The major highlight is the comprehensive overhaul of the CLI help system, making the tool more user-friendly and accessible. Additionally, extensive code refactoring has been performed to improve maintainability and code quality.</p>
+<h2 id="migration-notes">🔄 Migration Notes<a class="headerlink" href="#migration-notes" title="Permanent link">&para;</a></h2>
+<p>No breaking changes in this release. All improvements are backwards compatible and enhance the existing functionality without requiring any migration steps.</p>
+<h2 id="known-issues">🐛 Known Issues<a class="headerlink" href="#known-issues" title="Permanent link">&para;</a></h2>
+<p>No new known issues identified in this release.</p>
+<h2 id="feedback">💬 Feedback<a class="headerlink" href="#feedback" title="Permanent link">&para;</a></h2>
+<p>Found a bug or have a suggestion? Please <a href="https://github.com/madeinoz67/bank-statement-separator/issues">open an issue</a> on GitHub.</p>
+<hr />
+<p><strong>Full Changelog</strong>: <a href="https://github.com/madeinoz67/bank-statement-separator/compare/v0.3.1...v0.4.0">v0.3.1...v0.4.0</a></p>
 
 
 
@@ -1906,7 +1446,7 @@
       <nav class="md-footer__inner md-grid" aria-label="Footer" >
         
           
-          <a href="../cli-commands/" class="md-footer__link md-footer__link--prev" aria-label="Previous: CLI Commands">
+          <a href="../CHANGELOG/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Changelog">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
@@ -1916,20 +1456,20 @@
                 Previous
               </span>
               <div class="md-ellipsis">
-                CLI Commands
+                Changelog
               </div>
             </div>
           </a>
         
         
           
-          <a href="../model_comparison_tables/" class="md-footer__link md-footer__link--next" aria-label="Next: Model Comparison Tables">
+          <a href="../RELEASE_NOTES_v0.3.1/" class="md-footer__link md-footer__link--next" aria-label="Next: Version 0.3.1">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Next
               </span>
               <div class="md-ellipsis">
-                Model Comparison Tables
+                Version 0.3.1
               </div>
             </div>
             <div class="md-footer__button md-icon">
