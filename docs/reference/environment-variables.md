@@ -227,7 +227,7 @@ The error detection system identifies 6 types of processing errors:
 
 !!! example "Error Tagging Configuration"
 
-````bash # Basic error tagging setup
+```bash # Basic error tagging setup
 PAPERLESS_ERROR_DETECTION_ENABLED=true
 PAPERLESS_ERROR_TAGS=processing:needs-review,error:automated-detection
 PAPERLESS_ERROR_TAG_THRESHOLD=0.7
@@ -359,7 +359,7 @@ PRESERVE_FAILED_OUTPUTS=true
 DEVELOPMENT_MODE=true
 ENABLE_PROFILING=true
 MAX_RETRY_ATTEMPTS=1
-````
+```
 
 ### Testing Environment
 
