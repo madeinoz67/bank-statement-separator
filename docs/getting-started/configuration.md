@@ -70,9 +70,15 @@ The system supports multiple LLM providers through a flexible abstraction layer:
 | `OLLAMA_BASE_URL` | `http://localhost:11434` | Ollama server URL |
 | `OLLAMA_MODEL`    | `llama3.2`               | Local model name  |
 
-!!! info "Provider Selection" - **openai**: Use OpenAI cloud models (requires API key) - **ollama**: Use local Ollama models (privacy-focused, no API costs) - **auto**: Automatically select best available provider
+!!! info "Provider Selection"
+    - **openai**: Use OpenAI cloud models (requires API key)
+    - **ollama**: Use local Ollama models (privacy-focused, no API costs)
+    - **auto**: Automatically select best available provider
 
-!!! tip "Model Selection" - `gpt-4o-mini`: Best balance of cost and performance (recommended) - `gpt-4o`: Highest accuracy, higher cost - `gpt-3.5-turbo`: Fastest, lower accuracy
+!!! tip "Model Selection"
+    - `gpt-4o-mini`: Best balance of cost and performance (recommended)
+    - `gpt-4o`: Highest accuracy, higher cost
+    - `gpt-3.5-turbo`: Fastest, lower accuracy
 
 ### Processing Configuration
 
@@ -135,7 +141,10 @@ For production deployments, always set `ALLOWED_INPUT_DIRS` and `ALLOWED_OUTPUT_
 | `REQUIRE_TEXT_CONTENT`    | `true`   | Require extractable text                        |
 | `MIN_TEXT_CONTENT_RATIO`  | `0.1`    | Minimum text content ratio                      |
 
-!!! info "Validation Strictness Levels" - **Strict**: All validation issues are errors (highest accuracy) - **Normal**: Balanced approach with warnings (recommended) - **Lenient**: Most issues are warnings (highest processing success rate)
+!!! info "Validation Strictness Levels"
+    - **Strict**: All validation issues are errors (highest accuracy)
+    - **Normal**: Balanced approach with warnings (recommended)
+    - **Lenient**: Most issues are warnings (highest processing success rate)
 
 ## Paperless-ngx Integration
 
@@ -488,9 +497,19 @@ Common environment file issues and solutions:
     sed -i 's/LOG_LEVEL=INVALID/LOG_LEVEL=INFO/' .env.test
     ```
 
-!!! tip "Environment File Best Practices" - **Never commit** `.env` files containing secrets to version control - **Use descriptive names** like `.env.dev`, `.env.prod` instead of generic names - **Document required variables** in each environment file header - **Test configurations** before deploying to production - **Use relative paths** where possible for portability - **Validate configurations** after changes using the validation script above
+!!! tip "Environment File Best Practices"
+    - **Never commit** `.env` files containing secrets to version control
+    - **Use descriptive names** like `.env.dev`, `.env.prod` instead of generic names
+    - **Document required variables** in each environment file header
+    - **Test configurations** before deploying to production
+    - **Use relative paths** where possible for portability
+    - **Validate configurations** after changes using the validation script above
 
-!!! warning "Security Considerations" - Production env files should be stored securely and access-controlled - Use different API keys for different environments - Set appropriate file permissions (644 or 600) - Never expose production credentials in development/test environments
+!!! warning "Security Considerations"
+    - Production env files should be stored securely and access-controlled
+    - Use different API keys for different environments
+    - Set appropriate file permissions (644 or 600)
+    - Never expose production credentials in development/test environments
 
 ### Environment Variable Precedence
 

@@ -2,7 +2,10 @@
 
 Get the Workflow Bank Statement Separator running in just 5 minutes!
 
-!!! info "Prerequisites" - Python 3.11+ - [UV package manager](https://docs.astral.sh/uv/) (recommended) - OpenAI API key (optional for testing)
+!!! info "Prerequisites"
+    - Python 3.11+
+    - [UV package manager](https://docs.astral.sh/uv/) (recommended)
+    - OpenAI API key (optional for testing)
 
 ## 1. Installation (2 minutes)
 

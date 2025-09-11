@@ -44,5 +44,6 @@ repos:
           (?x)^(
               \.venv/.*|
               uv\.lock|
-              .*\.ipynb
+              .*\.ipynb|
+              docs/.*\.md
           )$
