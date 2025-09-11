@@ -1052,7 +1052,11 @@ def version():
 
 
 # Constants for env-help command
+# Maximum length for environment variable descriptions in CLI table output
+# Chosen to ensure readable display while accommodating typical description lengths
 ENV_HELP_DESCRIPTION_MAX_LENGTH = 40
+# Maximum length for environment variable default values in CLI table output
+# Chosen to ensure concise display while accommodating most default values
 ENV_HELP_DEFAULT_MAX_LENGTH = 20
 
 
@@ -1064,7 +1068,24 @@ ENV_HELP_DEFAULT_MAX_LENGTH = 20
     help="Show environment variables for specific category",
 )
 def env_help(category: str):
-    """Display comprehensive environment variable documentation."""
+    """Display comprehensive environment variable documentation.
+
+    Parameters:
+        category (str): The environment variable category to display. Must be one of
+            'all' or a specific category from ENV_HELP_CATEGORY_CHOICES.
+            If 'all', documentation for all categories is shown. Otherwise, only the
+            specified category is displayed.
+
+    Behavior:
+        - Prints a formatted table of environment variables to the console.
+        - If a specific category is provided, only variables in that category are shown.
+        - If 'all' is provided (default), all categories are displayed.
+        - If an unknown category is provided, an error message is printed.
+
+    Example:
+        $ bank-statement-separator env-help --category llm
+        $ bank-statement-separator env-help
+    """
     console.print("\n[bold blue]📚 Environment Variable Documentation[/bold blue]")
     console.print("=" * 60)
 
@@ -1104,13 +1125,12 @@ def env_help(category: str):
         table.add_column("Required", style="yellow", width=15)
 
         for var_name, var_info in cat_info["variables"].items():
-            required_text = str(var_info["required"])
-            if required_text == "True":
+            if var_info["required"] is True:
                 required_text = "[red]Yes[/red]"
-            elif required_text == "False":
+            elif var_info["required"] is False:
                 required_text = "[green]No[/green]"
             else:
-                required_text = f"[yellow]{required_text}[/yellow]"
+                required_text = f"[yellow]{var_info['required']}[/yellow]"
 
             table.add_row(
                 var_name,

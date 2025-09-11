@@ -266,4 +266,5 @@ ENV_CATEGORIES = {
 }
 
 # Pre-computed choices for Click command - avoids recomputation on import
-ENV_HELP_CATEGORY_CHOICES = list(ENV_CATEGORIES.keys()) + ["all"]
+# Use tuple for immutability and better performance
+ENV_HELP_CATEGORY_CHOICES = tuple(ENV_CATEGORIES.keys()) + ("all",)
