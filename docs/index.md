@@ -210,7 +210,9 @@ This documentation is versioned to match software releases. Use the version sele
 - **Latest**: Always points to the most recent release documentation
 - **Versioned**: Access documentation for specific releases
 
-!!! info "Version URLs" - Latest: `https://madeinoz67.github.io/bank-statement-separator/` - Version 0.1.0: `https://madeinoz67.github.io/bank-statement-separator/v0.1.0/`
+!!! info "Version URLs"
+    - Latest: `https://madeinoz67.github.io/bank-statement-separator/`
+    - Version 0.1.0: `https://madeinoz67.github.io/bank-statement-separator/v0.1.0/`
 
 !!! tip "Finding Your Version"
 Check your installed version with: `uv run bank-statement-separator --version`
@@ -235,7 +237,14 @@ The MIT License is a permissive open-source license that allows you to:
 
 ## What's New
 
-!!! success "Latest Release: [Version 0.3.0](release_notes/RELEASE_NOTES_v0.3.0.md)" - **Error Detection & Tagging System**: Automatic identification and tagging of 6 types of processing errors - **Paperless Integration Enhancement**: Advanced document management with error flagging capabilities - **Configurable Error Handling**: Environment-based configuration with severity filtering and batch tagging - **Comprehensive Testing**: Complete test coverage including unit tests and manual testing scripts - **Enhanced Documentation**: Updated workflow diagrams and user guides for error detection features - **Performance Optimizations**: Improved boundary detection efficiency and code maintainability - **Backward Compatibility**: Full compatibility with existing workflows - error detection is optional
+!!! success "Latest Release: [Version 0.3.0](release_notes/RELEASE_NOTES_v0.3.0.md)"
+    - **Error Detection & Tagging System**: Automatic identification and tagging of 6 types of processing errors
+    - **Paperless Integration Enhancement**: Advanced document management with error flagging capabilities
+    - **Configurable Error Handling**: Environment-based configuration with severity filtering and batch tagging
+    - **Comprehensive Testing**: Complete test coverage including unit tests and manual testing scripts
+    - **Enhanced Documentation**: Updated workflow diagrams and user guides for error detection features
+    - **Performance Optimizations**: Improved boundary detection efficiency and code maintainability
+    - **Backward Compatibility**: Full compatibility with existing workflows - error detection is optional
 
     See full [Release Notes](release_notes/RELEASE_NOTES_v0.3.0.md) for detailed changes and [Changelog](release_notes/CHANGELOG.md) for complete version history.
 

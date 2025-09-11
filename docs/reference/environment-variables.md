@@ -21,7 +21,10 @@ Copy `.env.example` to `.env` to get started with documented default values for 
 | `LLM_MAX_TOKENS`             | Integer | `4000`        | Maximum tokens per API call                        |
 | `ENABLE_FALLBACK_PROCESSING` | Boolean | `true`        | Enable pattern-matching when AI fails              |
 
-!!! info "AI Model Selection" - `gpt-4o-mini`: Best balance of cost and performance (recommended) - `gpt-4o`: Highest accuracy, higher cost - `gpt-3.5-turbo`: Fastest processing, lower accuracy
+!!! info "AI Model Selection"
+    - `gpt-4o-mini`: Best balance of cost and performance (recommended)
+    - `gpt-4o`: Highest accuracy, higher cost
+    - `gpt-3.5-turbo`: Fastest processing, lower accuracy
 
 ### Text Processing
 
@@ -131,7 +134,10 @@ Always set `ALLOWED_INPUT_DIRS` and `ALLOWED_OUTPUT_DIRS` in production:
 | `MAX_FILE_AGE_DAYS`       | Integer | `365`    | Maximum age of input files                      |
 | `ALLOWED_FILE_EXTENSIONS` | List    | `.pdf`   | Allowed file extensions                         |
 
-!!! info "Validation Strictness Levels" - **Strict**: All validation issues cause processing to fail - **Normal**: Balance between validation and processing success - **Lenient**: Most validation issues generate warnings only
+!!! info "Validation Strictness Levels"
+    - **Strict**: All validation issues cause processing to fail
+    - **Normal**: Balance between validation and processing success
+    - **Lenient**: Most validation issues generate warnings only
 
 ### Content Validation
 
@@ -220,6 +226,7 @@ The error detection system identifies 6 types of processing errors:
     Only errors above the configured threshold and matching severity levels trigger automatic tagging.
 
 !!! example "Error Tagging Configuration"
+
 ```bash # Basic error tagging setup
 PAPERLESS_ERROR_DETECTION_ENABLED=true
 PAPERLESS_ERROR_TAGS=processing:needs-review,error:automated-detection
