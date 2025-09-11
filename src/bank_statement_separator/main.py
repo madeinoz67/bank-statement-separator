@@ -1053,6 +1053,14 @@ def version():
 ENV_HELP_DESCRIPTION_MAX_LENGTH = 40
 ENV_HELP_DEFAULT_MAX_LENGTH = 20
 
+
+def truncate_text(text: str, max_length: int) -> str:
+    """Truncate text to max_length and add ellipsis if needed."""
+    if len(text) <= max_length:
+        return text
+    return text[:max_length] + "..."
+
+
 # Define environment variable categories with descriptions - placed at module level
 # so category choices can be derived from keys
 ENV_CATEGORIES = {
@@ -1349,6 +1357,9 @@ def env_help(category: str):
         categories_to_show = ENV_CATEGORIES
 
     # Display environment variables by category
+    category_list = list(categories_to_show.keys())
+    last_category = category_list[-1] if category_list else None
+
     for cat_name, cat_info in categories_to_show.items():
         if category == "all":
             console.print(f"\n[bold cyan]{cat_info['title']}[/bold cyan]")
@@ -1372,24 +1383,14 @@ def env_help(category: str):
 
             table.add_row(
                 var_name,
-                var_info["description"][:ENV_HELP_DESCRIPTION_MAX_LENGTH]
-                + (
-                    "..."
-                    if len(var_info["description"]) > ENV_HELP_DESCRIPTION_MAX_LENGTH
-                    else ""
-                ),
-                var_info["default"][:ENV_HELP_DEFAULT_MAX_LENGTH]
-                + (
-                    "..."
-                    if len(var_info["default"]) > ENV_HELP_DEFAULT_MAX_LENGTH
-                    else ""
-                ),
+                truncate_text(var_info["description"], ENV_HELP_DESCRIPTION_MAX_LENGTH),
+                truncate_text(var_info["default"], ENV_HELP_DEFAULT_MAX_LENGTH),
                 required_text,
             )
 
         console.print(table)
 
-        if category == "all" and cat_name != list(categories_to_show.keys())[-1]:
+        if category == "all" and cat_name != last_category:
             console.print()  # Add spacing between categories
 
     # Footer with helpful information
