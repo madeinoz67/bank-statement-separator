@@ -13,7 +13,14 @@ from rich.table import Table
 
 from . import __version__
 from .config import ensure_directories, load_config, validate_file_access
+from .env_help.env_help_config import (
+    ENV_CATEGORIES,
+    ENV_HELP_CATEGORY_CHOICES,
+    ENV_HELP_DEFAULT_MAX_LENGTH,
+    ENV_HELP_DESCRIPTION_MAX_LENGTH,
+)
 from .utils.logging_setup import setup_logging
+from .utils.text import truncate_text
 from .workflow import BankStatementWorkflow
 
 console = Console()
@@ -68,6 +75,19 @@ def process(
     Automatically separate multi-statement PDF files using AI-powered analysis.
 
     INPUT_FILE: Path to the PDF file containing multiple bank statements
+
+    \b
+    🔧 COMMON ENVIRONMENT VARIABLES:
+    • OPENAI_API_KEY        - OpenAI API key (required for AI analysis)
+    • OPENAI_MODEL         - Model selection (gpt-4o-mini, gpt-4o)
+    • DEFAULT_OUTPUT_DIR   - Default output directory
+    • MAX_FILE_SIZE_MB     - Maximum file size limit (default: 100)
+    • LOG_LEVEL           - Logging verbosity (DEBUG, INFO, WARNING)
+    • PAPERLESS_ENABLED   - Enable paperless-ngx upload (true/false)
+
+    \b
+    💡 Configuration: Use 'env-help' command for complete documentation
+    📋 Example: bank-statement-separator env-help --category processing
     """
     try:
         # Load configuration
@@ -474,7 +494,18 @@ def display_paperless_results(upload_results: dict):
 )
 @click.option("--verbose", "-v", is_flag=True, help="Enable verbose logging")
 def quarantine_status(env_file: Optional[Path], verbose: bool):
-    """Display quarantine directory status and recent failures."""
+    """
+    Display quarantine directory status and recent failures.
+
+    \b
+    🔧 RELEVANT ENVIRONMENT VARIABLES:
+    • QUARANTINE_DIRECTORY      - Custom quarantine location (optional)
+    • ENABLE_ERROR_REPORTING    - Controls error report generation
+    • LOG_LEVEL                - Controls log verbosity for details
+
+    \b
+    💡 Use 'env-help --category error-handling' for complete quarantine configuration
+    """
     try:
         # Load configuration
         config = load_config(str(env_file) if env_file else None)
@@ -563,7 +594,17 @@ def quarantine_status(env_file: Optional[Path], verbose: bool):
 )
 @click.option("--yes", "-y", is_flag=True, help="Skip confirmation prompt")
 def quarantine_clean(env_file: Optional[Path], dry_run: bool, days: int, yes: bool):
-    """Clean old files from quarantine directory."""
+    """
+    Clean old files from quarantine directory.
+
+    \b
+    🔧 RELEVANT ENVIRONMENT VARIABLES:
+    • QUARANTINE_DIRECTORY      - Location of quarantine files to clean
+    • ERROR_REPORT_DIRECTORY    - Location of error reports (also cleaned)
+
+    \b
+    💡 Use 'env-help --category error-handling' for quarantine configuration details
+    """
     try:
         # Load configuration
         config = load_config(str(env_file) if env_file else None)
@@ -731,6 +772,22 @@ def process_paperless(
     Query paperless-ngx for documents matching the specified criteria,
     download them, and process them through the bank statement separation workflow.
     Only PDF documents will be retrieved and processed.
+
+    \b
+    🔧 REQUIRED ENVIRONMENT VARIABLES:
+    • PAPERLESS_ENABLED=true  - Enable paperless integration
+    • PAPERLESS_URL          - Your paperless-ngx instance URL
+    • PAPERLESS_TOKEN        - API token for authentication
+
+    \b
+    🎯 DOCUMENT FILTERING VARIABLES:
+    • PAPERLESS_INPUT_TAGS          - Default tags to filter documents
+    • PAPERLESS_INPUT_CORRESPONDENT - Default correspondent filter
+    • PAPERLESS_INPUT_DOCUMENT_TYPE - Default document type filter
+    • PAPERLESS_MAX_DOCUMENTS       - Max docs per query (default: 50)
+
+    \b
+    💡 Configuration: Use 'env-help --category paperless' for full documentation
     """
     try:
         # Load configuration
@@ -977,21 +1034,115 @@ def process_paperless(
 @main.command()
 def version():
     """Display version and author information."""
-    version_info = f"""
-╔═══════════════════════════════════════════════════════════╗
-║                   Bank Statement Separator                ║
-║                        Version Information                 ║
-╚═══════════════════════════════════════════════════════════╝
+    console.print()
+    console.print("[bold blue]Bank Statement Separator[/bold blue]")
+    console.print("[dim]Version Information[/dim]")
+    console.print()
+    console.print(f"[bold]Version:[/bold] {__version__}")
+    console.print("[bold]Author:[/bold] Stephen Eaton")
+    console.print("[bold]License:[/bold] MIT")
+    console.print(
+        "[bold]Repository:[/bold] [link]https://github.com/madeinoz67/bank-statement-separator[/link]"
+    )
+    console.print(
+        "[bold]Documentation:[/bold] [link]https://madeinoz67.github.io/bank-statement-separator/[/link]"
+    )
+    console.print(
+        "[bold]Issues:[/bold] [link]https://github.com/madeinoz67/bank-statement-separator/issues[/link]"
+    )
+    console.print()
+    console.print("[dim]An AI-powered tool for automatically separating[/dim]")
+    console.print("[dim]multi-statement PDF files using LangChain and LangGraph.[/dim]")
+    console.print()
 
-Version: {__version__}
-Author: Stephen Eaton
-License: MIT
-Repository: https://github.com/madeinoz67/bank-statement-separator
 
-An AI-powered tool for automatically separating
-multi-statement PDF files using LangChain and LangGraph.
-"""
-    console.print(Panel(version_info, style="bold blue"))
+@main.command("env-help")
+@click.option(
+    "--category",
+    type=click.Choice(ENV_HELP_CATEGORY_CHOICES),
+    default="all",
+    help="Show environment variables for specific category",
+)
+def env_help(category: str):
+    """Display environment variable documentation for the CLI."""
+    console.print("\n[bold blue]📚 Environment Variable Documentation[/bold blue]")
+    console.print("=" * 60)
+
+    # Show category filter info
+    if category != "all":
+        category_info = ENV_CATEGORIES.get(category)
+        if category_info:
+            console.print(f"\n[bold cyan]{category_info['title']}[/bold cyan]")
+            console.print(f"[dim]{category_info['description']}[/dim]\n")
+            categories_to_show = {category: category_info}
+        else:
+            console.print(f"[red]❌ Unknown category: {category}[/red]")
+            return
+    else:
+        console.print(
+            "\n[green]💡 Use --category <name> to filter by specific category[/green]"
+        )
+        console.print(
+            f"[dim]Available categories: {', '.join(ENV_CATEGORIES.keys())}[/dim]\n"
+        )
+        categories_to_show = ENV_CATEGORIES
+
+    # Display environment variables by category
+    last_category = next(reversed(categories_to_show), None)
+
+    for cat_name, cat_info in categories_to_show.items():
+        if category == "all":
+            console.print(f"\n[bold cyan]{cat_info['title']}[/bold cyan]")
+            console.print(f"[dim]{cat_info['description']}[/dim]")
+
+        # Create table for this category
+        table = Table(show_header=True, header_style="bold blue")
+        table.add_column("Variable", style="cyan", width=35)
+        table.add_column("Description", style="white", width=40)
+        table.add_column("Default", style="green", width=20)
+        table.add_column("Required", style="yellow", width=15)
+
+        for var_name, var_info in cat_info["variables"].items():
+            if var_info["required"] is True:
+                required_text = "[red]Yes[/red]"
+            elif var_info["required"] is False:
+                required_text = "[green]No[/green]"
+            else:
+                required_text = f"[yellow]{var_info['required']}[/yellow]"
+
+            table.add_row(
+                var_name,
+                truncate_text(var_info["description"], ENV_HELP_DESCRIPTION_MAX_LENGTH),
+                truncate_text(var_info["default"], ENV_HELP_DEFAULT_MAX_LENGTH),
+                required_text,
+            )
+
+        console.print(table)
+
+        if category == "all" and cat_name != last_category:
+            console.print()  # Add spacing between categories
+
+    # Footer with helpful information
+    console.print("\n[bold blue]📋 Configuration Notes[/bold blue]")
+    console.print(
+        "• Create a .env file from .env.example to configure your environment"
+    )
+    console.print("• Use --env-file option with commands to specify custom config file")
+    console.print("• Most variables have sensible defaults and are optional")
+    console.print(
+        "• Required variables depend on enabled features (LLM provider, Paperless, etc.)"
+    )
+
+    console.print("\n[bold blue]🔗 More Information[/bold blue]")
+    console.print(
+        "• Documentation: https://madeinoz67.github.io/bank-statement-separator/"
+    )
+    console.print(
+        "• Configuration Guide: https://madeinoz67.github.io/bank-statement-separator/getting-started/configuration/"
+    )
+    console.print(
+        "• Environment Variables Reference: https://madeinoz67.github.io/bank-statement-separator/reference/environment-variables/"
+    )
 
 
 @main.command()
@@ -1052,6 +1203,23 @@ def batch_process(
     Failed files are quarantined but don't stop the batch processing.
 
     INPUT_DIRECTORY: Directory containing PDF files to process
+
+    \b
+    🔧 BATCH PROCESSING ENVIRONMENT VARIABLES:
+    • OPENAI_API_KEY             - API key for AI analysis
+    • MAX_FILE_SIZE_MB          - Skip files larger than limit
+    • MAX_TOTAL_PAGES           - Global page processing limit
+    • QUARANTINE_DIRECTORY      - Where failed files are moved
+    • AUTO_QUARANTINE_CRITICAL_FAILURES=true - Auto-quarantine on errors
+
+    \b
+    🚨 ERROR HANDLING VARIABLES:
+    • MAX_RETRY_ATTEMPTS        - Retries for transient failures (default: 2)
+    • VALIDATION_STRICTNESS     - Validation level (strict/normal/lenient)
+    • ENABLE_ERROR_REPORTING    - Generate error reports (default: true)
+
+    \b
+    💡 Configuration: Use 'env-help --category error-handling' for details
     """
     import fnmatch
     from datetime import datetime

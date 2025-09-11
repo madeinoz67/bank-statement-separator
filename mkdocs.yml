@@ -152,6 +152,7 @@ nav:
       - Installation: getting-started/installation.md
       - Configuration: getting-started/configuration.md
   - User Guide:
+      - CLI Help System: user-guide/cli-help-system.md
       - Model Selection Guide: user-guide/model-selection-guide.md
       - Error Handling: user-guide/error-handling.md
       - Fragment Detection: user-guide/fragment-detection.md

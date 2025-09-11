@@ -151,6 +151,16 @@ uv run python -m src.bank_statement_separator.main quarantine-status
 # Clean old quarantined files
 uv run python -m src.bank_statement_separator.main quarantine-clean --dry-run
 
+# Get comprehensive environment variable help
+uv run bank-statement-separator env-help
+
+# Filter environment variables by category
+uv run bank-statement-separator env-help --category llm
+uv run bank-statement-separator env-help --category paperless
+
+# Check version and get support links
+uv run bank-statement-separator version
+
 # Get help
 uv run python -m src.bank_statement_separator.main --help
 ```

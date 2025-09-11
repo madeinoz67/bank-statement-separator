@@ -1,13 +1,27 @@
 # Environment Variables Reference
 
-Complete reference for all 40+ environment variables that control the Workflow Bank Statement Separator.
+Complete reference for all 70+ environment variables that control the Workflow Bank Statement Separator.
 
 ## Configuration Overview
 
 The system uses environment variables loaded from a `.env` file for configuration. Variables are organized into logical groups for different aspects of the system.
 
-!!! tip "Configuration Template"
-Copy `.env.example` to `.env` to get started with documented default values for all variables.
+!!! tip "Interactive Environment Help"
+    Get comprehensive, up-to-date environment variable documentation directly from the CLI:
+
+    ```bash
+    # Show all environment variables with descriptions
+    uv run bank-statement-separator env-help
+
+    # Show variables by category
+    uv run bank-statement-separator env-help --category llm
+    uv run bank-statement-separator env-help --category processing
+    uv run bank-statement-separator env-help --category paperless
+    ```
+
+!!! info "Configuration Template"
+    Copy `.env.example` to `.env` to get started with documented default values for all variables.
+    The template file contains the most current variable documentation.
 
 ## Core Processing Variables
 
