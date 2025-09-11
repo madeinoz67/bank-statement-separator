@@ -1027,23 +1027,26 @@ def process_paperless(
 @main.command()
 def version():
     """Display version and author information."""
-    version_info = f"""
-╔═══════════════════════════════════════════════════════════╗
-║                   Bank Statement Separator                ║
-║                        Version Information                 ║
-╚═══════════════════════════════════════════════════════════╝
-
-Version: {__version__}
-Author: Stephen Eaton
-License: MIT
-Repository: https://github.com/madeinoz67/bank-statement-separator
-Documentation: https://madeinoz67.github.io/bank-statement-separator/
-Issues: https://github.com/madeinoz67/bank-statement-separator/issues
-
-An AI-powered tool for automatically separating
-multi-statement PDF files using LangChain and LangGraph.
-"""
-    console.print(Panel(version_info, style="bold blue"))
+    console.print()
+    console.print("[bold blue]Bank Statement Separator[/bold blue]")
+    console.print("[dim]Version Information[/dim]")
+    console.print()
+    console.print(f"[bold]Version:[/bold] {__version__}")
+    console.print("[bold]Author:[/bold] Stephen Eaton")
+    console.print("[bold]License:[/bold] MIT")
+    console.print(
+        "[bold]Repository:[/bold] [link]https://github.com/madeinoz67/bank-statement-separator[/link]"
+    )
+    console.print(
+        "[bold]Documentation:[/bold] [link]https://madeinoz67.github.io/bank-statement-separator/[/link]"
+    )
+    console.print(
+        "[bold]Issues:[/bold] [link]https://github.com/madeinoz67/bank-statement-separator/issues[/link]"
+    )
+    console.print()
+    console.print("[dim]An AI-powered tool for automatically separating[/dim]")
+    console.print("[dim]multi-statement PDF files using LangChain and LangGraph.[/dim]")
+    console.print()
 
 
 @main.command("env-help")
