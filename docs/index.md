@@ -9,6 +9,16 @@ An AI-powered tool for automatically separating multi-statement PDF files using 
 ![Python](https://img.shields.io/badge/python-3.11%2B-blue)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 
+## What's New
+
+!!! success "Latest Release: [Version 0.3.1](release_notes/RELEASE_NOTES_v0.3.1.md)"
+    - **Version Loading Improvements**: Enhanced exception handling and dynamic version loading from pyproject.toml for better version consistency
+    - **Documentation Fixes**: Corrected code block syntax and standardized markdown formatting across all documentation
+    - **Bug Fixes**: Improved reliability in version information loading and documentation consistency
+    - **Backwards Compatible**: All changes are backwards compatible with no migration required
+
+    See full [Release Notes](release_notes/RELEASE_NOTES_v0.3.1.md) for detailed changes and [Changelog](release_notes/CHANGELOG.md) for complete version history.
+
 ## Overview
 
 The Bank Statement Separator is designed for people who need to process single PDF files containing multiple bank statements. It uses advanced AI models to intelligently identify statement boundaries, extract metadata, and create separate PDF files for each statement.
@@ -234,19 +244,6 @@ The MIT License is a permissive open-source license that allows you to:
 - **Issues**: Report bugs or request features on [GitHub Issues](https://github.com/madeinoz67/bank-statement-separator/issues)
 - **Discussions**: Join the community discussion
 - **Support**: Contact the development team
-
-## What's New
-
-!!! success "Latest Release: [Version 0.3.0](release_notes/RELEASE_NOTES_v0.3.0.md)"
-    - **Error Detection & Tagging System**: Automatic identification and tagging of 6 types of processing errors
-    - **Paperless Integration Enhancement**: Advanced document management with error flagging capabilities
-    - **Configurable Error Handling**: Environment-based configuration with severity filtering and batch tagging
-    - **Comprehensive Testing**: Complete test coverage including unit tests and manual testing scripts
-    - **Enhanced Documentation**: Updated workflow diagrams and user guides for error detection features
-    - **Performance Optimizations**: Improved boundary detection efficiency and code maintainability
-    - **Backward Compatibility**: Full compatibility with existing workflows - error detection is optional
-
-    See full [Release Notes](release_notes/RELEASE_NOTES_v0.3.0.md) for detailed changes and [Changelog](release_notes/CHANGELOG.md) for complete version history.
 
 ---
 

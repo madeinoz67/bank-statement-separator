@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.3.1](https://github.com/madeinoz67/bank-statement-separator/compare/v0.3.0...v0.3.1) (2025-09-11)
+
+
+### Bug Fixes
+
+* correct code block syntax from quadruple to triple backticks ([df3f658](https://github.com/madeinoz67/bank-statement-separator/commit/df3f658f8bd70631861479707d58c171e2b98523))
+* implement dynamic version loading from pyproject.toml ([027a5fe](https://github.com/madeinoz67/bank-statement-separator/commit/027a5fe75186e3f6dbb613e4ba9ebfd5af6fe710))
+* improve exception handling structure in version loading ([8b20198](https://github.com/madeinoz67/bank-statement-separator/commit/8b20198ea9034716a1b5c0bbc8806ab8ac5294f5))
+* resolve documentation formatting issues ([58967dc](https://github.com/madeinoz67/bank-statement-separator/commit/58967dc2758e302a3a84416baf14f50d88074188))
+* standardize markdown admonition block formatting across documentation ([48d39f5](https://github.com/madeinoz67/bank-statement-separator/commit/48d39f55b017964ce2ed4868253b62091d6953ae))
+
 ## [0.3.0](https://github.com/madeinoz67/bank-statement-separator/compare/v0.2.0...v0.3.0) (2025-09-10)
 
 
