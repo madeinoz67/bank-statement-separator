@@ -13,9 +13,12 @@ uv run bank-statement-separator [COMMAND] [OPTIONS]
 ### Available Commands
 
 - **`process`** - Process PDF files containing multiple bank statements
+- **`process-paperless`** - Process documents from paperless-ngx repository
 - **`batch-process`** - Process multiple PDF files from a directory
 - **`quarantine-status`** - View quarantine directory status and recent failures
 - **`quarantine-clean`** - Clean old files from quarantine directory
+- **`env-help`** - Display comprehensive environment variable documentation
+- **`version`** - Display version and contact information
 
 ## Process Command
 
@@ -498,16 +501,168 @@ Continue? [y/N]: y
 
 These options are available for all commands:
 
+## Environment Help Command
+
+Get comprehensive documentation about environment variables used to configure the application.
+
+### Syntax
+
+```bash
+uv run bank-statement-separator env-help [OPTIONS]
+```
+
+### Options
+
+| Option       | Type   | Default | Description                           |
+| ------------ | ------ | ------- | ------------------------------------- |
+| `--category` | CHOICE | `all`   | Show environment variables by category |
+| `--help`     | FLAG   |         | Show help message                     |
+
+### Categories
+
+| Category        | Description                                      |
+| --------------- | ------------------------------------------------ |
+| `all`           | Show all environment variables (default)        |
+| `llm`           | LLM provider configuration (OpenAI, Ollama)     |
+| `processing`    | Document processing and output settings          |
+| `security`      | Security controls and logging configuration      |
+| `paperless`     | Paperless-ngx integration settings              |
+| `error-handling`| Error recovery and document quarantine settings |
+| `validation`    | Document validation and quality checks           |
+
+### Examples
+
+=== "Show All Variables"
+
+    ```bash
+    # Display all environment variables
+    uv run bank-statement-separator env-help
+
+    # Same as above (default behavior)
+    uv run bank-statement-separator env-help --category all
+    ```
+
+=== "Filter by Category"
+
+    ```bash
+    # Show only LLM provider configuration
+    uv run bank-statement-separator env-help --category llm
+
+    # Show Paperless integration variables
+    uv run bank-statement-separator env-help --category paperless
+
+    # Show error handling and quarantine settings
+    uv run bank-statement-separator env-help --category error-handling
+    ```
+
+### Output Example
+
+```
+📚 Environment Variable Documentation
+============================================================
+
+💡 Use --category <name> to filter by specific category
+Available categories: llm, processing, security, paperless, error-handling, validation
+
+🤖 LLM Provider Configuration
+Configure AI/LLM providers for document analysis
+
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━┓
+┃ Variable                            ┃ Description                            ┃ Default            ┃ Required      ┃
+┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━┩
+│ LLM_PROVIDER                        │ LLM provider selection (openai, oll...│ openai             │ No            │
+│ OPENAI_API_KEY                      │ OpenAI API key for GPT models          │ None               │ If using Open...│
+│ OPENAI_MODEL                        │ OpenAI model to use                    │ gpt-4o-mini        │ No            │
+│ OLLAMA_BASE_URL                     │ Ollama server base URL                 │ http://localhost...│ If using Olla...│
+│ OLLAMA_MODEL                        │ Ollama model to use                    │ llama3.2           │ No            │
+│ LLM_TEMPERATURE                     │ LLM temperature for response random... │ 0.0                │ No            │
+│ LLM_MAX_TOKENS                      │ Maximum tokens for LLM responses       │ 4000               │ No            │
+└─────────────────────────────────────┴────────────────────────────────────────┴────────────────────┴───────────────┘
+
+📋 Configuration Notes
+• Create a .env file from .env.example to configure your environment
+• Use --env-file option with commands to specify custom config file
+• Most variables have sensible defaults and are optional
+• Required variables depend on enabled features (LLM provider, Paperless, etc.)
+
+🔗 More Information
+• Documentation: https://madeinoz67.github.io/bank-statement-separator/
+• Configuration Guide: https://madeinoz67.github.io/bank-statement-separator/getting-started/configuration/
+• Environment Variables Reference: https://madeinoz67.github.io/bank-statement-separator/reference/environment-variables/
+```
+
+### Integration with Other Commands
+
+The `env-help` command is referenced in other command help text:
+
+```bash
+# Process command shows relevant environment variables
+uv run bank-statement-separator process --help
+
+# Paperless command shows required variables
+uv run bank-statement-separator process-paperless --help
+
+# Batch processing shows error handling variables
+uv run bank-statement-separator batch-process --help
+```
+
+## Version Command
+
+Display version information and helpful links for support and documentation.
+
+### Syntax
+
+```bash
+uv run bank-statement-separator version
+```
+
+### Features
+
+- **Version Information**: Shows current application version
+- **Author Details**: Developer and license information
+- **Repository Link**: Direct link to GitHub repository
+- **Documentation Links**: Links to user documentation
+- **Issue Tracker**: Link for reporting bugs and feature requests
+
+### Example Output
+
+```
+╔═══════════════════════════════════════════════════════════╗
+║                   Bank Statement Separator                ║
+║                        Version Information                 ║
+╚═══════════════════════════════════════════════════════════╝
+
+Version: 0.3.1
+Author: Stephen Eaton
+License: MIT
+Repository: https://github.com/madeinoz67/bank-statement-separator
+Documentation: https://madeinoz67.github.io/bank-statement-separator/
+Issues: https://github.com/madeinoz67/bank-statement-separator/issues
+
+An AI-powered tool for automatically separating
+multi-statement PDF files using LangChain and LangGraph.
+```
+
+### Use Cases
+
+- **Version Checking**: Verify installed version for support
+- **Getting Help**: Quick access to documentation and issue tracker
+- **Development**: Check version in automation scripts
+
 ### Help System
 
 ```bash
 # Main help
 uv run bank-statement-separator --help
 
-# Command-specific help
+# Command-specific help with environment variables
 uv run bank-statement-separator process --help
+uv run bank-statement-separator process-paperless --help
+uv run bank-statement-separator batch-process --help
 uv run bank-statement-separator quarantine-status --help
 uv run bank-statement-separator quarantine-clean --help
+uv run bank-statement-separator env-help --help
+uv run bank-statement-separator version --help
 ```
 
 ### Environment Variables

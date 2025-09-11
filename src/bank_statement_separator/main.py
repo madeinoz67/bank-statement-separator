@@ -68,6 +68,19 @@ def process(
     Automatically separate multi-statement PDF files using AI-powered analysis.
 
     INPUT_FILE: Path to the PDF file containing multiple bank statements
+
+    \b
+    🔧 COMMON ENVIRONMENT VARIABLES:
+    • OPENAI_API_KEY        - OpenAI API key (required for AI analysis)
+    • OPENAI_MODEL         - Model selection (gpt-4o-mini, gpt-4o)
+    • DEFAULT_OUTPUT_DIR   - Default output directory
+    • MAX_FILE_SIZE_MB     - Maximum file size limit (default: 100)
+    • LOG_LEVEL           - Logging verbosity (DEBUG, INFO, WARNING)
+    • PAPERLESS_ENABLED   - Enable paperless-ngx upload (true/false)
+
+    \b
+    💡 Configuration: Use 'env-help' command for complete documentation
+    📋 Example: bank-statement-separator env-help --category processing
     """
     try:
         # Load configuration
@@ -474,7 +487,18 @@ def display_paperless_results(upload_results: dict):
 )
 @click.option("--verbose", "-v", is_flag=True, help="Enable verbose logging")
 def quarantine_status(env_file: Optional[Path], verbose: bool):
-    """Display quarantine directory status and recent failures."""
+    """
+    Display quarantine directory status and recent failures.
+
+    \b
+    🔧 RELEVANT ENVIRONMENT VARIABLES:
+    • QUARANTINE_DIRECTORY      - Custom quarantine location (optional)
+    • ENABLE_ERROR_REPORTING    - Controls error report generation
+    • LOG_LEVEL                - Controls log verbosity for details
+
+    \b
+    💡 Use 'env-help --category error-handling' for complete quarantine configuration
+    """
     try:
         # Load configuration
         config = load_config(str(env_file) if env_file else None)
@@ -563,7 +587,17 @@ def quarantine_status(env_file: Optional[Path], verbose: bool):
 )
 @click.option("--yes", "-y", is_flag=True, help="Skip confirmation prompt")
 def quarantine_clean(env_file: Optional[Path], dry_run: bool, days: int, yes: bool):
-    """Clean old files from quarantine directory."""
+    """
+    Clean old files from quarantine directory.
+
+    \b
+    🔧 RELEVANT ENVIRONMENT VARIABLES:
+    • QUARANTINE_DIRECTORY      - Location of quarantine files to clean
+    • ERROR_REPORT_DIRECTORY    - Location of error reports (also cleaned)
+
+    \b
+    💡 Use 'env-help --category error-handling' for quarantine configuration details
+    """
     try:
         # Load configuration
         config = load_config(str(env_file) if env_file else None)
@@ -731,6 +765,22 @@ def process_paperless(
     Query paperless-ngx for documents matching the specified criteria,
     download them, and process them through the bank statement separation workflow.
     Only PDF documents will be retrieved and processed.
+
+    \b
+    🔧 REQUIRED ENVIRONMENT VARIABLES:
+    • PAPERLESS_ENABLED=true  - Enable paperless integration
+    • PAPERLESS_URL          - Your paperless-ngx instance URL
+    • PAPERLESS_TOKEN        - API token for authentication
+
+    \b
+    🎯 DOCUMENT FILTERING VARIABLES:
+    • PAPERLESS_INPUT_TAGS          - Default tags to filter documents
+    • PAPERLESS_INPUT_CORRESPONDENT - Default correspondent filter
+    • PAPERLESS_INPUT_DOCUMENT_TYPE - Default document type filter
+    • PAPERLESS_MAX_DOCUMENTS       - Max docs per query (default: 50)
+
+    \b
+    💡 Configuration: Use 'env-help --category paperless' for full documentation
     """
     try:
         # Load configuration
@@ -987,11 +1037,376 @@ Version: {__version__}
 Author: Stephen Eaton
 License: MIT
 Repository: https://github.com/madeinoz67/bank-statement-separator
+Documentation: https://madeinoz67.github.io/bank-statement-separator/
+Issues: https://github.com/madeinoz67/bank-statement-separator/issues
 
 An AI-powered tool for automatically separating
 multi-statement PDF files using LangChain and LangGraph.
 """
     console.print(Panel(version_info, style="bold blue"))
+
+
+@main.command("env-help")
+@click.option(
+    "--category",
+    type=click.Choice(
+        [
+            "llm",
+            "processing",
+            "security",
+            "paperless",
+            "error-handling",
+            "validation",
+            "all",
+        ]
+    ),
+    default="all",
+    help="Show environment variables for specific category",
+)
+def env_help(category: str):
+    """Display comprehensive environment variable documentation."""
+
+    # Define environment variable categories with descriptions
+    env_categories = {
+        "llm": {
+            "title": "🤖 LLM Provider Configuration",
+            "description": "Configure AI/LLM providers for document analysis",
+            "variables": {
+                "LLM_PROVIDER": {
+                    "description": "LLM provider selection (openai, ollama, auto)",
+                    "default": "openai",
+                    "example": "ollama",
+                    "required": False,
+                },
+                "OPENAI_API_KEY": {
+                    "description": "OpenAI API key for GPT models",
+                    "default": "None",
+                    "example": "sk-your-api-key-here",
+                    "required": "If using OpenAI",
+                },
+                "OPENAI_MODEL": {
+                    "description": "OpenAI model to use",
+                    "default": "gpt-4o-mini",
+                    "example": "gpt-4o",
+                    "required": False,
+                },
+                "OLLAMA_BASE_URL": {
+                    "description": "Ollama server base URL",
+                    "default": "http://localhost:11434",
+                    "example": "http://10.0.0.150:11434",
+                    "required": "If using Ollama",
+                },
+                "OLLAMA_MODEL": {
+                    "description": "Ollama model to use",
+                    "default": "llama3.2",
+                    "example": "mistral:instruct",
+                    "required": False,
+                },
+                "LLM_TEMPERATURE": {
+                    "description": "LLM temperature for response randomness",
+                    "default": "0.0",
+                    "example": "0.1",
+                    "required": False,
+                },
+                "LLM_MAX_TOKENS": {
+                    "description": "Maximum tokens for LLM responses",
+                    "default": "4000",
+                    "example": "8000",
+                    "required": False,
+                },
+            },
+        },
+        "processing": {
+            "title": "⚙️ Processing Configuration",
+            "description": "Document processing and output settings",
+            "variables": {
+                "CHUNK_SIZE": {
+                    "description": "Text chunk size for processing",
+                    "default": "6000",
+                    "example": "8000",
+                    "required": False,
+                },
+                "CHUNK_OVERLAP": {
+                    "description": "Overlap between text chunks",
+                    "default": "800",
+                    "example": "1000",
+                    "required": False,
+                },
+                "DEFAULT_OUTPUT_DIR": {
+                    "description": "Default output directory for separated statements",
+                    "default": "./separated_statements",
+                    "example": "/path/to/output",
+                    "required": False,
+                },
+                "PROCESSED_INPUT_DIR": {
+                    "description": "Directory to move processed input files",
+                    "default": "None (uses input_dir/processed)",
+                    "example": "./processed",
+                    "required": False,
+                },
+                "MAX_FILE_SIZE_MB": {
+                    "description": "Maximum file size in MB",
+                    "default": "100",
+                    "example": "200",
+                    "required": False,
+                },
+                "MAX_PAGES_PER_STATEMENT": {
+                    "description": "Maximum pages per individual statement",
+                    "default": "50",
+                    "example": "100",
+                    "required": False,
+                },
+                "MAX_TOTAL_PAGES": {
+                    "description": "Maximum total pages to process",
+                    "default": "500",
+                    "example": "1000",
+                    "required": False,
+                },
+                "INCLUDE_BANK_IN_FILENAME": {
+                    "description": "Include bank name in output filenames",
+                    "default": "true",
+                    "example": "false",
+                    "required": False,
+                },
+            },
+        },
+        "security": {
+            "title": "🔒 Security & Logging",
+            "description": "Security controls and logging configuration",
+            "variables": {
+                "LOG_LEVEL": {
+                    "description": "Logging level (DEBUG, INFO, WARNING, ERROR, CRITICAL)",
+                    "default": "INFO",
+                    "example": "DEBUG",
+                    "required": False,
+                },
+                "LOG_FILE": {
+                    "description": "Path to log file",
+                    "default": "./logs/statement_processing.log",
+                    "example": "/var/log/statements.log",
+                    "required": False,
+                },
+                "ALLOWED_INPUT_DIRS": {
+                    "description": "Comma-separated allowed input directories",
+                    "default": "None (all allowed)",
+                    "example": "/secure/input,/approved/docs",
+                    "required": False,
+                },
+                "ALLOWED_OUTPUT_DIRS": {
+                    "description": "Comma-separated allowed output directories",
+                    "default": "None (all allowed)",
+                    "example": "/secure/output,/processed",
+                    "required": False,
+                },
+                "ENABLE_AUDIT_LOGGING": {
+                    "description": "Enable comprehensive audit logging",
+                    "default": "true",
+                    "example": "false",
+                    "required": False,
+                },
+            },
+        },
+        "paperless": {
+            "title": "📄 Paperless-ngx Integration",
+            "description": "Document management system integration",
+            "variables": {
+                "PAPERLESS_ENABLED": {
+                    "description": "Enable paperless-ngx integration",
+                    "default": "false",
+                    "example": "true",
+                    "required": False,
+                },
+                "PAPERLESS_URL": {
+                    "description": "Paperless-ngx instance URL",
+                    "default": "None",
+                    "example": "https://paperless.example.com",
+                    "required": "If paperless enabled",
+                },
+                "PAPERLESS_TOKEN": {
+                    "description": "Paperless-ngx API token",
+                    "default": "None",
+                    "example": "your-api-token-here",
+                    "required": "If paperless enabled",
+                },
+                "PAPERLESS_TAGS": {
+                    "description": "Default tags for uploaded documents",
+                    "default": "None",
+                    "example": "bank-statement,automated",
+                    "required": False,
+                },
+                "PAPERLESS_CORRESPONDENT": {
+                    "description": "Default correspondent name",
+                    "default": "None",
+                    "example": "Bank",
+                    "required": False,
+                },
+                "PAPERLESS_DOCUMENT_TYPE": {
+                    "description": "Default document type",
+                    "default": "None",
+                    "example": "Bank Statement",
+                    "required": False,
+                },
+                "PAPERLESS_INPUT_TAGS": {
+                    "description": "Tags for filtering input documents from paperless",
+                    "default": "None",
+                    "example": "unprocessed,bank-statement-raw",
+                    "required": False,
+                },
+            },
+        },
+        "error-handling": {
+            "title": "🚨 Error Handling & Quarantine",
+            "description": "Error recovery and document quarantine settings",
+            "variables": {
+                "QUARANTINE_DIRECTORY": {
+                    "description": "Directory for failed/invalid documents",
+                    "default": "None (uses output_dir/quarantine)",
+                    "example": "./quarantine",
+                    "required": False,
+                },
+                "MAX_RETRY_ATTEMPTS": {
+                    "description": "Maximum retry attempts for failures",
+                    "default": "2",
+                    "example": "3",
+                    "required": False,
+                },
+                "VALIDATION_STRICTNESS": {
+                    "description": "Validation strictness level",
+                    "default": "normal",
+                    "example": "strict",
+                    "required": False,
+                },
+                "AUTO_QUARANTINE_CRITICAL_FAILURES": {
+                    "description": "Automatically quarantine critical failures",
+                    "default": "true",
+                    "example": "false",
+                    "required": False,
+                },
+                "ENABLE_ERROR_REPORTING": {
+                    "description": "Generate detailed error reports",
+                    "default": "true",
+                    "example": "false",
+                    "required": False,
+                },
+            },
+        },
+        "validation": {
+            "title": "✅ Document Validation",
+            "description": "Document validation and quality checks",
+            "variables": {
+                "MIN_PAGES_PER_STATEMENT": {
+                    "description": "Minimum pages required per statement",
+                    "default": "1",
+                    "example": "2",
+                    "required": False,
+                },
+                "MAX_FILE_AGE_DAYS": {
+                    "description": "Maximum age of input files in days",
+                    "default": "None (no limit)",
+                    "example": "365",
+                    "required": False,
+                },
+                "ALLOWED_FILE_EXTENSIONS": {
+                    "description": "Allowed file extensions for processing",
+                    "default": ".pdf",
+                    "example": ".pdf,.txt",
+                    "required": False,
+                },
+                "REQUIRE_TEXT_CONTENT": {
+                    "description": "Require documents to contain extractable text",
+                    "default": "true",
+                    "example": "false",
+                    "required": False,
+                },
+                "MIN_TEXT_CONTENT_RATIO": {
+                    "description": "Minimum ratio of pages with text content",
+                    "default": "0.1",
+                    "example": "0.2",
+                    "required": False,
+                },
+            },
+        },
+    }
+
+    console.print("\n[bold blue]📚 Environment Variable Documentation[/bold blue]")
+    console.print("=" * 60)
+
+    # Show category filter info
+    if category != "all":
+        category_info = env_categories.get(category)
+        if category_info:
+            console.print(f"\n[bold cyan]{category_info['title']}[/bold cyan]")
+            console.print(f"[dim]{category_info['description']}[/dim]\n")
+            categories_to_show = {category: category_info}
+        else:
+            console.print(f"[red]❌ Unknown category: {category}[/red]")
+            return
+    else:
+        console.print(
+            "\n[green]💡 Use --category <name> to filter by specific category[/green]"
+        )
+        console.print(
+            f"[dim]Available categories: {', '.join(env_categories.keys())}[/dim]\n"
+        )
+        categories_to_show = env_categories
+
+    # Display environment variables by category
+    for cat_name, cat_info in categories_to_show.items():
+        if category == "all":
+            console.print(f"\n[bold cyan]{cat_info['title']}[/bold cyan]")
+            console.print(f"[dim]{cat_info['description']}[/dim]")
+
+        # Create table for this category
+        table = Table(show_header=True, header_style="bold blue")
+        table.add_column("Variable", style="cyan", width=35)
+        table.add_column("Description", style="white", width=40)
+        table.add_column("Default", style="green", width=20)
+        table.add_column("Required", style="yellow", width=15)
+
+        for var_name, var_info in cat_info["variables"].items():
+            required_text = str(var_info["required"])
+            if required_text == "True":
+                required_text = "[red]Yes[/red]"
+            elif required_text == "False":
+                required_text = "[green]No[/green]"
+            else:
+                required_text = f"[yellow]{required_text}[/yellow]"
+
+            table.add_row(
+                var_name,
+                var_info["description"][:40]
+                + ("..." if len(var_info["description"]) > 40 else ""),
+                var_info["default"][:20]
+                + ("..." if len(var_info["default"]) > 20 else ""),
+                required_text,
+            )
+
+        console.print(table)
+
+        if category == "all" and cat_name != list(categories_to_show.keys())[-1]:
+            console.print()  # Add spacing between categories
+
+    # Footer with helpful information
+    console.print("\n[bold blue]📋 Configuration Notes[/bold blue]")
+    console.print(
+        "• Create a .env file from .env.example to configure your environment"
+    )
+    console.print("• Use --env-file option with commands to specify custom config file")
+    console.print("• Most variables have sensible defaults and are optional")
+    console.print(
+        "• Required variables depend on enabled features (LLM provider, Paperless, etc.)"
+    )
+
+    console.print("\n[bold blue]🔗 More Information[/bold blue]")
+    console.print(
+        "• Documentation: https://madeinoz67.github.io/bank-statement-separator/"
+    )
+    console.print(
+        "• Configuration Guide: https://madeinoz67.github.io/bank-statement-separator/getting-started/configuration/"
+    )
+    console.print(
+        "• Environment Variables Reference: https://madeinoz67.github.io/bank-statement-separator/reference/environment-variables/"
+    )
 
 
 @main.command()
@@ -1052,6 +1467,23 @@ def batch_process(
     Failed files are quarantined but don't stop the batch processing.
 
     INPUT_DIRECTORY: Directory containing PDF files to process
+
+    \b
+    🔧 BATCH PROCESSING ENVIRONMENT VARIABLES:
+    • OPENAI_API_KEY             - API key for AI analysis
+    • MAX_FILE_SIZE_MB          - Skip files larger than limit
+    • MAX_TOTAL_PAGES           - Global page processing limit
+    • QUARANTINE_DIRECTORY      - Where failed files are moved
+    • AUTO_QUARANTINE_CRITICAL_FAILURES=true - Auto-quarantine on errors
+
+    \b
+    🚨 ERROR HANDLING VARIABLES:
+    • MAX_RETRY_ATTEMPTS        - Retries for transient failures (default: 2)
+    • VALIDATION_STRICTNESS     - Validation level (strict/normal/lenient)
+    • ENABLE_ERROR_REPORTING    - Generate error reports (default: true)
+
+    \b
+    💡 Configuration: Use 'env-help --category error-handling' for details
     """
     import fnmatch
     from datetime import datetime

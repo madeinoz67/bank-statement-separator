@@ -4,10 +4,23 @@ Complete guide to configuring the Workflow Bank Statement Separator for your env
 
 ## Configuration Overview
 
-The system uses environment variables for configuration, managed through a `.env` file. With 40+ configuration options, you can customize every aspect of the processing pipeline.
+The system uses environment variables for configuration, managed through a `.env` file. With 70+ configuration options, you can customize every aspect of the processing pipeline.
 
-!!! tip "Configuration Template"
-Copy `.env.example` to `.env` to get started with default values and comprehensive documentation for all options.
+!!! tip "Interactive Configuration Help"
+    Use the new `env-help` command for comprehensive environment variable documentation:
+
+    ```bash
+    # Show all environment variables with descriptions and defaults
+    uv run bank-statement-separator env-help
+
+    # Filter by category for focused help
+    uv run bank-statement-separator env-help --category llm
+    uv run bank-statement-separator env-help --category processing
+    uv run bank-statement-separator env-help --category paperless
+    ```
+
+!!! info "Configuration Template"
+    Copy `.env.example` to `.env` to get started with default values and comprehensive documentation for all options.
 
 ## Core Configuration
 
